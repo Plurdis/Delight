@@ -9,25 +9,37 @@ namespace StagePainter.Core.IO
     /// <summary>
     /// manager that can organize and save data
     /// </summary>
-    public static class SaveManager
+    public class SaveManager
+    {
+        
+    }
+
+    public static class SaveManagerEx
     {
         /// <summary>
-        /// Save data as file
+        /// Save single data as file
         /// </summary>
-        /// <typeparam name="T">Generic Type for data</typeparam>
-        /// <param name="data">data that save to file</param>
-        /// <param name="fileLocation">input where you save file.</param>
+        /// <param name="data">Data that save to file that have <see cref="SerializableAttribute"/> Attribute</param>
+        /// <param name="fileLocation">Input where you save file.</param>
         /// <returns></returns>
-        public static bool SaveFile<T>(T data, string fileLocation)
+        public static bool SaveFile(this object data, string fileLocation)
         {
             // Judge data is 'Struct Based' or 'Class Based'
-
-            if (data is object)
+            if (data.GetType().IsValueType)
             {
-
+                // Struct Based
+                Console.WriteLine("Value Type");
+            }
+            else
+            {
+                // Class Based
+                Console.WriteLine("Struct Based");
             }
 
-            System.IO.File.WriteAllBytes()
+
+            System.IO.File.WriteAllBytes(fileLocation, null);
+
+            return true;
         }
     }
 }

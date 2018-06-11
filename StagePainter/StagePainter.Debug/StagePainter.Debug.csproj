@@ -92,5 +92,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StagePainter.Core\StagePainter.Core.csproj">
+      <Project>{71056f7c-733c-4217-9163-af523e1e0cc7}</Project>
+      <Name>StagePainter.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
