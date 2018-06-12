@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using StagePainter.Core.Common;
-
-namespace StagePainter.Core.Attributes
+namespace StagePainter.Core.IO
 {
     /// <summary>
     /// Set Storage Method and Encoding Types.

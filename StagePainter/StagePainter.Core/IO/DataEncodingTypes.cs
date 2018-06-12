@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StagePainter.Core.Common
+namespace StagePainter.Core.IO
 {
     public enum DataEncodingTypes
     {
