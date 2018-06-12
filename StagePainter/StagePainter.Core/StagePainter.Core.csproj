@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\StorageMethodAttribute.cs" />
+    <Compile Include="Common\DataEncodingTypes.cs" />
+    <Compile Include="Common\StorageMethodTypes.cs" />
     <Compile Include="IO\SaveManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

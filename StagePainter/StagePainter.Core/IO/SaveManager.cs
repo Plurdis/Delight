@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using StagePainter.Core.Attributes;
+
 namespace StagePainter.Core.IO
 {
     /// <summary>
@@ -14,6 +16,9 @@ namespace StagePainter.Core.IO
         
     }
 
+    /// <summary>
+    /// SaveManager's Extension Class
+    /// </summary>
     public static class SaveManagerEx
     {
         /// <summary>
