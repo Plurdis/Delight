@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
     <Compile Include="Exceptions\SaveFailException.cs" />
+    <Compile Include="Extension\ObjectEx.cs" />
     <Compile Include="IO\StorageMethodAttribute.cs" />
     <Compile Include="IO\DataEncodingTypes.cs" />
     <Compile Include="IO\StorageMethodTypes.cs" />
