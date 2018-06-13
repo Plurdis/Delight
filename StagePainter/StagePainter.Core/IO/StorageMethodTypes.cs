@@ -15,6 +15,10 @@
         /// </summary>
         Json,
         /// <summary>
+        /// Save File As Serializtion Data
+        /// </summary>
+        Serialize,
+        /// <summary>
         /// Save File As Custom Rules
         /// </summary>
         Custom
