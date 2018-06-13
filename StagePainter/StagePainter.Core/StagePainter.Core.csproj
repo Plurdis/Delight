@@ -43,6 +43,8 @@
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
     <Compile Include="Exceptions\SaveFailException.cs" />
     <Compile Include="Extension\ObjectEx.cs" />
+    <Compile Include="IO\TextFormatter\BaseTextFormatter.cs" />
+    <Compile Include="IO\TextFormatter\XMLFormatter.cs" />
     <Compile Include="IO\StorageMethodAttribute.cs" />
     <Compile Include="IO\StorageMethodTypes.cs" />
     <Compile Include="IO\SaveManager.cs" />
