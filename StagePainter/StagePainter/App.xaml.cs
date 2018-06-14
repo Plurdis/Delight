@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,5 +14,13 @@ namespace StagePainter
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            //new System.Globalization.CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ko-KR");
+
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+        }
+       
     }
 }
