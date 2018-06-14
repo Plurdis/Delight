@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StagePainter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="StagePainter 1.0" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="파일(_F)">
+                <MenuItem Header="열기(_O)">
+                    <MenuItem Header="프로젝트(_P)" InputGestureText="Ctrl+Shift+O"/>
+                    <MenuItem Header="파일(_F)" InputGestureText="Ctrl+O"/>
+                </MenuItem>
+                <MenuItem Header="새 프로젝트(_H)" InputGestureText="Ctrl+Shift+N"/>
+                
+                <Separator/>
+
+                <MenuItem Header="최근에 사용한 미디어 파일(_F)">
+                    <MenuItem Header="(없음)" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem Header="최근에 사용한 프로젝트(_J)">
+                    <MenuItem Header="(없음)" IsEnabled="False"/>
+                </MenuItem>
+
+                <Separator/>
+
+                <MenuItem Header="저장(_S)" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="다른 이름으로 저장(_A)" InputGestureText="Ctrl+Shift+S"/>
+
+                <Separator/>
+
+                <MenuItem Header="내보내기(_E)" InputGestureText="Ctrl+E"/>
+
+                <Separator/>
+
+                <MenuItem Header="끝내기(_X)" InputGestureText="Alt+F4"/>
+            </MenuItem>
+            <MenuItem Header="도움말(_H)">
+                <MenuItem Header="도움말 보기(_V)"/>
+                <Separator/>
+                <MenuItem Header="Stage Painter 정보(_A)"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
