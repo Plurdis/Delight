@@ -1,9 +1,10 @@
-﻿<Window x:Class="StagePainter.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StagePainter"
+        xmlns:Controls="clr-namespace:StagePainter.Controls" x:Class="StagePainter.MainWindow"
         mc:Ignorable="d"
         Title="StagePainter 1.0" Height="450" Width="800">
     <Grid>
@@ -49,9 +50,8 @@
             <Grid>
                 <StackPanel Margin="5">
                     <TextBlock x:Uid="tbDebugPanel" FontSize="18" Text="Debug Panel"/>
-                    <TextBlock Margin="0,10,0,0">
-                        <Run x:Uid="runCurrLang1" Text="Current Language"/> : <Run x:Uid="runCurrLang2" Text="English (en-US)"/>
-                    </TextBlock>
+                    <TextBlock Margin="0,10,0,0"><Run x:Uid="runCurrLang1" Text="Current Language"/><Run Text=" : "/><Run x:Uid="runCurrLang2" Text="English (en-US)"/></TextBlock>
+                    <Controls:CircleBar InnerValue="10"/>
                 </StackPanel>
             </Grid>
         </Grid>
