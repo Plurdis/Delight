@@ -29,5 +29,14 @@ namespace StagePainter
             img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
         }
+        
+        public void AddCommandBinding(KeyGesture gesture, ExecutedRoutedEventHandler eventHandler)
+        {
+            RoutedCommand comm = new RoutedCommand();
+
+            comm.InputGestures.Add(gesture);
+
+            this.CommandBindings.Add(new CommandBinding(comm, eventHandler));
+        }
     }
 }
