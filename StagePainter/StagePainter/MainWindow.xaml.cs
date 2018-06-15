@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using StagePainter.Core.Common;
+
 namespace StagePainter
 {
     /// <summary>
@@ -23,6 +25,9 @@ namespace StagePainter
         public MainWindow()
         {
             InitializeComponent();
+#if DEBUG
+            img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
+#endif
         }
     }
 }

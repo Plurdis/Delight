@@ -11,17 +11,26 @@ namespace StagePainter.Core.Common
 {
     public static class ImageCreator
     {
-        public static ImageSource GetWireFrame(int width, int height, Pen pen)
+        public static ImageSource GetWireFrame(int width, int height, Brush brush)
         {
             DrawingVisual dv = new DrawingVisual();
-            DrawingContext dc = dv.RenderOpen();
+            Pen p = new Pen(brush, 0.5);
 
-            dc.DrawRectangle(null, pen, new Rect(0, 0, width, height));
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                var glc = new GuidelineSet();
+                glc.GuidelinesX.Add(0.5);
+                glc.GuidelinesY.Add(0.5);
+                glc.GuidelinesX.Add(width - 0.5);
+                glc.GuidelinesY.Add(height - 0.5);
 
-            dc.DrawLine(pen, new Point(0, 0), new Point(width, height));
-            dc.DrawLine(pen, new Point(0, width), new Point(height, 0));
-            
-            dc.Close();
+
+                dc.PushGuidelineSet(glc);
+                dc.DrawRectangle(null, p, new Rect(0, 0, width - 1, height - 1));
+
+                dc.DrawLine(p, new Point(0, 0), new Point(width, height));
+                dc.DrawLine(p, new Point(width, 0), new Point(0, height));
+            }
 
             RenderTargetBitmap bmp = new RenderTargetBitmap(width,height, 96, 96, PixelFormats.Pbgra32);
 
