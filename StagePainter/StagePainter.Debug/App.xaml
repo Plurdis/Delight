@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:StagePainter.Debug"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="Controls/TimeLine.xaml"/>
     </Application.Resources>
 </Application>
