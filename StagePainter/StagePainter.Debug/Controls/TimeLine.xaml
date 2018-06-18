@@ -8,26 +8,31 @@
     <cvter:MinusConverter x:Key="MinusConverter"/>
     <Style x:Key="TimeLineStyle" TargetType="{x:Type local:TimeLine}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="ClipToBounds" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TimeLine}">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="39"/>
+                            <RowDefinition Height="1"/>
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        <Grid x:Name="gridDrag"
+                            Background="Transparent"/>
                         <Rectangle Height="1" 
-                                   Margin="0,39,0,0" 
                                    Fill="Black" 
+                                   Grid.Row="1"
                                    VerticalAlignment="Top"/>
                         <StackPanel x:Name="trackPanel" 
-                                    Margin="0,40,0,0"/>
+                                    Grid.Row="2"/>
                         <Rectangle x:Name="trackSlider"
                                    Width="1" 
+                                   Grid.RowSpan="3"
                                    Fill="Red"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Bottom">
-                            <!--Height="{TemplateBinding Height, Converter=MinusConverter}" -->
                             <Rectangle.Height>
                                 <TemplateBinding Property="ActualHeight" Converter="{StaticResource MinusConverter}">
                                     <TemplateBindingExtension.ConverterParameter>
@@ -37,7 +42,7 @@
                             </Rectangle.Height>
                         </Rectangle>
 
-                        <ScrollBar Grid.Row="1" Maximum="100" Orientation="Horizontal"/>
+                        <ScrollBar x:Name="scrollBar" Grid.Row="3" Maximum="100" Orientation="Horizontal"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
