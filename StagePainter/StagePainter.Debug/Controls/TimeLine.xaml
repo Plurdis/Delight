@@ -24,6 +24,7 @@
                         <Rectangle Height="1" 
                                    Fill="Black" 
                                    Grid.Row="1"
+                                   IsHitTestVisible="False"
                                    VerticalAlignment="Top"/>
                         <StackPanel x:Name="trackPanel" 
                                     Grid.Row="2"/>
@@ -41,8 +42,7 @@
                                 </TemplateBinding>
                             </Rectangle.Height>
                         </Rectangle>
-
-                        <ScrollBar x:Name="scrollBar" Grid.Row="3" Maximum="100" Orientation="Horizontal"/>
+                        <ScrollBar x:Name="scrollBar" Grid.Row="3" Maximum="100" Visibility="Hidden" Orientation="Horizontal"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

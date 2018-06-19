@@ -1,7 +1,4 @@
-﻿using StagePainter.Core.Common;
-using StagePainter.Core.Extension;
-using StagePainter.Debug.Manager;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -15,6 +12,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
+using StagePainter.Core.Common;
+using StagePainter.Core.Extension;
+using StagePainter.Debug.Manager;
 
 namespace StagePainter.Debug.Controls
 {
@@ -46,6 +47,11 @@ namespace StagePainter.Debug.Controls
             trackPanel = GetTemplateChild("trackPanel") as StackPanel;
             scrollBar = GetTemplateChild("scrollBar") as ScrollBar;
             gridDrag = GetTemplateChild("gridDrag") as Grid;
+
+            this.SizeChanged += (s, e) =>
+            {
+                SetItemsValue();
+            };
 
             scrollBar.ViewportSize = 100;
             scrollBar.Scroll += ScrollBar_Scroll;
@@ -136,8 +142,9 @@ namespace StagePainter.Debug.Controls
         private void Grid_Drop(object sender, DragEventArgs e)
         {
             tempRect = null;
-            TestDataPack pack = (TestDataPack)e.Data.GetData(typeof(TestDataPack));
-            MessageBox.Show(pack.Name);
+            SetItemsValue();
+            //TestDataPack pack = (TestDataPack)e.Data.GetData(typeof(TestDataPack));
+            //MessageBox.Show(pack.Name);
         }
 
         #region [  Dependency Property  ]
@@ -201,12 +208,33 @@ namespace StagePainter.Debug.Controls
 
         private void SetItemsValue()
         {
-            double max = 0;
-
-            trackSlider.Margin = new Thickness((Value * _realSize) - 0.5 - _offset, 0, 0, 0);
-            foreach(Grid g in tracks)
+            IEnumerable<Rectangle> rects = tracks.Select(i => i.Children
+                                        .Cast<UIElement>()
+                                        .Where(j => j.GetType() == typeof(Rectangle))
+                                        .Cast<Rectangle>())
+                                        .SelectMany(k => k);
+            if (rects.Count() != 0)
             {
-                foreach(Rectangle rect in g.Children.Cast<UIElement>().Where(i => i.GetType() == typeof(Rectangle)))
+                double max = rects.Select(i => (TestDataPack)i.Tag)
+                              .Max(i => (i.Offset * _realSize) + (i.Size * _realSize));
+
+                max -= ActualWidth;
+
+                if (max != 0)
+                {
+                    scrollBar.Maximum = max;
+                    if (scrollBar.Maximum < _offset)
+                        _offset = scrollBar.Maximum;
+                    else
+                        _offset = scrollBar.Value;
+                }
+                else
+                {
+                    _offset = 0;
+                }
+                scrollBar.Visibility = (max != 0) ? Visibility.Visible : Visibility.Hidden;
+
+                foreach (Rectangle rect in rects)
                 {
                     TestDataPack pack = rect.Tag as TestDataPack;
 
@@ -215,13 +243,10 @@ namespace StagePainter.Debug.Controls
 
                     rect.Margin = new Thickness(offset - _offset, 0, 0, 0);
                     rect.Width = width;
-                    max = Math.Max(max, offset + width - ActualWidth);
                 }
             }
-            if (max != 0)
-                scrollBar.Maximum = max;
 
-            scrollBar.Visibility = (max != 0) ? Visibility.Visible : Visibility.Hidden;
+            trackSlider.Margin = new Thickness((Value * _realSize) - 0.5 - _offset, 0, 0, 0);
         }
 
         private void GridDrag_MouseDown(object sender, MouseButtonEventArgs e)
@@ -265,13 +290,18 @@ namespace StagePainter.Debug.Controls
 
         private void TimeLine_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (!Keyboard.IsKeyDown(Key.LeftAlt))
-                return;
-
-            if (e.Delta > 0)
-                Ratio += GetIncrement(Ratio);
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (e.Delta > 0)
+                    Ratio += GetIncrement(Ratio);
+                else
+                    Ratio -= GetIncrement(Ratio);
+            }
             else
-                Ratio -= GetIncrement(Ratio);
+            {
+                scrollBar.Value -= (e.Delta * Ratio);
+                ScrollBar_Scroll(scrollBar, null);
+            }
         }
 
         public int GetWeight(double ratio)
