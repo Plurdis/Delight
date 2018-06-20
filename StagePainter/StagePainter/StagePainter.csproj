@@ -62,7 +62,8 @@
     <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
-    <Compile Include="Tracks\BaseTrackLocation.cs" />
+    <Compile Include="Tracks\ImageItemInfo.cs" />
+    <Compile Include="Tracks\ITrackItemInfo.cs" />
     <Compile Include="Tracks\TrackItem.cs" />
     <Compile Include="Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>

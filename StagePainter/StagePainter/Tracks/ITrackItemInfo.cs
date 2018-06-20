@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace StagePainter.Tracks
 {
-    public abstract class BaseTrackItemInfo
+    public interface ITrackItemInfo : ICloneable
     {
+        double Offset { get; set; }
 
+        double Size { get; }
+
+        string Name { get; set; }
     }
 }
