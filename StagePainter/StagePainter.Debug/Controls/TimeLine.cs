@@ -58,6 +58,8 @@ namespace StagePainter.Debug.Controls
             gridDrag.MouseDown += GridDrag_MouseDown;
             AddTrack();
             AddTrack();
+            AddTrack();
+            AddTrack();
         }
 
         private void ScrollBar_Scroll(object sender, ScrollEventArgs e)
@@ -299,8 +301,12 @@ namespace StagePainter.Debug.Controls
             }
             else
             {
-                scrollBar.Value -= (e.Delta * Ratio);
-                ScrollBar_Scroll(scrollBar, null);
+                if (scrollBar.Visibility == Visibility.Visible)
+                {
+                    scrollBar.Value -= (e.Delta * Ratio);
+                    ScrollBar_Scroll(scrollBar, null);
+                }
+                
             }
         }
 
