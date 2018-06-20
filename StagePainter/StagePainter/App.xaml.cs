@@ -16,8 +16,7 @@ namespace StagePainter
     {
         public App()
         {
-            //new System.Globalization.CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ko-KR");
 
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
         }

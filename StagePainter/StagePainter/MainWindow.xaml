@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StagePainter"
         xmlns:Controls="clr-namespace:StagePainter.Controls" x:Class="StagePainter.MainWindow"
+        xmlns:l="clr-namespace:StagePainter.Localization"
         mc:Ignorable="d" 
         Title="StagePainter 1.0" Height="500" Width="700">
     <!--WindowState="Maximized"-->
@@ -14,31 +15,31 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem x:Uid="miFile" Header="File(_F)">
-                <MenuItem x:Uid="miOpen" Header="Open(_O)">
-                    <MenuItem x:Uid="miProject" Header="Project(_P)" InputGestureText="Ctrl+Shift+O"/>
-                    <MenuItem x:Uid="miFile_1" Header="File(_F)" InputGestureText="Ctrl+O"/>
+            <MenuItem Header="{x:Static l:res.MiFile}">
+                <MenuItem Header="{x:Static l:res.MiOpen}">
+                    <MenuItem Header="{x:Static l:res.MiProject}" InputGestureText="Ctrl+Shift+O"/>
+                    <MenuItem Header="{x:Static l:res.MiFile}" InputGestureText="Ctrl+O"/>
                 </MenuItem>
-                <MenuItem x:Uid="miNewProject" Header="New Project(_H)" InputGestureText="Ctrl+Shift+N"/>
+                <MenuItem Header="{x:Static l:res.MiNewProject}" InputGestureText="Ctrl+Shift+N"/>
                 <Separator/>
-                <MenuItem x:Uid="miRecentMedia" Header="Recently used Media Files(_F)">
-                    <MenuItem x:Uid="miNone" Header="(None)" IsEnabled="False"/>
+                <MenuItem Header="{x:Static l:res.MiRecentMedia}">
+                    <MenuItem Header="{x:Static l:res.MiNone}" IsEnabled="False"/>
                 </MenuItem>
-                <MenuItem x:Uid="miRecentProject" Header="Recently used Project Files(_J)">
-                    <MenuItem x:Uid="miNone_1" Header="(None)" IsEnabled="False"/>
+                <MenuItem Header="{x:Static l:res.MiRecentProject}">
+                    <MenuItem Header="{x:Static l:res.MiNone}" IsEnabled="False"/>
                 </MenuItem>
                 <Separator/>
-                <MenuItem x:Uid="miSave" Header="Save(_S)" InputGestureText="Ctrl+S"/>
-                <MenuItem x:Uid="miSaveAs" Header="Save As(_A)" InputGestureText="Ctrl+Shift+S"/>
+                <MenuItem Header="{x:Static l:res.MiSave}" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="{x:Static l:res.MiSaveAs}" InputGestureText="Ctrl+Shift+S"/>
                 <Separator/>
-                <MenuItem x:Uid="miExport" Header="Export(_E)" InputGestureText="Ctrl+E"/>
+                <MenuItem Header="{x:Static l:res.MiExport}" InputGestureText="Ctrl+E"/>
                 <Separator/>
-                <MenuItem x:Uid="miExit" Header="Exit(_X)" InputGestureText="Alt+F4"/>
+                <MenuItem Header="{x:Static l:res.MiExit}" InputGestureText="Alt+F4"/>
             </MenuItem>
-            <MenuItem x:Uid="miHelp" Header="Help(_H)">
-                <MenuItem x:Uid="miHelpView" Header="View Help(_V)"/>
+            <MenuItem Header="{x:Static l:res.MiHelp}">
+                <MenuItem Header="{x:Static l:res.MiHelpView}"/>
                 <Separator/>
-                <MenuItem x:Uid="miViewInfo" Header="About StagePainter(_A)"/>
+                <MenuItem Header="{x:Static l:res.MiViewInfo}"/>
             </MenuItem>
         </Menu>
 
@@ -50,10 +51,11 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <StackPanel Margin="5">
-                    <TextBlock x:Uid="tbDebugPanel" FontSize="18" Text="Debug Panel"/>
-                    <TextBlock Margin="0,10,0,0"><Run x:Uid="runCurrLang1" Text="Current Language"/><Run Text=" : "/><Run x:Uid="runCurrLang2" Text="English (en-US)"/></TextBlock>
+                    <TextBlock FontSize="18" Text="디버그 패널"/>
+                    <TextBlock Margin="0,10,0,0"><Run Text="Current Language"/><Run Text=" : "/><Run Text="{x:Static l:res.Lang}"/></TextBlock>
                     <Controls:CircleBar InnerValue="10"/>
-                    <Image x:Name="img" Width="200" Height="300" Margin="0,50,0,0"/>
+                    <TextBlock Text="{x:Static l:InfoText.Info1_header}"/>
+                    <TextBlock Text="{x:Static l:InfoText.Info1_content}" Margin="0,10,0,0"/>
                 </StackPanel>
             </Grid>
         </Grid>

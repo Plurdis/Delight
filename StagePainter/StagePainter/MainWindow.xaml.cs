@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,7 +28,7 @@ namespace StagePainter
         {
             InitializeComponent();
 #if DEBUG
-            img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
+            //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
         }
         
