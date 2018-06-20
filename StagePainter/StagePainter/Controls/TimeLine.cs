@@ -1,4 +1,6 @@
 ﻿using StagePainter.Common;
+using StagePainter.Core.Extension;
+using StagePainter.Tracks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -111,13 +113,13 @@ namespace StagePainter.Controls
             {
                 tempRect = new Rectangle()
                 {
-                    Width = ((TestDataPack)e.Data.GetData(typeof(TestDataPack))).Size * _realSize,
+                    Width = ((ITrackItemInfo)e.Data.GetData(typeof(ITrackItemInfo))).Size * _realSize,
                     Stroke = Brushes.Black,
                     Fill = Brushes.Green,
                     StrokeThickness = 1,
                     IsHitTestVisible = false,
                     HorizontalAlignment = HorizontalAlignment.Left,
-                    Tag = ((TestDataPack)e.Data.GetData(typeof(TestDataPack)))
+                    Tag = ((ITrackItemInfo)e.Data.GetData(typeof(ITrackItemInfo)))
                 };
                 ((Grid)sender).Children.Add(tempRect);
             }
@@ -135,7 +137,7 @@ namespace StagePainter.Controls
             int value = (int)((left + _offset) / _realSize);
             tempRect.Margin = new Thickness((int)(left / _realSize) * _realSize, 0, 0, 0);
 
-            (tempRect.Tag as TestDataPack).Offset = value;
+            (tempRect.Tag as ITrackItemInfo).Offset = value;
         }
 
         private void Grid_Drop(object sender, DragEventArgs e)
@@ -214,10 +216,10 @@ namespace StagePainter.Controls
                                         .SelectMany(k => k);
             if (rects.Count() != 0)
             {
-                double max = rects.Select(i => (TestDataPack)i.Tag)
+                double max = rects.Select(i => (ITrackItemInfo)i.Tag)
                               .Max(i => (i.Offset * _realSize) + (i.Size * _realSize));
 
-                max -= ActualWidth;
+                max -= ActualWidth; 
 
                 if (max != 0)
                 {
@@ -235,7 +237,7 @@ namespace StagePainter.Controls
 
                 foreach (Rectangle rect in rects)
                 {
-                    TestDataPack pack = rect.Tag as TestDataPack;
+                    ITrackItemInfo pack = rect.Tag as ITrackItemInfo;
 
                     double offset = pack.Offset * _realSize,
                            width = pack.Size * _realSize;

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StagePainter"
         xmlns:Controls="clr-namespace:StagePainter.Controls" x:Class="StagePainter.MainWindow"
-        mc:Ignorable="d" WindowState="Maximized"
-        Title="StagePainter 1.0" Height="1080" Width="1920">
+        mc:Ignorable="d" 
+        Title="StagePainter 1.0" Height="500" Width="700">
+    <!--WindowState="Maximized"-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -52,7 +53,6 @@
                     <TextBlock x:Uid="tbDebugPanel" FontSize="18" Text="Debug Panel"/>
                     <TextBlock Margin="0,10,0,0"><Run x:Uid="runCurrLang1" Text="Current Language"/><Run Text=" : "/><Run x:Uid="runCurrLang2" Text="English (en-US)"/></TextBlock>
                     <Controls:CircleBar InnerValue="10"/>
-
                     <Image x:Name="img" Width="200" Height="300" Margin="0,50,0,0"/>
                 </StackPanel>
             </Grid>

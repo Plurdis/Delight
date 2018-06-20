@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\FrameRate.cs" />
     <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
