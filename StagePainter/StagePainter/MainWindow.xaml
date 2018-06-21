@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:StagePainter"
         xmlns:Controls="clr-namespace:StagePainter.Controls" x:Class="StagePainter.MainWindow"
         xmlns:l="clr-namespace:StagePainter.Localization"
+        xmlns:cm="clr-namespace:StagePainter.Common"
         mc:Ignorable="d" WindowState="Maximized"
         Title="StagePainter 1.0" Height="600" Width="1000">
     
@@ -34,12 +35,12 @@
                 <Separator/>
                 <MenuItem Header="{x:Static l:res.MiExport}" InputGestureText="Ctrl+E"/>
                 <Separator/>
-                <MenuItem Header="{x:Static l:res.MiExit}" InputGestureText="Alt+F4"/>
+                <MenuItem Header="{x:Static l:res.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
             </MenuItem>
             <MenuItem Uid="Info1" MouseMove="Menu_MouseMove" Header="{x:Static l:res.MiHelp}">
-                <MenuItem Header="{x:Static l:res.MiHelpView}"/>
+                <MenuItem Header="{x:Static l:res.MiHelpView}" InputGestureText="Ctrl+H"/>
                 <Separator/>
-                <MenuItem Header="{x:Static l:res.MiViewInfo}"/>
+                <MenuItem Header="{x:Static l:res.MiViewInfo}" InputGestureText="Ctrl+Shift+H"/>
             </MenuItem>
         </Menu>
 

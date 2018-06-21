@@ -14,9 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using StagePainter.Common;
 using StagePainter.Core.Common;
 using StagePainter.Windows;
+
+using LocalCommandManager = StagePainter.Common.CommandManager;
 
 namespace StagePainter
 {
@@ -27,13 +29,18 @@ namespace StagePainter
     {
         public MainWindow()
         {
-            InitializeComponent();
+            LocalCommandManager.Init();
 
-            InfoWindow wdw = new InfoWindow();
-            wdw.ShowDialog();
+            InitializeComponent();
+            MouseManager.Init();
+            //InfoWindow wdw = new InfoWindow();
+            //wdw.ShowDialog();
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
+
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) =>  MessageBox.Show("!"), (s, e) => e.CanExecute = true));
+            MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
         }
         
         public void AddCommandBinding(KeyGesture gesture, ExecutedRoutedEventHandler eventHandler)
