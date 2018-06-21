@@ -136,4 +136,7 @@
   <data name="Info1_header" xml:space="preserve">
     <value>메뉴</value>
   </data>
+  <data name="InfoWindow_1" xml:space="preserve">
+    <value>사용된 라이브러리/라이센스</value>
+  </data>
 </root>

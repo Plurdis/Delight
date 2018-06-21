@@ -20,7 +20,7 @@
             <TextBlock Text="버전 1.0.0"/>
         </StackPanel>
         <StackPanel Margin="10" Grid.Row="1">
-            <TextBlock Margin="0,0,0,20">사용된 라이브러리/라이센스</TextBlock>
+            <TextBlock Text="{x:Static l:InfoText.InfoWindow_1}" Margin="0,0,0,20"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -38,7 +38,7 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                    <Image Width="200" Source="/StagePainter;component/Resources/cscore.png"/>
+                    <Image Width="200" Source="/StagePainter;component/Resources/cscore.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Grid Margin="10,0,0,0" Grid.Column="1" VerticalAlignment="Center">
                     <Grid.RowDefinitions>

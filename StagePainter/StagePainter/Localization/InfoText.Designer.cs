@@ -113,5 +113,14 @@ namespace StagePainter.Localization {
                 return ResourceManager.GetString("Info1_header", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Used Library/License과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string InfoWindow_1 {
+            get {
+                return ResourceManager.GetString("InfoWindow_1", resourceCulture);
+            }
+        }
     }
 }

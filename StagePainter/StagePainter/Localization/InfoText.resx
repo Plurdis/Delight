@@ -135,4 +135,7 @@
   <data name="Info1_header" xml:space="preserve">
     <value>Menu</value>
   </data>
+  <data name="InfoWindow_1" xml:space="preserve">
+    <value>Used Library/License</value>
+  </data>
 </root>
