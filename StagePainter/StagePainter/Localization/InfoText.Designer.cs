@@ -61,7 +61,43 @@ namespace StagePainter.Localization {
         }
         
         /// <summary>
-        ///   English Content과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   This library is licensed under the license Ms-PL.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string CsCoreLicense {
+            get {
+                return ResourceManager.GetString("CsCoreLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CSCore Sound Engine과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string CsCoreName {
+            get {
+                return ResourceManager.GetString("CsCoreName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This library is licensed under the license LGPL.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegLicense {
+            get {
+                return ResourceManager.GetString("FFMpegLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FFMpeg Library과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegName {
+            get {
+                return ResourceManager.GetString("FFMpegName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Menu과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Info1_content {
             get {
@@ -70,7 +106,7 @@ namespace StagePainter.Localization {
         }
         
         /// <summary>
-        ///   English Title과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Menu과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Info1_header {
             get {

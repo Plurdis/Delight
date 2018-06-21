@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,18 @@ namespace StagePainter.Windows
         public InfoWindow()
         {
             InitializeComponent();
+            btnCsCore.Click += BtnCsCore_Click;
+            btnFFmpeg.Click += BtnFFmpeg_Click;
+        }
+
+        private void BtnFFmpeg_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.ffmpeg.org/");
+        }
+
+        private void BtnCsCore_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/filoe/cscore");
         }
     }
 }

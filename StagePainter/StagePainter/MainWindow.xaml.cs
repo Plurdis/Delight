@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using StagePainter.Core.Common;
+using StagePainter.Windows;
 
 namespace StagePainter
 {
@@ -27,6 +28,9 @@ namespace StagePainter
         public MainWindow()
         {
             InitializeComponent();
+
+            InfoWindow wdw = new InfoWindow();
+            wdw.ShowDialog();
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif

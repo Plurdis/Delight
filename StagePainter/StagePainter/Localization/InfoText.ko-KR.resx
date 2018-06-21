@@ -117,10 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="info1_content" xml:space="preserve">
-    <value>한국어 컨텐츠</value>
+  <data name="CsCoreLicense" xml:space="preserve">
+    <value>이 라이브러리는 Ms-PL 라이센스에 의해서 사용이 허가 되었습니다.</value>
   </data>
-  <data name="info1_header" xml:space="preserve">
-    <value>한국어 제목</value>
+  <data name="CsCoreName" xml:space="preserve">
+    <value>CSCore 사운드 엔진</value>
+  </data>
+  <data name="FFMpegLicense" xml:space="preserve">
+    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.</value>
+  </data>
+  <data name="FFMpegName" xml:space="preserve">
+    <value>FFMpeg 라이브러리</value>
+  </data>
+  <data name="Info1_content" xml:space="preserve">
+    <value>사용자에게 원하는 작업을 할 수 있도록 가능한 조작을 나열합니다.
+원하는 선택으로 처리를 할 수 있습니다.</value>
+  </data>
+  <data name="Info1_header" xml:space="preserve">
+    <value>메뉴</value>
   </data>
 </root>

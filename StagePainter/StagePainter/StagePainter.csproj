@@ -178,6 +178,11 @@
       <Name>StagePainter.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\cscore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ffmpeg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
