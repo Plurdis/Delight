@@ -271,8 +271,7 @@ namespace StagePainter.Controls
                         if (left < 0)
                             left = 0;
 
-                        MainWindow mw = (MainWindow)(((Grid)this.Parent).Parent);
-                        mw.Title = GetTimeText((int)(left / _realSize));
+                        Application.Current.MainWindow.Title = GetTimeText((int)(left / _realSize));
 
                         Value = (int)(left / _realSize);
                     });
@@ -324,7 +323,6 @@ namespace StagePainter.Controls
             double f = 0.1, s = f * 2;
 
             int weight = (int)Math.Pow(2, 7);
-
 
             while (f != MaxRatio)
             {
