@@ -44,5 +44,12 @@ namespace StagePainter
 
             this.CommandBindings.Add(new CommandBinding(comm, eventHandler));
         }
+
+        private void Menu_MouseMove(object sender, MouseEventArgs e)
+        {
+            string id = ((UIElement)sender).Uid;
+
+            this.Title = id;
+        }
     }
 }
