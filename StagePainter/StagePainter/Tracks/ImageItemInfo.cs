@@ -19,10 +19,9 @@ namespace StagePainter.Tracks
         {
             Uri uri = new Uri(fileName, UriKind.RelativeOrAbsolute);
             BitmapImage bitmapImage = new BitmapImage(uri);
-            LoadFromImageSource(bitmapImage);
         }
 
-        public void LoadFromImageSource(ImageSource imageSource)
+        public void LoadFromMediaManager(string key)
         {
 
         }
