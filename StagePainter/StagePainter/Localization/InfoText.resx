@@ -123,6 +123,18 @@
   <data name="CsCoreName" xml:space="preserve">
     <value>CSCore Sound Engine</value>
   </data>
+  <data name="FFMpegInfo_1" xml:space="preserve">
+    <value>StagePainter used a modified version of FFmpeg, CsCore.FFMpeg.</value>
+  </data>
+  <data name="FFMpegInfo_2" xml:space="preserve">
+    <value>The modified code can be downloaded </value>
+  </data>
+  <data name="FFMpegInfo_3" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="FFMpegInfo_4" xml:space="preserve">
+    <value>.</value>
+  </data>
   <data name="FFMpegLicense" xml:space="preserve">
     <value>This library is licensed under the license LGPL.</value>
   </data>

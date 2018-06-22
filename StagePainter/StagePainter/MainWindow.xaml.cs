@@ -33,8 +33,8 @@ namespace StagePainter
 
             InitializeComponent();
             MouseManager.Init();
-            //InfoWindow wdw = new InfoWindow();
-            //wdw.ShowDialog();
+            InfoWindow wdw = new InfoWindow();
+            wdw.ShowDialog();
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif

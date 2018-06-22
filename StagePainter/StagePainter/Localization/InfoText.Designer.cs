@@ -79,6 +79,42 @@ namespace StagePainter.Localization {
         }
         
         /// <summary>
+        ///   StagePainter used a modified version of FFmpeg, CsCore.FFMpeg.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegInfo_1 {
+            get {
+                return ResourceManager.GetString("FFMpegInfo_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The modified code can be downloaded 과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegInfo_2 {
+            get {
+                return ResourceManager.GetString("FFMpegInfo_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   here과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegInfo_3 {
+            get {
+                return ResourceManager.GetString("FFMpegInfo_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   .과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMpegInfo_4 {
+            get {
+                return ResourceManager.GetString("FFMpegInfo_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This library is licensed under the license LGPL.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string FFMpegLicense {

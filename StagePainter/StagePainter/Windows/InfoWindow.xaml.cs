@@ -36,5 +36,11 @@ namespace StagePainter.Windows
         {
             Process.Start("https://github.com/filoe/cscore");
         }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
     }
 }

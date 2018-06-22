@@ -7,6 +7,17 @@
         xmlns:l="clr-namespace:StagePainter.Localization"
         mc:Ignorable="d"
         Title="{x:Static l:res.InfoWindow_title}" Height="400" Width="650">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -27,17 +38,6 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="btnCsCore" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <ContentPresenter Content="{TemplateBinding Content}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
                     <Image Width="200" Source="/StagePainter;component/Resources/cscore.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button>
                 <Grid Margin="10,0,0,0" Grid.Column="1" VerticalAlignment="Center">
@@ -57,17 +57,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="btnFFmpeg" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <ContentPresenter Content="{TemplateBinding Content}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
+
                     <Image Width="200" Source="/StagePainter;component/Resources/ffmpeg.png"/>
                 </Button>
                 <Grid Margin="10,0,0,0" Grid.Column="1" VerticalAlignment="Center">
@@ -75,9 +65,15 @@
                         <RowDefinition/>
                         <RowDefinition Height="5"/>
                         <RowDefinition/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="{x:Static l:InfoText.FFMpegName}"/>
                     <TextBlock Grid.Row="2" Text="{x:Static l:InfoText.FFMpegLicense}"/>
+                    <TextBlock TextWrapping="Wrap" Grid.Row="4">
+                        <Run Text="{x:Static l:InfoText.FFMpegInfo_1}"/><LineBreak/>
+                        <Run Text="{x:Static l:InfoText.FFMpegInfo_2}"/><Hyperlink NavigateUri="https://github.com/filoe/cscore/tree/master/CSCore.Ffmpeg" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="{x:Static l:InfoText.FFMpegInfo_3}"/></Hyperlink><Run Text="{x:Static l:InfoText.FFMpegInfo_4}"/>
+                    </TextBlock>
                 </Grid>
             </Grid>
 

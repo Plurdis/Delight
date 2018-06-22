@@ -123,6 +123,18 @@
   <data name="CsCoreName" xml:space="preserve">
     <value>CSCore 사운드 엔진</value>
   </data>
+  <data name="FFMpegInfo_1" xml:space="preserve">
+    <value>StagePainter에서는 FFmpeg의 수정된 버전인 CsCore.FFMpeg가 사용되었습니다.</value>
+  </data>
+  <data name="FFMpegInfo_2" xml:space="preserve">
+    <value>수정된 코드는 </value>
+  </data>
+  <data name="FFMpegInfo_3" xml:space="preserve">
+    <value>여기서</value>
+  </data>
+  <data name="FFMpegInfo_4" xml:space="preserve">
+    <value> 다운로드 할 수 있습니다.</value>
+  </data>
   <data name="FFMpegLicense" xml:space="preserve">
     <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.</value>
   </data>
