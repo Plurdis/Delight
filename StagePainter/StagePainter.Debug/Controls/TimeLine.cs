@@ -93,7 +93,7 @@ namespace StagePainter.Debug.Controls
             trackPanel.Children.Add(grid);
         }
         
-        Rectangle tempRect = null;
+        TimeLineItemDesign tempRect = null;
         int i = 0;
 
         private void Grid_DragLeave(object sender, DragEventArgs e)
@@ -112,16 +112,17 @@ namespace StagePainter.Debug.Controls
         {
             if (tempRect == null)
             {
-                tempRect = new Rectangle()
+                tempRect = new TimeLineItemDesign()
                 {
                     Width = ((TestDataPack)e.Data.GetData(typeof(TestDataPack))).Size * _realSize,
-                    Stroke = Brushes.Black,
-                    Fill = Brushes.Green,
-                    StrokeThickness = 1,
                     IsHitTestVisible = false,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Tag = ((TestDataPack)e.Data.GetData(typeof(TestDataPack)))
                 };
+
+                tempRect.dragLeft.MouseDown += DragLeft;
+                tempRect.dragRight.MouseDown += DragRight;
+                tempRect.dragMove.MouseDown += DragMove;
                 ((Grid)sender).Children.Add(tempRect);
             }
             
@@ -141,8 +142,139 @@ namespace StagePainter.Debug.Controls
             (tempRect.Tag as TestDataPack).Offset = value;
         }
 
+        private void DragMove(object sender, MouseButtonEventArgs e)
+        {
+            var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
+            if (root is TimeLineItemDesign ti)
+            {
+                TestDataPack pack = ti.Tag as TestDataPack;
+                firstX = MouseManager.MousePosition.X;
+                firstOffset = ti.Margin.Left;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+                            MainWindow mw = Application.Current.MainWindow as MainWindow;
+
+                            
+
+                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
+
+                            mw.Title = packOffset.ToString();
+
+                            if (packOffset < 0)
+                                packOffset = 0;
+                            
+                            ti.Margin = new Thickness((packOffset - _offset) * _realSize, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            pack.Offset = packOffset;
+                        });
+                    }
+
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                });
+
+                thr.Start();
+            }
+        }
+
+        int firstX;
+        double firstOffset;
+        double firstSize;
+
+        private void DragRight(object sender, MouseButtonEventArgs e)
+        {
+            var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
+            if (root is TimeLineItemDesign ti)
+            {
+                TestDataPack pack = ti.Tag as TestDataPack;
+                firstX = MouseManager.MousePosition.X;
+                firstSize = ti.Width;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+                            int packWidth = (int)((firstSize + mouseOffset) / _realSize);
+                            if (packWidth < 1)
+                                packWidth = 1;
+                            ti.Width = (packWidth * _realSize);
+                            pack.Size = packWidth;
+                        });
+                    }
+
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                });
+
+                thr.Start();
+            }
+        }
+
+        private void DragLeft(object sender, MouseButtonEventArgs e)
+        {
+            var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
+            if (root is TimeLineItemDesign ti)
+            {
+                TestDataPack pack = ti.Tag as TestDataPack;
+                firstX = MouseManager.MousePosition.X;
+                firstOffset = ti.Margin.Left;
+                firstSize = ti.Width;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+
+                            int packWidth = (int)((firstSize - mouseOffset) / _realSize);
+                            int packOffset = (int)((firstOffset + mouseOffset - (scrollBar.Value * _realSize)) / _realSize);
+
+                            int overWidth = 0, overOffset = 0;
+
+                            if (packOffset < -(scrollBar.Maximum * _realSize))
+                            {
+                                overOffset = packOffset;
+                                packOffset = 0;
+                            }
+                            else if (packWidth < 1)
+                            {
+                                overWidth = packWidth;
+                                packWidth = 1;
+                            }
+
+                            ti.Margin = new Thickness((packOffset * _realSize) + (overWidth * _realSize), ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            pack.Offset = packOffset + overWidth;
+
+                            ti.Width = (packWidth * _realSize) + (overOffset * _realSize);
+                            pack.Size = packWidth - overOffset;
+                        });
+                    }
+
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                });
+
+                thr.Start();
+            }
+            
+        }
+
         private void Grid_Drop(object sender, DragEventArgs e)
         {
+            tempRect.IsHitTestVisible = true;
             tempRect = null;
             SetItemsValue();
             //TestDataPack pack = (TestDataPack)e.Data.GetData(typeof(TestDataPack));
@@ -192,7 +324,7 @@ namespace StagePainter.Debug.Controls
 
         #region [  Property & Variable  ]
 
-        public FrameRate FrameRate { get; private set; } = FrameRate._24FPS;
+        public FrameRate FrameRate { get; private set; } = FrameRate._60FPS;
 
         public double MaxItemSize = 30;
 
@@ -210,10 +342,10 @@ namespace StagePainter.Debug.Controls
 
         private void SetItemsValue()
         {
-            IEnumerable<Rectangle> rects = tracks.Select(i => i.Children
+            IEnumerable<TimeLineItemDesign> rects = tracks.Select(i => i.Children
                                         .Cast<UIElement>()
-                                        .Where(j => j.GetType() == typeof(Rectangle))
-                                        .Cast<Rectangle>())
+                                        .Where(j => j.GetType() == typeof(TimeLineItemDesign))
+                                        .Cast<TimeLineItemDesign>())
                                         .SelectMany(k => k);
             if (rects.Count() != 0)
             {
@@ -236,7 +368,7 @@ namespace StagePainter.Debug.Controls
                 }
                 scrollBar.Visibility = (max != 0) ? Visibility.Visible : Visibility.Hidden;
 
-                foreach (Rectangle rect in rects)
+                foreach (TimeLineItemDesign rect in rects)
                 {
                     TestDataPack pack = rect.Tag as TestDataPack;
 

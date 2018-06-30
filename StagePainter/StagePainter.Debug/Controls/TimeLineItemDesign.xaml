@@ -5,28 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StagePainter.Debug.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="500">
+             d:DesignHeight="50" d:DesignWidth="500" MinWidth="1">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
-
-        <Grid>
+        <Border BorderBrush="AliceBlue" Background="DarkSlateBlue" BorderThickness="1" Grid.ColumnSpan="3"/>
+        
+        <Grid Grid.Column="1" IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Background="Gray" Grid.RowSpan="3"/>
-            <TextBlock Text="Test"/>
+            <TextBlock Text="Name" Foreground="White" Margin="5,5,5,0"/>
+            <Rectangle Grid.Row="1" Fill="Beige"/>
         </Grid>
+        <Rectangle x:Name="dragLeft" Fill="Transparent"/>
+        <Rectangle x:Name="dragMove" Fill="Transparent" Grid.Column="1"/>
+        <Rectangle x:Name="dragRight" Grid.Column="2" Fill="Transparent"/>
         
-        <Grid Background="Red" Grid.Column="1"/>
-        <Grid Grid.Row="1" Background="Blue" Grid.Column="1"/>
+        
     </Grid>
 </UserControl>

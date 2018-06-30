@@ -12,7 +12,7 @@ namespace StagePainter.Debug
         {
             this.Name = name;
         }
-        public int Size => 60 * 24;
+        public int Size { get; set; } = 60 * 24;
         public string Name { get; set; }
         public int Offset { get; set; }
 

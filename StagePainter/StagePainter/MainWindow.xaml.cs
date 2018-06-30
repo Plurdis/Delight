@@ -39,7 +39,7 @@ namespace StagePainter
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
 
-            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) =>  MessageBox.Show("!"), (s, e) => e.CanExecute = true));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) =>  Environment.Exit(0), (s, e) => e.CanExecute = true));
             MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
         }
         
