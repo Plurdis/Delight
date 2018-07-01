@@ -99,6 +99,7 @@
     <Compile Include="Media\MediaManager.cs" />
     <Compile Include="Media\Sound.cs" />
     <Compile Include="Media\Video.cs" />
+    <Compile Include="Projects\ProjectInfo.cs" />
     <Compile Include="Tracks\ImageItemInfo.cs" />
     <Compile Include="Tracks\ITrackItemInfo.cs" />
     <Compile Include="Tracks\TrackItem.cs" />
