@@ -142,6 +142,12 @@ namespace StagePainter.Debug.Controls
             (tempRect.Tag as TestDataPack).Offset = value;
         }
 
+        #region [  TrackItem Drag & Resize  ]
+        
+        int firstX;
+        double firstOffset;
+        double firstSize;
+
         private void DragMove(object sender, MouseButtonEventArgs e)
         {
             var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
@@ -158,18 +164,12 @@ namespace StagePainter.Debug.Controls
                         Dispatcher.Invoke(() =>
                         {
                             int mouseOffset = MouseManager.MousePosition.X - firstX;
-                            MainWindow mw = Application.Current.MainWindow as MainWindow;
-
-                            
-
                             int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
-
-                            mw.Title = packOffset.ToString();
 
                             if (packOffset < 0)
                                 packOffset = 0;
                             
-                            ti.Margin = new Thickness((packOffset - _offset) * _realSize, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
                             pack.Offset = packOffset;
                         });
                     }
@@ -182,11 +182,7 @@ namespace StagePainter.Debug.Controls
                 thr.Start();
             }
         }
-
-        int firstX;
-        double firstOffset;
-        double firstSize;
-
+        
         private void DragRight(object sender, MouseButtonEventArgs e)
         {
             var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
@@ -239,7 +235,7 @@ namespace StagePainter.Debug.Controls
                             int mouseOffset = MouseManager.MousePosition.X - firstX;
 
                             int packWidth = (int)((firstSize - mouseOffset) / _realSize);
-                            int packOffset = (int)((firstOffset + mouseOffset - (scrollBar.Value * _realSize)) / _realSize);
+                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
 
                             int overWidth = 0, overOffset = 0;
 
@@ -254,7 +250,7 @@ namespace StagePainter.Debug.Controls
                                 packWidth = 1;
                             }
 
-                            ti.Margin = new Thickness((packOffset * _realSize) + (overWidth * _realSize), ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            ti.Margin = new Thickness((packOffset * _realSize) + (overWidth * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
                             pack.Offset = packOffset + overWidth;
 
                             ti.Width = (packWidth * _realSize) + (overOffset * _realSize);
@@ -269,9 +265,9 @@ namespace StagePainter.Debug.Controls
 
                 thr.Start();
             }
-            
         }
 
+        #endregion
         private void Grid_Drop(object sender, DragEventArgs e)
         {
             tempRect.IsHitTestVisible = true;
