@@ -28,7 +28,7 @@ namespace StagePainter.Debug.Controls
         public TimeLine()
         {
             this.MouseWheel += TimeLine_MouseWheel;
-            
+
             this.Style = FindResource("TimeLineStyle") as Style;
         }
 
@@ -80,7 +80,7 @@ namespace StagePainter.Debug.Controls
             grid.Children.Add(new Border()
             {
                 BorderBrush = Brushes.Black,
-                BorderThickness = new Thickness(1,0,1,1),
+                BorderThickness = new Thickness(1, 0, 1, 1),
                 IsHitTestVisible = false,
             });
 
@@ -92,7 +92,7 @@ namespace StagePainter.Debug.Controls
             tracks.Add(grid);
             trackPanel.Children.Add(grid);
         }
-        
+
         TimeLineItemDesign tempRect = null;
         int i = 0;
 
@@ -107,7 +107,7 @@ namespace StagePainter.Debug.Controls
                 mw.Title = i++.ToString();
             }
         }
-        
+
         private void Grid_DragEnter(object sender, DragEventArgs e)
         {
             if (tempRect == null)
@@ -123,9 +123,10 @@ namespace StagePainter.Debug.Controls
                 tempRect.dragLeft.MouseDown += DragLeft;
                 tempRect.dragRight.MouseDown += DragRight;
                 tempRect.dragMove.MouseDown += DragMove;
+                tempRect.MouseLeave += DragToAnother;
                 ((Grid)sender).Children.Add(tempRect);
             }
-            
+
             Point relativePoint = this.TransformToAncestor((Visual)this.Parent)
                                       .Transform(new Point(0, 0));
 
@@ -142,8 +143,15 @@ namespace StagePainter.Debug.Controls
             (tempRect.Tag as TestDataPack).Offset = value;
         }
 
+        private void DragToAnother(object sender, MouseEventArgs e)
+        {
+            //DragDrop.DoDragDrop(this, sender, DragDropEffects.Move);
+            //Grid grid = (((Control)sender).Parent) as Grid;
+            //grid.Children.Remove(sender as UIElement);
+        }
+
         #region [  TrackItem Drag & Resize  ]
-        
+
         int firstX;
         double firstOffset;
         double firstSize;
@@ -158,32 +166,36 @@ namespace StagePainter.Debug.Controls
                 firstOffset = ti.Margin.Left;
                 Thread thr = new Thread(() =>
                 {
-                while (MouseManager.IsMouseDown)
-                {
-                    Thread.Sleep(1);
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
+
+                            if (packOffset < 0)
+                                packOffset = 0;
+
+                            ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            pack.Offset = packOffset;
+                        });
+                    }
+
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
                     Dispatcher.Invoke(() =>
                     {
-                        int mouseOffset = MouseManager.MousePosition.X - firstX;
-                        int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
-
-                        if (packOffset < 0)
-                            packOffset = 0;
-
-                        ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
-                        pack.Offset = packOffset;
+                        this.InvalidateVisual();
+                        SetItemsValue();
                     });
-                }
-
-                firstX = 0;
-                firstOffset = 0;
-                firstSize = 0;
-                Dispatcher.Invoke(() => SetItemsValue());    
                 });
 
                 thr.Start();
             }
         }
-        
+
         private void DragRight(object sender, MouseButtonEventArgs e)
         {
             var root = ((FrameworkElement)VisualTreeHelper.GetParent((Rectangle)sender)).Parent;
@@ -274,8 +286,6 @@ namespace StagePainter.Debug.Controls
             tempRect.IsHitTestVisible = true;
             tempRect = null;
             SetItemsValue();
-            //TestDataPack pack = (TestDataPack)e.Data.GetData(typeof(TestDataPack));
-            //MessageBox.Show(pack.Name);
         }
 
         #region [  Dependency Property  ]
@@ -355,9 +365,14 @@ namespace StagePainter.Debug.Controls
                 {
                     scrollBar.Maximum = max;
                     if (scrollBar.Maximum < _offset)
+                    {
                         _offset = scrollBar.Maximum;
+                        scrollBar.Value = scrollBar.Maximum;
+                    }
                     else
+                    {
                         _offset = scrollBar.Value;
+                    }
                 }
                 else
                 {
@@ -400,7 +415,7 @@ namespace StagePainter.Debug.Controls
                         double left = MouseManager.MousePosition.X - point.X + _offset;
                         if (left < 0)
                             left = 0;
-                        
+
                         MainWindow mw = (MainWindow)(((Grid)this.Parent).Parent);
                         mw.Title = GetTimeText((int)(left / _realSize));
 
@@ -435,7 +450,7 @@ namespace StagePainter.Debug.Controls
                     scrollBar.Value -= (e.Delta * Ratio);
                     ScrollBar_Scroll(scrollBar, null);
                 }
-                
+
             }
         }
 
@@ -472,7 +487,7 @@ namespace StagePainter.Debug.Controls
 
             return -1;
         }
-        
+
         public void DrawHelperLine(DrawingContext dc)
         {
             double sizeOffset = _offset == 0 ? 0 : (_displaySize - (_offset % _displaySize)) - _displaySize;
@@ -488,7 +503,7 @@ namespace StagePainter.Debug.Controls
 
                 guidelines.GuidelinesX.Add((i * _displaySize) + sizeOffset + halfPenWidth);
                 guidelines.GuidelinesX.Add((i * _displaySize) + sizeOffset + _displaySize + halfPenWidth);
-                
+
                 dc.PushGuidelineSet(guidelines);
                 int height = 10;
                 if ((i + value) % 12 == 0)
