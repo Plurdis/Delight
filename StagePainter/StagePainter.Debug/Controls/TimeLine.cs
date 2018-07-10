@@ -158,25 +158,26 @@ namespace StagePainter.Debug.Controls
                 firstOffset = ti.Margin.Left;
                 Thread thr = new Thread(() =>
                 {
-                    while (MouseManager.IsMouseDown)
+                while (MouseManager.IsMouseDown)
+                {
+                    Thread.Sleep(1);
+                    Dispatcher.Invoke(() =>
                     {
-                        Thread.Sleep(1);
-                        Dispatcher.Invoke(() =>
-                        {
-                            int mouseOffset = MouseManager.MousePosition.X - firstX;
-                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
+                        int mouseOffset = MouseManager.MousePosition.X - firstX;
+                        int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
 
-                            if (packOffset < 0)
-                                packOffset = 0;
-                            
-                            ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
-                            pack.Offset = packOffset;
-                        });
-                    }
+                        if (packOffset < 0)
+                            packOffset = 0;
 
-                    firstX = 0;
-                    firstOffset = 0;
-                    firstSize = 0;
+                        ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                        pack.Offset = packOffset;
+                    });
+                }
+
+                firstX = 0;
+                firstOffset = 0;
+                firstSize = 0;
+                Dispatcher.Invoke(() => SetItemsValue());    
                 });
 
                 thr.Start();
@@ -206,10 +207,10 @@ namespace StagePainter.Debug.Controls
                             pack.Size = packWidth;
                         });
                     }
-
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
+                    Dispatcher.Invoke(() => SetItemsValue());
                 });
 
                 thr.Start();
@@ -257,10 +258,10 @@ namespace StagePainter.Debug.Controls
                             pack.Size = packWidth - overOffset;
                         });
                     }
-
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
+                    Dispatcher.Invoke(() => SetItemsValue());
                 });
 
                 thr.Start();

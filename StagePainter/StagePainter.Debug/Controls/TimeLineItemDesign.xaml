@@ -22,9 +22,9 @@
             <TextBlock Text="Name" Foreground="White" Margin="5,5,5,0"/>
             <Rectangle Grid.Row="1" Fill="Beige"/>
         </Grid>
-        <Rectangle x:Name="dragLeft" Fill="Transparent"/>
+        <Rectangle x:Name="dragLeft" Fill="Transparent" Cursor="SizeWE"/>
         <Rectangle x:Name="dragMove" Fill="Transparent" Grid.Column="1"/>
-        <Rectangle x:Name="dragRight" Grid.Column="2" Fill="Transparent"/>
+        <Rectangle x:Name="dragRight" Grid.Column="2" Fill="Transparent"  Cursor="SizeWE"/>
         
         
     </Grid>
