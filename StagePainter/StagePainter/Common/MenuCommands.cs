@@ -9,15 +9,35 @@ namespace StagePainter.Common
 {
     public static class MenuCommands
     {
-        public static RoutedCommand ExitCommand { get; }
-        public static RoutedCommand ExportCommand { get; }
+        #region [  File Tab  ]
+
         public static RoutedCommand OpenFileCommand { get; }
+
+        public static RoutedCommand OpenProjectCommand { get; }
+
+        public static RoutedCommand NewProjectCommand { get; }
+
+        public static RoutedCommand SaveCommand { get; }
+
+        public static RoutedCommand SaveAsCommand { get; }
+
+        public static RoutedCommand ExportCommand { get; }
+
+        public static RoutedCommand ExitCommand { get; }
+
+        #endregion
 
         static MenuCommands()
         {
-            ExitCommand = new RoutedCommand("Exit", typeof(MenuCommands));
-            ExportCommand = new RoutedCommand("Export", typeof(MenuCommands));
             OpenFileCommand = new RoutedCommand("OpenFile", typeof(MenuCommands));
+            OpenProjectCommand = new RoutedCommand("OpenProject", typeof(MenuCommands));
+            NewProjectCommand = new RoutedCommand("NewProject", typeof(MenuCommands));
+
+            SaveCommand = new RoutedCommand("Save", typeof(MenuCommands));
+            SaveAsCommand = new RoutedCommand("SaveAs", typeof(MenuCommands));
+
+            ExportCommand = new RoutedCommand("Export", typeof(MenuCommands));
+            ExitCommand = new RoutedCommand("Exit", typeof(MenuCommands));
         }
     }
 }
