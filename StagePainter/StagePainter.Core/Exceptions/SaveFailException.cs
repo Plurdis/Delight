@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace StagePainter.Core.Exceptions
 {
+    /// <summary>
+    /// 저장에 실패했을때 발생하는 예외입니다.
+    /// </summary>
     [Serializable]
     public class SaveFailException : Exception
     {

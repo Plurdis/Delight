@@ -10,15 +10,15 @@ using StagePainter.Core.Extension;
 namespace StagePainter.Core.IO
 {
     /// <summary>
-    /// manager that can organize and save data
+    /// 데이터를 구성하고 저장할 수 있는 저장 관리자 입니다.
     /// </summary>
     public static class SaveManager
     {
         /// <summary>
-        /// Save single data as file
+        /// 하나의 단일 데이터를 저장합니다.
         /// </summary>
-        /// <param name="data">Data that save to file that have <see cref="SerializableAttribute"/> Attribute</param>
-        /// <param name="fileLocation">Input where you save file.</param>
+        /// <param name="data"><see cref="SerializableAttribute"/> 특성을 가지고 있는 저장할 데이터입니다.</param>
+        /// <param name="fileLocation">저장할 파일의 위치를 선택합니다.</param>
         /// <exception cref="AttributeNotFoundException"/>
         /// <exception cref="SaveFailException"/>
         /// <returns></returns>
@@ -37,7 +37,7 @@ namespace StagePainter.Core.IO
             }
             catch (Exception ex)
             {
-                throw new SaveFailException("Can't save file. See InnerException for details.", ex);
+                throw new SaveFailException("파일을 저장할 수 없습니다. 자세한 사항은 내부 예외를 참조하세요.", ex);
             }
 
             return true;

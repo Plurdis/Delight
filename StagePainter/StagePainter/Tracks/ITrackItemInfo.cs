@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StagePainter.Tracks
 {
+    /// <summary>
+    /// 트랙 아이템의 가장 기초적인 정보를 담고 있는 인터페이스입니다.
+    /// </summary>
     public interface ITrackItemInfo : ICloneable
     {
         double Offset { get; set; }

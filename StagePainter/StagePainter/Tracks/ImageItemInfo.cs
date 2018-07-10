@@ -8,11 +8,13 @@ using System.Windows.Media.Imaging;
 
 namespace StagePainter.Tracks
 {
+    /// <summary>
+    /// 이미지 트랙 아이템의 정보를 나타냅니다.
+    /// </summary>
     public class ImageItemInfo : ITrackItemInfo
     {
         public ImageItemInfo()
         {
-
         }
 
         public void LoadFromFile(string fileName)

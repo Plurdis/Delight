@@ -1,4 +1,5 @@
 ﻿using StagePainter.Common;
+using StagePainter.Core.Common;
 using StagePainter.Core.Extension;
 using StagePainter.Tracks;
 using System;

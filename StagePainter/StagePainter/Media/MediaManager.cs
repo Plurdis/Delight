@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StagePainter.Media
 {
     /// <summary>
-    /// Manage user added Media.
+    /// 사용자가 추가한 미디어를 관리합니다.
     /// </summary>
     public class MediaManager
     {

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace StagePainter.Core.Exceptions
 {
+    /// <summary>
+    /// <see cref="Attribute"/>를 찾지 못했을때 발생하는 예외입니다.
+    /// </summary>
     [Serializable]
     public class AttributeNotFoundException : Exception
     {

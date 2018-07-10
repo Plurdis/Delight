@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace StagePainter.Projects
 {
     /// <summary>
-    /// Represents Project Resources and about project datas.
+    /// 프로젝트 리소스와 프로젝트 데이터에 대해서 나타냅니다.
     /// </summary>
     public class ProjectInfo
     {

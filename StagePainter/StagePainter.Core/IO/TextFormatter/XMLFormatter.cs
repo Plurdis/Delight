@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StagePainter.Core.IO.TextFormatter
 {
+    /// <summary>
+    /// XML로 포맷하는 포매터입니다.
+    /// </summary>
     public class XMLFormatter : BaseTextFormatter
     {
         public XMLFormatter(object obj) : base(obj)

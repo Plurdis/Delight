@@ -59,7 +59,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\CommandManager.cs" />
-    <Compile Include="Common\FrameRate.cs" />
     <Compile Include="Common\MenuCommands.cs" />
     <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TimeLine.cs" />
