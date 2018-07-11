@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using StagePainter.Common;
 using StagePainter.Core.Common;
 using StagePainter.Windows;
@@ -43,6 +45,16 @@ namespace StagePainter
             MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
         }
         
+        private static TimeSpan GetVideoDuration(string filePath)
+        {
+            using (var shell = ShellObject.FromParsingName(filePath))
+            {
+                IShellProperty prop = shell.Properties.System.Media.Duration;
+                var t = (ulong)prop.ValueAsObject;
+                return TimeSpan.FromTicks((long)t);
+            }
+        }
+
         public void AddCommandBinding(KeyGesture gesture, ExecutedRoutedEventHandler eventHandler)
         {
             RoutedCommand comm = new RoutedCommand();
