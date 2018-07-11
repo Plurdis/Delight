@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -63,7 +64,57 @@ namespace StagePainter
             {
                 ProjectName = "ConsoleApp1"
             });
+
+            var groups = new[]
+            {
+                new Group { Name = "Group1" },
+                new Group { Name = "Group2" },
+                new Group { Name = "Group3" },
+            };
+
+            var collectionView = new ListCollectionView(new[]
+            {
+                new Item { Group = groups[0], Name = "Item1" },
+                new Item { Group = groups[0], Name = "Item2" },
+                new Item { Group = groups[1], Name = "Item3" },
+                new Item { Group = groups[1], Name = "Item4" },
+                new Item { Group = groups[1], Name = "Item5" },
+                new Item { Group = groups[0], Name = "Item6" },
+                
+            });
+
+            var groupDescription = new PropertyGroupDescription("Cluster.Name");
+
+            // this foreach must at least add clusters that can't be
+            // derived from items - i.e. groups with no items in them
+            foreach (var cluster in groups)
+                groupDescription.GroupNames.Add(cluster.Name);
+
+            collectionView.GroupDescriptions.Add(groupDescription);
+            ItemHeader.ItemsSource = collectionView;
+            Clusters = groupDescription.GroupNames;
+
         }
+
+        readonly ObservableCollection<object> Clusters;
+
+        class Group
+        {
+            public string Name { get; set; }
+        }
+
+        class Item
+        {
+            public Group Group { get; set; }
+            public string Name { get; set; }
+
+            public override string ToString()
+            {
+                return Group.Name + " :: " + Name;
+            }
+        }
+
+
 
         #region [  Global Variable  ]
 
