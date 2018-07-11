@@ -73,16 +73,24 @@ namespace StagePainter.Debug.Controls
         {
             Grid grid = new Grid()
             {
-                Height = 50,
+                Height = 65,
                 Background = Brushes.Transparent,
                 AllowDrop = true,
             };
-            grid.Children.Add(new Border()
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(15, GridUnitType.Pixel) });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+
+            var border = new Border()
             {
                 BorderBrush = Brushes.Black,
                 BorderThickness = new Thickness(1, 0, 1, 1),
                 IsHitTestVisible = false,
-            });
+            };
+
+            grid.Children.Add(new TextBlock() { Text = "Track" });
+
+            Grid.SetRowSpan(border, 2);
+            grid.Children.Add(border);
 
             grid.DragEnter += Grid_DragEnter;
             grid.DragOver += Grid_DragEnter;
@@ -124,6 +132,7 @@ namespace StagePainter.Debug.Controls
                 tempRect.dragRight.MouseDown += DragRight;
                 tempRect.dragMove.MouseDown += DragMove;
                 tempRect.MouseLeave += DragToAnother;
+                Grid.SetRow(tempRect, 1);
                 ((Grid)sender).Children.Add(tempRect);
             }
 

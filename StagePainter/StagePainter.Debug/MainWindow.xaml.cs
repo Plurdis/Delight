@@ -26,6 +26,8 @@ namespace StagePainter.Debug
             InitializeComponent();
             MouseManager.Init();
 
+            this.Closing += (s, e) => Environment.Exit(0);
+
             lbItems.PreviewMouseLeftButtonDown += LbItems_PreviewMouseLeftButtonDown;
 
             lbItems.Items.Add(new ListBoxItem()
