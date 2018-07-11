@@ -58,8 +58,17 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <Rectangle Fill="DimGray"/>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Template Box"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock TextWrapping="Wrap">
+                        템플릿<LineBreak/>
+                        원하는 분위기에 맞게 템플릿을 선택하세요.
+                    </TextBlock>
+                    <ListBox Grid.Row="1">
+                        <ListBoxItem Content="조용한 밤 [80~120에 적당]"/>
+                    </ListBox>
                 </Grid>
 
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>

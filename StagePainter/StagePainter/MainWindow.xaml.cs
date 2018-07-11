@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using StagePainter.Common;
 using StagePainter.Core.Common;
+using StagePainter.Projects;
 using StagePainter.Windows;
 
 using LocalCommandManager = StagePainter.Common.CommandManager;
@@ -44,8 +45,10 @@ namespace StagePainter
             CommandBindings.Add(new CommandBinding(MenuCommands.NewProjectCommand, (s, e) => MessageBox.Show("[새로운 프로젝트]는 완성되지 않은 기능입니다.")));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, (s, e) =>
             {
+
                 wf.OpenFileDialog ofd = new wf.OpenFileDialog();
                 // wma, aac, mp4, aiff
+                
                 ofd.Filter = "오디오 파일 (*.mp3;*.m4a;*.wav;*.flac)|*.mp3;*.m4a;*.wav;*.flac|미디어 파일 (*.mp4)|*.mp4";
 
                 ofd.ShowDialog();
@@ -55,7 +58,59 @@ namespace StagePainter
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, (s, e) => MessageBox.Show("[저장]은 완성되지 않은 기능입니다.")));
             
             MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
+
+            SetProject(new ProjectInfo()
+            {
+                ProjectName = "ConsoleApp1"
+            });
         }
+
+        #region [  Global Variable  ]
+
+        ProjectInfo ProjectInfo { get; set; }
+
+        #endregion
+
+        public void SetProject(ProjectInfo projectInfo)
+        {
+            ProjectInfo = projectInfo;
+            projectInfo.PropertyChanged += ProjectInfo_PropertyChanged;
+
+            this.Title = "SPainter - " + projectInfo.ProjectName;
+        }
+
+        private void ProjectInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ProjectInfo pi)
+            {
+                switch (e.PropertyName)
+                {
+                    case "ProjectName":
+                        this.Title = "SPainter - " + pi.ProjectName;
+                        break;
+                }
+            }
+            
+        }
+
+        #region [  File I/O Task  ]
+
+        public void OpenProject()
+        {
+
+        }
+
+        public void SaveAs()
+        {
+
+        }
+
+        public void Save()
+        {
+
+        }
+        
+        #endregion
 
         public void AddCommandBinding(KeyGesture gesture, ExecutedRoutedEventHandler eventHandler)
         {
