@@ -11,24 +11,25 @@ namespace StagePainter.Media
     /// </summary>
     public class MediaManager
     {
-        #region [  Static Members  ]
-
-        public Image GetImageFromPath(string filePath)
+        public MediaManager()
+        {
+            _medias = new Dictionary<string, IMedia>();
+        }
+        
+        public Image AddImageFromPath(string filePath)
         {
             return null;
         }
 
-        public Sound GetSoundFromPath(string filePath)
+        public Sound AddSoundFromPath(string filePath)
         {
             return null;
         }
 
-        public Video GetVideoFromPath(string filePath)
+        public Video AddVideoFromPath(string filePath)
         {
             return null;
         }
-
-        #endregion
 
         private Dictionary<string, IMedia> _medias;
 
