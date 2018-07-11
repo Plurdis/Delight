@@ -92,15 +92,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.ko-KR.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localization\res.Designer.cs">
+    <Compile Include="Localization\Menus.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>res.resx</DependentUpon>
+      <DependentUpon>Menus.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localization\res.ko-KR.Designer.cs">
+    <Compile Include="Localization\Menus.ko-KR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>res.ko-KR.resx</DependentUpon>
+      <DependentUpon>Menus.ko-KR.resx</DependentUpon>
     </Compile>
     <Compile Include="Media\Image.cs" />
     <Compile Include="Media\IMedia.cs" />
@@ -167,13 +167,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization\res.ko-KR.resx">
+    <EmbeddedResource Include="Localization\Menus.ko-KR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>res.ko-KR.Designer.cs</LastGenOutput>
+      <LastGenOutput>Menus.ko-KR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization\res.resx">
+    <EmbeddedResource Include="Localization\Menus.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>res.Designer.cs</LastGenOutput>
+      <LastGenOutput>Menus.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -151,4 +151,7 @@
   <data name="InfoWindow_1" xml:space="preserve">
     <value>사용된 라이브러리/라이센스</value>
   </data>
+  <data name="UI_preview1" xml:space="preserve">
+    <value>미리보기</value>
+  </data>
 </root>

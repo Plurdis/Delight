@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StagePainter.Windows"
         xmlns:l="clr-namespace:StagePainter.Localization"
         mc:Ignorable="d"
-        Title="{x:Static l:res.InfoWindow_title}" Height="400" Width="650">
+        Title="{x:Static l:Menus.InfoWindow_title}" Height="400" Width="650">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">

@@ -158,5 +158,14 @@ namespace StagePainter.Localization {
                 return ResourceManager.GetString("InfoWindow_1", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Preview과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_preview1 {
+            get {
+                return ResourceManager.GetString("UI_preview1", resourceCulture);
+            }
+        }
     }
 }

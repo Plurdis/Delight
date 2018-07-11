@@ -150,4 +150,7 @@
   <data name="InfoWindow_1" xml:space="preserve">
     <value>Used Library/License</value>
   </data>
+  <data name="UI_preview1" xml:space="preserve">
+    <value>Preview</value>
+  </data>
 </root>
