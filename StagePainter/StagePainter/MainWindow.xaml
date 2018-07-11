@@ -46,7 +46,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
@@ -62,23 +62,49 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock TextWrapping="Wrap">
-                        템플릿<LineBreak/>
-                        원하는 분위기에 맞게 템플릿을 선택하세요.
+                    <TextBlock TextWrapping="Wrap" Margin="5">
+                        <TextBlock Text="아이템" FontSize="15"/><LineBreak/>
+                        원하는 요소들을 끌어다가 타임라인에 배치하세요
                     </TextBlock>
-                    <ListBox Grid.Row="1">
-                        <ListBoxItem Content="조용한 밤 [80~120에 적당]"/>
-                    </ListBox>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <ListBox.GroupStyle>
+                                <GroupStyle HidesIfEmpty="False">
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="GroupItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="GroupItem">
+                                                        <Expander IsExpanded="True">
+                                                            <Expander.Header>
+                                                                <TextBlock TextWrapping="Wrap" Margin="0,10,0,5" >
+													                <Bold><TextBlock Text="{Binding Name}"/></Bold> (<TextBlock Text="{Binding ItemCount}"/> servers)
+												                </TextBlock>
+                                                            </Expander.Header>
+                                                            <ItemsPresenter/>
+                                                        </Expander>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+                        </ListBox>
+                        <ListBox Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>
+                        </ListBox>
+                    </Grid>
                 </Grid>
 
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-
-                <Grid Grid.Row="2">
-                    <Rectangle Fill="PaleGreen"/>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Media Box"/>
-                </Grid>
             </Grid>
             <Grid Grid.Column="1">
+                
                 <Grid>
                     <Controls:TimeLine/>
                 </Grid>

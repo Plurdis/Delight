@@ -68,6 +68,7 @@
     <Compile Include="Common\MediaTools.cs" />
     <Compile Include="Common\MenuCommands.cs" />
     <Compile Include="Common\MouseManager.cs" />
+    <Compile Include="Controls\TemplateItem.cs" />
     <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
     <Compile Include="Localization\InfoText.Designer.cs">
