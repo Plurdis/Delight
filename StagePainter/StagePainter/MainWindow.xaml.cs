@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -21,6 +22,7 @@ using StagePainter.Core.Common;
 using StagePainter.Windows;
 
 using LocalCommandManager = StagePainter.Common.CommandManager;
+using wf = System.Windows.Forms;
 
 namespace StagePainter
 {
@@ -32,16 +34,28 @@ namespace StagePainter
         public MainWindow()
         {
             LocalCommandManager.Init();
-
             InitializeComponent();
             MouseManager.Init();
-            InfoWindow wdw = new InfoWindow();
-            wdw.ShowDialog();
+
+            this.Closing += (s, e) => Environment.Exit(0);
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) => Environment.Exit(0)));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExportCommand, (s, e) => MessageBox.Show("[내보내기]는 완성되지 않은 기능입니다.")));
+            CommandBindings.Add(new CommandBinding(MenuCommands.NewProjectCommand, (s, e) => MessageBox.Show("[새로운 프로젝트]는 완성되지 않은 기능입니다.")));
+            CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, (s, e) =>
+            {
+                wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+                // wma, aac, mp4, aiff
+                ofd.Filter = "오디오 파일 (*.mp3;*.m4a;*.wav;*.flac)|*.mp3;*.m4a;*.wav;*.flac|미디어 파일 (*.mp4)|*.mp4";
 
-            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) =>  Environment.Exit(0), (s, e) => e.CanExecute = true));
+                ofd.ShowDialog();
+            }));
+            CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, (s, e) => MessageBox.Show("[프로젝트 열기]는 완성되지 않은 기능입니다.")));
+            CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, (s, e) => MessageBox.Show("[다른 이름으로 저장]은 완성되지 않은 기능입니다.")));
+            CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, (s, e) => MessageBox.Show("[저장]은 완성되지 않은 기능입니다.")));
+            
             MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
         }
         

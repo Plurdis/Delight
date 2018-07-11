@@ -27,6 +27,14 @@ namespace StagePainter.Common
 
         #endregion
 
+        #region [  Help Tab  ]
+
+        public static RoutedCommand ViewHelpCommand { get; }
+
+        public static RoutedCommand ViewInfoCommand { get; }
+
+        #endregion
+
         static MenuCommands()
         {
             OpenFileCommand = new RoutedCommand("OpenFile", typeof(MenuCommands));
