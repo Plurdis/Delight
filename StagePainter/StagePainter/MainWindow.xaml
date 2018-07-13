@@ -8,7 +8,7 @@
         xmlns:l="clr-namespace:StagePainter.Localization"
         xmlns:cm="clr-namespace:StagePainter.Common"
         mc:Ignorable="d" WindowState="Maximized"
-        Title="Spainter" Height="600" Width="1000">
+        Title="Spainter" Height="800" Width="1400">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -16,7 +16,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info2" MouseMove="Menu_MouseMove">
+            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove">
                 <MenuItem Header="{x:Static l:Menus.MiOpen}">
                     <MenuItem Header="{x:Static l:Menus.MiProject}" InputGestureText="Ctrl+Shift+O" Command="{x:Static cm:MenuCommands.OpenProjectCommand}"/>
                     <MenuItem Header="{x:Static l:Menus.MiFile}" InputGestureText="Ctrl+O" Command="{x:Static cm:MenuCommands.OpenFileCommand}"/>
@@ -37,17 +37,23 @@
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
             </MenuItem>
-            <MenuItem Uid="Info1" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
+            <MenuItem Uid="Info2" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
                 <MenuItem Header="{x:Static l:Menus.MiHelpView}" InputGestureText="Ctrl+H" Command="{x:Static cm:MenuCommands.ViewHelpCommand}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiViewInfo}" InputGestureText="Ctrl+Shift+H"  Command="{x:Static cm:MenuCommands.ViewInfoCommand}"/>
+            </MenuItem>
+            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
+                <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
             </MenuItem>
         </Menu>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
             <Grid>
@@ -73,25 +79,8 @@
                         </Grid.ColumnDefinitions>
                         <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
                             <ListBox.GroupStyle>
-                                <GroupStyle HidesIfEmpty="False">
-                                    <GroupStyle.ContainerStyle>
-                                        <Style TargetType="GroupItem">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="GroupItem">
-                                                        <Expander IsExpanded="True">
-                                                            <Expander.Header>
-                                                                <TextBlock TextWrapping="Wrap" Margin="0,10,0,5" >
-													                <Bold><TextBlock Text="{Binding Name}"/></Bold> (<TextBlock Text="{Binding ItemCount}"/> servers)
-												                </TextBlock>
-                                                            </Expander.Header>
-                                                            <ItemsPresenter/>
-                                                        </Expander>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GroupStyle.ContainerStyle>
+                                <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}">
+                                    
                                 </GroupStyle>
                             </ListBox.GroupStyle>
                         </ListBox>
@@ -100,16 +89,16 @@
                         </ListBox>
                     </Grid>
                 </Grid>
-
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
             </Grid>
-            <Grid Grid.Column="1">
-                
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
                 <Grid>
                     <Controls:TimeLine/>
                 </Grid>
             </Grid>
-            <Grid Grid.Column="2">
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="4">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="8"/>
@@ -129,7 +118,18 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="{x:Static l:InfoText.UI_preview1}"/>
-                    <Rectangle Grid.Row="1"/>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Image/>
+                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" Text="Visualiztion Screen Preview" Margin="5"/>
+                            </Border>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

@@ -133,6 +133,15 @@ namespace StagePainter.Localization {
         }
         
         /// <summary>
+        ///   Template Management(_T)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiManageTemplate {
+            get {
+                return ResourceManager.GetString("MiManageTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   New Project(_H)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiNewProject {
@@ -156,6 +165,15 @@ namespace StagePainter.Localization {
         public static string MiOpen {
             get {
                 return ResourceManager.GetString("MiOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Options(_O)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiOptions {
+            get {
+                return ResourceManager.GetString("MiOptions", resourceCulture);
             }
         }
         
@@ -201,6 +219,15 @@ namespace StagePainter.Localization {
         public static string MiSaveAs {
             get {
                 return ResourceManager.GetString("MiSaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tools(_T)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiTools {
+            get {
+                return ResourceManager.GetString("MiTools", resourceCulture);
             }
         }
         

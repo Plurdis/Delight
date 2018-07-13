@@ -141,6 +141,9 @@
   <data name="MiHelpView" xml:space="preserve">
     <value>View Help(_V)</value>
   </data>
+  <data name="MiManageTemplate" xml:space="preserve">
+    <value>Template Management(_T)</value>
+  </data>
   <data name="MiNewProject" xml:space="preserve">
     <value>New Project(_H)</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="MiOpen" xml:space="preserve">
     <value>Open(_O)</value>
+  </data>
+  <data name="MiOptions" xml:space="preserve">
+    <value>Options(_O)</value>
   </data>
   <data name="MiProject" xml:space="preserve">
     <value>Project(_P)</value>
@@ -164,6 +170,9 @@
   </data>
   <data name="MiSaveAs" xml:space="preserve">
     <value>Save As(_A)</value>
+  </data>
+  <data name="MiTools" xml:space="preserve">
+    <value>Tools(_T)</value>
   </data>
   <data name="MiViewInfo" xml:space="preserve">
     <value>About StagePainter(_A)</value>

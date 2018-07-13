@@ -94,4 +94,21 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="TemplateItemGroupStyle"  TargetType="GroupItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupItem">
+                    <Expander IsExpanded="True">
+                        <Expander.Header>
+                            <TextBlock TextWrapping="Wrap" Margin="0,10,0,5" >
+											                <Bold><TextBlock Text="{Binding Name}"/></Bold> (<TextBlock Text="{Binding ItemCount}"/> servers)
+										                </TextBlock>
+                        </Expander.Header>
+                        <ItemsPresenter/>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

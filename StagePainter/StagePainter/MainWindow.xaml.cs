@@ -62,14 +62,13 @@ namespace StagePainter
 
             SetProject(new ProjectInfo()
             {
-                ProjectName = "ConsoleApp1"
+                ProjectName = "EmptyProject1"
             });
 
             var groups = new[]
             {
-                new Group { Name = "Group1" },
+                new Group { Name = "기본 데이터" },
                 new Group { Name = "Group2" },
-                new Group { Name = "Group3" },
             };
 
             var collectionView = new ListCollectionView(new[]
@@ -83,7 +82,7 @@ namespace StagePainter
                 
             });
 
-            var groupDescription = new PropertyGroupDescription("Cluster.Name");
+            var groupDescription = new PropertyGroupDescription("Group.Name");
 
             // this foreach must at least add clusters that can't be
             // derived from items - i.e. groups with no items in them

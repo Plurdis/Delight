@@ -141,6 +141,9 @@
   <data name="MiHelpView" xml:space="preserve">
     <value>도움말 보기(_V)</value>
   </data>
+  <data name="MiManageTemplate" xml:space="preserve">
+    <value>템플릿 관리(_T)</value>
+  </data>
   <data name="MiNewProject" xml:space="preserve">
     <value>새 프로젝트(_H)</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="MiOpen" xml:space="preserve">
     <value>열기(_O)</value>
+  </data>
+  <data name="MiOptions" xml:space="preserve">
+    <value>옵션(_O)</value>
   </data>
   <data name="MiProject" xml:space="preserve">
     <value>프로젝트(_P)</value>
@@ -164,6 +170,9 @@
   </data>
   <data name="MiSaveAs" xml:space="preserve">
     <value>다른 이름으로 저장(_A)</value>
+  </data>
+  <data name="MiTools" xml:space="preserve">
+    <value>도구(_T)</value>
   </data>
   <data name="MiViewInfo" xml:space="preserve">
     <value>StagePainter 보기(_A)</value>
