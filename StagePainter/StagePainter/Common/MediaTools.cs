@@ -10,7 +10,7 @@ namespace StagePainter.Common
 {
     public static class MediaTools
     {
-        private static TimeSpan GetVideoDuration(string filePath)
+        public static TimeSpan GetVideoDuration(string filePath)
         {
             using (var shell = ShellObject.FromParsingName(filePath))
             {

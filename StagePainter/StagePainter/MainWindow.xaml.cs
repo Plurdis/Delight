@@ -37,6 +37,10 @@ namespace StagePainter
             InitializeComponent();
             MouseManager.Init();
 
+            string str = MediaTools.GetVideoDuration(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "recit24bit.flac")).ToString();
+            MessageBox.Show(str);
+
+
             this.Closing += (s, e) => Environment.Exit(0);
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
@@ -65,37 +69,37 @@ namespace StagePainter
                 ProjectName = "EmptyProject1"
             });
 
-            var groups = new[]
-            {
-                new Group { Name = "기본 데이터" },
-                new Group { Name = "Group2" },
-            };
+            //var groups = new[]
+            //{
+            //    new Group { Name = "기본 데이터" },
+            //    new Group { Name = "Group2" },
+            //};
 
-            var collectionView = new ListCollectionView(new[]
-            {
-                new Item { Group = groups[0], Name = "Item1" },
-                new Item { Group = groups[0], Name = "Item2" },
-                new Item { Group = groups[1], Name = "Item3" },
-                new Item { Group = groups[1], Name = "Item4" },
-                new Item { Group = groups[1], Name = "Item5" },
-                new Item { Group = groups[0], Name = "Item6" },
+            //var collectionView = new ListCollectionView(new[]
+            //{
+            //    new Item { Group = groups[0], Name = "Item1" },
+            //    new Item { Group = groups[0], Name = "Item2" },
+            //    new Item { Group = groups[1], Name = "Item3" },
+            //    new Item { Group = groups[1], Name = "Item4" },
+            //    new Item { Group = groups[1], Name = "Item5" },
+            //    new Item { Group = groups[0], Name = "Item6" },
                 
-            });
+            //});
 
-            var groupDescription = new PropertyGroupDescription("Group.Name");
+            //var groupDescription = new PropertyGroupDescription("Group.Name");
 
-            // this foreach must at least add clusters that can't be
-            // derived from items - i.e. groups with no items in them
-            foreach (var cluster in groups)
-                groupDescription.GroupNames.Add(cluster.Name);
+            //// this foreach must at least add clusters that can't be
+            //// derived from items - i.e. groups with no items in them
+            //foreach (var cluster in groups)
+            //    groupDescription.GroupNames.Add(cluster.Name);
 
-            collectionView.GroupDescriptions.Add(groupDescription);
-            ItemHeader.ItemsSource = collectionView;
-            Clusters = groupDescription.GroupNames;
+            //collectionView.GroupDescriptions.Add(groupDescription);
+            //.ItemsSource = collectionView;
+            //Clusters = groupDescription.GroupNames;
 
         }
 
-        readonly ObservableCollection<object> Clusters;
+        //readonly ObservableCollection<object> Clusters;
 
         class Group
         {

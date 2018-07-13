@@ -44,6 +44,7 @@
             </MenuItem>
             <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
                 <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="주변 기기 관리 (M)"/>
                 <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
             </MenuItem>
         </Menu>
@@ -54,7 +55,7 @@
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
@@ -69,24 +70,41 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock TextWrapping="Wrap" Margin="5">
-                        <TextBlock Text="아이템" FontSize="15"/><LineBreak/>
-                        원하는 요소들을 끌어다가 타임라인에 배치하세요
+                        <Run Text="아이템" FontSize="15"/><LineBreak/>
+                        <Run Text="원하는 요소들을 끌어다가 타임라인에 배치하세요"/>
                     </TextBlock>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <ListBox.GroupStyle>
-                                <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}">
-                                    
-                                </GroupStyle>
-                            </ListBox.GroupStyle>
+                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2" Margin="3,0,247,0">
+                            <ListBoxItem Content="전체"/>
+                            <Separator IsHitTestVisible="False"/>
+                            <ListBoxItem Content="파일"/>
+                            <ListBoxItem Content="사진"/>
+                            <ListBoxItem Content="영상"/>
+                            <ListBoxItem Content="조명"/>
+                            <ListBoxItem Content="소리"/>
                         </ListBox>
-                        <ListBox Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>
-                        </ListBox>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <WrapPanel HorizontalAlignment="Right">
+                                <Button Content="A" Height="30" Width="30"/>
+                                <Button Content="B" Height="30" Width="30"/>
+                                <Button Content="C" Height="30" Width="30"/>
+                            </WrapPanel>
+                            <ListBox Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}">
+                                <ListBox.GroupStyle>
+                                    <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
+                                </ListBox.GroupStyle>
+                                <!--<Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>-->
+                            </ListBox>
+                        </Grid>
+                        
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
@@ -102,7 +120,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="8"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="410"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
@@ -124,9 +142,16 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid>
-                            <Image/>
+                            <Image Source="Resources/TestPreview.png"/>
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                 <TextBlock Foreground="White" Text="Visualiztion Screen Preview" Margin="5"/>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Image Source="Resources/Test3DPreview.png"/>
+                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" Text="Stage 3D Live Preview" Margin="5"/>
                             </Border>
                         </Grid>
                     </Grid>
