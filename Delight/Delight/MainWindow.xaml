@@ -1,0 +1,162 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Delight"
+        xmlns:Controls="clr-namespace:Delight.Controls" x:Class="Delight.MainWindow"
+        xmlns:l="clr-namespace:Delight.Localization"
+        xmlns:cm="clr-namespace:Delight.Common"
+        mc:Ignorable="d" WindowState="Maximized"
+        Title="Delight" Height="800" Width="1400">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove">
+                <MenuItem Header="{x:Static l:Menus.MiOpen}">
+                    <MenuItem Header="{x:Static l:Menus.MiProject}" InputGestureText="Ctrl+Shift+O" Command="{x:Static cm:MenuCommands.OpenProjectCommand}"/>
+                    <MenuItem Header="{x:Static l:Menus.MiFile}" InputGestureText="Ctrl+O" Command="{x:Static cm:MenuCommands.OpenFileCommand}"/>
+                </MenuItem>
+                <MenuItem Header="{x:Static l:Menus.MiNewProject}" InputGestureText="Ctrl+Shift+N" Command="{x:Static cm:MenuCommands.NewProjectCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static l:Menus.MiRecentMedia}">
+                    <MenuItem Header="{x:Static l:Menus.MiNone}" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem Header="{x:Static l:Menus.MiRecentProject}">
+                    <MenuItem Header="{x:Static l:Menus.MiNone}" IsEnabled="False"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="{x:Static l:Menus.MiSave}" InputGestureText="Ctrl+S" Command="{x:Static cm:MenuCommands.SaveCommand}"/>
+                <MenuItem Header="{x:Static l:Menus.MiSaveAs}" InputGestureText="Ctrl+Shift+S" Command="{x:Static cm:MenuCommands.SaveAsCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static l:Menus.MiExport}" InputGestureText="Ctrl+E" Command="{x:Static cm:MenuCommands.ExportCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static l:Menus.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Uid="Info2" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
+                <MenuItem Header="{x:Static l:Menus.MiHelpView}" InputGestureText="Ctrl+H" Command="{x:Static cm:MenuCommands.ViewHelpCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static l:Menus.MiViewInfo}" InputGestureText="Ctrl+Shift+H"  Command="{x:Static cm:MenuCommands.ViewInfoCommand}"/>
+            </MenuItem>
+            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
+                <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="주변 기기 관리 (M)"/>
+                <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock TextWrapping="Wrap" Margin="5">
+                        <Run Text="아이템" FontSize="15"/><LineBreak/>
+                        <Run Text="원하는 요소들을 끌어다가 타임라인에 배치하세요"/>
+                    </TextBlock>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2" Margin="3,0,247,0">
+                            <ListBoxItem Content="전체"/>
+                            <Separator IsHitTestVisible="False"/>
+                            <ListBoxItem Content="파일"/>
+                            <ListBoxItem Content="사진"/>
+                            <ListBoxItem Content="영상"/>
+                            <ListBoxItem Content="조명"/>
+                            <ListBoxItem Content="소리"/>
+                        </ListBox>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <WrapPanel HorizontalAlignment="Right">
+                                <Button Content="A" Height="30" Width="30"/>
+                                <Button Content="B" Height="30" Width="30"/>
+                                <Button Content="C" Height="30" Width="30"/>
+                            </WrapPanel>
+                            <ListBox Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}">
+                                <ListBox.GroupStyle>
+                                    <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
+                                </ListBox.GroupStyle>
+                                <!--<Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>-->
+                            </ListBox>
+                        </Grid>
+                        
+                    </Grid>
+                </Grid>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+            </Grid>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="2">
+                <Grid>
+                    <Controls:TimeLine/>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="410"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Rectangle Fill="DarkBlue"/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Property Screen"/>
+                </Grid>
+
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Static l:InfoText.UI_preview1}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Image Source="Resources/TestPreview.png"/>
+                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" Text="Visualiztion Screen Preview" Margin="5"/>
+                            </Border>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Image Source="Resources/Test3DPreview.png"/>
+                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" Text="Stage 3D Live Preview" Margin="5"/>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
