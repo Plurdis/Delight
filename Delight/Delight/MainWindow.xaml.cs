@@ -20,7 +20,7 @@ using Delight.Common;
 using Delight.Core.Common;
 using Delight.Projects;
 using Delight.Windows;
-
+using NReco.VideoConverter;
 using LocalCommandManager = Delight.Common.CommandManager;
 using wf = System.Windows.Forms;
 
@@ -35,10 +35,10 @@ namespace Delight
         {
             LocalCommandManager.Init();
             InitializeComponent();
-            MouseManager.Init();
+            //MouseManager.Init();
 
-            string str = MediaTools.GetVideoDuration(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "recit24bit.flac")).ToString();
-            MessageBox.Show(str);
+            //string str = MediaTools.GetVideoDuration(System.IO.Path.Combine(@"C:\Users\uutak\Downloads\Video", "small.mp4")).ToString();
+            //MessageBox.Show(str);
 
 
             this.Closing += (s, e) => Environment.Exit(0);
@@ -68,10 +68,28 @@ namespace Delight
             {
                 ProjectName = "EmptyProject1"
             });
+            player.Source = new Uri(@"C:\Users\uutak\Downloads\Video\small.mp4", UriKind.Absolute);
+            player.Play();
 
+            var converter = new FFMpegConverter();
+
+            // Get Thumbnail
+            converter.GetVideoThumbnail(@"C:\Users\uutak\Downloads\Video\small.mp4", @"C:\Users\uutak\Downloads\Video\test.jpeg");
+
+            //
+            var test = new FFMpegConverter();
+
+            string basePath = @"C:\Users\uutak\Downloads\Video\";
+            converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
+            {
+                // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
+            });
+
+            converter.ConvertProgress += Converter_ConvertProgress;
+            
             //var groups = new[]
             //{
-            //    new Group { Name = "기본 데이터" },
+            //    new Group { Name = ""기본 데이터" },
             //    new Group { Name = "Group2" },
             //};
 
@@ -83,7 +101,7 @@ namespace Delight
             //    new Item { Group = groups[1], Name = "Item4" },
             //    new Item { Group = groups[1], Name = "Item5" },
             //    new Item { Group = groups[0], Name = "Item6" },
-                
+
             //});
 
             //var groupDescription = new PropertyGroupDescription("Group.Name");
@@ -97,6 +115,11 @@ namespace Delight
             //.ItemsSource = collectionView;
             //Clusters = groupDescription.GroupNames;
 
+        }
+
+        private void Converter_ConvertProgress(object sender, ConvertProgressEventArgs e)
+        {
+            MessageBox.Show("!");
         }
 
         //readonly ObservableCollection<object> Clusters;
