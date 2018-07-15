@@ -5,24 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Delight.Media;
-using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using NReco.VideoInfo;
 
 namespace Delight.Common
 {
     public static class MediaTools
     {
-        public static TimeSpan GetVideoDuration(string filePath)
+        public static TimeSpan GetMediaDuration(string filePath)
         {
-            using (var shell = ShellObject.FromParsingName(filePath))
+            try
             {
-                IShellProperty prop = shell.Properties.System.Media.Duration;
-                var t = (ulong)prop.ValueAsObject;
-                return TimeSpan.FromTicks((long)t);
+                var probe = new FFProbe();
+                return probe.GetMediaInfo(filePath).Duration;
             }
+            catch (Exception ex)
+            {
+                
+            }
+            
         }
 
-        
         public static MediaTypes GetMediaTypeFromFile(string fileName)
         {
             string extension = new FileInfo(fileName).Extension;
