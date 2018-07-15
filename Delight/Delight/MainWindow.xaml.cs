@@ -112,28 +112,32 @@ namespace Delight
             //        Thread.Sleep(10);
             //    }
             //});
-            
+
             //thr.Start();
 
             //this.Closing += (s, e) => thr.Abort();
 
-            var converter = new FFMpegConverter();
+            
+
+
+
+
+            //var converter = new FFMpegConverter();
 
             // Get Thumbnail
 
             //converter.GetVideoThumbnail(@"C:\Users\uutak\Downloads\Video\small.mp4", @"C:\Users\uutak\Downloads\Video\test.jpeg");
 
             //
-            var test = new FFMpegConverter();
+            //var test = new FFMpegConverter();
 
-            string basePath = @"C:\Users\uutak\Downloads\Video\";
             //converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
             //{
             //    // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
             //});
 
-            converter.ConvertProgress += Converter_ConvertProgress;
-            
+            //converter.ConvertProgress += Converter_ConvertProgress;
+
             //var groups = new[]
             //{
             //    new Group { Name = ""기본 데이터" },

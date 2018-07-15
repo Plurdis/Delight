@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Delight.Exceptions;
 using Delight.Media;
 using NReco.VideoInfo;
 
@@ -20,9 +21,8 @@ namespace Delight.Common
             }
             catch (Exception ex)
             {
-                
+                throw new ProcessException("예외 발생", ex);
             }
-            
         }
 
         public static MediaTypes GetMediaTypeFromFile(string fileName)
