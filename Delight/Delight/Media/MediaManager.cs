@@ -11,27 +11,18 @@ namespace Delight.Media
     /// </summary>
     public class MediaManager
     {
+
+        private Dictionary<string, IMedia> _medias;
+
         public MediaManager()
         {
             _medias = new Dictionary<string, IMedia>();
         }
         
-        public Image AddImageFromPath(string filePath)
+        public IMedia AddMediaFromPath(string filePath)
         {
-            return null;
+            return null;   
         }
-
-        public Sound AddSoundFromPath(string filePath)
-        {
-            return null;
-        }
-
-        public Video AddVideoFromPath(string filePath)
-        {
-            return null;
-        }
-
-        private Dictionary<string, IMedia> _medias;
 
         public void AddImage(Image image)
         {
