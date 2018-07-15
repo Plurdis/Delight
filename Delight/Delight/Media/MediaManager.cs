@@ -21,7 +21,7 @@ namespace Delight.Media
         
         public IMedia AddMediaFromPath(string filePath)
         {
-            return null;   
+            return null;
         }
 
         public void AddImage(Image image)

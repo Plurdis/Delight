@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Delight.Media
 {
-    interface IMedia
+    public interface IMedia
     {
         string Identity { get; set; }
     }
