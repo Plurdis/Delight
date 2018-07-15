@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,10 +17,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using Delight.Common;
 using Delight.Core.Common;
 using Delight.Projects;
 using Delight.Windows;
+
 using NReco.VideoConverter;
 using LocalCommandManager = Delight.Common.CommandManager;
 using wf = System.Windows.Forms;
@@ -37,10 +40,6 @@ namespace Delight
             InitializeComponent();
             //MouseManager.Init();
 
-            //string str = MediaTools.GetVideoDuration(System.IO.Path.Combine(@"C:\Users\uutak\Downloads\Video", "small.mp4")).ToString();
-            //MessageBox.Show(str);
-
-
             this.Closing += (s, e) => Environment.Exit(0);
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
@@ -53,9 +52,41 @@ namespace Delight
 
                 wf.OpenFileDialog ofd = new wf.OpenFileDialog();
                 // wma, aac, mp4, aiff
-                
-                ofd.Filter = "오디오 파일 (*.mp3;*.m4a;*.wav;*.flac)|*.mp3;*.m4a;*.wav;*.flac|미디어 파일 (*.mp4)|*.mp4";
+                var sb = new StringBuilder();
 
+                sb.Append("지원하는 모든 미디어 파일 (*.wav,*.wma,*.mp3,");
+                sb.Append("*.m4a,*.aac,*.flac,*.avi,");
+                sb.Append("*.wmv,*.mpg,*.mpeg,*.ts,*.3gp,*.swf,*.flv,*.mov,...)|");
+
+
+                sb.Append("*.wav;*.wma;*.mpa;*.mp2;*.m1a;*.m2a;*.mp3;");
+                sb.Append("*.m4a;*.aac;*.mka;*.ra;*.flac;*.ape;*.mpc;*.mod;*.ac3;*.eac3;");
+                sb.Append("*.dts;*.dtshd;*.wv;*.tak;*.cda;*.dsf;*.tta;*.aiff;*.opus;*.avi;");
+                sb.Append("*.wmv;*.vmp;*.vm;*.asf;*.mpg;*.mpeg;*.mpe;*.m1v;*.m2v;*.mpv2;*.mp2v;");
+                sb.Append("*.ts;*.tp;*.tpr;*.trp;*.vob;*.ifo;*.ogm;*.ogv;*.mp4;*.m4v;*.m4p;*.m4b;");
+                sb.Append("*.3gp;*.3gpp;*.3g2;*.3gp2;*.mkv;*.rm;*.ram;*.rmvb;*.rpm;*.flv;*.swf;");
+                sb.Append("*.mov;*.qt;*.amr;*.nsv;*.dpg;*.m2ts;*.m2t;*.mts;*.dvr-ms;*.k3g;");
+                sb.Append("*.skm;*.evo;*.nsr;*.amv;*.divx;*.webm;*.wtv;*.f4v;*.mxf;|");
+
+                // ====================================================================================
+
+                sb.Append("비디오 파일 (*.avi,*.wmv,*.mpg,*.mpeg,*.ts,*.3gp,*.swf,*.flv,*.mov...)|");
+
+                sb.Append("*.avi;*.wmv;*.vmp;*.vm;*.asf;*.mpg;*.mpeg;*.mpe;*.m1v;*.m2v;" );
+                sb.Append("*.mpv2;*.mp2v;*.ts;*.tp;*.tpr;*.trp;*.vob;*.ifo;*.ogm;*.ogv;" );
+                sb.Append("*.mp4;*.m4v;*.m4p;*.m4b;*.3gp;*.3gpp;*.3g2;*.3gp2;*.mkv;*.rm;*.ram;" );
+                sb.Append("*.rmvb;*.rpm;*.flv;*.swf;*.mov;*.qt;*.amr;*.nsv;*.dpg;*.m2ts;*.m2t;" );
+                sb.Append("*.mts;*.dvr-ms;*.k3g;*.skm;*.evo;*.nsr;*.amv;*.divx;*.webm;*.wtv;*.f4v;*.mxf;|");
+
+                // ====================================================================================
+
+                sb.Append("오디오 파일 (*.wav,*.wma,*.mp3,*.m4a,*.aac,*.flac...)|");
+
+                sb.Append("*.wav;*.wma;*.mpa;*.mp2;*.m1a;*.m2a;*.mp3;*.m4a;*.aac;");
+                sb.Append("*.mka;*.ra;*.flac;*.ape;*.mpc;*.mod;*.ac3;*.eac3;*.dts;*.dtshd;");
+                sb.Append("*.wv;*.tak;*.cda;*.dsf;*.tta;*.aiff;*.opus;");
+                
+                ofd.Filter = sb.ToString();
                 ofd.ShowDialog();
             }));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, (s, e) => MessageBox.Show("[프로젝트 열기]는 완성되지 않은 기능입니다.")));
@@ -68,22 +99,38 @@ namespace Delight
             {
                 ProjectName = "EmptyProject1"
             });
-            player.Source = new Uri(@"C:\Users\uutak\Downloads\Video\small.mp4", UriKind.Absolute);
-            player.Play();
+
+            mediaPlayer.Open(new Uri(@"sample", UriKind.Absolute));
+            //Thread thr = new Thread(() =>
+            //{
+            //    while (true)
+            //    {
+            //        Dispatcher.Invoke(() =>
+            //        {
+            //            this.Title = mediaPlayer.HasVideo.ToString();
+            //        });
+            //        Thread.Sleep(10);
+            //    }
+            //});
+            
+            //thr.Start();
+
+            //this.Closing += (s, e) => thr.Abort();
 
             var converter = new FFMpegConverter();
 
             // Get Thumbnail
-            converter.GetVideoThumbnail(@"C:\Users\uutak\Downloads\Video\small.mp4", @"C:\Users\uutak\Downloads\Video\test.jpeg");
+
+            //converter.GetVideoThumbnail(@"C:\Users\uutak\Downloads\Video\small.mp4", @"C:\Users\uutak\Downloads\Video\test.jpeg");
 
             //
             var test = new FFMpegConverter();
 
             string basePath = @"C:\Users\uutak\Downloads\Video\";
-            converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
-            {
-                // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
-            });
+            //converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
+            //{
+            //    // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
+            //});
 
             converter.ConvertProgress += Converter_ConvertProgress;
             

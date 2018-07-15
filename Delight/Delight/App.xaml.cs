@@ -19,6 +19,8 @@ namespace Delight
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ko-KR");
 
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+
+            Unosquare.FFME.MediaElement.FFmpegDirectory = @"c:\ffmpeg";
         }
        
     }
