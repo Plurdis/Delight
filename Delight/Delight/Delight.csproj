@@ -117,6 +117,7 @@
     <Compile Include="Media\Image.cs" />
     <Compile Include="Media\IMedia.cs" />
     <Compile Include="Media\MediaManager.cs" />
+    <Compile Include="Media\MediaTypes.cs" />
     <Compile Include="Media\Sound.cs" />
     <Compile Include="Media\Video.cs" />
     <Compile Include="Projects\ProjectInfo.cs" />
