@@ -49,19 +49,13 @@ namespace Delight
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
-            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, (s, e) => Environment.Exit(0)));
-            CommandBindings.Add(new CommandBinding(MenuCommands.ExportCommand, (s, e) => MessageBox.Show("[내보내기]는 완성되지 않은 기능입니다.")));
-            CommandBindings.Add(new CommandBinding(MenuCommands.NewProjectCommand, (s, e) => MessageBox.Show("[새로운 프로젝트]는 완성되지 않은 기능입니다.")));
-            CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, (s, e) =>
-            {
-                if (MediaTools.GetMediaFile(out string location))
-                {
-                    lbItem.Items.Add(new TemplateItem() { Content = new FileInfo(location).Name, Description = "File" });
-                }
-            }));
-            CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, (s, e) => MessageBox.Show("[프로젝트 열기]는 완성되지 않은 기능입니다.")));
-            CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, (s, e) => MessageBox.Show("[다른 이름으로 저장]은 완성되지 않은 기능입니다.")));
-            CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, (s, e) => MessageBox.Show("[저장]은 완성되지 않은 기능입니다.")));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, ExitCommandExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, OpenFileExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ExportCommand, ExportExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.NewProjectCommand, NewProjectExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, OpenProjectExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, SaveAsExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, SaveExecuted));
 
             SetProject(new ProjectInfo()
             {

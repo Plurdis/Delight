@@ -117,6 +117,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Menus.ko-KR.resx</DependentUpon>
     </Compile>
+    <Compile Include="MainWindow.Command.cs" />
     <Compile Include="Media\Image.cs" />
     <Compile Include="Media\IMedia.cs" />
     <Compile Include="Media\MediaManager.cs" />
