@@ -57,6 +57,23 @@ namespace Delight.Common
             return MediaTypes.Unknown;
         }
 
+        public static bool GetProjectFile(out string fileLocation)
+        {
+            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            ofd.Filter = "Delight 프로젝트 파일 (*.delight)|*.delight;";
+
+            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            {
+                fileLocation = ofd.FileName;
+                return true;
+            }
+            else
+            {
+                fileLocation = string.Empty;
+                return false;
+            }
+        }
+
         public static bool GetMediaFile(out string fileLocation)
         {
             wf.OpenFileDialog ofd = new wf.OpenFileDialog();

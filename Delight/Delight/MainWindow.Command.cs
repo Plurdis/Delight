@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Delight
@@ -32,7 +33,10 @@ namespace Delight
 
         public void OpenProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            // 프로젝트 열기
+            if (MediaTools.GetProjectFile(out string location))
+            {
+                MessageBox.Show(location);
+            }
         }
 
         public void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
