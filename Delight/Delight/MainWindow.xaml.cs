@@ -27,7 +27,7 @@ using Delight.Projects;
 using Delight.Windows;
 
 using NReco.VideoConverter;
-using LocalCommandManager = Delight.Common.CommandManager;
+using LocalCommandManager = Delight.Common.InputGestureManager;
 
 
 namespace Delight
@@ -62,8 +62,6 @@ namespace Delight
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, (s, e) => MessageBox.Show("[프로젝트 열기]는 완성되지 않은 기능입니다.")));
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, (s, e) => MessageBox.Show("[다른 이름으로 저장]은 완성되지 않은 기능입니다.")));
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, (s, e) => MessageBox.Show("[저장]은 완성되지 않은 기능입니다.")));
-            
-            MenuCommands.ExitCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
 
             SetProject(new ProjectInfo()
             {
