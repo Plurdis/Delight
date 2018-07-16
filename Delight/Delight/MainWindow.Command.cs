@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Delight
 {
@@ -22,7 +23,25 @@ namespace Delight
         {
             if (MediaTools.GetMediaFile(out string location))
             {
-                lbItem.Items.Add(new TemplateItem() { Content = new FileInfo(location).Name, Description = "File" });
+                switch (MediaTools.GetMediaTypeFromFile(location))
+                {
+                    case Media.MediaTypes.Unknown:
+                        break;
+                    case Media.MediaTypes.Image:
+                        lbItem.Items.Add(new TemplateItem()
+                        {
+                            Content = new FileInfo(location).Name,
+                            Description = "File",
+                            Source = new BitmapImage(new Uri(location))
+                        });
+                        break;
+                    case Media.MediaTypes.Sound:
+                        break;
+                    case Media.MediaTypes.Video:
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

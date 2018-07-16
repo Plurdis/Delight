@@ -122,7 +122,12 @@
                                 </Button>
                             </WrapPanel>
                             <Grid Grid.Row="1">
-                                <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0">
+                                <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
                                     <!--<ListBox.GroupStyle>
                                         <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
                                     </ListBox.GroupStyle>-->
@@ -183,7 +188,7 @@
                         </Grid>
 
                         <Grid Grid.Row="1">
-                            <Image Source="Resources/Test3DPreview.png"/>
+                            <Image x:Name="test" Source="Resources/Test3DPreview.png"/>
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                 <TextBlock Foreground="White" Text="Stage 3D Live Preview" Margin="5"/>
                             </Border>
