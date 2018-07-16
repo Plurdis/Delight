@@ -45,7 +45,9 @@
             </MenuItem>
             <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
                 <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="무대 화면 관리 (S)" InputGestureText="Ctrl+Shift+T"/>
                 <MenuItem Header="주변 기기 관리 (M)"/>
+                <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
             </MenuItem>
         </Menu>
