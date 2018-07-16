@@ -21,10 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Delight.Common;
-using Delight.Controls;
-using Delight.Core.Common;
 using Delight.Projects;
-using Delight.Windows;
 
 using NReco.VideoConverter;
 using LocalCommandManager = Delight.Common.InputGestureManager;
@@ -45,6 +42,8 @@ namespace Delight
 
             this.Closing += (s, e) => Environment.Exit(0);
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
+            rbBox.Checked += RbBox_Checked;
+            rbList.Checked += RbList_Checked;
 
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
@@ -63,26 +62,6 @@ namespace Delight
             });
 
             mediaPlayer.Open(new Uri(@"D:\Program Files\League Of Legends\Riot Games\League of Legends\RADS\projects\lol_air_client\releases\0.0.1.13\deploy\mod\lgn\themes\loginCamille\flv\login-loop.flv", UriKind.Absolute));
-            //Thread thr = new Thread(() =>
-            //{
-            //    while (true)
-            //    {
-            //        Dispatcher.Invoke(() =>
-            //        {
-            //            this.Title = mediaPlayer.HasVideo.ToString();
-            //        });
-            //        Thread.Sleep(10);
-            //    }
-            //});
-
-            //thr.Start();
-
-            //this.Closing += (s, e) => thr.Abort();
-
-
-
-
-
 
             //var converter = new FFMpegConverter();
 
@@ -100,65 +79,22 @@ namespace Delight
 
             //converter.ConvertProgress += Converter_ConvertProgress;
 
-            //var groups = new[]
-            //{
-            //    new Group { Name = ""기본 데이터" },
-            //    new Group { Name = "Group2" },
-            //};
+        }
 
-            //var collectionView = new ListCollectionView(new[]
-            //{
-            //    new Item { Group = groups[0], Name = "Item1" },
-            //    new Item { Group = groups[0], Name = "Item2" },
-            //    new Item { Group = groups[1], Name = "Item3" },
-            //    new Item { Group = groups[1], Name = "Item4" },
-            //    new Item { Group = groups[1], Name = "Item5" },
-            //    new Item { Group = groups[0], Name = "Item6" },
+        private void RbList_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
 
-            //});
-
-            //var groupDescription = new PropertyGroupDescription("Group.Name");
-
-            //// this foreach must at least add clusters that can't be
-            //// derived from items - i.e. groups with no items in them
-            //foreach (var cluster in groups)
-            //    groupDescription.GroupNames.Add(cluster.Name);
-
-            //collectionView.GroupDescriptions.Add(groupDescription);
-            //.ItemsSource = collectionView;
-            //Clusters = groupDescription.GroupNames;
-
+        private void RbBox_Checked(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void lbItem_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             noItemInfo.Visibility = (lbItem.Items.Count == 0) ? Visibility.Visible : Visibility.Hidden;
         }
-
-        private void Converter_ConvertProgress(object sender, ConvertProgressEventArgs e)
-        {
-            MessageBox.Show("!");
-        }
-
-        //readonly ObservableCollection<object> Clusters;
-
-        class Group
-        {
-            public string Name { get; set; }
-        }
-
-        class Item
-        {
-            public Group Group { get; set; }
-            public string Name { get; set; }
-
-            public override string ToString()
-            {
-                return Group.Name + " :: " + Name;
-            }
-        }
-
-
 
         #region [  Global Variable  ]
 
@@ -186,34 +122,6 @@ namespace Delight
                 }
             }
             
-        }
-
-        #region [  File I/O Task  ]
-
-        public void OpenProject()
-        {
-
-        }
-
-        public void SaveAs()
-        {
-
-        }
-
-        public void Save()
-        {
-
-        }
-        
-        #endregion
-
-        public void AddCommandBinding(KeyGesture gesture, ExecutedRoutedEventHandler eventHandler)
-        {
-            RoutedCommand comm = new RoutedCommand();
-
-            comm.InputGestures.Add(gesture);
-
-            this.CommandBindings.Add(new CommandBinding(comm, eventHandler));
         }
 
         private void Menu_MouseMove(object sender, MouseEventArgs e)
