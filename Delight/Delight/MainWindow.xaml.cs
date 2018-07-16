@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -41,6 +42,8 @@ namespace Delight
             //MouseManager.Init();
 
             this.Closing += (s, e) => Environment.Exit(0);
+            ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
+
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
 #endif
@@ -166,6 +169,11 @@ namespace Delight
             //.ItemsSource = collectionView;
             //Clusters = groupDescription.GroupNames;
 
+        }
+
+        private void lbItem_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            noItemInfo.Visibility = (lbItem.Items.Count == 0) ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void Converter_ConvertProgress(object sender, ConvertProgressEventArgs e)

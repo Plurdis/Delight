@@ -98,12 +98,22 @@
                                 <Button Content="B" Height="30" Width="30"/>
                                 <Button Content="C" Height="30" Width="30"/>
                             </WrapPanel>
-                            <ListBox Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <ListBox.GroupStyle>
-                                    <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
-                                </ListBox.GroupStyle>
-                                <!--<Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>-->
-                            </ListBox>
+                            <Grid Grid.Row="1">
+                                <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0">
+                                    <ListBox.GroupStyle>
+                                        <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
+                                    </ListBox.GroupStyle>
+                                    <!--<Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>-->
+                                </ListBox>
+                                <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="Resources/box.png" Width="50"/>
+                                    <TextBlock Margin="0,10,0,0" Grid.Row="1" Text="아이템이 없습니다." TextAlignment="Center"/>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         
                     </Grid>
