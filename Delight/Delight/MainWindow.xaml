@@ -100,12 +100,13 @@
                             </WrapPanel>
                             <Grid Grid.Row="1">
                                 <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0">
-                                    <ListBox.GroupStyle>
+                                    <!--<ListBox.GroupStyle>
                                         <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
-                                    </ListBox.GroupStyle>
-                                    <!--<Controls:TemplateItem Content="국악 스타일" Description="20개의 효과"/>-->
+                                    </ListBox.GroupStyle>-->
+                                    <Controls:TemplateItem Content="상단의 별" Description="별 헤는 밤"/>
+                                    <Controls:TemplateItem Content="별" Description="별 헤는 밤"/>
                                 </ListBox>
-                                <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
