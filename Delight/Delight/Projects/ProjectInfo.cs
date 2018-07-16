@@ -29,7 +29,7 @@ namespace Delight.Projects
             return new ProjectInfo();
         }
 
-        public string _projectName;
+        private string _projectName;
         public string ProjectName
         {
             get => _projectName;

@@ -9,5 +9,7 @@ namespace Delight.Media
     public interface IMedia
     {
         string Identity { get; set; }
+
+        string FileLocation { get; set; }
     }
 }

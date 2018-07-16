@@ -9,5 +9,10 @@ namespace Delight.Media
     public class Sound : IMedia
     {
         public string Identity { get; set; }
+        
+        public TimeSpan Duration { get; set; }
+
+        public string FileLocation { get; set; }
+
     }
 }
