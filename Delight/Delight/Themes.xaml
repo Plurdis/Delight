@@ -75,7 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctrls:TemplateItem}">
-                    <Grid>
+                    <Grid x:Name="bgGrid" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
@@ -90,6 +90,11 @@
                             <TextBlock Text="{TemplateBinding Description}" FontSize="12" Grid.Row="1"/>
                         </Grid>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bgGrid" Property="Background" Value="Blue"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -102,8 +107,8 @@
                     <Expander IsExpanded="True">
                         <Expander.Header>
                             <TextBlock TextWrapping="Wrap" Margin="0,10,0,5" >
-											                <Bold><TextBlock Text="{Binding Name}"/></Bold> (<TextBlock Text="{Binding ItemCount}"/> servers)
-										                </TextBlock>
+							    <Bold><TextBlock Text="{Binding Name}"/></Bold> (<TextBlock Text="{Binding ItemCount}"/> servers)
+                            </TextBlock>
                         </Expander.Header>
                         <ItemsPresenter/>
                     </Expander>
