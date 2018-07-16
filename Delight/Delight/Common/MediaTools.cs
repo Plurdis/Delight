@@ -32,24 +32,106 @@ namespace Delight.Common
         public static MediaTypes GetMediaTypeFromFile(string fileName)
         {
             string extension = new FileInfo(fileName).Extension;
+
+            if (extension.StartsWith(".jpe"))
+                return MediaTypes.Image;
+
             switch (extension)
             {
+                case ".gif":
                 case ".jpg":
-                case ".bmp":
                 case ".png":
-                case "jpeg":
-                case "gif":
+                case ".bmp":
+                case ".dib":
+                case ".tif":
+                case ".wmf":
+                case ".ras":
+                case ".eps":
+                case ".pcx":
+                case ".pcd":
+                case ".tga":
                     return MediaTypes.Image;
                 case ".wav":
+                case ".wma":
+                case ".mpa":
+                case ".mp2":
+                case ".m1a":
+                case ".m2a":
                 case ".mp3":
-                case ".flac":
                 case ".m4a":
+                case ".aac":
+                case ".mka":
+                case ".ra":
+                case ".flac":
+                case ".ape":
+                case ".mpc":
+                case ".mod":
+                case ".ac3":
+                case ".eac3":
+                case ".dts":
+                case ".dtshd":
+                case ".wv":
+                case ".tak":
+                case ".cda":
+                case ".dsf":
+                case ".tta":
+                case ".aiff":
+                case ".opus":
                     return MediaTypes.Sound;
                 case ".avi":
-                case "mpeg":
-                case "mp4":
+                case ".wmv":
+                case ".vmp":
+                case ".vm":
+                case ".asf":
+                case ".mpg":
+                case ".mpeg":
+                case ".mpe":
+                case ".m1v":
+                case ".m2v":
+                case ".mpv2":
+                case ".mp2v":
+                case ".ts":
+                case ".tp":
+                case ".tpr":
+                case ".trp":
+                case ".vob":
+                case ".ifo":
+                case ".ogm":
+                case ".ogv":
+                case ".mp4":
+                case ".m4v":
+                case ".m4p":
+                case ".m4b":
+                case ".3gp":
+                case ".3gpp":
+                case ".3g2":
+                case ".3gp2":
+                case ".mkv":
+                case ".rm":
+                case ".ram":
+                case ".rmvb":
+                case ".rpm":
+                case ".flv":
+                case ".swf":
                 case ".mov":
                 case ".qt":
+                case ".amr":
+                case ".nsv":
+                case ".dpg":
+                case ".m2ts":
+                case ".m2t":
+                case ".mts":
+                case ".dvr-ms":
+                case ".k3g":
+                case ".skm":
+                case ".evo":
+                case ".nsr":
+                case ".amv":
+                case ".divx":
+                case ".webm":
+                case ".wtv":
+                case ".f4v":
+                case ".mxf":
                     return MediaTypes.Video;
                 default:
                     break;
