@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Delight.Common;
+using Delight.Core.Extension;
 using Delight.Projects;
 
 using NReco.VideoConverter;
@@ -38,7 +40,7 @@ namespace Delight
         {
             LocalCommandManager.Init();
             InitializeComponent();
-            //MouseManager.Init();
+            MouseManager.Init();
 
             this.Closing += (s, e) => Environment.Exit(0);
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
@@ -62,6 +64,31 @@ namespace Delight
             });
 
             mediaPlayer.Open(new Uri(@"D:\Program Files\League Of Legends\Riot Games\League of Legends\RADS\projects\lol_air_client\releases\0.0.1.13\deploy\mod\lgn\themes\loginCamille\flv\login-loop.flv", UriKind.Absolute));
+
+            tl.Value = 4000;
+
+            int frameRate = (int)tl.FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            MessageBox.Show(frameRate.ToString());
+
+            Thread thr = new Thread(() =>
+            {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                while (true)
+                {
+                    DateTime t = DateTime.Now;
+                    Dispatcher.Invoke(() => 
+                    {
+                        this.Title = (sw.ElapsedMilliseconds / (1000 / 24)).ToString();
+                        
+                        tl.Value = (int)(sw.ElapsedMilliseconds / (1000 / 24));
+                    });
+                    
+                    Thread.Sleep(10);
+                }
+            });
+
+            thr.Start();
 
             //var converter = new FFMpegConverter();
 

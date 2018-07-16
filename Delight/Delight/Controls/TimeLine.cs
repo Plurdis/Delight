@@ -210,6 +210,7 @@ namespace Delight.Controls
 
         private void SetItemsValue()
         {
+            this.ApplyTemplate();
             IEnumerable<Rectangle> rects = tracks.Select(i => i.Children
                                         .Cast<UIElement>()
                                         .Where(j => j.GetType() == typeof(Rectangle))

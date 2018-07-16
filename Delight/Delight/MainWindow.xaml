@@ -155,7 +155,7 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
             <Grid Grid.Column="2">
                 <Grid>
-                    <Controls:TimeLine/>
+                    <Controls:TimeLine x:Name="tl"/>
                 </Grid>
             </Grid>
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
