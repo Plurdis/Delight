@@ -90,24 +90,43 @@
                         </ListBox>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <WrapPanel HorizontalAlignment="Right">
-                                <Button Content="A" Height="30" Width="30"/>
-                                <Button Content="B" Height="30" Width="30"/>
-                                <Button Content="C" Height="30" Width="30"/>
+                                <WrapPanel.Resources>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Grid>
+                                                        <Border Background="Transparent"/>
+                                                        <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </WrapPanel.Resources>
+                                <Button Height="20" Width="20">
+                                    <Button.Content>
+                                        <Image Margin="3" Source="Resources/list_menu.png"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Height="20" Width="20">
+                                    <Button.Content>
+                                        <Image Margin="3" Source="Resources/box_menu.png"/>
+                                    </Button.Content>
+                                </Button>
                             </WrapPanel>
                             <Grid Grid.Row="1">
                                 <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0">
                                     <!--<ListBox.GroupStyle>
                                         <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
                                     </ListBox.GroupStyle>-->
-                                    <Controls:TemplateItem Content="상단의 별" Description="별 헤는 밤"/>
-                                    <Controls:TemplateItem Content="별" Description="별 헤는 밤"/>
                                 </ListBox>
                                 <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
-                                    <Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>   
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
