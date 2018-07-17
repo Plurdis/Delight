@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FFMeLicense" xml:space="preserve">
+    <value>This library is licensed under the license Ms-PL and LGPL from FFMpeg.</value>
+  </data>
+  <data name="FFMeName" xml:space="preserve">
+    <value>FFMediaElement Library</value>
+  </data>
   <data name="FFMpegLicense" xml:space="preserve">
     <value>This library is licensed under the license LGPL.</value>
   </data>

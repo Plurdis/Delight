@@ -25,7 +25,7 @@ using Delight.Common;
 using Delight.Core.Extension;
 using Delight.Media;
 using Delight.Projects;
-
+using Delight.Windows;
 using NReco.VideoConverter;
 using LocalCommandManager = Delight.Common.InputGestureManager;
 
@@ -42,6 +42,9 @@ namespace Delight
             LocalCommandManager.Init();
             InitializeComponent();
             MouseManager.Init();
+
+            InfoWindow window = new InfoWindow();
+            window.ShowDialog();
 
             this.Closing += (s, e) => Environment.Exit(0);
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;

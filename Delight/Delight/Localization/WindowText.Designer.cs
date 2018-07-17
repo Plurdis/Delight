@@ -61,6 +61,24 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   This library is licensed under the license Ms-PL and LGPL from FFMpeg.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMeLicense {
+            get {
+                return ResourceManager.GetString("FFMeLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FFMediaElement Library과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string FFMeName {
+            get {
+                return ResourceManager.GetString("FFMeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This library is licensed under the license LGPL.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string FFMpegLicense {

@@ -25,11 +25,17 @@ namespace Delight.Windows
             InitializeComponent();
             btnNReco.Click += BtnCsCore_Click;
             btnFFmpeg.Click += BtnFFmpeg_Click;
+            btnFFME.Click += BtnFFME_Click;
+        }
+
+        private void BtnFFME_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/unosquare/ffmediaelement");
         }
 
         private void BtnFFmpeg_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://www.ffmpeg.org/");
+            Process.Start("https://github.com/FFmpeg/FFmpeg");
         }
 
         private void BtnCsCore_Click(object sender, RoutedEventArgs e)
