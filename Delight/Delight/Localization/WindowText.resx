@@ -118,40 +118,69 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CsCoreLicense" xml:space="preserve">
-    <value>이 라이브러리는 Ms-PL 라이센스에 의해서 사용이 허가 되었습니다.</value>
+    <value>This library is licensed under the license Ms-PL.</value>
   </data>
   <data name="CsCoreName" xml:space="preserve">
-    <value>CSCore 사운드 엔진</value>
+    <value>CSCore Sound Engine</value>
   </data>
   <data name="FFMpegInfo_1" xml:space="preserve">
-    <value>Delight에서는 FFmpeg의 수정된 버전인 CsCore.FFMpeg가 사용되었습니다.</value>
+    <value>Delight used a modified version of FFmpeg, CsCore.FFMpeg.</value>
   </data>
   <data name="FFMpegInfo_2" xml:space="preserve">
-    <value>수정된 코드는 </value>
+    <value>The modified code can be downloaded </value>
   </data>
   <data name="FFMpegInfo_3" xml:space="preserve">
-    <value>여기서</value>
+    <value>here</value>
   </data>
   <data name="FFMpegInfo_4" xml:space="preserve">
-    <value> 다운로드 할 수 있습니다.</value>
+    <value>.</value>
   </data>
   <data name="FFMpegLicense" xml:space="preserve">
-    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.</value>
+    <value>This library is licensed under the license LGPL.</value>
   </data>
   <data name="FFMpegName" xml:space="preserve">
-    <value>FFMpeg 라이브러리</value>
+    <value>FFMpeg Library</value>
   </data>
   <data name="Info1_content" xml:space="preserve">
-    <value>사용자에게 원하는 작업을 할 수 있도록 가능한 조작을 나열합니다.
-원하는 선택으로 처리를 할 수 있습니다.</value>
+    <value>Menu</value>
   </data>
   <data name="Info1_header" xml:space="preserve">
-    <value>메뉴</value>
+    <value>Menu</value>
   </data>
   <data name="InfoWindow_1" xml:space="preserve">
-    <value>사용된 라이브러리/라이센스</value>
+    <value>Used Library/License</value>
+  </data>
+  <data name="UI_Item1" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="UI_Item2" xml:space="preserve">
+    <value>Drag the elements and place them on the timeline.</value>
+  </data>
+  <data name="UI_Item_List1" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="UI_Item_List2" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="UI_Item_List3" xml:space="preserve">
+    <value>Picture</value>
+  </data>
+  <data name="UI_Item_List4" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="UI_Item_List5" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="UI_Item_List6" xml:space="preserve">
+    <value>Sound</value>
   </data>
   <data name="UI_preview1" xml:space="preserve">
-    <value>미리보기</value>
+    <value>Preview</value>
+  </data>
+  <data name="UI_preview2" xml:space="preserve">
+    <value>Visualizing Screen Preview</value>
+  </data>
+  <data name="UI_preview3" xml:space="preserve">
+    <value>Stage 3D Live Preview</value>
   </data>
 </root>

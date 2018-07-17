@@ -87,15 +87,15 @@
     <Compile Include="Controls\TemplateItem.cs" />
     <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
-    <Compile Include="Localization\InfoText.Designer.cs">
+    <Compile Include="Localization\WindowText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InfoText.resx</DependentUpon>
+      <DependentUpon>WindowText.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localization\InfoText.ko-KR.Designer.cs">
+    <Compile Include="Localization\WindowText.ko-KR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InfoText.ko-KR.resx</DependentUpon>
+      <DependentUpon>WindowText.ko-KR.resx</DependentUpon>
     </Compile>
     <Compile Include="Localization\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -168,13 +168,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Localization\InfoText.ko-KR.resx">
+    <EmbeddedResource Include="Localization\WindowText.ko-KR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InfoText.ko-KR.Designer.cs</LastGenOutput>
+      <LastGenOutput>WindowText.ko-KR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization\InfoText.resx">
+    <EmbeddedResource Include="Localization\WindowText.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InfoText.Designer.cs</LastGenOutput>
+      <LastGenOutput>WindowText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Messages.ko-KR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

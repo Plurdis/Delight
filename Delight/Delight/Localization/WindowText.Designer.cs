@@ -22,14 +22,14 @@ namespace Delight.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class InfoText {
+    public class WindowText {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal InfoText() {
+        internal WindowText() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Delight.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Delight.Localization.InfoText", typeof(InfoText).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Delight.Localization.WindowText", typeof(WindowText).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -160,11 +160,101 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   All과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List1 {
+            get {
+                return ResourceManager.GetString("UI_Item_List1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List2 {
+            get {
+                return ResourceManager.GetString("UI_Item_List2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Picture과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List3 {
+            get {
+                return ResourceManager.GetString("UI_Item_List3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Video과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List4 {
+            get {
+                return ResourceManager.GetString("UI_Item_List4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Light과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List5 {
+            get {
+                return ResourceManager.GetString("UI_Item_List5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sound과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item_List6 {
+            get {
+                return ResourceManager.GetString("UI_Item_List6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Items과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item1 {
+            get {
+                return ResourceManager.GetString("UI_Item1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag the elements and place them on the timeline.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_Item2 {
+            get {
+                return ResourceManager.GetString("UI_Item2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Preview과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string UI_preview1 {
             get {
                 return ResourceManager.GetString("UI_preview1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Visualizing Screen Preview과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_preview2 {
+            get {
+                return ResourceManager.GetString("UI_preview2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stage 3D Live Preview과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_preview3 {
+            get {
+                return ResourceManager.GetString("UI_preview3", resourceCulture);
             }
         }
     }

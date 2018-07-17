@@ -141,6 +141,12 @@
   <data name="MiHelpView" xml:space="preserve">
     <value>View Help(_V)</value>
   </data>
+  <data name="MiManageDevice" xml:space="preserve">
+    <value>Peripheral Device Manage(_M)</value>
+  </data>
+  <data name="MiManageStage" xml:space="preserve">
+    <value>Stage Screen Manage(_S)</value>
+  </data>
   <data name="MiManageTemplate" xml:space="preserve">
     <value>Template Management(_T)</value>
   </data>

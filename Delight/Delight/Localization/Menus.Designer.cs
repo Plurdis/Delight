@@ -133,6 +133,24 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   Peripheral Device Manage(_M)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiManageDevice {
+            get {
+                return ResourceManager.GetString("MiManageDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stage Screen Manage(_S)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiManageStage {
+            get {
+                return ResourceManager.GetString("MiManageStage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Template Management(_T)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiManageTemplate {

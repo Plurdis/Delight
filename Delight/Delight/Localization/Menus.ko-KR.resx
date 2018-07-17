@@ -141,6 +141,12 @@
   <data name="MiHelpView" xml:space="preserve">
     <value>도움말 보기(_V)</value>
   </data>
+  <data name="MiManageDevice" xml:space="preserve">
+    <value>주변 기기 관리(_M)</value>
+  </data>
+  <data name="MiManageStage" xml:space="preserve">
+    <value>무대 화면 관리(_S)</value>
+  </data>
   <data name="MiManageTemplate" xml:space="preserve">
     <value>템플릿 관리(_T)</value>
   </data>

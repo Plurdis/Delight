@@ -45,8 +45,8 @@
             </MenuItem>
             <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
                 <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
-                <MenuItem Header="무대 화면 관리 (S)" InputGestureText="Ctrl+Shift+T"/>
-                <MenuItem Header="주변 기기 관리 (M)"/>
+                <MenuItem Header="{x:Static l:Menus.MiManageDevice}" InputGestureText="Ctrl+Shift+T"/>
+                <MenuItem Header="{x:Static l:Menus.MiManageStage}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
             </MenuItem>
@@ -73,8 +73,8 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock TextWrapping="Wrap" Margin="5">
-                        <Run Text="아이템" FontSize="15"/><LineBreak/>
-                        <Run Text="원하는 요소들을 끌어다가 타임라인에 배치하세요"/>
+                        <Run Text="{x:Static l:WindowText.UI_Item1}" FontSize="15"/><LineBreak/>
+                        <Run Text="{x:Static l:WindowText.UI_Item2}"/>
                     </TextBlock>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -82,13 +82,13 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <ListBoxItem Content="전체"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List1}"/>
                             <Separator IsHitTestVisible="False"/>
-                            <ListBoxItem Content="파일"/>
-                            <ListBoxItem Content="사진"/>
-                            <ListBoxItem Content="영상"/>
-                            <ListBoxItem Content="조명"/>
-                            <ListBoxItem Content="소리"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List2}"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List3}"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List4}"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List5}"/>
+                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List6}"/>
                         </ListBox>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
@@ -178,7 +178,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Static l:InfoText.UI_preview1}"/>
+                    <TextBlock Text="{x:Static l:WindowText.UI_preview1}"/>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -188,14 +188,14 @@
                             <ffme:MediaElement x:Name="mediaPlayer" LoadedBehavior="Play"/>
                             <!--<Image Source="Resources/TestPreview.png"/>-->
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                <TextBlock Foreground="White" Text="Visualiztion Screen Preview" Margin="5"/>
+                                <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview2}" Margin="5"/>
                             </Border>
                         </Grid>
 
                         <Grid Grid.Row="1">
                             <Image x:Name="test" Source="Resources/Test3DPreview.png"/>
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                <TextBlock Foreground="White" Text="Stage 3D Live Preview" Margin="5"/>
+                                <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview3}" Margin="5"/>
                             </Border>
                         </Grid>
                     </Grid>
