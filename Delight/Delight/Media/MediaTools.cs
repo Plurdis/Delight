@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,8 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Delight.Core.Common;
+using Delight.Core.Extension;
 using Delight.Exceptions;
 using Delight.Media;
 
@@ -59,6 +62,20 @@ namespace Delight.Media
 
                 return ImageSourceForBitmap((Bitmap)image);
             }
+        }
+
+        public static string GetTimeText(int value, FrameRate frameRate)
+        {
+            int frameRateInt = (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            int frame = value % frameRateInt;
+            int second = value / frameRateInt;
+            int minute = second / 60;
+            int hour = minute / 60;
+
+            second -= minute * 60;
+            minute -= hour * 60;
+
+            return $"{hour.ToString("00")}:{minute.ToString("00")}:{second.ToString("00")}.{frame}";
         }
 
         public static MediaTypes GetMediaTypeFromFile(string fileName)

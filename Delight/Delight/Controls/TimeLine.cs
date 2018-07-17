@@ -1,8 +1,4 @@
-﻿using Delight.Common;
-using Delight.Core.Common;
-using Delight.Core.Extension;
-using Delight.Tracks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -16,6 +12,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
+using Delight.Common;
+using Delight.Core.Common;
+using Delight.Core.Extension;
+using Delight.Media;
+using Delight.Tracks;
 
 namespace Delight.Controls
 {
@@ -273,7 +275,7 @@ namespace Delight.Controls
                         if (left < 0)
                             left = 0;
 
-                        Application.Current.MainWindow.Title = GetTimeText((int)(left / _realSize));
+                        Application.Current.MainWindow.Title = MediaTools.GetTimeText((int)(left / _realSize), FrameRate);
 
                         Value = (int)(left / _realSize);
                     });
@@ -365,7 +367,7 @@ namespace Delight.Controls
                 {
                     height = 28;
                     pen.Brush = Brushes.Black;
-                    dc.DrawText(new FormattedText(GetTimeText((i + value) * Weight), CultureInfo.GetCultureInfo("en-us"),
+                    dc.DrawText(new FormattedText(MediaTools.GetTimeText((i + value) * Weight, FrameRate), CultureInfo.GetCultureInfo("en-us"),
                         FlowDirection.LeftToRight,
                         new Typeface("Arial"),
                         10, Brushes.Black),
@@ -382,19 +384,6 @@ namespace Delight.Controls
                 dc.DrawLine(pen, new Point(i * _displaySize + sizeOffset, 35 - height), new Point(i * _displaySize + sizeOffset, 35));
                 dc.Pop();
             }
-        }
-        public string GetTimeText(int value)
-        {
-            int frameRate = (int)FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
-            int frame = value % frameRate;
-            int second = value / frameRate;
-            int minute = second / 60;
-            int hour = minute / 60;
-
-            second -= minute * 60;
-            minute -= hour * 60;
-
-            return $"{hour.ToString("00")}:{minute.ToString("00")}:{second.ToString("00")}.{frame}";
         }
     }
 }
