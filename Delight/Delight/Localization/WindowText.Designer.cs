@@ -61,60 +61,6 @@ namespace Delight.Localization {
         }
         
         /// <summary>
-        ///   This library is licensed under the license Ms-PL.과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string CsCoreLicense {
-            get {
-                return ResourceManager.GetString("CsCoreLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   CSCore Sound Engine과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string CsCoreName {
-            get {
-                return ResourceManager.GetString("CsCoreName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delight used a modified version of FFmpeg, CsCore.FFMpeg.과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string FFMpegInfo_1 {
-            get {
-                return ResourceManager.GetString("FFMpegInfo_1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The modified code can be downloaded 과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string FFMpegInfo_2 {
-            get {
-                return ResourceManager.GetString("FFMpegInfo_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   here과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string FFMpegInfo_3 {
-            get {
-                return ResourceManager.GetString("FFMpegInfo_3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   .과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string FFMpegInfo_4 {
-            get {
-                return ResourceManager.GetString("FFMpegInfo_4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   This library is licensed under the license LGPL.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string FFMpegLicense {
@@ -156,6 +102,24 @@ namespace Delight.Localization {
         public static string InfoWindow_1 {
             get {
                 return ResourceManager.GetString("InfoWindow_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This library is licensed under the license LGPL.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string NRecoLicense {
+            get {
+                return ResourceManager.GetString("NRecoLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NReco Library과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string NRecoName {
+            get {
+                return ResourceManager.GetString("NRecoName", resourceCulture);
             }
         }
         

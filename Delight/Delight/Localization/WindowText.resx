@@ -117,24 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CsCoreLicense" xml:space="preserve">
-    <value>This library is licensed under the license Ms-PL.</value>
-  </data>
-  <data name="CsCoreName" xml:space="preserve">
-    <value>CSCore Sound Engine</value>
-  </data>
-  <data name="FFMpegInfo_1" xml:space="preserve">
-    <value>Delight used a modified version of FFmpeg, CsCore.FFMpeg.</value>
-  </data>
-  <data name="FFMpegInfo_2" xml:space="preserve">
-    <value>The modified code can be downloaded </value>
-  </data>
-  <data name="FFMpegInfo_3" xml:space="preserve">
-    <value>here</value>
-  </data>
-  <data name="FFMpegInfo_4" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="FFMpegLicense" xml:space="preserve">
     <value>This library is licensed under the license LGPL.</value>
   </data>
@@ -149,6 +131,12 @@
   </data>
   <data name="InfoWindow_1" xml:space="preserve">
     <value>Used Library/License</value>
+  </data>
+  <data name="NRecoLicense" xml:space="preserve">
+    <value>This library is licensed under the license LGPL.</value>
+  </data>
+  <data name="NRecoName" xml:space="preserve">
+    <value>NReco Library</value>
   </data>
   <data name="UI_Item1" xml:space="preserve">
     <value>Items</value>

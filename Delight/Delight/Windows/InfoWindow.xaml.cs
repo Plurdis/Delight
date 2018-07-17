@@ -23,7 +23,7 @@ namespace Delight.Windows
         public InfoWindow()
         {
             InitializeComponent();
-            btnCsCore.Click += BtnCsCore_Click;
+            btnNReco.Click += BtnCsCore_Click;
             btnFFmpeg.Click += BtnFFmpeg_Click;
         }
 
@@ -34,7 +34,7 @@ namespace Delight.Windows
 
         private void BtnCsCore_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/filoe/cscore");
+            Process.Start("https://github.com/nreco/nreco");
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
