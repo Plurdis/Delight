@@ -1,13 +1,18 @@
 ﻿using Delight.Common;
 using Delight.Controls;
+using NReco.VideoConverter;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Delight
@@ -23,27 +28,40 @@ namespace Delight
         {
             if (MediaTools.GetMediaFile(out string location))
             {
-                switch (MediaTools.GetMediaTypeFromFile(location))
-                {
-                    case Media.MediaTypes.Unknown:
-                        break;
-                    case Media.MediaTypes.Image:
-                        lbItem.Items.Add(new TemplateItem()
-                        {
-                            Content = new FileInfo(location).Name,
-                            Description = "File",
-                            Source = new BitmapImage(new Uri(location))
-                        });
-                        break;
-                    case Media.MediaTypes.Sound:
-                        break;
-                    case Media.MediaTypes.Video:
-                        break;
-                    default:
-                        break;
-                }
+                AddItem(location);
             }
         }
+
+        public void AddItem(string location)
+        {
+            switch (MediaTools.GetMediaTypeFromFile(location))
+            {
+                case Media.MediaTypes.Unknown:
+                    break;
+                case Media.MediaTypes.Image:
+                    lbItem.Items.Add(new TemplateItem()
+                    {
+                        Content = new FileInfo(location).Name,
+                        Description = "File",
+                        Source = new BitmapImage(new Uri(location))
+                    });
+                    break;
+                case Media.MediaTypes.Sound:
+                    break;
+                case Media.MediaTypes.Video:
+                    Stream stream = new MemoryStream();
+                    (new FFMpegConverter()).GetVideoThumbnail(location, stream);
+                    lbItem.Items.Add(new TemplateItem()
+                    {
+                        Content = new FileInfo(location).Name,
+                        Source = MediaTools.GetImageFromStream(stream)
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         public void NewProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {

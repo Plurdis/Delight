@@ -81,7 +81,7 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2" Margin="3,0,247,0">
+                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
                             <ListBoxItem Content="전체"/>
                             <Separator IsHitTestVisible="False"/>
                             <ListBoxItem Content="파일"/>
