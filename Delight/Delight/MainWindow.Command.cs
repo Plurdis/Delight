@@ -1,7 +1,4 @@
-﻿using Delight.Common;
-using Delight.Controls;
-using NReco.VideoConverter;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -14,6 +11,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
+using Delight.Media;
+using Delight.Controls;
+
+using NReco.VideoConverter;
 
 namespace Delight
 {

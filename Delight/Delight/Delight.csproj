@@ -81,7 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\InputGestureManager.cs" />
-    <Compile Include="Common\MediaTools.cs" />
+    <Compile Include="Media\MediaTools.cs" />
     <Compile Include="Common\MenuCommands.cs" />
     <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TemplateItem.cs" />

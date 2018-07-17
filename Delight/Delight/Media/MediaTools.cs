@@ -17,7 +17,7 @@ using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
 
-namespace Delight.Common
+namespace Delight.Media
 {
     public static class MediaTools
     {
