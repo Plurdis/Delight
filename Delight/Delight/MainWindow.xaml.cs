@@ -23,6 +23,7 @@ using System.Windows.Shapes;
 
 using Delight.Common;
 using Delight.Core.Extension;
+using Delight.Media;
 using Delight.Projects;
 
 using NReco.VideoConverter;
@@ -65,30 +66,21 @@ namespace Delight
 
             mediaPlayer.Open(new Uri(@"D:\Program Files\League Of Legends\Riot Games\League of Legends\RADS\projects\lol_air_client\releases\0.0.1.13\deploy\mod\lgn\themes\loginCamille\flv\login-loop.flv", UriKind.Absolute));
 
-            tl.Value = 4000;
+            var timer = new TimeLineTimer(tl.FrameRate);
 
-            int frameRate = (int)tl.FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
-            MessageBox.Show(frameRate.ToString());
+            int i = 0;
 
-            Thread thr = new Thread(() =>
+            timer.Tick += () => 
             {
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
-                while (true)
+                Dispatcher.Invoke(() =>
                 {
-                    DateTime t = DateTime.Now;
-                    Dispatcher.Invoke(() => 
-                    {
-                        this.Title = (sw.ElapsedMilliseconds / (1000 / 24)).ToString();
-                        
-                        tl.Value = (int)(sw.ElapsedMilliseconds / (1000 / 24));
-                    });
-                    
-                    Thread.Sleep(10);
-                }
-            });
+                    tl.Value = i++;
+                });
+                
+            };
 
-            thr.Start();
+            timer.Start();
+
 
             //var converter = new FFMpegConverter();
 
