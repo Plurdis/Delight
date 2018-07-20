@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Delight"
-        xmlns:Controls="clr-namespace:Delight.Controls" x:Class="Delight.MainWindow"
+        xmlns:Controls="clr-namespace:Delight.Controls"
         xmlns:l="clr-namespace:Delight.Localization"
         xmlns:cm="clr-namespace:Delight.Common"
         xmlns:ffme="clr-namespace:Unosquare.FFME;assembly=ffme.win"
+        xmlns:Tracks="clr-namespace:Delight.Tracks" x:Class="Delight.MainWindow"
         mc:Ignorable="d" WindowState="Maximized"
         Title="Delight" Height="800" Width="1400">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -72,10 +73,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock TextWrapping="Wrap" Margin="5">
-                        <Run Text="{x:Static l:WindowText.UI_Item1}" FontSize="15"/><LineBreak/>
-                        <Run Text="{x:Static l:WindowText.UI_Item2}"/>
-                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Margin="5"><Run Text="{x:Static l:WindowText.UI_Item1}" FontSize="15"/><LineBreak/><Run Text="{x:Static l:WindowText.UI_Item2}"/></TextBlock>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
@@ -116,21 +114,17 @@
                                     </Style>
                                 </WrapPanel.Resources>
                                 <RadioButton x:Name="rbList" Height="20" Width="20" IsChecked="True">
-                                    <RadioButton.Content>
-                                        <Image Margin="3" Source="Resources/list_menu.png"/>
-                                    </RadioButton.Content>
+                                    <Image Margin="3" Source="Resources/list_menu.png"/>
                                 </RadioButton>
                                 <RadioButton x:Name="rbBox" Height="20" Width="20">
-                                    <RadioButton.Content>
-                                        <Image Margin="3" Source="Resources/box_menu.png"/>
-                                    </RadioButton.Content>
+                                    <Image Margin="3" Source="Resources/box_menu.png"/>
                                 </RadioButton>
                             </WrapPanel>
                             <Grid Grid.Row="1">
                                 <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                     <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                        <Style TargetType="{x:Type ListBoxItem}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                         </Style>
                                     </ListBox.ItemContainerStyle>
                                     <!--<ListBox.GroupStyle>
@@ -138,7 +132,7 @@
                                     </ListBox.GroupStyle>-->
                                 </ListBox>
                                 <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
-                                    <Grid.RowDefinitions>   
+                                    <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
@@ -147,7 +141,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        
+
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
@@ -172,7 +166,7 @@
                 </Grid>
 
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                
+
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

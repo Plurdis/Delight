@@ -82,6 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\TimeLineTimer.cs" />
+    <Compile Include="Converter\RangeConverter.cs" />
     <Compile Include="Media\MediaTools.cs" />
     <Compile Include="Common\MenuCommands.cs" />
     <Compile Include="Common\MouseManager.cs" />

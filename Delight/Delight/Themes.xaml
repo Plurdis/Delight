@@ -2,7 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ctrls="clr-namespace:Delight.Controls"
                     xmlns:cvter="clr-namespace:Delight.Converter"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:tr="clr-namespace:Delight.Tracks">
+
+    <cvter:RangeConverter x:Key="RangeConverter"/>
+    <cvter:MinusConverter x:Key="MinusConverter"/>
+
     <Style x:Key="CircleBarStyle" TargetType="{x:Type ctrls:CircleBar}">
         <Setter Property="Background" Value="Gray"/>
         <Setter Property="Foreground" Value="Black"/>
@@ -23,8 +28,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <cvter:MinusConverter x:Key="MinusConverter"/>
     
     <Style x:Key="TimeLineStyle" TargetType="{x:Type ctrls:TimeLine}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -104,7 +107,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TemplateItemGroupStyle"  TargetType="GroupItem">
+    <Style x:Key="TemplateItemGroupStyle" TargetType="GroupItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupItem">
@@ -119,5 +122,41 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="TrackItemStyle" TargetType="{x:Type tr:TrackItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Background="Green">
+                        
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Converter={StaticResource ResourceKey=RangeConverter}, ConverterParameter=0-20}" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid Background="Red">
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Converter={StaticResource ResourceKey=RangeConverter}, ConverterParameter=21-40}" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid Background="Yellow">
+
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

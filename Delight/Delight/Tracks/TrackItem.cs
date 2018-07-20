@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 using Delight.Controls;
@@ -15,6 +16,9 @@ namespace Delight.Tracks
     /// <remarks>Represents a control that move in <see cref="TimeLine"/> Tracks.</remarks>
     public class TrackItem : Control
     {
-        
+        public TrackItem()
+        {
+            this.Style = FindResource("TrackItemStyle") as Style;
+        }   
     }
 }
