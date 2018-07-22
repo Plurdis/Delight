@@ -26,8 +26,13 @@ namespace Delight.Components.Common
     {
         public static TimeSpan GetMediaDuration(string filePath)
         {
+            return GetMediaInfo(filePath).Duration;
+        }
+
+        public static MediaInfo GetMediaInfo(string filePath)
+        {
             var probe = new FFProbe();
-            return probe.GetMediaInfo(filePath).Duration;
+            return probe.GetMediaInfo(filePath);
         }
 
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
@@ -71,6 +76,12 @@ namespace Delight.Components.Common
             minute -= hour * 60;
 
             return $"{hour.ToString("00")}:{minute.ToString("00")}:{second.ToString("00")}.{frame}";
+        }
+
+        public static int TimeSpanToFrame(TimeSpan span, FrameRate frame)
+        {
+            int fr = (int)frame.GetEnumAttribute<DefaultValueAttribute>().Value;
+            return ((int)Math.Truncate((span.TotalMilliseconds / 1000)) * fr) + (int)(fr * ((span.TotalMilliseconds % 1000) / 1000));
         }
 
         public static MediaTypes GetMediaTypeFromFile(string fileName)

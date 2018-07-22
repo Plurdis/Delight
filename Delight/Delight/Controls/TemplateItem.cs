@@ -1,4 +1,5 @@
 ﻿using Delight.Common;
+using Delight.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,5 +32,6 @@ namespace Delight.Controls
             set => SetValue(SourceProperty, value);
         }
 
+        public StageComponent StageComponent { get; set; }
     }
 }

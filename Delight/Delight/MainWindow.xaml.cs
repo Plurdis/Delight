@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media;
 using Delight.Common;
+using Delight.Components;
+using Delight.Components.Common;
+using Delight.Controls;
+using Delight.Extensions;
 using Delight.Projects;
 using Delight.Windows;
 
@@ -26,9 +31,12 @@ namespace Delight
             window.ShowDialog();
 
             this.Closing += (s, e) => Environment.Exit(0);
+
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
+            lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
+
 
 #if DEBUG
             //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
@@ -93,6 +101,19 @@ namespace Delight
 
         }
 
+        ListBox dragSource;
+        private void LbItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListBox parent = (ListBox)sender;
+            dragSource = parent;
+            ListBoxItem data = (ListBoxItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+
+            if (data is TemplateItem item)
+            {
+                DragDrop.DoDragDrop(parent, item.StageComponent, DragDropEffects.Move);
+            }
+        }
+
         private void RbList_Checked(object sender, RoutedEventArgs e)
         {
             
@@ -101,6 +122,35 @@ namespace Delight
         private void RbBox_Checked(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private static object GetDataFromListBox(ListBox source, Point point)
+        {
+            if (source.InputHitTest(point) is UIElement element)
+            {
+                object data = DependencyProperty.UnsetValue;
+                while (data == DependencyProperty.UnsetValue)
+                {
+                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+
+                    if (data == DependencyProperty.UnsetValue)
+                    {
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
+                    }
+
+                    if (element == source)
+                    {
+                        return null;
+                    }
+                }
+
+                if (data != DependencyProperty.UnsetValue)
+                {
+                    return data;
+                }
+            }
+
+            return null;
         }
 
         private void lbItem_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

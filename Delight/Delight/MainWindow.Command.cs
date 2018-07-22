@@ -11,11 +11,14 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
 
 using NReco.VideoConverter;
+using NReco.VideoInfo;
+using DelightImage = Delight.Components.Medias.Image;
 
 namespace Delight
 {
@@ -34,28 +37,45 @@ namespace Delight
 
         public void AddItem(string location)
         {
+            var fi = new FileInfo(location);
+
             switch (MediaTools.GetMediaTypeFromFile(location))
             {
                 case MediaTypes.Unknown:
                     break;
                 case MediaTypes.Image:
+                    
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = new FileInfo(location).Name,
+                        Content = fi.Name,
                         Description = "Local Image File",
-                        Source = new BitmapImage(new Uri(location))
+                        Source = new BitmapImage(new Uri(location)),
+                        StageComponent = new DelightImage()
+                        {
+                            Identifier = fi.Name,
+                            OriginalPath = location,
+                            Time = TimeSpan.FromSeconds(20),
+                        },
                     });
                     break;
                 case MediaTypes.Sound:
                     break;
                 case MediaTypes.Video:
                     Stream stream = new MemoryStream();
+                    MediaInfo info = MediaTools.GetMediaInfo(location);
+
                     (new FFMpegConverter()).GetVideoThumbnail(location, stream);
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = new FileInfo(location).Name,
+                        Content = fi.Name,
                         Source = MediaTools.GetImageFromStream(stream),
                         Description = "Local Video File",
+                        StageComponent = new Video()
+                        {
+                            Identifier = fi.Name,
+                            OriginalPath = location,
+                            Time = MediaTools.GetMediaDuration(location),
+                        }
                     });
 
                     stream.Dispose();

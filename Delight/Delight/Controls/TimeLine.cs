@@ -18,6 +18,8 @@ using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Components.Medias;
 using Delight.Components.Common;
+using Delight.Components;
+using Delight.Extensions;
 
 namespace Delight.Controls
 {
@@ -75,12 +77,12 @@ namespace Delight.Controls
         {
             Grid grid = new Grid()
             {
-                Height = 50,
                 Background = Brushes.Transparent,
                 AllowDrop = true,
             };
             grid.Children.Add(new Border()
             {
+                Height = 50,
                 BorderBrush = Brushes.Black,
                 BorderThickness = new Thickness(1, 0, 1, 1),
                 IsHitTestVisible = false,
@@ -95,36 +97,37 @@ namespace Delight.Controls
             trackPanel.Children.Add(grid);
         }
 
-        Rectangle tempRect = null;
+        TrackItem tempItem = null;
         int i = 0;
 
         private void Grid_DragLeave(object sender, DragEventArgs e)
         {
-            if (tempRect != null)
+            if (tempItem != null)
             {
-                ((Grid)sender).Children.Remove(tempRect);
-                tempRect = null;
+                ((Grid)sender).Children.Remove(tempItem);
+                tempItem = null;
 
-                MainWindow mw = (MainWindow)(((Grid)this.Parent).Parent);
+                MainWindow mw = Application.Current.MainWindow as MainWindow;
                 mw.Title = i++.ToString();
             }
         }
 
         private void Grid_DragEnter(object sender, DragEventArgs e)
         {
-            if (tempRect == null)
+            if (tempItem == null)
             {
-                tempRect = new Rectangle()
+                var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
+                var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
+
+                tempItem = new TrackItem()
                 {
-                    Width = ((ITrackItemInfo)e.Data.GetData(typeof(ITrackItemInfo))).Size * _realSize,
-                    Stroke = Brushes.Black,
-                    Fill = Brushes.Green,
-                    StrokeThickness = 1,
+                    Width = frame * _realSize,
+                    ValueWidth = frame,
                     IsHitTestVisible = false,
                     HorizontalAlignment = HorizontalAlignment.Left,
-                    Tag = ((ITrackItemInfo)e.Data.GetData(typeof(ITrackItemInfo)))
+                    Tag = comp,
                 };
-                ((Grid)sender).Children.Add(tempRect);
+                ((Grid)sender).Children.Add(tempItem);
             }
 
             Point relativePoint = this.TransformToAncestor((Visual)this.Parent)
@@ -138,17 +141,15 @@ namespace Delight.Controls
             double left = MouseManager.MousePosition.X - point.X;
 
             int value = (int)((left + _offset) / _realSize);
-            tempRect.Margin = new Thickness((int)(left / _realSize) * _realSize, 0, 0, 0);
-
-            (tempRect.Tag as ITrackItemInfo).Offset = value;
+            tempItem.Offset = value;
+            tempItem.Margin = new Thickness((int)(left / _realSize) * _realSize, 0, 0, 0);
         }
 
         private void Grid_Drop(object sender, DragEventArgs e)
         {
-            tempRect = null;
+            tempItem.IsHitTestVisible = true;
+            tempItem = null;
             SetItemsValue();
-            //TestDataPack pack = (TestDataPack)e.Data.GetData(typeof(TestDataPack));
-            //MessageBox.Show(pack.Name);
         }
 
         #region [  Dependency Property  ]
@@ -213,15 +214,14 @@ namespace Delight.Controls
         private void SetItemsValue()
         {
             this.ApplyTemplate();
-            IEnumerable<Rectangle> rects = tracks.Select(i => i.Children
-                                        .Cast<UIElement>()
-                                        .Where(j => j.GetType() == typeof(Rectangle))
-                                        .Cast<Rectangle>())
-                                        .SelectMany(k => k);
-            if (rects.Count() != 0)
+            IEnumerable<TrackItem> items = tracks.Select(i => i.Children
+                .Cast<UIElement>()
+                .Where(j => j.GetType() == typeof(TrackItem))
+                .Cast<TrackItem>())
+                .SelectMany(k => k);
+            if (items.Count() != 0)
             {
-                double max = rects.Select(i => (ITrackItemInfo)i.Tag)
-                              .Max(i => (i.Offset * _realSize) + (i.Size * _realSize));
+                double max = items.Max(i => (i.Offset * _realSize) + (i.ValueWidth * _realSize));
 
                 max -= ActualWidth; 
 
@@ -239,15 +239,12 @@ namespace Delight.Controls
                 }
                 scrollBar.Visibility = (max != 0) ? Visibility.Visible : Visibility.Hidden;
 
-                foreach (Rectangle rect in rects)
+                foreach (TrackItem itm in items)
                 {
-                    ITrackItemInfo pack = rect.Tag as ITrackItemInfo;
-
-                    double offset = pack.Offset * _realSize,
-                           width = pack.Size * _realSize;
-
-                    rect.Margin = new Thickness(offset - _offset, 0, 0, 0);
-                    rect.Width = width;
+                    double offset = itm.Offset * _realSize,
+                           width = itm.ValueWidth * _realSize;
+                    itm.Margin = new Thickness(offset - _offset, 0, 0, 0);
+                    itm.Width = width;
                 }
             }
 

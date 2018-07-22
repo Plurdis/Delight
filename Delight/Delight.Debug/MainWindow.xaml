@@ -16,5 +16,21 @@
             
         </ListBox>
         <Controls:TimeLine Grid.Column="1" Margin="5"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="15"/>
+                <RowDefinition/>
+                <RowDefinition Height="15"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Rectangle Fill="Red"/>
+            <GridSplitter Background="Orange" Grid.Row="1" HorizontalAlignment="Stretch"/>
+            <Rectangle Fill="Yellow" Grid.Row="2"/>
+            <GridSplitter Background="Orange" Grid.Row="3" HorizontalAlignment="Stretch"/>
+            <Rectangle Fill="Blue" Grid.Row="4"/>
+            <Rectangle Fill="Green" Grid.Row="5"/>
+        </Grid>
     </Grid>
 </Window>

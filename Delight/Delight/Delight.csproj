@@ -90,6 +90,7 @@
     <Compile Include="Controls\TemplateItem.cs" />
     <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
+    <Compile Include="Extensions\FrameworkElementEx.cs" />
     <Compile Include="Localization\WindowText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
