@@ -88,6 +88,15 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   Edit(_E)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiEdit {
+            get {
+                return ResourceManager.GetString("MiEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Exit(_X)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiExit {
@@ -223,6 +232,15 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   Redo(_R)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiRedo {
+            get {
+                return ResourceManager.GetString("MiRedo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save(_S)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiSave {
@@ -246,6 +264,15 @@ namespace Delight.Localization {
         public static string MiTools {
             get {
                 return ResourceManager.GetString("MiTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Undo(_U)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiUndo {
+            get {
+                return ResourceManager.GetString("MiUndo", resourceCulture);
             }
         }
         

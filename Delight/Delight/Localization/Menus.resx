@@ -126,6 +126,9 @@
   <data name="Lang" xml:space="preserve">
     <value>English (en-US)</value>
   </data>
+  <data name="MiEdit" xml:space="preserve">
+    <value>Edit(_E)</value>
+  </data>
   <data name="MiExit" xml:space="preserve">
     <value>Exit(_X)</value>
   </data>
@@ -171,6 +174,9 @@
   <data name="MiRecentProject" xml:space="preserve">
     <value>Recently used Project Files(_J)</value>
   </data>
+  <data name="MiRedo" xml:space="preserve">
+    <value>Redo(_R)</value>
+  </data>
   <data name="MiSave" xml:space="preserve">
     <value>Save(_S)</value>
   </data>
@@ -179,6 +185,9 @@
   </data>
   <data name="MiTools" xml:space="preserve">
     <value>Tools(_T)</value>
+  </data>
+  <data name="MiUndo" xml:space="preserve">
+    <value>Undo(_U)</value>
   </data>
   <data name="MiViewInfo" xml:space="preserve">
     <value>About Delight(_A)</value>

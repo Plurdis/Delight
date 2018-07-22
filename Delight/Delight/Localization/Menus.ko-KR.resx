@@ -126,6 +126,9 @@
   <data name="Lang" xml:space="preserve">
     <value>한국어 (ko-KR)</value>
   </data>
+  <data name="MiEdit" xml:space="preserve">
+    <value>편집(_E)</value>
+  </data>
   <data name="MiExit" xml:space="preserve">
     <value>끝내기(_X)</value>
   </data>
@@ -171,6 +174,9 @@
   <data name="MiRecentProject" xml:space="preserve">
     <value>최근 사용한 프로젝트 파일(_J)</value>
   </data>
+  <data name="MiRedo" xml:space="preserve">
+    <value>되돌리기 취소(_R)</value>
+  </data>
   <data name="MiSave" xml:space="preserve">
     <value>저장(_S)</value>
   </data>
@@ -179,6 +185,9 @@
   </data>
   <data name="MiTools" xml:space="preserve">
     <value>도구(_T)</value>
+  </data>
+  <data name="MiUndo" xml:space="preserve">
+    <value>되돌리기(_U)</value>
   </data>
   <data name="MiViewInfo" xml:space="preserve">
     <value>Delight 보기(_A)</value>
