@@ -17,7 +17,7 @@ using Delight.Common;
 using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Components.Medias;
-using Delight.Tracks;
+using Delight.Components.Common;
 
 namespace Delight.Controls
 {

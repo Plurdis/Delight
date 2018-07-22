@@ -135,7 +135,7 @@
                                         <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
                                     </ListBox.GroupStyle>-->
                                 </ListBox>
-                                <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                                <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition/>

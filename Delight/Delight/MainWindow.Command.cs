@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
 
@@ -42,7 +42,7 @@ namespace Delight
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = new FileInfo(location).Name,
-                        Description = "File",
+                        Description = "Local Image File",
                         Source = new BitmapImage(new Uri(location))
                     });
                     break;
@@ -54,8 +54,11 @@ namespace Delight
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = new FileInfo(location).Name,
-                        Source = MediaTools.GetImageFromStream(stream)
+                        Source = MediaTools.GetImageFromStream(stream),
+                        Description = "Local Video File",
                     });
+
+                    stream.Dispose();
                     break;
                 default:
                     break;

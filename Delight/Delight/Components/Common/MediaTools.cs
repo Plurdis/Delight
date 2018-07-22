@@ -20,7 +20,7 @@ using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
 
-namespace Delight.Components.Medias
+namespace Delight.Components.Common
 {
     public static class MediaTools
     {
@@ -55,6 +55,8 @@ namespace Delight.Components.Medias
 
                 return ImageSourceForBitmap((Bitmap)image);
             }
+
+            
         }
 
         public static string GetTimeText(int value, FrameRate frameRate)

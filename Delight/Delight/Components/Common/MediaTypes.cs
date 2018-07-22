@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Components.Medias
+namespace Delight.Components.Common
 {
     public enum MediaTypes
     {

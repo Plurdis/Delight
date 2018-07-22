@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Delight.Components.Medias;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Components.Medias
+namespace Delight.Components.Common
 {
     /// <summary>
     /// 사용자가 추가한 미디어를 관리합니다.
