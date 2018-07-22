@@ -27,6 +27,14 @@ namespace Delight.Common
 
         #endregion
 
+        #region [  Edit Tab  ]
+
+        public static RoutedCommand UndoCommand { get; }
+
+        public static RoutedCommand RedoCommand { get; }
+
+        #endregion
+
         #region [  Help Tab  ]
 
         public static RoutedCommand ViewHelpCommand { get; }

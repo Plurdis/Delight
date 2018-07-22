@@ -39,9 +39,9 @@
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="편집(_E)">
-                <MenuItem Header="{x:Static l:Menus.MiUndo}" InputGestureText="Ctrl+Z"/>
-                <MenuItem Header="{x:Static l:Menus.MiRedo}" InputGestureText="Ctrl+Shift+Z"/>
+            <MenuItem Header="{x:Static l:Menus.MiEdit}">
+                <MenuItem Header="{x:Static l:Menus.MiUndo}" InputGestureText="Ctrl+Z" Command="{x:Static cm:MenuCommands.UndoCommand}"/>
+                <MenuItem Header="{x:Static l:Menus.MiRedo}" InputGestureText="Ctrl+Shift+Z" Command="{x:Static cm:MenuCommands.RedoCommand}"/>
             </MenuItem>
             <MenuItem Uid="Info3" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
                 <MenuItem Header="{x:Static l:Menus.MiHelpView}" InputGestureText="Ctrl+H" Command="{x:Static cm:MenuCommands.ViewHelpCommand}"/>
