@@ -8,8 +8,8 @@ namespace Delight.Components
 {
     public abstract class StageComponent
     {
-        TimeSpan Time { get; set; }
+        public TimeSpan Time { get; set; }
 
-        string Identifier { get; set; }
+        public string Identifier { get; set; }
     }
 }

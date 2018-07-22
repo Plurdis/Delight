@@ -23,7 +23,7 @@ using System.Windows.Shapes;
 
 using Delight.Common;
 using Delight.Core.Extension;
-using Delight.Components.Media;
+using Delight.Components.Medias;
 using Delight.Projects;
 using Delight.Windows;
 

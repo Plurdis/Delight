@@ -14,27 +14,20 @@ using System.Windows.Media.Imaging;
 using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Exceptions;
-using Delight.Components.Media;
+using Delight.Components.Medias;
 
 using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
 
-namespace Delight.Components.Media
+namespace Delight.Components.Medias
 {
     public static class MediaTools
     {
         public static TimeSpan GetMediaDuration(string filePath)
         {
-            try
-            {
-                var probe = new FFProbe();
-                return probe.GetMediaInfo(filePath).Duration;
-            }
-            catch (Exception ex)
-            {
-                throw new ProcessException("예외 발생", ex);
-            }
+            var probe = new FFProbe();
+            return probe.GetMediaInfo(filePath).Duration;
         }
 
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]

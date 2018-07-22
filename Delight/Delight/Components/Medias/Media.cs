@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Components.Media
+namespace Delight.Components.Medias
 {
-    public enum MediaTypes
+    public class Media : StageComponent
     {
-        Unknown,
-        Image,
-        Sound,
-        Video,
-
+        public string OriginalPath { get; set; }
     }
 }

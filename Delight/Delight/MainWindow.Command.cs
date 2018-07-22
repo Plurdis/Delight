@@ -12,7 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using Delight.Components.Media;
+using Delight.Components.Medias;
 using Delight.Controls;
 
 using NReco.VideoConverter;
