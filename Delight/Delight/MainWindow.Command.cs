@@ -12,7 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using Delight.Media;
+using Delight.Components.Media;
 using Delight.Controls;
 
 using NReco.VideoConverter;
@@ -29,18 +29,16 @@ namespace Delight
         public void OpenFileExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (MediaTools.GetMediaFile(out string location))
-            {
                 AddItem(location);
-            }
         }
 
         public void AddItem(string location)
         {
             switch (MediaTools.GetMediaTypeFromFile(location))
             {
-                case Media.MediaTypes.Unknown:
+                case MediaTypes.Unknown:
                     break;
-                case Media.MediaTypes.Image:
+                case MediaTypes.Image:
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = new FileInfo(location).Name,
@@ -48,9 +46,9 @@ namespace Delight
                         Source = new BitmapImage(new Uri(location))
                     });
                     break;
-                case Media.MediaTypes.Sound:
+                case MediaTypes.Sound:
                     break;
-                case Media.MediaTypes.Video:
+                case MediaTypes.Video:
                     Stream stream = new MemoryStream();
                     (new FFMpegConverter()).GetVideoThumbnail(location, stream);
                     lbItem.Items.Add(new TemplateItem()

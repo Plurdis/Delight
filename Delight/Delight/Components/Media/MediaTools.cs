@@ -14,13 +14,13 @@ using System.Windows.Media.Imaging;
 using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Exceptions;
-using Delight.Media;
+using Delight.Components.Media;
 
 using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
 
-namespace Delight.Media
+namespace Delight.Components.Media
 {
     public static class MediaTools
     {

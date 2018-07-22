@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Media
+namespace Delight.Components.Media
 {
     /// <summary>
     /// 사용자가 추가한 미디어를 관리합니다.

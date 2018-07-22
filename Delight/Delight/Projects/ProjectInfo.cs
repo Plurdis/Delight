@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Delight.Media;
+using Delight.Components.Media;
 
 namespace Delight.Projects
 {

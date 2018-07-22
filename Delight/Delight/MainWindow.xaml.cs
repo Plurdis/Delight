@@ -23,12 +23,14 @@ using System.Windows.Shapes;
 
 using Delight.Common;
 using Delight.Core.Extension;
-using Delight.Media;
+using Delight.Components.Media;
 using Delight.Projects;
 using Delight.Windows;
-using NReco.VideoConverter;
-using LocalCommandManager = Delight.Common.InputGestureManager;
 
+using NReco.VideoConverter;
+using Unosquare.FFME;
+using Unosquare.FFME.Playlists;
+using LocalCommandManager = Delight.Common.InputGestureManager;
 
 namespace Delight
 {
@@ -69,20 +71,31 @@ namespace Delight
 
             mediaPlayer.Open(new Uri(@"D:\Program Files\League Of Legends\Riot Games\League of Legends\RADS\projects\lol_air_client\releases\0.0.1.13\deploy\mod\lgn\themes\loginCamille\flv\login-loop.flv", UriKind.Absolute));
 
-            var timer = new TimeLineTimer(tl.FrameRate);
+            //mediaPlayer.Open()
+            mediaPlayer.MediaEnded += (s, e) => { mediaPlayer.Close(); };
+            //FFMpegConverter converter = new FFMpegConverter();
 
-            int i = 0;
-
-            timer.Tick += () => 
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    tl.Value = i++;
-                });
+            //MediaTools.GetMediaFile(out string path);
+            //MediaTools.GetMediaFile(out string path2);
+            //converter.ConcatMedia(new string[] { path, path2 }, "sample.mp4", Format.mp4, new ConcatSettings()
+            //{
                 
-            };
+            //});
+            
+            //var timer = new TimeLineTimer(tl.FrameRate);
 
-            timer.Start();
+            //int i = 0;
+
+            //timer.Tick += () => 
+            //{
+            //    Dispatcher.Invoke(() =>
+            //    {
+            //        tl.Value = i++;
+            //    });
+                
+            //};
+
+            //timer.Start();
 
 
             //var converter = new FFMpegConverter();

@@ -82,8 +82,9 @@
     </ApplicationDefinition>
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\TimeLineTimer.cs" />
+    <Compile Include="Components\StageComponent.cs" />
     <Compile Include="Converter\RangeConverter.cs" />
-    <Compile Include="Media\MediaTools.cs" />
+    <Compile Include="Components\Media\MediaTools.cs" />
     <Compile Include="Common\MenuCommands.cs" />
     <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TemplateItem.cs" />
@@ -120,12 +121,12 @@
       <DependentUpon>Menus.ko-KR.resx</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.Command.cs" />
-    <Compile Include="Media\Image.cs" />
-    <Compile Include="Media\IMedia.cs" />
-    <Compile Include="Media\MediaManager.cs" />
-    <Compile Include="Media\MediaTypes.cs" />
-    <Compile Include="Media\Sound.cs" />
-    <Compile Include="Media\Video.cs" />
+    <Compile Include="Components\Media\Image.cs" />
+    <Compile Include="Components\Media\IMedia.cs" />
+    <Compile Include="Components\Media\MediaManager.cs" />
+    <Compile Include="Components\Media\MediaTypes.cs" />
+    <Compile Include="Components\Media\Sound.cs" />
+    <Compile Include="Components\Media\Video.cs" />
     <Compile Include="Projects\ProjectInfo.cs" />
     <Compile Include="Tracks\ImageItemInfo.cs" />
     <Compile Include="Tracks\ITrackItemInfo.cs" />

@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Delight.Common;
 using Delight.Core.Common;
 using Delight.Core.Extension;
-using Delight.Media;
+using Delight.Components.Media;
 using Delight.Tracks;
 
 namespace Delight.Controls
