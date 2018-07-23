@@ -27,9 +27,6 @@ namespace Delight
             InitializeComponent();
             MouseManager.Init();
 
-            LicenseWindow window = new LicenseWindow();
-            window.ShowDialog();
-
             this.Closing += (s, e) => Environment.Exit(0);
 
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
@@ -48,6 +45,8 @@ namespace Delight
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, OpenProjectExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, SaveAsExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveCommand, SaveExecuted));
+
+            CommandBindings.Add(new CommandBinding(MenuCommands.ViewInfoCommand, ViewInfoExecuted));
 
             SetProject(new ProjectInfo()
             {

@@ -61,11 +61,11 @@ namespace Delight.Localization {
         }
         
         /// <summary>
-        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Copyright Team Delight, ALL Right Reserved.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string InfoWindow_InfoText {
+        public static string InfoWindow_Copyright {
             get {
-                return ResourceManager.GetString("InfoWindow_InfoText", resourceCulture);
+                return ResourceManager.GetString("InfoWindow_Copyright", resourceCulture);
             }
         }
         
@@ -75,6 +75,24 @@ namespace Delight.Localization {
         public static string InfoWindow_title {
             get {
                 return ResourceManager.GetString("InfoWindow_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ver과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string InfoWindow_Version {
+            get {
+                return ResourceManager.GetString("InfoWindow_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View License과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string InfoWindow_ViewLicense {
+            get {
+                return ResourceManager.GetString("InfoWindow_ViewLicense", resourceCulture);
             }
         }
         

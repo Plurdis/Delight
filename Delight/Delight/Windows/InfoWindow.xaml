@@ -6,116 +6,33 @@
         xmlns:local="clr-namespace:Delight.Windows"
         xmlns:l="clr-namespace:Delight.Localization"
         mc:Ignorable="d"
-        Title="{x:Static l:Menus.InfoWindow_title}" Height="400" Width="650">
-    <Window.Resources>
-        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-    <Grid>
+        Title="{x:Static l:Menus.InfoWindow_title}" WindowStartupLocation="CenterScreen"
+        Height="300" Width="550" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}">
+    <Grid Margin="10" Background="White" MouseDown="DragMove">
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="0"/>
+            
+        </Grid.Effect>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="10">
-            <TextBlock FontSize="40" FontFamily="Berlin Sans FB Demi"
-                       HorizontalAlignment="Left" TextAlignment="Center" Foreground="Purple">
-                Delight
+
+        <Image x:Name="imgClose" Width="25" Height="25" Margin="10" 
+               HorizontalAlignment="Right" VerticalAlignment="Top"
+               Source="/Delight;component/Resources/CloseButton.png"/>
+        <Grid>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                <Run Text="Delight" FontFamily="Berlin Sans FB Demi" FontSize="50" Foreground="Purple"/><LineBreak/>
+                <Run Text="{x:Static l:Menus.InfoWindow_Version}"/> 1.0.0
             </TextBlock>
-            <TextBlock Text="버전 1.0.0"/>
-        </StackPanel>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Margin="10" Grid.Row="1">
-                <TextBlock Text="{x:Static l:WindowText.InfoWindow_1}" Margin="0,0,0,20"/>
 
-                <GroupBox Header="라이센스 전문 보기">
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="btnViewMsPL" Content="Ms-PL 전문 보기" Padding="5" Margin="5"/>
-                        <Button x:Name="btnViewLGPL" Content="LGPL 전문 보기" Padding="5" Margin="5" Grid.Column="1"/>
-                    </Grid>
-                </GroupBox>
-
-
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="btnFFmpeg"
-                        Background="{x:Null}" BorderBrush="{x:Null}" 
-                        Cursor="Hand" Style="{StaticResource ButtonStyle}">
-                        <Image Width="200" Source="/Delight;component/Resources/ffmpeg.png"/>
-                    </Button>
-                    <Grid Margin="10,0,0,0" Grid.Column="1" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static l:WindowText.FFMpegName}"/>
-                        <TextBlock Grid.Row="2" Text="{x:Static l:WindowText.FFMpegLicense}"/>
-                    </Grid>
-
-
-                    <Button x:Name="btnNReco" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Hand" Style="{StaticResource ButtonStyle}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Image Width="50" Source="/Delight;component/Resources/Nreco.png"/>
-                            <TextBlock Grid.Column="1" Text="NReco" VerticalAlignment="Center" FontSize="30"
-                                   FontFamily="Berlin Sans FB Demi" TextAlignment="Center"/>
-                        </Grid>
-                    </Button>
-                    <Grid Margin="10,0,0,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static l:WindowText.NRecoName}"/>
-                        <TextBlock Grid.Row="2" Text="{x:Static l:WindowText.NRecoLicense}"/>
-                    </Grid>
-
-                    <Button x:Name="btnFFME" Padding="0,10" Grid.Row="2" 
-                        Background="{x:Null}" BorderBrush="{x:Null}" 
-                        Cursor="Hand" Style="{StaticResource ButtonStyle}">
-                        <TextBlock Grid.Column="1" Text="FFMediaElement" VerticalAlignment="Center" FontSize="25"
-                               FontFamily="Berlin Sans FB Demi" TextAlignment="Center"/>
-                    </Button>
-
-                    <Grid Margin="10,0,0,0" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition Height="5"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Static l:WindowText.FFMeName}"/>
-                        <TextBlock TextWrapping="Wrap" Grid.Row="2" Text="{x:Static l:WindowText.FFMeLicense}"/>
-                    </Grid>
-                </Grid>
-
-            </StackPanel>
-        </ScrollViewer>
+            <TextBlock Text="{x:Static l:Menus.InfoWindow_Copyright}" 
+                       TextAlignment="Center" TextWrapping="Wrap" Margin="0,20" VerticalAlignment="Bottom"/>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <TextBlock x:Name="viewLicense" Margin="10,5" Foreground="Blue" HorizontalAlignment="Left" Text="{x:Static l:Menus.InfoWindow_ViewLicense}"/>
+        </Grid>
     </Grid>
 </Window>

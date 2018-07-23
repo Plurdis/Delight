@@ -54,6 +54,16 @@ namespace Delight.Common
 
             ExportCommand = new RoutedCommand("Export", typeof(MenuCommands));
             ExitCommand = new RoutedCommand("Exit", typeof(MenuCommands));
+
+            // ====================
+
+            UndoCommand = new RoutedCommand("Undo", typeof(MenuCommands));
+            RedoCommand = new RoutedCommand("Redo", typeof(MenuCommands));
+
+            // ====================
+
+            ViewHelpCommand = new RoutedCommand("ViewHelp", typeof(MenuCommands));
+            ViewInfoCommand = new RoutedCommand("ViewInfo", typeof(MenuCommands));
         }
     }
 }

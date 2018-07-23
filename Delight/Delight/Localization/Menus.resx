@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InfoWindow_InfoText" xml:space="preserve">
-    <value />
+  <data name="InfoWindow_Copyright" xml:space="preserve">
+    <value>Copyright Team Delight, ALL Right Reserved.</value>
   </data>
   <data name="InfoWindow_title" xml:space="preserve">
     <value>Delight Information</value>
+  </data>
+  <data name="InfoWindow_Version" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="InfoWindow_ViewLicense" xml:space="preserve">
+    <value>View License</value>
   </data>
   <data name="Lang" xml:space="preserve">
     <value>English (en-US)</value>

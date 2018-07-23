@@ -254,5 +254,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Licenses\License_Ms-PL.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CloseButton.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

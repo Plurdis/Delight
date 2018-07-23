@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Delight.Windows
 {
@@ -23,30 +12,26 @@ namespace Delight.Windows
         public InfoWindow()
         {
             InitializeComponent();
-            btnNReco.Click += BtnCsCore_Click;
-            btnFFmpeg.Click += BtnFFmpeg_Click;
-            btnFFME.Click += BtnFFME_Click;
+            viewLicense.MouseDown += ViewLicense_MouseDown;
+            imgClose.MouseDown += (s, e) => this.Close();
         }
 
-        private void BtnFFME_Click(object sender, RoutedEventArgs e)
+        private void ViewLicense_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://github.com/unosquare/ffmediaelement");
+            LicenseWindow lw = new LicenseWindow();
+            lw.ShowDialog();
         }
 
-        private void BtnFFmpeg_Click(object sender, RoutedEventArgs e)
+        private void DragMove(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://github.com/FFmpeg/FFmpeg");
-        }
-
-        private void BtnCsCore_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://github.com/nreco/nreco");
-        }
-
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
+            try
+            {
+                this.DragMove();
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            
         }
     }
 }

@@ -22,6 +22,9 @@ namespace Delight.Common
             RegisterCommand(MenuCommands.SaveCommand, new KeyGesture(Key.S, ModifierKeys.Control));
 
             RegisterCommand(MenuCommands.ExportCommand, new KeyGesture(Key.E, ModifierKeys.Control));
+
+
+            RegisterCommand(MenuCommands.ViewInfoCommand, new KeyGesture(Key.H, ModifierKeys.Control | ModifierKeys.Shift));
         }
 
         static Dictionary<string, RoutedCommand> commands = new Dictionary<string, RoutedCommand>();

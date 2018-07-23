@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
-
+using Delight.Windows;
 using NReco.VideoConverter;
 using NReco.VideoInfo;
 using DelightImage = Delight.Components.Medias.Image;
@@ -24,18 +24,18 @@ namespace Delight
 {
     public partial class MainWindow
     {
-        public void ExitCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void ExitCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Environment.Exit(0);
         }
 
-        public void OpenFileExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void OpenFileExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (MediaTools.GetMediaFile(out string location))
                 AddItem(location);
         }
 
-        public void AddItem(string location)
+        private void AddItem(string location)
         {
             var fi = new FileInfo(location);
 
@@ -80,12 +80,12 @@ namespace Delight
         }
 
 
-        public void NewProjectExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void NewProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // 새로운 프로젝트
         }
 
-        public void OpenProjectExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void OpenProjectExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (MediaTools.GetProjectFile(out string location))
             {
@@ -93,19 +93,26 @@ namespace Delight
             }
         }
 
-        public void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // 다른 이름으로 저장
         }
 
-        public void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // 해당 이름으로 저장
         }
 
-        public void ExportExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void ExportExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // 내보내기
         }
+
+        private void ViewInfoExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            InfoWindow wdw = new InfoWindow();
+            wdw.ShowDialog();
+        }
+
     }
 }
