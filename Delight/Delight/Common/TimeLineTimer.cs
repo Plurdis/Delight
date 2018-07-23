@@ -31,6 +31,9 @@ namespace Delight.Common
         }
 
         Thread thr;
+
+        public bool IsRunning => sw.IsRunning;
+
         public void Start()
         {
             sw.Restart();

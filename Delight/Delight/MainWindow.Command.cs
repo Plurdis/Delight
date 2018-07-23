@@ -116,5 +116,32 @@ namespace Delight
             wdw.ShowDialog();
         }
 
+        TimeLineTimer timer;
+
+        private void PlayExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (timer == null)
+            {
+                timer = new TimeLineTimer(tl.FrameRate);
+                timer.Tick += () =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        tl.Value++;
+                    });
+                };
+            }
+            if (!timer.IsRunning)
+            {
+                timer.Start();
+                pw.player.Play();
+            }
+            else
+            {
+                timer.Stop();
+                
+                pw.player.Pause();
+            }
+        }
     }
 }

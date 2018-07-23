@@ -145,7 +145,6 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
@@ -183,7 +182,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid>
-                            <ffme:MediaElement x:Name="mediaPlayer" LoadedBehavior="Play"/>
+                            <Rectangle x:Name="preview"/>
                             <!--<Image Source="Resources/TestPreview.png"/>-->
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                 <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview2}" Margin="5"/>

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
@@ -48,39 +50,65 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ViewInfoCommand, ViewInfoExecuted));
 
+
+            CommandBindings.Add(new CommandBinding(ControlCommands.PlayCommand, PlayExecuted));
+
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
             });
 
-            mediaPlayer.Open(new Uri(@"D:\Program Files\League Of Legends\Riot Games\League of Legends\RADS\projects\lol_air_client\releases\0.0.1.13\deploy\mod\lgn\themes\loginCamille\flv\login-loop.flv", UriKind.Absolute));
+            //DrawingBrush brush = new DrawingBrush();
 
-            //mediaPlayer.Open()
-            mediaPlayer.MediaEnded += (s, e) => { mediaPlayer.Close(); };
+            //this.Backgroun = brush;
+
+            Thread thr = new Thread(() =>
+            {
+                while (true)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        //img.Source = gridItm.SnapShotToBitmap(1, 1);
+                    });
+                    Thread.Sleep(100);
+                }
+            });
+
+            //thr.Start();
+
+            //VisualBrush brush = new VisualBrush();
+            //brush.Visual = gridItm;
+
+            //rect.Fill = brush;
+
+            pw = new PlayWindow();
+            pw.Show();
+            
+            tl.FrameMouseChanged += async (s, e) =>
+            {
+                var ts = MediaTools.FrameToTimeSpan(tl.Value, tl.FrameRate);
+                pw.player.Position = ts;
+                await pw.player.Pause();
+
+                timer?.Stop();
+            };
+
+            tl.FrameChanged += (s, e) =>
+            {
+                var ts = MediaTools.FrameToTimeSpan(tl.Value, tl.FrameRate);
+                this.Title = ts.ToString();
+            };
+            
             //FFMpegConverter converter = new FFMpegConverter();
 
             //MediaTools.GetMediaFile(out string path);
             //MediaTools.GetMediaFile(out string path2);
             //converter.ConcatMedia(new string[] { path, path2 }, "sample.mp4", Format.mp4, new ConcatSettings()
             //{
-                
+
             //});
-            
-            //var timer = new TimeLineTimer(tl.FrameRate);
-
-            //int i = 0;
-
-            //timer.Tick += () => 
-            //{
-            //    Dispatcher.Invoke(() =>
-            //    {
-            //        tl.Value = i++;
-            //    });
-                
-            //};
-
-            //timer.Start();
-
 
             //var converter = new FFMpegConverter();
 
@@ -97,7 +125,17 @@ namespace Delight
             //});
 
             //converter.ConvertProgress += Converter_ConvertProgress;
+        }
 
+        PlayWindow pw;
+
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                PlayExecuted(this, null);
+                e.Handled = true;
+            }
         }
 
         ListBox dragSource;
