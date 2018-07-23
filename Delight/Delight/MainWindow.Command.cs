@@ -120,17 +120,6 @@ namespace Delight
 
         private void PlayExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (timer == null)
-            {
-                timer = new TimeLineTimer(tl.FrameRate);
-                timer.Tick += () =>
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        tl.Value++;
-                    });
-                };
-            }
             if (!timer.IsRunning)
             {
                 timer.Start();

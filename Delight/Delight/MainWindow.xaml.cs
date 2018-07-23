@@ -61,6 +61,14 @@ namespace Delight
             });
 
             //DrawingBrush brush = new DrawingBrush();
+            timer = new TimeLineTimer(tl.FrameRate);
+            timer.Tick += () =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    tl.Value++;
+                });
+            };
 
             //this.Backgroun = brush;
 
