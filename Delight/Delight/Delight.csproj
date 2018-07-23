@@ -131,8 +131,12 @@
     <Compile Include="Components\Medias\Video.cs" />
     <Compile Include="Projects\ProjectInfo.cs" />
     <Compile Include="Controls\TrackItem.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LicenseWindow.xaml.cs">
+      <DependentUpon>LicenseWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -153,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\InfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LicenseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,6 +247,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Nreco.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Licenses\License_LGPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Licenses\License_Ms-PL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

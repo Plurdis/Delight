@@ -118,13 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FFMeLicense" xml:space="preserve">
-    <value>이 라이브러리는 Ms-PL과 FFMpeg로 상속 받은 LGPL에 의해서 사용이 허가 되었습니다.</value>
+    <value>이 라이브러리는 Ms-PL과 FFMpeg로 상속 받은 LGPL에 의해서 사용이 허가 되었습니다.
+
+========================================================
+
+{Ms-PL}
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="FFMeName" xml:space="preserve">
     <value>FFMediaElement 라이브러리</value>
   </data>
   <data name="FFMpegLicense" xml:space="preserve">
-    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.</value>
+    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="FFMpegName" xml:space="preserve">
     <value>FFMpeg 라이브러리</value>
@@ -140,7 +152,11 @@
     <value>사용된 라이브러리/라이센스</value>
   </data>
   <data name="NRecoLicense" xml:space="preserve">
-    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.</value>
+    <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="NRecoName" xml:space="preserve">
     <value>NReco 라이브러리</value>

@@ -27,7 +27,7 @@ namespace Delight
             InitializeComponent();
             MouseManager.Init();
 
-            InfoWindow window = new InfoWindow();
+            LicenseWindow window = new LicenseWindow();
             window.ShowDialog();
 
             this.Closing += (s, e) => Environment.Exit(0);
