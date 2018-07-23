@@ -78,6 +78,12 @@ namespace Delight.Components.Common
             int fr = (int)frame.GetEnumAttribute<DefaultValueAttribute>().Value;
             return ((int)Math.Truncate((span.TotalMilliseconds / 1000)) * fr) + (int)(fr * ((span.TotalMilliseconds % 1000) / 1000));
         }
+        
+        public static TimeSpan FrameToTimeSpan(int frame, FrameRate frameRate)
+        {
+            int fr = (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            return TimeSpan.FromSeconds((int)Math.Truncate((double)frame / fr)) + TimeSpan.FromMilliseconds((1000 / fr) * (frame % 24));
+        }
 
         public static MediaTypes GetMediaTypeFromFile(string fileName)
         {
