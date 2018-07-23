@@ -134,14 +134,10 @@ namespace Delight
                     data = source.ItemContainerGenerator.ItemFromContainer(element);
 
                     if (data == DependencyProperty.UnsetValue)
-                    {
                         element = VisualTreeHelper.GetParent(element) as UIElement;
-                    }
 
                     if (element == source)
-                    {
                         return null;
-                    }
                 }
 
                 if (data != DependencyProperty.UnsetValue)

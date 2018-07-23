@@ -126,6 +126,7 @@ namespace Delight.Controls
                     IsHitTestVisible = false,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Tag = comp,
+                    Text = comp.Identifier,
                 };
                 ((Grid)sender).Children.Add(tempItem);
             }

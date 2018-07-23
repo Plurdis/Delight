@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Delight.Common;
 using Delight.Controls;
 
@@ -21,17 +22,32 @@ namespace Delight.Controls
             this.Style = FindResource("TrackItemStyle") as Style;
         }
 
-
         public int Offset { get; set; }
 
         public int ValueWidth { get; set; }
 
-        public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TemplateItem));
+        public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 
         public ColorTheme ColorTheme
         {
             get => (ColorTheme)GetValue(ColorThemeProperty);
             set => SetValue(ColorThemeProperty, value);
+        }
+
+        public static DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(TrackItem));
+
+        public ImageSource Thumbnail
+        {
+            get => GetValue(ThumbnailProperty) as ImageSource;
+            set => SetValue(ThumbnailProperty, value);
+        }
+
+        public static DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(TrackItem));
+
+        public string Text
+        {
+            get => GetValue(TextProperty) as string;
+            set => SetValue(TextProperty, value);
         }
     }
 }

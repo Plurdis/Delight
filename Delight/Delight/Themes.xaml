@@ -127,14 +127,20 @@
     <Style x:Key="TrackItemStyle" TargetType="{x:Type ct:TrackItem}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <Grid Background="Green">
-                        
+                <ControlTemplate TargetType="{x:Type ct:TrackItem}">
+                    <Grid Background="Gray">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{TemplateBinding Text}" TextAlignment="Left" VerticalAlignment="Center"/>
+                        <Image Source="{TemplateBinding Thumbnail}" Grid.Row="1"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Converter={StaticResource ResourceKey=RangeConverter}, ConverterParameter=0-20}" Value="True">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -157,6 +163,6 @@
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 </ResourceDictionary>
