@@ -331,7 +331,7 @@ namespace Delight.Controls
 
         public double MaxItemSize = 30;
 
-        public double ItemSize = 1;
+        public double ItemSize = 0.5;
 
         private int Weight => GetWeight(Ratio);
 
