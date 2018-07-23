@@ -128,14 +128,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:TrackItem}">
-                    <Grid Background="Gray">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{TemplateBinding Text}" TextAlignment="Left" VerticalAlignment="Center"/>
-                        <Image Source="{TemplateBinding Thumbnail}" Grid.Row="1"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="1" IsHitTestVisible="False">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{TemplateBinding Text}" TextAlignment="Left" VerticalAlignment="Center"/>
+                            <Image Source="{TemplateBinding Thumbnail}" Grid.Row="1"/>
+                        </Grid>
+
+                        <Rectangle x:Name="dragLeft" Fill="Black" Cursor="SizeWE"/>
+                        <Rectangle x:Name="dragMove" Fill="Transparent" Grid.Column="1"/>
+                        <Rectangle x:Name="dragRight" Fill="Black" Grid.Column="2" Cursor="SizeWE"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

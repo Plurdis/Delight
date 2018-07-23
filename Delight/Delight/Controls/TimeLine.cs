@@ -128,6 +128,11 @@ namespace Delight.Controls
                     Tag = comp,
                     Text = comp.Identifier,
                 };
+
+                tempItem.DragLeftMouseLeftButtonDown += DragLeft;
+                tempItem.DragRightMouseLeftButtonDown += DragRight;
+                tempItem.DragMoveMouseLeftButtonDown += DragMove;
+
                 ((Grid)sender).Children.Add(tempItem);
             }
 
@@ -152,6 +157,132 @@ namespace Delight.Controls
             tempItem = null;
             SetItemsValue();
         }
+
+        #region [  TrackItem Drag & Resize  ]
+
+        int firstX;
+        double firstOffset;
+        double firstSize;
+
+        private void DragMove(object sender, MouseButtonEventArgs e)
+        {
+            if (((Rectangle)sender).TemplatedParent is TrackItem ti)
+            {                
+                firstX = MouseManager.MousePosition.X;
+                firstOffset = ti.Margin.Left;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
+
+                            if (packOffset < 0)
+                                packOffset = 0;
+
+                            ti.Margin = new Thickness((packOffset * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            ti.Offset = packOffset;
+                        });
+                    }
+
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                    Dispatcher.Invoke(() =>
+                    {
+                        this.InvalidateVisual();
+                        SetItemsValue();
+                    });
+                });
+
+                thr.Start();
+            }
+        }
+
+        private void DragRight(object sender, MouseButtonEventArgs e)
+        {
+            if (((Rectangle)sender).TemplatedParent is TrackItem ti)
+            {
+                firstX = MouseManager.MousePosition.X;
+                firstSize = ti.Width;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+                            int packWidth = (int)((firstSize + mouseOffset) / _realSize);
+                            if (packWidth < 1)
+                                packWidth = 1;
+                            ti.Width = (packWidth * _realSize);
+                            ti.ValueWidth = packWidth;
+                        });
+                    }
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                    Dispatcher.Invoke(() => SetItemsValue());
+                });
+
+                thr.Start();
+            }
+        }
+
+        private void DragLeft(object sender, MouseButtonEventArgs e)
+        {
+            if (((Rectangle)sender).TemplatedParent is TrackItem ti)
+            {
+                firstX = MouseManager.MousePosition.X;
+                firstOffset = ti.Margin.Left;
+                firstSize = ti.Width;
+                Thread thr = new Thread(() =>
+                {
+                    while (MouseManager.IsMouseDown)
+                    {
+                        Thread.Sleep(1);
+                        Dispatcher.Invoke(() =>
+                        {
+                            int mouseOffset = MouseManager.MousePosition.X - firstX;
+
+                            int packWidth = (int)((firstSize - mouseOffset) / _realSize);
+                            int packOffset = (int)((firstOffset + mouseOffset + _offset) / _realSize);
+
+                            int overWidth = 0, overOffset = 0;
+
+                            if (packOffset < -(scrollBar.Maximum * _realSize))
+                            {
+                                overOffset = packOffset;
+                                packOffset = 0;
+                            }
+                            else if (packWidth < 1)
+                            {
+                                overWidth = packWidth;
+                                packWidth = 1;
+                            }
+
+                            ti.Margin = new Thickness((packOffset * _realSize) + (overWidth * _realSize) - _offset, ti.Margin.Top, ti.Margin.Right, ti.Margin.Bottom);
+                            ti.Offset = packOffset + overWidth;
+
+                            ti.Width = (packWidth * _realSize) + (overOffset * _realSize);
+                            ti.ValueWidth = packWidth - overOffset;
+                        });
+                    }
+                    firstX = 0;
+                    firstOffset = 0;
+                    firstSize = 0;
+                    Dispatcher.Invoke(() => SetItemsValue());
+                });
+
+                thr.Start();
+            }
+        }
+
+        #endregion
 
         #region [  Dependency Property  ]
 

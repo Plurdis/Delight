@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Delight.Common;
-using Delight.Controls;
 
 namespace Delight.Controls
 {
@@ -15,11 +16,33 @@ namespace Delight.Controls
     /// <see cref="TimeLine"/> 트랙에서 움직이는 컨트롤을 나타냅니다.
     /// </summary>
     /// <remarks>Represents a control that move in <see cref="TimeLine"/> Tracks.</remarks>
+    [TemplatePart(Name = "dragLeft", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "dragMove", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "dragRight", Type = typeof(Rectangle))]
     public class TrackItem : Control
     {
         public TrackItem()
         {
             this.Style = FindResource("TrackItemStyle") as Style;
+        }
+
+        public event MouseButtonEventHandler DragLeftMouseLeftButtonDown;
+        public event MouseButtonEventHandler DragRightMouseLeftButtonDown;
+        public event MouseButtonEventHandler DragMoveMouseLeftButtonDown;
+
+        Rectangle dragLeft, dragMove, dragRight;
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            dragLeft = GetTemplateChild("dragLeft") as Rectangle;
+            dragMove = GetTemplateChild("dragMove") as Rectangle;
+            dragRight = GetTemplateChild("dragRight") as Rectangle;
+
+            dragLeft.MouseLeftButtonDown += (s,e) => DragLeftMouseLeftButtonDown?.Invoke(s,e);
+            dragRight.MouseLeftButtonDown += (s,e) => DragRightMouseLeftButtonDown?.Invoke(s,e);
+            dragMove.MouseLeftButtonDown += (s,e) => DragMoveMouseLeftButtonDown?.Invoke(s,e);
         }
 
         public int Offset { get; set; }
