@@ -230,7 +230,11 @@ namespace Delight.Controls
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
-                    Dispatcher.Invoke(() => SetItemsValue());
+                    Dispatcher.Invoke(() =>
+                    {
+                        this.InvalidateVisual();
+                        SetItemsValue();
+                    });
                 });
 
                 thr.Start();
@@ -273,13 +277,17 @@ namespace Delight.Controls
                             ti.Offset = packOffset + overWidth;
 
                             ti.Width = (packWidth * _realSize) + (overOffset * _realSize);
-                            ti.ValueWidth = packWidth - overOffset;
+                            ti.ValueWidth = packWidth + overOffset;
                         });
                     }
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
-                    Dispatcher.Invoke(() => SetItemsValue());
+                    Dispatcher.Invoke(() =>
+                    {
+                        this.InvalidateVisual();
+                        SetItemsValue();
+                    });
                 });
 
                 thr.Start();
