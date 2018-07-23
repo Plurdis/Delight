@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using Delight.Common;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
@@ -61,16 +61,18 @@ namespace Delight
                 case MediaTypes.Sound:
                     break;
                 case MediaTypes.Video:
+                    var image = MediaTools.GetMediaThumbnail(location);
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = fi.Name,
-                        Source = MediaTools.GetMediaThumbnail(location),
+                        Source = image,
                         Description = "Local Video File",
                         StageComponent = new Video()
                         {
                             Identifier = fi.Name,
                             OriginalPath = location,
                             Time = MediaTools.GetMediaDuration(location),
+                            Thumbnail = image,
                         }
                     });
                     break;

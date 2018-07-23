@@ -142,7 +142,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="{TemplateBinding Text}" TextAlignment="Left" VerticalAlignment="Center"/>
-                            <Image Source="{TemplateBinding Thumbnail}" Grid.Row="1"/>
+                            <Image Source="{TemplateBinding Thumbnail}" HorizontalAlignment="Left" Grid.Row="1"/>
                         </Grid>
 
                         <Rectangle x:Name="dragLeft" Fill="Black" Cursor="SizeWE"/>

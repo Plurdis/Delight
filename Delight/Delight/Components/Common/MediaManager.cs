@@ -50,6 +50,7 @@ namespace Delight.Components.Common
                         Identifier = fi.Name,
                         OriginalPath = fi.FullName,
                         Time = MediaTools.GetMediaDuration(filePath),
+                        Thumbnail = MediaTools.GetMediaThumbnail(filePath)
                     };
                 default:
                     return null;
