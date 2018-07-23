@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\ColorTheme.cs" />
+    <Compile Include="Common\ControlCommands.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\TimeLineTimer.cs" />
     <Compile Include="Components\StageComponent.cs" />
