@@ -50,7 +50,7 @@ namespace Delight.Common
 
                     if (lastValue != value && value != FrameRateInt)
                     {
-                        Console.WriteLine(value);
+                        //Console.WriteLine(value);
                         Tick?.Invoke();
                     }
                         

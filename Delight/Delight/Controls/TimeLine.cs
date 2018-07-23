@@ -55,10 +55,7 @@ namespace Delight.Controls
             scrollBar = GetTemplateChild("scrollBar") as ScrollBar;
             gridDrag = GetTemplateChild("gridDrag") as Grid;
 
-            this.SizeChanged += (s, e) =>
-            {
-                SetItemsValue();
-            };
+            this.SizeChanged += (s, e) => SetItemsValue();
 
             scrollBar.ViewportSize = 100;
             scrollBar.Scroll += ScrollBar_Scroll;
@@ -101,7 +98,6 @@ namespace Delight.Controls
         }
 
         TrackItem tempItem = null;
-        int i = 0;
 
         private void Grid_DragLeave(object sender, DragEventArgs e)
         {
@@ -111,7 +107,6 @@ namespace Delight.Controls
                 tempItem = null;
 
                 MainWindow mw = Application.Current.MainWindow as MainWindow;
-                mw.Title = i++.ToString();
             }
         }
 
@@ -171,7 +166,7 @@ namespace Delight.Controls
         private void DragMove(object sender, MouseButtonEventArgs e)
         {
             if (((Rectangle)sender).TemplatedParent is TrackItem ti)
-            {                
+            {
                 firstX = MouseManager.MousePosition.X;
                 firstOffset = ti.Margin.Left;
                 Thread thr = new Thread(() =>
@@ -195,6 +190,7 @@ namespace Delight.Controls
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
+
                     Dispatcher.Invoke(() =>
                     {
                         this.InvalidateVisual();
@@ -230,6 +226,7 @@ namespace Delight.Controls
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
+
                     Dispatcher.Invoke(() =>
                     {
                         this.InvalidateVisual();
@@ -283,6 +280,7 @@ namespace Delight.Controls
                     firstX = 0;
                     firstOffset = 0;
                     firstSize = 0;
+
                     Dispatcher.Invoke(() =>
                     {
                         this.InvalidateVisual();
@@ -421,8 +419,6 @@ namespace Delight.Controls
                         double left = MouseManager.MousePosition.X - point.X + _offset;
                         if (left < 0)
                             left = 0;
-
-                        //Application.Current.MainWindow.Title = MediaTools.GetTimeText((int)(left / _realSize), FrameRate);
 
                         if ((int)(left / _realSize) != Value)
                         {

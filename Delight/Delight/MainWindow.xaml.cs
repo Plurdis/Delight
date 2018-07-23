@@ -35,11 +35,8 @@ namespace Delight
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
 
-
-#if DEBUG
-            //img.Source = ImageCreator.GetWireFrame(200, 300, Brushes.Red);
-#endif
             CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, ExitCommandExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, OpenFileExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.ExportCommand, ExportExecuted));
@@ -50,17 +47,13 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ViewInfoCommand, ViewInfoExecuted));
 
-
             CommandBindings.Add(new CommandBinding(ControlCommands.PlayCommand, PlayExecuted));
-
-            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
 
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
             });
 
-            //DrawingBrush brush = new DrawingBrush();
             timer = new TimeLineTimer(tl.FrameRate);
             timer.Tick += () =>
             {
@@ -69,27 +62,6 @@ namespace Delight
                     tl.Value++;
                 });
             };
-
-            //this.Backgroun = brush;
-
-            Thread thr = new Thread(() =>
-            {
-                while (true)
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        //img.Source = gridItm.SnapShotToBitmap(1, 1);
-                    });
-                    Thread.Sleep(100);
-                }
-            });
-
-            //thr.Start();
-
-            //VisualBrush brush = new VisualBrush();
-            //brush.Visual = gridItm;
-
-            //rect.Fill = brush;
 
             pw = new PlayWindow();
             pw.Show();
@@ -105,33 +77,10 @@ namespace Delight
                 Thread.Sleep(10);
                 await pw.player.Pause();
             };
-            
-            //FFMpegConverter converter = new FFMpegConverter();
-
-            //MediaTools.GetMediaFile(out string path);
-            //MediaTools.GetMediaFile(out string path2);
-            //converter.ConcatMedia(new string[] { path, path2 }, "sample.mp4", Format.mp4, new ConcatSettings()
-            //{
-
-            //});
-
-            //var converter = new FFMpegConverter();
-
-            // Get Thumbnail
-
-            //converter.GetVideoThumbnail(@"C:\Users\uutak\Downloads\Video\small.mp4", @"C:\Users\uutak\Downloads\Video\test.jpeg");
-
-            //
-            //var test = new FFMpegConverter();
         }
 
-            //converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
-            //{
-            //    // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
-            //});
         bool allowedChange = false;
 
-            //converter.ConvertProgress += Converter_ConvertProgress;
         private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
         {
             if (allowedChange)
