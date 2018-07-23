@@ -4,13 +4,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Exceptions;
@@ -19,6 +16,7 @@ using Delight.Components.Medias;
 using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
+using NReco.VideoConverter;
 
 namespace Delight.Components.Common
 {
@@ -35,33 +33,30 @@ namespace Delight.Components.Common
             return probe.GetMediaInfo(filePath);
         }
 
-        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject([In] IntPtr hObject);
-
-        public static ImageSource ImageSourceForBitmap(Bitmap bmp)
+        public static BitmapImage ImageFromFile(string filePath)
         {
-            var handle = bmp.GetHbitmap();
-            try
-            {
-                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            }
-            finally
-            {
-                DeleteObject(handle);
-            }
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.UriSource = new Uri(filePath);
+            image.DecodePixelHeight = 30;
+            image.DecodePixelHeight = 30;
+            image.EndInit();
+
+            return image;
         }
 
-        public static ImageSource GetImageFromStream(Stream stream)
+        static int i = 1;
+
+        public static ImageSource GetMediaThumbnail(string filePath)
         {
-            using (Stream mStream = stream)
-            {
-                var image = System.Drawing.Image.FromStream(stream);
+            var converter = new FFMpegConverter();
 
-                return ImageSourceForBitmap((Bitmap)image);
-            }
-
-            
+            string imagePath = Path.Combine(Path.GetTempPath(), $"temp{i++}.jpg");
+            converter.GetVideoThumbnail(filePath, imagePath);
+            var image = ImageFromFile(imagePath);
+            File.Delete(imagePath);
+            return image;
         }
 
         public static string GetTimeText(int value, FrameRate frameRate)

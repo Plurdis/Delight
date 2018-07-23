@@ -61,14 +61,10 @@ namespace Delight
                 case MediaTypes.Sound:
                     break;
                 case MediaTypes.Video:
-                    Stream stream = new MemoryStream();
-                    MediaInfo info = MediaTools.GetMediaInfo(location);
-
-                    (new FFMpegConverter()).GetVideoThumbnail(location, stream);
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = fi.Name,
-                        Source = MediaTools.GetImageFromStream(stream),
+                        Source = MediaTools.GetMediaThumbnail(location),
                         Description = "Local Video File",
                         StageComponent = new Video()
                         {
@@ -77,8 +73,6 @@ namespace Delight
                             Time = MediaTools.GetMediaDuration(location),
                         }
                     });
-
-                    stream.Dispose();
                     break;
                 default:
                     break;
