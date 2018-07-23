@@ -36,6 +36,9 @@ namespace Delight.Controls
             this.Style = FindResource("TimeLineStyle") as Style;
         }
 
+        public event EventHandler FrameChanged;
+        public event EventHandler FrameMouseChanged;
+
         public Rectangle trackSlider;
         public StackPanel trackPanel;
         public ScrollBar scrollBar;
@@ -127,6 +130,7 @@ namespace Delight.Controls
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Tag = comp,
                     Text = comp.Identifier,
+                    Thumbnail = comp.Thumbnail,
                 };
 
                 tempItem.DragLeftMouseLeftButtonDown += DragLeft;
@@ -293,7 +297,13 @@ namespace Delight.Controls
             get => _value;
             set
             {
+                bool same = _value == value;
+
                 _value = value;
+
+                if (!same)
+                    FrameChanged?.Invoke(this, new EventArgs());
+                
                 SetItemsValue();
             }
         }
@@ -404,9 +414,14 @@ namespace Delight.Controls
                         if (left < 0)
                             left = 0;
 
-                        Application.Current.MainWindow.Title = MediaTools.GetTimeText((int)(left / _realSize), FrameRate);
+                        //Application.Current.MainWindow.Title = MediaTools.GetTimeText((int)(left / _realSize), FrameRate);
 
-                        Value = (int)(left / _realSize);
+                        if ((int)(left / _realSize) != Value)
+                        {
+                            Value = (int)(left / _realSize);
+                            FrameMouseChanged?.Invoke(this, new EventArgs());
+                        }
+                        
                     });
                 }
             });
