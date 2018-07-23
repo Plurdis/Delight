@@ -185,6 +185,9 @@
   <data name="UI_Item_List6" xml:space="preserve">
     <value>소리</value>
   </data>
+  <data name="UI_NoItem" xml:space="preserve">
+    <value>아이템이 없습니다.</value>
+  </data>
   <data name="UI_preview1" xml:space="preserve">
     <value>미리보기</value>
   </data>

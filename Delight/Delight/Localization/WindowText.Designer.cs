@@ -214,6 +214,15 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   No Item Added.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UI_NoItem {
+            get {
+                return ResourceManager.GetString("UI_NoItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Preview과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string UI_preview1 {

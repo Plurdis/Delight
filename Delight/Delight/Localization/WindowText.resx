@@ -168,6 +168,9 @@
   <data name="UI_Item_List6" xml:space="preserve">
     <value>Sound</value>
   </data>
+  <data name="UI_NoItem" xml:space="preserve">
+    <value>No Item Added.</value>
+  </data>
   <data name="UI_preview1" xml:space="preserve">
     <value>Preview</value>
   </data>
