@@ -93,20 +93,17 @@ namespace Delight
 
             pw = new PlayWindow();
             pw.Show();
-            
+            pw.player.PositionChanged += Player_PositionChanged;
+
             tl.FrameMouseChanged += async (s, e) =>
             {
                 var ts = MediaTools.FrameToTimeSpan(tl.Value, tl.FrameRate);
-                pw.player.Position = ts;
-                await pw.player.Pause();
-
                 timer?.Stop();
-            };
-
-            tl.FrameChanged += (s, e) =>
-            {
-                var ts = MediaTools.FrameToTimeSpan(tl.Value, tl.FrameRate);
-                this.Title = ts.ToString();
+                allowedChange = true;
+                pw.player.Position = ts;
+                allowedChange = false;
+                Thread.Sleep(10);
+                await pw.player.Pause();
             };
             
             //FFMpegConverter converter = new FFMpegConverter();
@@ -126,13 +123,23 @@ namespace Delight
 
             //
             //var test = new FFMpegConverter();
+        }
 
             //converter.ConvertMedia(basePath + "small.mp4",null, basePath + "test.flv", Format.flv, new ConvertSettings()
             //{
             //    // FFMPEG를 CMD로 사용하는 방법에 대해 연구해보기
             //});
+        bool allowedChange = false;
 
             //converter.ConvertProgress += Converter_ConvertProgress;
+        private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
+        {
+            if (allowedChange)
+                return;
+            if (!timer.IsRunning)
+            {
+                await pw.player.Pause();
+            }
         }
 
         PlayWindow pw;
