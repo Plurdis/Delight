@@ -133,6 +133,7 @@
     <Compile Include="Projects\ProjectInfo.cs" />
     <Compile Include="Controls\TrackItem.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Tutorial\TutorialManager.cs" />
     <Compile Include="Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
@@ -141,6 +142,9 @@
     </Compile>
     <Compile Include="Windows\PlayWindow.xaml.cs">
       <DependentUpon>PlayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TutorialWindow.xaml.cs">
+      <DependentUpon>TutorialWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -169,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PlayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TutorialWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

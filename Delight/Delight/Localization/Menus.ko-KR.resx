@@ -198,4 +198,7 @@
   <data name="MiViewInfo" xml:space="preserve">
     <value>Delight 보기(_A)</value>
   </data>
+  <data name="MiTutorialView" xml:space="preserve">
+    <value>튜토리얼 보기(_T)</value>
+  </data>
 </root>

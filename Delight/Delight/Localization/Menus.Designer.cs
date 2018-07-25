@@ -286,6 +286,15 @@ namespace Delight.Localization {
         }
         
         /// <summary>
+        ///   View Tutorial(_T)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MiTutorialView {
+            get {
+                return ResourceManager.GetString("MiTutorialView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Undo(_U)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiUndo {

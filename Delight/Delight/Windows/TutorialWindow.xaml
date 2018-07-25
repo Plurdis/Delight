@@ -1,0 +1,36 @@
+﻿<Window x:Class="Delight.Windows.TutorialWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Delight.Windows"
+        mc:Ignorable="d"
+        Title="튜토리얼" Height="500" Width="800" MinHeight="500" MinWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <StackPanel Margin="10">
+                <TextBlock Text="튜토리얼" FontSize="20"/>
+                <TextBlock TextWrapping="Wrap" Text="이 곳에서 잘 모르는 기능이나 방법을 연마하거나 사용 방법을 자세히 알 수 있습니다."/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListBox BorderBrush="Gray">
+                
+            </ListBox>
+            <Grid Grid.Column="1" x:Name="rootElement">
+                <Border BorderBrush="Gray" BorderThickness="0,1,1,1">
+                </Border>
+                <Border x:Name="shape" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="63" Margin="171,110,0,0" VerticalAlignment="Top" Width="86" Background="#FFB46161"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

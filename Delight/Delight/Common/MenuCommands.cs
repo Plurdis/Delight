@@ -39,6 +39,8 @@ namespace Delight.Common
 
         public static RoutedCommand ViewHelpCommand { get; }
 
+        public static RoutedCommand ViewTutorialCommand { get; }
+
         public static RoutedCommand ViewInfoCommand { get; }
 
         #endregion
@@ -63,6 +65,7 @@ namespace Delight.Common
             // ====================
 
             ViewHelpCommand = new RoutedCommand("ViewHelp", typeof(MenuCommands));
+            ViewTutorialCommand = new RoutedCommand("ViewTutorial", typeof(MenuCommands));
             ViewInfoCommand = new RoutedCommand("ViewInfo", typeof(MenuCommands));
         }
     }

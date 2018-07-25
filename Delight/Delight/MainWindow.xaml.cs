@@ -25,6 +25,9 @@ namespace Delight
     {
         public MainWindow()
         {
+            //TutorialWindow tw = new TutorialWindow();
+            //tw.ShowDialog();
+
             LocalCommandManager.Init();
             InitializeComponent();
             MouseManager.Init();
