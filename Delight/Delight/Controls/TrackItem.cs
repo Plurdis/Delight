@@ -47,8 +47,23 @@ namespace Delight.Controls
 
         public int Offset { get; set; }
 
-        public int ValueWidth { get; set; }
+        /// <summary>
+        /// 앞쪽에서 시작할 오프셋을 가져오거나 설정합니다.
+        /// </summary>
+        public int StartOffset { get; set; }
 
+        /// <summary>
+        /// 앞쪽에서 끝낼 오프셋을 가져오거나 설정합니다.
+        /// </summary>
+        public int EndOffset { get; set; }
+        
+        /// <summary>
+        /// TrackItem에서 할당 가능한 최대 프레임을 가져오거나 설정합니다.
+        /// </summary>
+        public int MaxFrame { get; set; }
+
+        public int FrameWidth { get; set; }
+        
         public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 
         public ColorTheme ColorTheme
