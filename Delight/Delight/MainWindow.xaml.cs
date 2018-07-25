@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,24 +63,25 @@ namespace Delight
             {
                 Dispatcher.Invoke(() =>
                 {
-                    tl.Value++;
+                    tl.Frame++;
                 });
             };
-
+            
             pw = new PlayWindow();
             pw.Show();
-            pw.player.PositionChanged += Player_PositionChanged;
+            pw.player1.PositionChanged += Player_PositionChanged;
 
-            tl.FrameMouseChanged += async (s, e) =>
-            {
-                var ts = MediaTools.FrameToTimeSpan(tl.Value, tl.FrameRate);
-                timer?.Stop();
-                allowedChange = true;
-                pw.player.Position = ts;
-                allowedChange = false;
-                Thread.Sleep(10);
-                await pw.player.Pause();
-            };
+            //tl.FrameMouseChanged += async (s, e) =>
+            //{
+            //    var ts = MediaTools.FrameToTimeSpan(tl.Frame, tl.FrameRate);
+            //    timer?.Stop();
+            //    allowedChange = true;
+            //    pw.player1.Position = ts;
+            //    allowedChange = false;
+            //    Thread.Sleep(10);
+            //    await pw.player1.Pause();
+
+            //};
         }
 
         bool allowedChange = false;
@@ -90,7 +92,7 @@ namespace Delight
                 return;
             if (!timer.IsRunning)
             {
-                await pw.player.Pause();
+                await pw.player1.Pause();
             }
         }
 

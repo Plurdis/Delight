@@ -8,7 +8,9 @@
         mc:Ignorable="d"
         
         Title="PlayWindow" Width="1920" Height="1080" AllowsTransparency="True" WindowStyle="None" Background="Black">
-    <Grid x:Name="rootElement">
-        <ffme:MediaElement x:Name="player" IsHitTestVisible="False"/>
+    <Grid x:Name="rootElement" Background="Black">
+        <ffme:MediaElement x:Name="player2" IsHitTestVisible="False" Opacity="0.7"/>
+        <ffme:MediaElement x:Name="player1" IsHitTestVisible="False" Opacity="0.7"/>
+        <Slider Value="{Binding ElementName=player1, Path=Opacity}" Width="100" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="1"/>
     </Grid>
 </Window>

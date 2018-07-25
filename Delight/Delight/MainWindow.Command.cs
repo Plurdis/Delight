@@ -123,13 +123,13 @@ namespace Delight
             if (!timer.IsRunning)
             {
                 timer.Start();
-                pw.player.Play();
+                pw.player1.Play();
             }
             else
             {
                 timer.Stop();
                 
-                pw.player.Pause();
+                pw.player1.Pause();
             }
         }
     }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Unosquare.FFME;
 
 namespace Delight.Windows
 {
@@ -24,12 +25,16 @@ namespace Delight.Windows
         {
             InitializeComponent();
 
+            //WindowsPlatform
+
             this.MouseDown += (s, e) => this.DragMove();
 
-            player.Open(new Uri(@"D:\도깨비\[tvN] 도깨비.E03.161209.720p-NEXT.mp4", UriKind.Absolute));
+            player1.Open(new Uri(@"D:\도깨비\[tvN] 도깨비.E03.161209.720p-NEXT.mp4", UriKind.Absolute));
+            player2.Open(new Uri(@"D:\영화\소아온\[바카-Raws] Sword Art Online #01 VFR (MX 1280x720 x264 AAC).mp4", UriKind.Absolute));
+            player2.MediaOpened += (s, e) => player2.Play();
             //player.MediaEnded += (s, e) => { player.Close(); };
 
-            foreach(Screen scr in Screen.AllScreens)
+            foreach (Screen scr in Screen.AllScreens)
             {
                 if (!scr.Primary)
                 {
