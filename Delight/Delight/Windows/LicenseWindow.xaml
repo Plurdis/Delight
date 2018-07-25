@@ -32,10 +32,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <ListBox x:Name="lb" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBoxItem Tag="{x:Static l:WindowText.FFMpegLicense}">
+                <ListBoxItem Tag="{x:Static l:WindowText.FFMpegLicense}" HorizontalContentAlignment="Center">
                     <Image Width="200" Source="/Delight;component/Resources/ffmpeg.png"/>
                 </ListBoxItem>
-                <ListBoxItem Tag="{x:Static l:WindowText.NRecoLicense}">
+                <ListBoxItem Tag="{x:Static l:WindowText.NRecoLicense}" HorizontalContentAlignment="Center">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -46,9 +46,12 @@
                                    FontFamily="Berlin Sans FB Demi" TextAlignment="Center"/>
                     </Grid>
                 </ListBoxItem>
-                <ListBoxItem Tag="{x:Static l:WindowText.FFMeLicense}">
-                    <TextBlock Grid.Column="1" Text="FFMediaElement" VerticalAlignment="Center" FontSize="25"
+                <ListBoxItem Tag="{x:Static l:WindowText.FFMeLicense}" HorizontalContentAlignment="Center">
+                    <TextBlock Grid.Column="1" Text="FFMediaElement" FontSize="25"
                                 FontFamily="Berlin Sans FB Demi" TextAlignment="Center"/>
+                </ListBoxItem>
+                <ListBoxItem Tag="{x:Static l:WindowText.NAudioLicense}">
+                    <Image Source="/Delight;component/Resources/NAudio.png" Width="200"/>
                 </ListBoxItem>
             </ListBox>
             <TextBox x:Name="licField" Margin="5" IsReadOnly="True" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible"/>

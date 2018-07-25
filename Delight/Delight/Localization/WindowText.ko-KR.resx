@@ -151,6 +151,16 @@
   <data name="InfoWindow_1" xml:space="preserve">
     <value>사용된 라이브러리/라이센스</value>
   </data>
+  <data name="NAudioLicense" xml:space="preserve">
+    <value>이 라이브러리는 Ms-PL에 의해서 사용이 허가 되었습니다.
+
+========================================================
+
+{Ms-PL}</value>
+  </data>
+  <data name="NAudioName" xml:space="preserve">
+    <value>NAudio 라이브러리</value>
+  </data>
   <data name="NRecoLicense" xml:space="preserve">
     <value>이 라이브러리는 LGPL 라이센스에 의해서 사용이 허가 되었습니다.
 

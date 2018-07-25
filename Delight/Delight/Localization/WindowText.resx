@@ -118,13 +118,26 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FFMeLicense" xml:space="preserve">
-    <value>This library is licensed under the license Ms-PL and LGPL from FFMpeg.</value>
+    <value>This library is licensed under the license Ms-PL and LGPL from FFMpeg.
+
+========================================================
+
+{Ms-PL}
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="FFMeName" xml:space="preserve">
     <value>FFMediaElement Library</value>
   </data>
   <data name="FFMpegLicense" xml:space="preserve">
-    <value>This library is licensed under the license LGPL.</value>
+    <value>This library is licensed under the license LGPL.
+
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="FFMpegName" xml:space="preserve">
     <value>FFMpeg Library</value>
@@ -138,8 +151,22 @@
   <data name="InfoWindow_1" xml:space="preserve">
     <value>Used Library/License</value>
   </data>
+  <data name="NAudioLicense" xml:space="preserve">
+    <value>This library is licensed under the license Ms-PL.
+
+========================================================
+
+{Ms-PL}</value>
+  </data>
+  <data name="NAudioName" xml:space="preserve">
+    <value>NAudio Library</value>
+  </data>
   <data name="NRecoLicense" xml:space="preserve">
-    <value>This library is licensed under the license LGPL.</value>
+    <value>This library is licensed under the license LGPL.
+
+========================================================
+
+{LGPL}</value>
   </data>
   <data name="NRecoName" xml:space="preserve">
     <value>NReco Library</value>
