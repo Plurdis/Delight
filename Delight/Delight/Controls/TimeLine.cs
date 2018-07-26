@@ -59,7 +59,9 @@ namespace Delight.Controls
 
             scrollBar.ViewportSize = 100;
             scrollBar.Scroll += ScrollBar_Scroll;
-            gridDrag.MouseDown += GridDrag_MouseDown;
+            gridDrag.MouseLeftButtonDown += GridDrag_MouseLeftButtonDown;
+            gridDrag.MouseMove += GridDrag_MouseMove;
+            gridDrag.MouseLeftButtonUp += GridDrag_MouseLeftButtonUp;
             AddTrack();
             AddTrack();
             AddTrack();
@@ -130,7 +132,8 @@ namespace Delight.Controls
 
                 tempItem.DragLeftMouseLeftButtonDown += TrackItem_HoldLeft;
                 tempItem.DragRightMouseLeftButtonDown += TrackItem_HoldRight;
-                tempItem.DragMoveMouseLeftButtonDown += TrackItem_DragMove;
+
+
 
                 ((Grid)sender).Children.Add(tempItem);
             }
@@ -168,11 +171,11 @@ namespace Delight.Controls
         /// </summary>
         private void TrackItem_DragMove(object sender, MouseButtonEventArgs e)
         {
-            
+
             // 현재 전달된 sender의 템플릿 루트가 TrackItem이라면 ti라는 변수로 받는다.
             if (((Rectangle)sender).TemplatedParent is TrackItem item)
             {
-                
+
                 // 최초 X 좌표 위치는 절대값으로 받는다.
                 firstX = MouseManager.MousePosition.X;
                 // 최초 Offset은 TrackItem의 왼쪽 마진으로 받는다.
@@ -361,7 +364,7 @@ namespace Delight.Controls
                             // 너비는 원래 너비와 초과된 오프셋을 추가해준다.
                             item.Width = (rawWidth + overOffset) * _realSize;
                             item.FrameWidth = rawWidth + overOffset;
-                            
+
                         });
                     }
                     // 사용한 변수 초기화
@@ -402,7 +405,7 @@ namespace Delight.Controls
 
                 if (!same)
                     FrameChanged?.Invoke(this, new EventArgs());
-                
+
                 ResetItemOffset();
             }
         }
@@ -436,7 +439,7 @@ namespace Delight.Controls
 
         #region [  Property & Variable  ]
 
-        public FrameRate FrameRate { get; private set; } = FrameRate._24FPS;
+        public FrameRate FrameRate { get; private set; } = FrameRate._60FPS;
 
         public double MaxItemSize = 30;
 
@@ -464,7 +467,7 @@ namespace Delight.Controls
             {
                 double max = items.Max(i => (i.Offset * _realSize) + (i.FrameWidth * _realSize));
 
-                max -= ActualWidth; 
+                max -= ActualWidth;
 
                 if (max != 0)
                 {
@@ -488,44 +491,91 @@ namespace Delight.Controls
                     itm.Width = width;
                 }
             }
-
             trackSlider.Margin = new Thickness((Frame * _realSize) - 0.5 - _offset, 0, 0, 0);
         }
 
-        private void GridDrag_MouseDown(object sender, MouseButtonEventArgs e)
+        bool captured = false;
+        UIElement source;
+        double absLeft, relLeft;
+
+        private void GridDrag_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Thread thr = new Thread(() =>
-            {
-                while (MouseManager.IsMouseDown)
-                {
-                    Thread.Sleep(1);
-                    Dispatcher.Invoke(() =>
-                    {
-                        Point relativePoint = this.TransformToAncestor((Visual)this.Parent)
-                                      .Transform(new Point(0, 0));
+            source = (UIElement)sender;
+            Mouse.Capture(source);
+            captured = true;
+            relLeft = e.GetPosition(this).X;
+            absLeft = e.GetPosition(this).X;
 
-                        PresentationSource source = PresentationSource.FromVisual(this);
-                        Point locationFromScreen = this.PointToScreen(new Point(0, 0));
-
-                        var point = source.CompositionTarget.TransformFromDevice.Transform(locationFromScreen);
-
-                        double left = MouseManager.MousePosition.X - point.X + _offset;
-                        if (left < 0)
-                            left = 0;
-
-                        if ((int)(left / _realSize) != Frame)
-                        {
-                            Frame = (int)(left / _realSize);
-                            FrameMouseChanged?.Invoke(this, new EventArgs());
-                        }
-                        
-                    });
-                }
-            });
-            thr.SetApartmentState(ApartmentState.STA);
-            thr.Start();
+            SetSliderLeft();
         }
 
+        private void GridDrag_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Mouse.Capture(null);
+            captured = false;
+        }
+
+        private void GridDrag_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (captured)
+            {
+                double x = e.GetPosition(this).X;
+                relLeft += x - absLeft;
+
+                SetSliderLeft();
+
+                absLeft = x;
+            }
+        }
+
+        public void SetSliderLeft()
+        {
+            double left = relLeft + _offset;
+            if (left < 0)
+                left = 0;
+
+            var frame = (int)(left / _realSize);
+
+            if (frame != Frame)
+            {
+                trackSlider.Margin = new Thickness((frame * _realSize) - 0.5 - _offset, 0, 0, 0);
+                Frame = frame;
+                FrameMouseChanged?.Invoke(this, new EventArgs());
+            }
+        }
+
+        #region [  Get/Set Left/Top  ]
+
+        public double GetLeft(object element)
+        {
+            if (element is FrameworkElement ui)
+                return ui.Margin.Left;
+
+            return double.MinValue;
+        }
+
+        public double GetTop(object element)
+        {
+            if (element is FrameworkElement ui)
+                return ui.Margin.Top;
+
+            return double.MinValue;
+        }
+
+        public void SetLeft(object element, double left)
+        {
+            if (element is FrameworkElement ui)
+                ui.Margin = new Thickness(left, ui.Margin.Top, ui.Margin.Right, ui.Margin.Bottom);
+        }
+
+        public void SetTop(object element, double top)
+        {
+            if (element is FrameworkElement ui)
+                ui.Margin = new Thickness(ui.Margin.Left, top, ui.Margin.Right, ui.Margin.Bottom);
+        }
+
+        #endregion
+        
         public IEnumerable<TrackItem> GetTrackItems(int frame)
         {
             IEnumerable<TrackItem> items = tracks.Select(i => i.Children
