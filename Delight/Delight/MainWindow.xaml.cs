@@ -26,8 +26,10 @@ namespace Delight
     {
         public MainWindow()
         {
-            //TutorialWindow tw = new TutorialWindow();
-            //tw.ShowDialog();
+            TutorialWindow tw = new TutorialWindow();
+            tw.ShowDialog();
+
+            MenuCommands.ExportInputGestureText = "Ctrl+Z";
 
             LocalCommandManager.Init();
             InitializeComponent();
@@ -67,9 +69,9 @@ namespace Delight
                 });
             };
             
-            pw = new PlayWindow();
-            pw.Show();
-            pw.player1.PositionChanged += Player_PositionChanged;
+            //pw = new PlayWindow();
+            //pw.Show();
+            //pw.player1.PositionChanged += Player_PositionChanged;
 
             //tl.FrameMouseChanged += async (s, e) =>
             //{

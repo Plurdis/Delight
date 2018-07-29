@@ -23,6 +23,8 @@ namespace Delight.Common
 
         public static RoutedCommand ExportCommand { get; }
 
+        public static string ExportInputGestureText { get; set; } = "Ctrl+E";
+
         public static RoutedCommand ExitCommand { get; }
 
         #endregion

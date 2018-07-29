@@ -73,7 +73,12 @@ namespace Delight
                             OriginalPath = location,
                             Time = MediaTools.GetMediaDuration(location),
                             Thumbnail = image,
-                        }
+                        },
+                        ToolTip = new ItemToolTip()
+                        {
+                            Image = image,
+                            Text= "Test",
+                        },
                     });
                     break;
                 default:
