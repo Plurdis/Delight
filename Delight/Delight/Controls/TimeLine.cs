@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,408 +13,116 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 using Delight.Common;
-using Delight.Core.Common;
-using Delight.Core.Extension;
-using Delight.Components.Medias;
 using Delight.Components.Common;
-using Delight.Components;
+using Delight.Core.Common;
 using Delight.Extensions;
 
 namespace Delight.Controls
 {
-    [TemplatePart(Name = "trackSlider", Type = typeof(Rectangle))]
-    [TemplatePart(Name = "trackPanel", Type = typeof(StackPanel))]
+    [TemplatePart(Name = "positioner", Type = typeof(Rectangle))]
+    [TemplatePart(Name = "dragRange", Type = typeof(Grid))]
     [TemplatePart(Name = "scrollBar", Type = typeof(ScrollBar))]
-    [TemplatePart(Name = "gridDrag", Type = typeof(Grid))]
+    [TemplatePart(Name = "tracks", Type = typeof(StackPanel))]
     public class TimeLine : Control
     {
-        public TimeLine()
-        {
-            this.MouseWheel += TimeLine_MouseWheel;
-
-            this.Style = FindResource("TimeLineStyle") as Style;
-        }
-
         public event EventHandler FrameChanged;
         public event EventHandler FrameMouseChanged;
 
-        public Rectangle trackSlider;
-        public StackPanel trackPanel;
-        public ScrollBar scrollBar;
-        public Grid gridDrag;
+        Rectangle positioner;
+        Grid dragRange;
+        ScrollBar scrollBar;
+        StackPanel tracks;
 
-        public List<Grid> tracks = new List<Grid>();
+        // Drag Movement에서 쓰일 변수들
+        bool captured = false;
+        UIElement source;
+        double absLeft, relLeft;
+
+        public FrameRate FrameRate { get; set; }
+
+
+
+        public TimeLine()
+        {
+            this.Style = FindResource("TimeLineStyle") as Style;
+        }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            trackSlider = GetTemplateChild("trackSlider") as Rectangle;
-            trackPanel = GetTemplateChild("trackPanel") as StackPanel;
+            positioner = GetTemplateChild("positioner") as Rectangle;
+            dragRange = GetTemplateChild("dragRange") as Grid;
             scrollBar = GetTemplateChild("scrollBar") as ScrollBar;
-            gridDrag = GetTemplateChild("gridDrag") as Grid;
+            tracks = GetTemplateChild("tracks") as StackPanel;
 
-            this.SizeChanged += (s, e) => ResetItemOffset();
-
-            scrollBar.ViewportSize = 100;
+            this.MouseWheel += TimeLine_MouseWheel;
             scrollBar.Scroll += ScrollBar_Scroll;
-            gridDrag.MouseLeftButtonDown += GridDrag_MouseLeftButtonDown;
-            gridDrag.MouseMove += GridDrag_MouseMove;
-            gridDrag.MouseLeftButtonUp += GridDrag_MouseLeftButtonUp;
-            AddTrack();
-            AddTrack();
-            AddTrack();
-            AddTrack();
-        }
 
-        public void AddTrack()
-        {
-            Grid grid = new Grid()
+            dragRange.MouseLeftButtonDown += DragRange_MouseLeftButtonDown;
+            dragRange.MouseLeftButtonUp += DragRange_MouseLeftButtonUp;
+            dragRange.MouseMove += DragRange_MouseMove;
+
+            var prop = DependencyPropertyDescriptor.FromProperty(ScrollBar.ValueProperty, typeof(ScrollBar));
+
+            this.SizeChanged += (s, e) =>
             {
-                Background = Brushes.Transparent,
-                AllowDrop = true,
+                tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+                Track_ItemsMaxWidthChanged(null, null);
             };
-            grid.Children.Add(new Border()
-            {
-                Height = 50,
-                BorderBrush = Brushes.Black,
-                BorderThickness = new Thickness(1, 0, 1, 1),
-                IsHitTestVisible = false,
-            });
+            
+            prop.AddValueChanged(scrollBar, ScrollBarValueChanged);
 
-            grid.DragEnter += Grid_DragEnter;
-            grid.DragOver += Grid_DragEnter;
-            grid.DragLeave += Grid_DragLeave;
-            grid.Drop += Grid_Drop;
 
-            tracks.Add(grid);
-            trackPanel.Children.Add(grid);
+            AddTrack(TrackType.Image);
+            AddTrack(TrackType.Video);
         }
 
-        TrackItem tempItem = null;
+        #region [  DependencyProperty  ]
 
-        private void ScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            _offset = scrollBar.Value;
-            this.InvalidateVisual();
-            ResetItemOffset();
-        }
+        public static DependencyProperty PositionProperty = DependencyProperty.Register(nameof(Position), typeof(int), typeof(TimeLine), new PropertyMetadata(0, PositionChanged));
 
-        private void Grid_DragLeave(object sender, DragEventArgs e)
+        private static void PositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (tempItem != null)
+            if (d is TimeLine timeLine)
             {
-                ((Grid)sender).Children.Remove(tempItem);
-                tempItem = null;
-
-                MainWindow mw = Application.Current.MainWindow as MainWindow;
+                timeLine.FrameChanged?.Invoke(timeLine, new EventArgs());
             }
         }
 
-        private void Grid_DragEnter(object sender, DragEventArgs e)
+        public int Position
         {
-            if (tempItem == null)
-            {
-                var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
-                var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
-
-                tempItem = new TrackItem()
-                {
-                    Width = frame * _realSize,
-                    FrameWidth = frame,
-                    MaxFrame = frame,
-                    IsHitTestVisible = false,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    Text = comp.Identifier,
-                    Thumbnail = comp.Thumbnail,
-                };
-
-                tempItem.DragLeftMouseLeftButtonDown += TrackItem_HoldLeft;
-                tempItem.DragRightMouseLeftButtonDown += TrackItem_HoldRight;
-
-
-
-                ((Grid)sender).Children.Add(tempItem);
-            }
-
-            Point relativePoint = this.TransformToAncestor((Visual)this.Parent)
-                                      .Transform(new Point(0, 0));
-
-            PresentationSource source = PresentationSource.FromVisual(this);
-            Point locationFromScreen = this.PointToScreen(new Point(0, 0));
-
-            var point = source.CompositionTarget.TransformFromDevice.Transform(locationFromScreen);
-
-            double left = MouseManager.MousePosition.X - point.X;
-
-            int value = (int)((left + _offset) / _realSize);
-            tempItem.Offset = value;
-            tempItem.Margin = new Thickness((int)(left / _realSize) * _realSize, 0, 0, 0);
-        }
-
-        private void Grid_Drop(object sender, DragEventArgs e)
-        {
-            tempItem.IsHitTestVisible = true;
-            tempItem = null;
-            ResetItemOffset();
-        }
-
-        #region [  TrackItem Drag & Resize  ]
-
-        int firstX; // 처음 X 좌표 위치 (드래그, 왼쪽으로 늘리기, 오른쪽으로 늘리기에서 사용)
-        double firstOffset; // 처음 Offset (드래그, 왼쪽으로 늘리기에서 사용)
-        double firstSize; // 처음 사이즈 (왼쪽으로 늘리기, 오른쪽으로 늘리기에서 사용)
-
-        /// <summary>
-        /// TrackItem을 잡고 끌때 발생하는 이벤트입니다.
-        /// </summary>
-        private void TrackItem_DragMove(object sender, MouseButtonEventArgs e)
-        {
-
-            // 현재 전달된 sender의 템플릿 루트가 TrackItem이라면 ti라는 변수로 받는다.
-            if (((Rectangle)sender).TemplatedParent is TrackItem item)
-            {
-
-                // 최초 X 좌표 위치는 절대값으로 받는다.
-                firstX = MouseManager.MousePosition.X;
-                // 최초 Offset은 TrackItem의 왼쪽 마진으로 받는다.
-                firstOffset = item.Margin.Left;
-
-                Thread thr = new Thread(() =>
-                {
-                    // 마우스가 눌리고 있는 중에 계속 반복
-                    while (MouseManager.IsMouseDown)
-                    {
-                        Thread.Sleep(1);
-                        // TimeLine의 메인 쓰레드에 접근하기 위해서 컨트롤 소유자인 Dispatcher에 접근
-                        Dispatcher.Invoke(() =>
-                        {
-                            // 내가 추가해야 할 오프셋 값 => 현재 X 좌표 - 최초 X 좌표
-                            int addOffset = MouseManager.MousePosition.X - firstX;
-                            // 실제 오프셋 => ('아이템의 최초 오프셋' + '추가해야 할 오프셋 값' + '슬라이더의 오프셋 값') / '실제로 보여지는 한 프레임의 크기'
-                            // 이렇게 계산하는 이유 : 정확히 프레임 단위로 이동하기 위해서 값을 정규화 시키기 위함.
-                            int rawOffset = (int)((firstOffset + addOffset + _offset) / _realSize);
-
-                            // 만약 packOffset이 0보다 작다면 0으로 무조건 맟추기
-                            if (rawOffset < 0)
-                                rawOffset = 0;
-
-                            // 나머지는 모두 같지만 왼쪽 마진값만 실제 값을 곱해서 위치 시킴.
-                            item.Margin = ChangeLeftMargin((rawOffset * _realSize) - _offset, item.Margin);
-                            // 내부적으로는 실제 오프셋을 저장하고 있음
-                            item.Offset = rawOffset;
-                        });
-                    }
-
-                    // 사용했던 변수들 초기화
-                    firstX = 0;
-                    firstOffset = 0;
-
-                    Dispatcher.Invoke(() =>
-                    {
-                        // 컨트롤 범위 무효화 (다시 그리기)
-                        this.InvalidateVisual();
-                        // 아이템 위치 재설정
-                        ResetItemOffset();
-                    });
-                });
-
-                thr.Start();
-            }
-        }
-
-        /// <summary>
-        /// TrackItem의 오른쪽 끝 부분을 잡고 늘릴때 발생하는 이벤트입니다.
-        /// </summary>
-        private void TrackItem_HoldRight(object sender, MouseButtonEventArgs e)
-        {
-            // 현재 전달된 sender의 템플릿 루트가 TrackItem이라면 ti라는 변수로 받는다.
-            if (((Rectangle)sender).TemplatedParent is TrackItem item)
-            {
-                // 최초 X 좌표 위치는 절대값으로 받는다.
-                firstX = MouseManager.MousePosition.X;
-                // 최초 사이즈는 TrackItem의 실제 Width로 받는다.
-                firstSize = item.Width;
-
-                Thread thr = new Thread(() =>
-                {
-                    // 마우스가 눌리고 있는 중에 계속 반복
-                    while (MouseManager.IsMouseDown)
-                    {
-                        Thread.Sleep(1);
-                        // TimeLine의 메인 쓰레드에 접근하기 위해서 컨트롤 소유자인 Dispatcher에 접근
-                        Dispatcher.Invoke(() =>
-                        {
-                            // 내가 추가해야 할 오프셋 값 => 현재 X 좌표 - 최초 X 좌표
-                            int addOffset = MouseManager.MousePosition.X - firstX;
-                            // 실제 프레임 너비 => (최초 너비 + 추가할 오프셋)  / 실제 한 프레임 크기
-                            int rawWidth = (int)((firstSize + addOffset) / _realSize);
-                            // 만약 프레임 너비가 1보다 작다면 1로 설정
-                            if (rawWidth < 1)
-                                rawWidth = 1;
-
-                            #region [  다시 짜야할 부분  ]
-                            //int maximum = item.MaxFrame - item.StartOffset;
-
-                            //if (rawWidth > maximum)
-                            //{
-                            //    rawWidth = maximum;
-                            //}
-
-                            //item.EndOffset = item.MaxFrame - rawWidth;
-                            #endregion
-
-                            // TrackItem의 길이 => 프레임 너비 * 한 프레임의 크기
-                            item.Width = (rawWidth * _realSize);
-                            // 내부 프레임 길이에는 프레임 너비 그대로 저장
-                            item.FrameWidth = rawWidth;
-                        });
-                    }
-
-                    // 사용한 변수 초기화
-                    firstX = 0;
-                    firstSize = 0;
-
-                    Dispatcher.Invoke(() =>
-                    {
-                        // 컨트롤 범위 무효화 (다시 그리기)
-                        this.InvalidateVisual();
-                        // 아이템 위치 재설정
-                        ResetItemOffset();
-                    });
-                });
-
-                thr.Start();
-            }
-        }
-
-        /// <summary>
-        /// TrackItem의 왼쪽 끝 부분을 잡고 늘릴때 발생하는 이벤트입니다.
-        /// </summary>
-        private void TrackItem_HoldLeft(object sender, MouseButtonEventArgs e)
-        {
-            // 현재 전달된 sender의 템플릿 루트가 TrackItem이라면 ti라는 변수로 받는다.
-            if (((Rectangle)sender).TemplatedParent is TrackItem item)
-            {
-                // 최초 X 좌표 위치는 절대값으로 받는다.
-                firstX = MouseManager.MousePosition.X;
-                // 최초 Offset은 TrackItem의 왼쪽 마진으로 받는다.
-                firstOffset = item.Margin.Left;
-                // 최초 사이즈는 TrackItem의 실제 Width로 받는다.
-                firstSize = item.Width;
-
-                Thread thr = new Thread(() =>
-                {
-                    while (MouseManager.IsMouseDown)
-                    {
-                        Thread.Sleep(1);
-                        Dispatcher.Invoke(() =>
-                        {
-                            // 내가 추가해야 할 오프셋 값 => 현재 X 좌표 - 최초 X 좌표
-                            int addOffset = MouseManager.MousePosition.X - firstX;
-
-                            // 실제 프레임 너비 => (최초 너비 + 추가할 오프셋)  / 실제 한 프레임 크기
-                            int rawWidth = (int)((firstSize - addOffset) / _realSize);
-                            // 실제 오프셋 => ( 최초 오프셋 + 추가할 오프셋 + 슬라이더의 오프셋) / 실제 한 프레임 크기
-                            int rawOffset = (int)((firstOffset + addOffset + _offset) / _realSize);
-
-                            int overWidth = 0, overOffset = 0;
-
-                            // 만약 오프셋이 0보다 뒤로 갈때
-                            if ((rawOffset * _realSize) < 0)
-                            {
-                                // 넘게 되는 값을 overOffset으로 처리
-                                overOffset = rawOffset;
-                                // 실제 처리에 쓸 값은 0으로 고정
-                                rawOffset = 0;
-                            }
-                            else if (rawWidth < 1)
-                            {
-                                // 넘게 되는 너비를 overWidth로 처리
-                                overWidth = rawWidth;
-                                // 실제 처리에 쓸 최소 너비는 1로 고정
-                                rawWidth = 1;
-                            }
-
-                            #region [  다시 짜야할 부분  ]
-
-                            //int maximum = item.MaxFrame - item.EndOffset;
-
-                            //if (rawWidth >= maximum)
-                            //{
-                            //    int over = rawWidth - maximum;
-
-                            //    rawWidth = maximum;
-                            //    var current = (int)((firstOffset + _offset) / _realSize);
-                            //    rawOffset = maximum - (maximum - current);
-
-                            //    Console.WriteLine(maximum + " :: " + current + " :: " + rawOffset);
-
-                            //}
-
-                            //item.StartOffset = item.MaxFrame - rawWidth;
-
-                            #endregion
-
-                            // 실제 왼쪽 마진 값은 원래 왼쪽 값과 초과되는 너비를 추가해준다. (-슬라이더 오프셋 값)
-                            item.Margin = ChangeLeftMargin((rawOffset + overWidth) * _realSize - _offset, item.Margin);
-                            item.Offset = rawOffset + overWidth;
-
-                            // 너비는 원래 너비와 초과된 오프셋을 추가해준다.
-                            item.Width = (rawWidth + overOffset) * _realSize;
-                            item.FrameWidth = rawWidth + overOffset;
-
-                        });
-                    }
-                    // 사용한 변수 초기화
-                    firstX = 0;
-                    firstOffset = 0;
-                    firstSize = 0;
-
-                    Dispatcher.Invoke(() =>
-                    {
-                        this.InvalidateVisual();
-                        ResetItemOffset();
-                    });
-                });
-
-                thr.Start();
-            }
-        }
-
-        private Thickness ChangeLeftMargin(double left, Thickness thickness)
-        {
-            return new Thickness(left, thickness.Top, thickness.Right, thickness.Bottom);
-        }
-
-        #endregion
-
-        #region [  Dependency Property  ]
-
-        private int _value;
-
-        public int Frame
-        {
-            get => _value;
+            get => (int)GetValue(PositionProperty);
             set
             {
-                bool same = _value == value;
-
-                _value = value;
-
-                if (!same)
-                    FrameChanged?.Invoke(this, new EventArgs());
-
-                ResetItemOffset();
+                SetValue(PositionProperty, value);
+                SetPositionerToPosition();
             }
         }
+
+        private void SetPositionerToPosition()
+        {
+            positioner.Margin = new Thickness(Position * _realSize - 0.5 - Offset, 0, 0, 0);
+        }
+
+        public double ItemSize = 0.25;
+
+        public double Offset => scrollBar.Value;
+
+        private int Weight => GetWeight(Ratio);
+
+        private double _realSize => ItemSize * Ratio;
+
+        private double _displaySize => _realSize * Weight;
 
         public static DependencyProperty RatioProperty = DependencyProperty.Register(nameof(Ratio),
             typeof(double),
             typeof(TimeLine),
-            new FrameworkPropertyMetadata(0.1, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+            new FrameworkPropertyMetadata(0.4, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private const double MaxRatio = 12.8;
+
+
+        private const double MaxRatio = 25.6;
 
         public double Ratio
         {
@@ -428,94 +135,89 @@ namespace Delight.Controls
                     value = MaxRatio;
 
                 SetValue(RatioProperty, value);
+                SetPositionerToPosition();
+                Console.WriteLine(_realSize);
 
                 scrollBar.ViewportSize = value * 100;
+                Track_ItemsMaxWidthChanged(null, null);
 
-                ResetItemOffset();
+                tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+
+                //ResetItemOffset();
             }
         }
 
         #endregion
 
-        #region [  Property & Variable  ]
-
-        public FrameRate FrameRate { get; private set; } = FrameRate._60FPS;
-
-        public double MaxItemSize = 30;
-
-        public double ItemSize = 0.5;
-
-        private int Weight => GetWeight(Ratio);
-
-        private double _realSize => ItemSize * Ratio;
-
-        private double _displaySize => _realSize * Weight;
-
-        private double _offset { get; set; }
-
-        #endregion
-
-        private void ResetItemOffset()
+        private void ScrollBarValueChanged(object sender, EventArgs e)
         {
-            this.ApplyTemplate();
-            IEnumerable<TrackItem> items = tracks.Select(i => i.Children
-                .Cast<UIElement>()
-                .Where(j => j.GetType() == typeof(TrackItem))
-                .Cast<TrackItem>())
-                .SelectMany(k => k);
-            if (items.Count() != 0)
+            tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+            this.InvalidateVisual();
+            // 위치 재설정
+        }
+
+        private void ScrollBar_Scroll(object sender, ScrollEventArgs e)
+        {
+            
+        }
+
+        private void TimeLine_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                double max = items.Max(i => (i.Offset * _realSize) + (i.FrameWidth * _realSize));
+                double inc = GetIncrement(Ratio);
+                if (Keyboard.IsKeyDown(Key.LeftShift))
+                    inc *= 2;
 
-                max -= ActualWidth;
-
-                if (max != 0)
-                {
-                    scrollBar.Maximum = max;
-                    if (scrollBar.Maximum < _offset)
-                        _offset = scrollBar.Maximum;
-                    else
-                        _offset = scrollBar.Value;
-                }
+                if (e.Delta > 0)
+                    Ratio += inc;
                 else
+                    Ratio -= inc;
+            }
+            else
+            {
+                if (scrollBar.Visibility == Visibility.Visible)
                 {
-                    _offset = 0;
-                }
-                scrollBar.Visibility = (max != 0) ? Visibility.Visible : Visibility.Hidden;
-
-                foreach (TrackItem itm in items)
-                {
-                    double offset = itm.Offset * _realSize,
-                           width = itm.FrameWidth * _realSize;
-                    itm.Margin = new Thickness(offset - _offset, 0, 0, 0);
-                    itm.Width = width;
+                    scrollBar.Value -= (e.Delta * Ratio);
+                    ScrollBar_Scroll(scrollBar, null);
                 }
             }
-            trackSlider.Margin = new Thickness((Frame * _realSize) - 0.5 - _offset, 0, 0, 0);
         }
 
-        bool captured = false;
-        UIElement source;
-        double absLeft, relLeft;
+        #region [  Track Management (Add/Remove)  ]
 
-        private void GridDrag_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void AddTrack(TrackType trackType)
         {
-            source = (UIElement)sender;
-            Mouse.Capture(source);
-            captured = true;
-            relLeft = e.GetPosition(this).X;
-            absLeft = e.GetPosition(this).X;
+            Track track = new Track(this, trackType, FrameRate);
 
-            SetSliderLeft();
+            track.ItemsMaxWidthChanged += Track_ItemsMaxWidthChanged;
+
+            tracks.Children.Add(track);
         }
 
-        private void GridDrag_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Track_ItemsMaxWidthChanged(object sender, EventArgs e)
         {
-            Mouse.Capture(null);
-            captured = false;
+            double value = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxWidth) - (this.ActualWidth - 100);
+            if (value > 0)
+            {
+                scrollBar.Maximum = value;
+                scrollBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                scrollBar.Value = 0;
+                scrollBar.Maximum = 0;
+                scrollBar.Visibility = Visibility.Hidden;
+            }
+            
+            
         }
 
-        private void GridDrag_MouseMove(object sender, MouseEventArgs e)
+        #endregion
+
+        #region [  Positioner Movement  ]
+
+        private void DragRange_MouseMove(object sender, MouseEventArgs e)
         {
             if (captured)
             {
@@ -528,70 +230,49 @@ namespace Delight.Controls
             }
         }
 
-        public void SetSliderLeft()
+        private void DragRange_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            double left = relLeft + _offset;
+            Mouse.Capture(null);
+            captured = false;
+        }
+
+        private void DragRange_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            source = (UIElement)sender;
+            Mouse.Capture(source);
+            captured = true;
+            absLeft = e.GetPosition(this).X;
+            relLeft = GetSliderLeft() + Mouse.GetPosition(positioner).X;
+
+            SetSliderLeft();
+        }
+
+        private void SetSliderLeft()
+        {
+            double left = relLeft + Offset;
             if (left < 0)
                 left = 0;
 
             var frame = (int)(left / _realSize);
 
-            if (frame != Frame)
+            Console.WriteLine(frame);
+
+            SetPositionerToPosition();
+
+            if (frame != Position)
             {
-                trackSlider.Margin = new Thickness((frame * _realSize) - 0.5 - _offset, 0, 0, 0);
-                Frame = frame;
+                Position = frame;
                 FrameMouseChanged?.Invoke(this, new EventArgs());
             }
         }
+        
 
-        #region [  Get/Set Left/Top  ]
-
-        public double GetLeft(object element)
+        public double GetSliderLeft()
         {
-            if (element is FrameworkElement ui)
-                return ui.Margin.Left;
-
-            return double.MinValue;
-        }
-
-        public double GetTop(object element)
-        {
-            if (element is FrameworkElement ui)
-                return ui.Margin.Top;
-
-            return double.MinValue;
-        }
-
-        public void SetLeft(object element, double left)
-        {
-            if (element is FrameworkElement ui)
-                ui.Margin = new Thickness(left, ui.Margin.Top, ui.Margin.Right, ui.Margin.Bottom);
-        }
-
-        public void SetTop(object element, double top)
-        {
-            if (element is FrameworkElement ui)
-                ui.Margin = new Thickness(ui.Margin.Left, top, ui.Margin.Right, ui.Margin.Bottom);
+            return positioner.Margin.Left;
         }
 
         #endregion
-        
-        public IEnumerable<TrackItem> GetTrackItems(int frame)
-        {
-            IEnumerable<TrackItem> items = tracks.Select(i => i.Children
-                .Cast<UIElement>()
-                .Where(j => j.GetType() == typeof(TrackItem))
-                .Cast<TrackItem>())
-                .SelectMany(k => k)
-                .Where(i => IsInRange(frame, i));
-
-            return items;
-        }
-
-        public bool IsInRange(int frame, TrackItem itm)
-        {
-            return itm.Offset <= frame && itm.FrameWidth + itm.Offset >= frame;
-        }
 
         protected override void OnRender(DrawingContext dc)
         {
@@ -600,25 +281,7 @@ namespace Delight.Controls
             base.OnRender(dc);
         }
 
-        private void TimeLine_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            {
-                if (e.Delta > 0)
-                    Ratio += GetIncrement(Ratio);
-                else
-                    Ratio -= GetIncrement(Ratio);
-            }
-            else
-            {
-                if (scrollBar.Visibility == Visibility.Visible)
-                {
-                    scrollBar.Value -= (e.Delta * Ratio);
-                    ScrollBar_Scroll(scrollBar, null);
-                }
-
-            }
-        }
+        #region [  Ratio  ]
 
         public int GetWeight(double ratio)
         {
@@ -634,7 +297,7 @@ namespace Delight.Controls
         {
             double f = 0.1, s = f * 2;
 
-            int weight = (int)Math.Pow(2, 7);
+            int weight = (int)Math.Pow(2, 8);
 
             while (f != MaxRatio)
             {
@@ -655,10 +318,14 @@ namespace Delight.Controls
 
         public void DrawHelperLine(DrawingContext dc)
         {
-            double sizeOffset = _offset == 0 ? 0 : (_displaySize - (_offset % _displaySize)) - _displaySize;
-            int value = (int)(_offset / _displaySize);
+            int startPoint = 100;
 
-            for (int i = 0; i <= ActualWidth / _displaySize; i++)
+            positioner.SetLeftMargin(Position * _realSize - Offset);
+
+            double sizeOffset = Offset == 0 ? 0 : (_displaySize - (Offset % _displaySize)) - _displaySize;
+            int value = (int)(Offset / _displaySize);
+
+            for (int i = 0; i <= (ActualWidth - startPoint) / _displaySize; i++)
             {
                 var pen = new Pen(Brushes.Gray, 1);
 
@@ -666,8 +333,8 @@ namespace Delight.Controls
 
                 GuidelineSet guidelines = new GuidelineSet();
 
-                guidelines.GuidelinesX.Add((i * _displaySize) + sizeOffset + halfPenWidth);
-                guidelines.GuidelinesX.Add((i * _displaySize) + sizeOffset + _displaySize + halfPenWidth);
+                guidelines.GuidelinesX.Add(startPoint + (i * _displaySize) + sizeOffset + halfPenWidth);
+                guidelines.GuidelinesX.Add(startPoint + (i * _displaySize) + sizeOffset + _displaySize + halfPenWidth);
 
                 dc.PushGuidelineSet(guidelines);
                 int height = 10;
@@ -679,19 +346,23 @@ namespace Delight.Controls
                         FlowDirection.LeftToRight,
                         new Typeface("Arial"),
                         10, Brushes.Black),
-                        new Point(i * _displaySize + sizeOffset + 4, 2));
+                        new Point(startPoint + i * _displaySize + sizeOffset + 4, 2));
 
                     guidelines.GuidelinesY.Add(35.5 - height);
-                    dc.DrawLine(pen, new Point(i * _displaySize + sizeOffset, 35 - height), new Point(i * _displaySize + sizeOffset + 3, 35 - height));
+                    dc.DrawLine(pen, new Point(startPoint + i * _displaySize + sizeOffset, 35 - height), new Point(startPoint + i * _displaySize + sizeOffset + 3, 35 - height));
                 }
                 else if ((i + value) % 4 == 0)
                 {
                     height = 20;
                     pen.Brush = Brushes.Black;
                 }
-                dc.DrawLine(pen, new Point(i * _displaySize + sizeOffset, 35 - height), new Point(i * _displaySize + sizeOffset, 35));
+                dc.DrawLine(pen, new Point(startPoint + i * _displaySize + sizeOffset, 35 - height), new Point(startPoint + i * _displaySize + sizeOffset, 35));
                 dc.Pop();
             }
+
+            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, 100, 39));
         }
+
+        #endregion
     }
 }

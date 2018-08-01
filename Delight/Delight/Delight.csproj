@@ -84,16 +84,19 @@
     <Compile Include="Common\ControlCommands.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\TimeLineTimer.cs" />
+    <Compile Include="Common\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />
+    <Compile Include="Controls\DragSide.cs" />
     <Compile Include="Controls\ItemToolTip.cs" />
+    <Compile Include="Controls\TimeLine.cs" />
+    <Compile Include="Controls\Track.cs" />
     <Compile Include="Converter\RangeConverter.cs" />
     <Compile Include="Components\Common\MediaTools.cs" />
     <Compile Include="Common\MenuCommands.cs" />
-    <Compile Include="Common\MouseManager.cs" />
     <Compile Include="Controls\TemplateItem.cs" />
-    <Compile Include="Controls\TimeLine.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
     <Compile Include="Extensions\FrameworkElementEx.cs" />
+    <Compile Include="Extensions\ThicknessEx.cs" />
     <Compile Include="Localization\WindowText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -232,7 +235,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

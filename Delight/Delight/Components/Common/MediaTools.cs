@@ -39,8 +39,8 @@ namespace Delight.Components.Common
             image.BeginInit();
             image.CacheOption = BitmapCacheOption.OnLoad;
             image.UriSource = new Uri(filePath);
-            image.DecodePixelHeight = 30;
-            image.DecodePixelHeight = 30;
+            image.DecodePixelHeight = 60;
+            image.DecodePixelHeight = 60;
             image.EndInit();
 
             return image;

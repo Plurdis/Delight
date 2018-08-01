@@ -28,56 +28,116 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="TimeLineStyle" TargetType="{x:Type ct:TimeLine}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ClipToBounds" Value="True"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:TimeLine}">
-                    <Grid>
+                    <Grid Background="Transparent">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="39"/>
                             <RowDefinition Height="1"/>
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Grid x:Name="gridDrag"
-                            Background="Transparent"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.RowSpan="4" Grid.ColumnSpan="2" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+
                         <Rectangle Height="1" 
                                    Fill="Black" 
                                    Grid.Row="1"
+                                   Grid.ColumnSpan="2"
                                    IsHitTestVisible="False"
                                    VerticalAlignment="Top"/>
-                        <StackPanel x:Name="trackPanel" 
-                                    Grid.Row="2"/>
-                        <Rectangle x:Name="trackSlider"
+
+                        <StackPanel x:Name="tracks" 
+                                    Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                        <Grid Grid.Column="1" Grid.RowSpan="3" ClipToBounds="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="39"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="dragRange"
+                                Background="Transparent"/>
+                            <Rectangle x:Name="positioner"
                                    Width="1" 
-                                   Grid.RowSpan="3"
+                                   Grid.RowSpan="2"
                                    Fill="Red"
+                                   IsHitTestVisible="False"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Bottom">
-                            <Rectangle.Height>
-                                <TemplateBinding Property="ActualHeight" Converter="{StaticResource MinusConverter}">
-                                    <TemplateBindingExtension.ConverterParameter>
-                                        <sys:Int32>30</sys:Int32>
-                                    </TemplateBindingExtension.ConverterParameter>
-                                </TemplateBinding>
-                            </Rectangle.Height>
-                        </Rectangle>
-                        <ScrollBar x:Name="scrollBar" Grid.Row="3" Maximum="100" Visibility="Hidden" Orientation="Horizontal"/>
+                                <Rectangle.Height>
+                                    <TemplateBinding Property="ActualHeight" Converter="{StaticResource MinusConverter}">
+                                        <TemplateBindingExtension.ConverterParameter>
+                                            <sys:Int32>30</sys:Int32>
+                                        </TemplateBindingExtension.ConverterParameter>
+                                    </TemplateBinding>
+                                </Rectangle.Height>
+                            </Rectangle>
+                        </Grid>
+
+
+                        <ScrollBar x:Name="scrollBar" Grid.ColumnSpan="2" Grid.Row="3" Maximum="100" Visibility="Hidden" Orientation="Horizontal"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    <Style x:Key="TrackStyle" TargetType="{x:Type ct:Track}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="MinHeight" Value="50"/>
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ct:Track}">
+                    <Grid Background="{TemplateBinding Background}" AllowDrop="{TemplateBinding AllowDrop}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="2" Text="비디오" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="10" Text="보이기/숨기기" HorizontalAlignment="Center"/>
+                                <TextBlock FontSize="10" Text="100%" Margin="4,0" Grid.Column="1" TextAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Border BorderBrush="Black" BorderThickness="1,0,1,1" IsHitTestVisible="False"/>
+                            <Grid Background="Transparent" ClipToBounds="True"
+                                  x:Name="itemGrid" AllowDrop="True"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="TemplateItemStyle" TargetType="{x:Type ct:TemplateItem}">
         <Setter Property="Height" Value="30"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
-        <!--나중에 이부분 처리해서 줄어들때 ..처리되도록 변경할것 -->
-        
+        <!--TODO: 나중에 이부분 처리해서 줄어들때 ..처리되도록 변경할것 -->
+        <Setter Property="ToolTipService.ShowDuration" Value="1000000"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:TemplateItem}">
@@ -176,5 +236,34 @@
                 </Setter>
             </DataTrigger>
         </Style.Triggers>-->
+    </Style>
+
+    <Style TargetType="{x:Type ct:ItemToolTip}">
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="Foreground" Value="Black"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ct:ItemToolTip}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{TemplateBinding Image}"/>
+                            <Grid Grid.Column="1">
+                                <StackPanel Margin="5,0,0,0">
+                                    <TextBlock>
+                                    이름 : <Run Text="{TemplateBinding Text}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

@@ -13,5 +13,15 @@ namespace Delight.Extensions
         {
             return (T)obj.Tag;
         }
+
+        public static void SetLeftMargin(this FrameworkElement element, double value)
+        {
+            element.Margin = element.Margin.ChangeLeft(value);
+        }
+
+        public static void SetRightMargin(this FrameworkElement element, double value)
+        {
+            element.Margin = element.Margin.ChangeRight(value);
+        }
     }
 }

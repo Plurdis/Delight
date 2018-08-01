@@ -26,23 +26,25 @@ namespace Delight.Controls
             this.Style = FindResource("TrackItemStyle") as Style;
         }
 
-        public event MouseButtonEventHandler DragLeftMouseLeftButtonDown;
-        public event MouseButtonEventHandler DragRightMouseLeftButtonDown;
-        public event MouseButtonEventHandler DragMoveMouseLeftButtonDown;
+        public event MouseButtonEventHandler LeftSide_MouseLeftButtonDown;
+        public event MouseButtonEventHandler RightSide_MouseLeftButtonDown;
+        public event MouseButtonEventHandler MovingSide_MouseLeftButtonDown;
+        
 
-        Rectangle dragLeft, dragMove, dragRight;
+
+        Rectangle leftSide, movingSide, rightSide;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            dragLeft = GetTemplateChild("dragLeft") as Rectangle;
-            dragMove = GetTemplateChild("dragMove") as Rectangle;
-            dragRight = GetTemplateChild("dragRight") as Rectangle;
+            leftSide = GetTemplateChild("dragLeft") as Rectangle;
+            movingSide = GetTemplateChild("dragMove") as Rectangle;
+            rightSide = GetTemplateChild("dragRight") as Rectangle;
 
-            dragLeft.MouseLeftButtonDown += (s,e) => DragLeftMouseLeftButtonDown?.Invoke(s,e);
-            dragRight.MouseLeftButtonDown += (s,e) => DragRightMouseLeftButtonDown?.Invoke(s,e);
-            dragMove.MouseLeftButtonDown += (s,e) => DragMoveMouseLeftButtonDown?.Invoke(s,e);
+            leftSide.MouseLeftButtonDown += (s,e) => LeftSide_MouseLeftButtonDown?.Invoke(s,e);
+            rightSide.MouseLeftButtonDown += (s,e) => RightSide_MouseLeftButtonDown?.Invoke(s,e);
+            movingSide.MouseLeftButtonDown += (s,e) => MovingSide_MouseLeftButtonDown?.Invoke(s,e);
         }
 
         public int Offset { get; set; }
@@ -50,18 +52,21 @@ namespace Delight.Controls
         /// <summary>
         /// 앞쪽에서 시작할 오프셋을 가져오거나 설정합니다.
         /// </summary>
-        public int StartOffset { get; set; }
+        public int ForwardOffset { get; set; }
 
         /// <summary>
         /// 앞쪽에서 끝낼 오프셋을 가져오거나 설정합니다.
         /// </summary>
-        public int EndOffset { get; set; }
+        public int BackwardOffset { get; set; }
         
         /// <summary>
         /// TrackItem에서 할당 가능한 최대 프레임을 가져오거나 설정합니다.
         /// </summary>
         public int MaxFrame { get; set; }
 
+        /// <summary>
+        /// 프레임 단위에서의 길이를 나타냅니다.
+        /// </summary>
         public int FrameWidth { get; set; }
         
         public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
