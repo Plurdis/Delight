@@ -70,23 +70,23 @@ namespace Delight
             };
 
 
-            pw = new PlayWindow();
-            pw.Show();
-            pw.player1.PositionChanged += Player_PositionChanged;
+            //pw = new PlayWindow();
+            //pw.Show();
+            //pw.player1.PositionChanged += Player_PositionChanged;
 
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
-            tl.FrameMouseChanged += async (s, e) =>
-            {
-                var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-                timer?.Stop();
-                allowedChange = true;
-                pw.player1.Position = ts;
-                allowedChange = false;
-                Thread.Sleep(10);
-                await pw.player1.Pause();
+            //tl.FrameMouseChanged += async (s, e) =>
+            //{
+            //    var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
+            //    timer?.Stop();
+            //    allowedChange = true;
+            //    pw.player1.Position = ts;
+            //    allowedChange = false;
+            //    Thread.Sleep(10);
+            //    await pw.player1.Pause();
 
-            };
+            //};
         }
 
         bool allowedChange = false;

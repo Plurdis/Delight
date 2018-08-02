@@ -48,7 +48,7 @@ namespace Delight.Controls
         bool captured;
         double x_item, x_canvas;
         int fWidth;
-        double fLeft, fRight;
+        double fLeft;
 
         public double ItemSize = 0.25;
         private double _realSize => ItemSize * Ratio;
@@ -56,6 +56,8 @@ namespace Delight.Controls
         private double Ratio => _parent.Ratio;
 
         public double ItemsMaxWidth => itemGrid.Children.Count == 0 ? 0 : itemGrid.Children.Cast<TrackItem>().Select(i => (i.Offset + i.FrameWidth) * _realSize).Max();
+
+        public double Offset => _parent.Offset;
 
         public override void OnApplyTemplate()
         {
@@ -161,46 +163,72 @@ namespace Delight.Controls
                 switch (dragSide)
                 {
                     case DragSide.LeftSide:
-                        if (element is TrackItem trackItem_l)
+                        if (element is TrackItem ti_l)
                         {
                             double x = Mouse.GetPosition(itemGrid).X;
-
                             x_canvas += x - x_item;
 
-                            double left = x_canvas;
+                            double left = x_canvas + Offset;
 
-                            if (x_canvas < 0)
+
+                            if (left < (ti_l.Offset - ti_l.ForwardOffset) * _realSize)
+                            {
+                                left = (ti_l.Offset - ti_l.ForwardOffset) * _realSize;
+                            }
+                            else if (left < 0)
                             {
                                 left = 0;
                             }
-                            else if ((x_canvas + trackItem_l.Margin.Right) >= itemGrid.ActualWidth)
+                            else if ((x_canvas + ti_l.Margin.Right) >= itemGrid.ActualWidth)
                             {
-                                left = itemGrid.ActualWidth - trackItem_l.Margin.Right - 1;
+                                left = itemGrid.ActualWidth - ti_l.Margin.Right - 1;
                             }
 
-                            int leftOffset = (int)(left / _realSize);
+                            int leftOffset = (int)((left) / _realSize);
 
-                            trackItem_l.Offset = leftOffset;
-                            trackItem_l.FrameWidth = (int)(fWidth + (fLeft - leftOffset));
+                            int diff = leftOffset - ti_l.Offset;
 
-                            trackItem_l.SetLeftMargin(leftOffset * _realSize);
+                            ti_l.ForwardOffset += diff;
+                            Console.WriteLine(ti_l.ForwardOffset);
+                            ti_l.Offset = leftOffset;
+                            ti_l.FrameWidth = (int)(fWidth + (fLeft - leftOffset));
+
+                            ti_l.SetLeftMargin((leftOffset * _realSize) - Offset);
                             
                             x_item = x;
                         }
                         
                         break;
                     case DragSide.RightSide:
-                        if (element is TrackItem trackItem_r)
+                        if (element is TrackItem tI_r)
                         {
+                            
                             double x = Mouse.GetPosition(itemGrid).X;
 
+                            // right는 반대 방향으로 감
                             double rightRaw = itemGrid.ActualWidth - (Math.Ceiling(x / _realSize) * _realSize);
 
-                            if (rightRaw > (itemGrid.ActualWidth - trackItem_r.Margin.Left))
-                                rightRaw = (itemGrid.ActualWidth - trackItem_r.Margin.Left) - _realSize;
+                            // ==================================================================
+                            // TODO: 특정한 경우 살짝 길이 계산에 오류가 있는거 같음 체크 해보기
+                            // ==================================================================
 
-                            trackItem_r.SetRightMargin(rightRaw);
-                            trackItem_r.FrameWidth = (int)((itemGrid.ActualWidth - trackItem_r.Margin.Left - trackItem_r.Margin.Right) / _realSize);
+
+                            if (rightRaw < itemGrid.ActualWidth - (((tI_r.Offset - tI_r.ForwardOffset + tI_r.MaxFrame) * _realSize) - Offset)) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
+                                rightRaw = itemGrid.ActualWidth - (((tI_r.Offset - tI_r.ForwardOffset + tI_r.MaxFrame) * _realSize) - Offset);
+                            if (rightRaw > (itemGrid.ActualWidth - tI_r.Margin.Left)) // 전체 길이보다 작아질 경우
+                                rightRaw = (itemGrid.ActualWidth - tI_r.Margin.Left) - _realSize;
+
+                            tI_r.SetRightMargin(rightRaw);
+
+
+                            int width = (int)((itemGrid.ActualWidth - tI_r.Margin.Left - tI_r.Margin.Right) / _realSize);
+
+                            int diff = width - tI_r.FrameWidth;
+                            tI_r.BackwardOffset -= diff;
+
+                            Console.WriteLine(tI_r.BackwardOffset);
+
+                            tI_r.FrameWidth = width;
                         }
 
                         break;
@@ -210,17 +238,20 @@ namespace Delight.Controls
                             double x = e.GetPosition(itemGrid).X;
                             x_item += x - x_canvas;
                             x_canvas = x;
-
-                            if (x_item < 0)
+                            
+                            double left = x_item + Offset;
+                            Console.WriteLine(x_item + " :: " + left);
+                            if (left < 0)
                             {
-                                x_canvas -= x_item;
-                                x_item = 0;
+                                x_canvas -= left;
+                                x_item = -Offset;
+                                left = 0;
                             }
 
                             trackItem_m.SetLeftMargin(((int)(x_item / _realSize)) * _realSize);
                             trackItem_m.SetRightMargin(itemGrid.ActualWidth - trackItem_m.Margin.Left - trackItem_m.ActualWidth);
 
-                            trackItem_m.Offset = (int)(x_item / _realSize);
+                            trackItem_m.Offset = (int)(left / _realSize);
                             Console.WriteLine(ItemsMaxWidth);
                         }
 

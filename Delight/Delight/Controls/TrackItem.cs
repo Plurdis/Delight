@@ -55,7 +55,7 @@ namespace Delight.Controls
         public int ForwardOffset { get; set; }
 
         /// <summary>
-        /// 앞쪽에서 끝낼 오프셋을 가져오거나 설정합니다.
+        /// 뒤쪽에서 끝낼 오프셋을 가져오거나 설정합니다.
         /// </summary>
         public int BackwardOffset { get; set; }
         
