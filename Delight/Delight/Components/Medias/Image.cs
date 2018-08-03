@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
+using Delight.TimeLineComponents;
+
 namespace Delight.Components.Medias
 {
     /// <summary>
@@ -12,6 +14,8 @@ namespace Delight.Components.Medias
     /// </summary>
     public class Image : Media
     {
-
+        public Image() : base(TrackType.Image)
+        {
+        }
     }
 }

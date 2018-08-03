@@ -176,6 +176,7 @@ namespace Delight.Controls
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Text = comp.Identifier,
                     Thumbnail = comp.Thumbnail,
+                    TrackType = comp.TrackType,
                 };
 
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;

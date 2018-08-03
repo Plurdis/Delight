@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Delight.TimeLineComponents;
+
 namespace Delight.Components.Medias
 {
     /// <summary>
@@ -11,6 +13,10 @@ namespace Delight.Components.Medias
     /// </summary>
     public class Video : Media
     {
+        public Video() : base(TrackType.Video)
+        {
+        }
+
         public int VideoHeight { get; set; }
         public int VideoWidth { get; set; }
     }

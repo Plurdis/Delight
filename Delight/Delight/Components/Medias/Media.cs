@@ -4,10 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Delight.TimeLineComponents;
+
 namespace Delight.Components.Medias
 {
-    public class Media : StageComponent
+    public abstract class Media : StageComponent
     {
+        public Media(TrackType trackType) : base(trackType)
+        {
+        }
+
         public string OriginalPath { get; set; }
     }
 }

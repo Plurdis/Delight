@@ -27,12 +27,15 @@ namespace Delight.Controls
             this.Style = FindResource("TrackItemStyle") as Style;
         }
 
+        public TrackItem(TrackType trackType)
+        {
+            TrackType = trackType;
+        }
+
         public event MouseButtonEventHandler LeftSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler RightSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler MovingSide_MouseLeftButtonDown;
         
-
-
         Rectangle leftSide, movingSide, rightSide;
 
         public override void OnApplyTemplate()
@@ -47,6 +50,8 @@ namespace Delight.Controls
             rightSide.MouseLeftButtonDown += (s,e) => RightSide_MouseLeftButtonDown?.Invoke(s,e);
             movingSide.MouseLeftButtonDown += (s,e) => MovingSide_MouseLeftButtonDown?.Invoke(s,e);
         }
+
+        public TrackType TrackType { get; set; }
 
         public int Offset { get; set; }
 
