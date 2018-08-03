@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -37,6 +38,7 @@ namespace Delight
             //MouseManager.Init();
 
             this.Closing += (s, e) => Environment.Exit(0);
+            this.Loaded += MainWindow_Loaded;
 
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
             rbBox.Checked += RbBox_Checked;
@@ -61,33 +63,37 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
-            timer = new TimeLineTimer(tl.FrameRate);
-            timer.Tick += () =>
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    tl.Position++;
-                });
-            };
 
+            tl.FrameRate = Core.Common.FrameRate._24FPS;
 
-            //pw = new PlayWindow();
-            //pw.Show();
-            //pw.player1.PositionChanged += Player_PositionChanged;
+            pw = new PlayWindow();
+            pw.Show();
+            pw.player1.PositionChanged += Player_PositionChanged;
 
+            //pw.player1.Open()
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
-            //tl.FrameMouseChanged += async (s, e) =>
-            //{
-            //    var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-            //    timer?.Stop();
-            //    allowedChange = true;
-            //    pw.player1.Position = ts;
-            //    allowedChange = false;
-            //    Thread.Sleep(10);
-            //    await pw.player1.Pause();
+            tl.FrameMouseChanged += async (s, e) =>
+            {
+                var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
+                tl.Stop();
+                allowedChange = true;
+                pw.player1.Position = ts;
+                allowedChange = false;
 
-            //};
+                if (pw.player1.IsPlaying)
+                {
+                    Thread.Sleep(10);
+                    await pw.player1.Pause();
+                }
+            };
+        }
+
+        int i = 0;
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            tl.Play();
         }
 
         bool allowedChange = false;
@@ -96,9 +102,12 @@ namespace Delight
         {
             if (allowedChange)
                 return;
-            if (!timer.IsRunning)
+            if (!tl.IsRunning)
             {
+                var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
+                pw.player1.Position = ts;
                 await pw.player1.Pause();
+
             }
         }
 
@@ -128,12 +137,12 @@ namespace Delight
 
         private void RbList_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void RbBox_Checked(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private static object GetDataFromListBox(ListBox source, Point point)
@@ -169,6 +178,8 @@ namespace Delight
         #region [  Global Variable  ]
 
         ProjectInfo ProjectInfo { get; set; }
+
+        TimeLineReader reader { get; set; }
 
         #endregion
 
