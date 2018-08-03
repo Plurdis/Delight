@@ -13,6 +13,7 @@ using Delight.Components;
 using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
+using Delight.LogManage;
 using Delight.Projects;
 using Delight.TimeLineComponents;
 using Delight.Windows;
@@ -45,6 +46,10 @@ namespace Delight
             rbList.Checked += RbList_Checked;
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+
+            LogManager.InfoTextChanged += LogManager_InfoTextChanged;
+            LogManager.InfoProgressChanged += LogManager_InfoProgressChanged;
+            LogManager.InfoMaximumChanged += LogManager_InfoMaximumChanged;
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, ExitCommandExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, OpenFileExecuted));
@@ -88,6 +93,21 @@ namespace Delight
                     await pw.player1.Pause();
                 }
             };
+        }
+
+        private void LogManager_InfoTextChanged(string text)
+        {
+            tbInfo.Text = text;
+        }
+
+        private void LogManager_InfoProgressChanged(double value)
+        {
+            pbInfo.Value = value;
+        }
+
+        private void LogManager_InfoMaximumChanged(double value)
+        {
+            pbInfo.Maximum = value;
         }
 
         int i = 0;

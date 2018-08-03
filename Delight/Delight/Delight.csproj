@@ -84,6 +84,7 @@
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Common\ControlCommands.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
+    <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="TimeLineComponents\TimeLineReader.cs" />
     <Compile Include="TimeLineComponents\TimeLineTimer.cs" />
     <Compile Include="TimeLineComponents\TrackType.cs" />

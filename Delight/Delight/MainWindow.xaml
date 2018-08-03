@@ -15,8 +15,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove">
@@ -59,13 +59,19 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1">
-            <WrapPanel>
-                
-            </WrapPanel>
+        <Grid Grid.Row="2" Height="Auto" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar x:Name="pbInfo" Grid.Column="3"/>
+            <TextBlock x:Name="tbInfo" Text="타임라인 재생을 위한 비디오 로드를 시작합니다."/>
         </Grid>
         
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="10"/>
