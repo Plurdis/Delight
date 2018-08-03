@@ -111,7 +111,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock Margin="2" Text="비디오" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Margin="2" Text="{TemplateBinding TrackTypeText}" TextAlignment="Center" VerticalAlignment="Center"/>
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
