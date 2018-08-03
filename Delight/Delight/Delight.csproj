@@ -83,8 +83,8 @@
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Common\ControlCommands.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
-    <Compile Include="Common\TimeLineTimer.cs" />
-    <Compile Include="Common\TrackType.cs" />
+    <Compile Include="TimeLineComponents\TimeLineTimer.cs" />
+    <Compile Include="TimeLineComponents\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />
     <Compile Include="Controls\DragSide.cs" />
     <Compile Include="Controls\ItemToolTip.cs" />

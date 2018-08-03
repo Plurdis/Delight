@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using Delight.Core.Common;
 using Delight.Core.Extension;
 
-namespace Delight.Common
+namespace Delight.TimeLineComponents
 {
     public class TimeLineTimer
     {
@@ -20,7 +20,7 @@ namespace Delight.Common
         public event EmptyDelegate Tick;
 
         Stopwatch sw;
-        FrameRate FrameRate { get; set; }
+        public FrameRate FrameRate { get; set; }
 
         int FrameRateInt => (int)(FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value);
 
@@ -50,7 +50,6 @@ namespace Delight.Common
 
                     if (lastValue != value && value != FrameRateInt)
                     {
-                        //Console.WriteLine(value);
                         Tick?.Invoke();
                     }
                         

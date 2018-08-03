@@ -14,6 +14,7 @@ using Delight.Components;
 using Delight.Components.Common;
 using Delight.Core.Common;
 using Delight.Extensions;
+using Delight.TimeLineComponents;
 
 using f = System.Windows.Forms;
 

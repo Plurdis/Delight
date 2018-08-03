@@ -16,6 +16,7 @@ using Delight.Common;
 using Delight.Components.Common;
 using Delight.Core.Common;
 using Delight.Extensions;
+using Delight.TimeLineComponents;
 
 namespace Delight.Controls
 {

@@ -15,6 +15,7 @@ using Delight.Common;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
+using Delight.TimeLineComponents;
 using Delight.Windows;
 using NReco.VideoConverter;
 using NReco.VideoInfo;

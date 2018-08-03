@@ -13,6 +13,7 @@ using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
 using Delight.Projects;
+using Delight.TimeLineComponents;
 using Delight.Windows;
 
 using LocalCommandManager = Delight.Common.InputGestureManager;
