@@ -134,10 +134,16 @@ namespace Delight.Controls
             {
                 itemGrid.Children.Remove(trackItem);
             }
+
+            trackItem = null;
         }
 
         private void ItemCanvas_DragOver(object sender, DragEventArgs e)
         {
+            if (e.Effects == DragDropEffects.None)
+                return;
+
+
             double x = e.GetPosition(itemGrid).X;
             x_canvas += x - x_item;
 
@@ -163,9 +169,21 @@ namespace Delight.Controls
 
         private void ItemCanvas_DragEnter(object sender, DragEventArgs e)
         {
+            var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
+
+            if (comp == null)
+                return;
+
+            if (comp.TrackType != this.TrackType)
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+                return;
+            }
+
             if (trackItem == null)
             {
-                var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
+                
                 var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
 
                 trackItem = new TrackItem()
@@ -198,7 +216,6 @@ namespace Delight.Controls
                 x_item = cl + Mouse.GetPosition(trackItem).X;
 
                 trackItem.SetLeftMargin(x_item);
-                
             }
         }
 
