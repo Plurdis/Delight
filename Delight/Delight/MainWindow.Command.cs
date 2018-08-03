@@ -11,14 +11,17 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
 using Delight.TimeLineComponents;
 using Delight.Windows;
+
 using NReco.VideoConverter;
 using NReco.VideoInfo;
+
 using DelightImage = Delight.Components.Medias.Image;
 
 namespace Delight
@@ -39,30 +42,31 @@ namespace Delight
         private void AddItem(string location)
         {
             var fi = new FileInfo(location);
-
+            ImageSource image;
             switch (MediaTools.GetMediaTypeFromFile(location))
             {
                 case MediaTypes.Unknown:
                     break;
                 case MediaTypes.Image:
-                    
+                    image = new BitmapImage(new Uri(location));
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = fi.Name,
                         Description = "Local Image File",
-                        Source = new BitmapImage(new Uri(location)),
+                        Source = image,
                         StageComponent = new DelightImage()
                         {
                             Identifier = fi.Name,
                             OriginalPath = location,
                             Time = TimeSpan.FromSeconds(20),
+                            Thumbnail = image,
                         },
                     });
                     break;
                 case MediaTypes.Sound:
                     break;
                 case MediaTypes.Video:
-                    var image = MediaTools.GetMediaThumbnail(location);
+                    image = MediaTools.GetMediaThumbnail(location);
                     lbItem.Items.Add(new TemplateItem()
                     {
                         Content = fi.Name,
@@ -121,21 +125,19 @@ namespace Delight
             InfoWindow wdw = new InfoWindow();
             wdw.ShowDialog();
         }
-
-        TimeLineTimer timer;
-
+        
         private void PlayExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!timer.IsRunning)
+            if (!tl.IsRunning)
             {
-                timer.Start();
-                pw.player1.Play();
+                tl.Play();
+                pw?.player1.Play();
             }
             else
             {
-                timer.Stop();
+                tl.Stop();
                 
-                pw.player1.Pause();
+                pw?.player1.Pause();
             }
         }
     }
