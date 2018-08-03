@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +84,7 @@
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Common\ControlCommands.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
+    <Compile Include="TimeLineComponents\TimeLineReader.cs" />
     <Compile Include="TimeLineComponents\TimeLineTimer.cs" />
     <Compile Include="TimeLineComponents\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />

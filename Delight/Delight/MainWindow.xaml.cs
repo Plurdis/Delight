@@ -63,6 +63,7 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
+            reader = new TimeLineReader(tl);
 
             tl.FrameRate = Core.Common.FrameRate._24FPS;
 
