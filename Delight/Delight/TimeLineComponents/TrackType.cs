@@ -8,10 +8,12 @@ namespace Delight.TimeLineComponents
 {
     public enum TrackType
     {
-        Image,
-        Video,
-        Unity,
-        Sound,
-        Unknown,
+        Image = 1,
+        Video = 2,
+        Unity = 4,
+        Sound = 8,
+        Effect = 16,
+        Template = 32,
+        Unknown = int.MaxValue,
     }
 }
