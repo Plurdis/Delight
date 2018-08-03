@@ -39,13 +39,28 @@ namespace Delight.Controls
         UIElement source;
         double absLeft, relLeft;
 
-        public FrameRate FrameRate { get; set; }
-
-
+        TimeLineTimer _timer;
 
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
+
+            _timer = new TimeLineTimer(FrameRate);
+            _timer.Tick += () =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    if (Position < MaxFrame)
+                    {
+                        Position++;
+                    }
+                    else
+                    {
+                        this.Position = MaxFrame;
+                        _timer.Stop();
+                    }
+                });
+            };
         }
 
         public override void OnApplyTemplate()
@@ -71,15 +86,17 @@ namespace Delight.Controls
                 tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
                 Track_ItemsMaxWidthChanged(null, null);
             };
-            
+
             prop.AddValueChanged(scrollBar, ScrollBarValueChanged);
 
 
             AddTrack(TrackType.Image);
             AddTrack(TrackType.Video);
+            AddTrack(TrackType.Unity);
+            AddTrack(TrackType.Sound);
         }
 
-        #region [  DependencyProperty  ]
+        #region [  Properties  ]
 
         public static DependencyProperty PositionProperty = DependencyProperty.Register(nameof(Position), typeof(int), typeof(TimeLine), new PropertyMetadata(0, PositionChanged));
 
@@ -96,6 +113,8 @@ namespace Delight.Controls
             get => (int)GetValue(PositionProperty);
             set
             {
+                if (value > MaxFrame)
+                    value = MaxFrame;
                 SetValue(PositionProperty, value);
                 SetPositionerToPosition();
             }
@@ -106,7 +125,7 @@ namespace Delight.Controls
             positioner.Margin = new Thickness(Position * _realSize - 0.5 - Offset, 0, 0, 0);
         }
 
-        public double ItemSize = 0.25;
+        public const double ItemSize = 0.25;
 
         public double Offset => scrollBar.Value;
 
@@ -116,14 +135,14 @@ namespace Delight.Controls
 
         private double _displaySize => _realSize * Weight;
 
+
+        private const double MaxRatio = 25.6;
+
+
         public static DependencyProperty RatioProperty = DependencyProperty.Register(nameof(Ratio),
             typeof(double),
             typeof(TimeLine),
             new FrameworkPropertyMetadata(0.4, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
-
-
-
-        private const double MaxRatio = 25.6;
 
         public double Ratio
         {
@@ -137,7 +156,7 @@ namespace Delight.Controls
 
                 SetValue(RatioProperty, value);
                 SetPositionerToPosition();
-                Console.WriteLine(_realSize);
+
 
                 scrollBar.ViewportSize = value * 100;
                 Track_ItemsMaxWidthChanged(null, null);
@@ -145,6 +164,24 @@ namespace Delight.Controls
                 tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
 
                 //ResetItemOffset();
+            }
+        }
+
+        public double MaxValue { get; set; }
+
+        public int MaxFrame { get; set; }
+
+        public bool IsRunning => _timer.IsRunning;
+
+        FrameRate _frameRate;
+
+        public FrameRate FrameRate
+        {
+            get => _frameRate;
+            set
+            {
+                _frameRate = value;
+                _timer.FrameRate = value;
             }
         }
 
@@ -185,6 +222,17 @@ namespace Delight.Controls
             }
         }
 
+        #region [  TrackItems Management  ]
+
+        public IEnumerable<TrackItem> Items => tracks.Children.Cast<Track>().SelectMany(i => i.Items);
+
+        public IEnumerable<TrackItem> GetItems(TrackType trackType)
+        {
+            return Items.Where(i => i.TrackType == trackType);
+        }
+
+        #endregion
+
         #region [  Track Management (Add/Remove)  ]
 
         public void AddTrack(TrackType trackType)
@@ -195,10 +243,17 @@ namespace Delight.Controls
 
             tracks.Children.Add(track);
         }
-
+        
         private void Track_ItemsMaxWidthChanged(object sender, EventArgs e)
         {
-            double value = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxWidth) - (this.ActualWidth - 100);
+            MaxFrame = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxFrame);
+
+            if (this.Position > MaxFrame)
+                this.Position = MaxFrame;
+
+            MaxValue = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxWidth);
+
+            double value = MaxValue - (this.ActualWidth - 100);
             if (value > 0)
             {
                 scrollBar.Maximum = value;
@@ -217,6 +272,16 @@ namespace Delight.Controls
         #endregion
 
         #region [  Positioner Movement  ]
+
+        public void Play()
+        {
+            _timer.Start();
+        }
+
+        public void Stop()
+        {
+            _timer.Stop();
+        }
 
         private void DragRange_MouseMove(object sender, MouseEventArgs e)
         {
@@ -255,11 +320,12 @@ namespace Delight.Controls
                 left = 0;
 
             var frame = (int)(left / _realSize);
+            
 
-            Console.WriteLine(frame);
-
-            SetPositionerToPosition();
-
+            if (frame == 0 || frame != Position)
+            {
+                SetPositionerToPosition();
+            }
             if (frame != Position)
             {
                 Position = frame;
