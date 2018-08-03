@@ -40,8 +40,46 @@ namespace Delight.Controls
         Grid itemGrid;
         TimeLine _parent;
 
+        public static DependencyProperty TrackTypeTextProperty = DependencyProperty.Register(nameof(TrackTypeText), typeof(string), typeof(Track));
 
-        TrackType TrackType { get; set; } = TrackType.Unknown;
+        public string TrackTypeText
+        {
+            get => GetValue(TrackTypeTextProperty) as string;
+            set => SetValue(TrackTypeTextProperty, value);
+        }
+
+        TrackType _trackType = TrackType.Unknown;
+
+        TrackType TrackType {
+            set
+            {
+                switch (value)
+                {
+                    case TrackType.Image:
+                        TrackTypeText = "이미지";
+                        break;
+                    case TrackType.Video:
+                        TrackTypeText = "비디오";
+                        break;
+                    case TrackType.Unity:
+                        TrackTypeText = "유니티";
+                        break;
+                    case TrackType.Sound:
+                        TrackTypeText = "사운드";
+                        break;
+                    case TrackType.Unknown:
+                        break;
+                    default:
+                        break;
+                }
+
+                _trackType = value;
+            }
+            get
+            {
+                return _trackType;
+            }
+        } 
         FrameRate FrameRate { get; set; } = FrameRate._24FPS;
 
         FrameworkElement element;
@@ -56,9 +94,15 @@ namespace Delight.Controls
 
         private double Ratio => _parent.Ratio;
 
-        public double ItemsMaxWidth => itemGrid.Children.Count == 0 ? 0 : itemGrid.Children.Cast<TrackItem>().Select(i => (i.Offset + i.FrameWidth) * _realSize).Max();
+        public double ItemsMaxWidth => IsEmpty ? 0 : Items.Select(i => (i.Offset + i.FrameWidth) * _realSize).Max();
+
+        public int ItemsMaxFrame => IsEmpty ? 0 : Items.Select(i => (i.Offset + i.FrameWidth)).Max();
 
         public double Offset => _parent.Offset;
+
+        public bool IsEmpty => itemGrid.Children.Count == 0;
+
+        public IEnumerable<TrackItem> Items => itemGrid.Children.Cast<TrackItem>();
 
         public override void OnApplyTemplate()
         {
@@ -190,7 +234,7 @@ namespace Delight.Controls
                             int diff = leftOffset - ti_l.Offset;
 
                             ti_l.ForwardOffset += diff;
-                            Console.WriteLine(ti_l.ForwardOffset);
+                            
                             ti_l.Offset = leftOffset;
                             ti_l.FrameWidth = (int)(fWidth + (fLeft - leftOffset));
 
@@ -227,7 +271,7 @@ namespace Delight.Controls
                             int diff = width - tI_r.FrameWidth;
                             tI_r.BackwardOffset -= diff;
 
-                            Console.WriteLine(tI_r.BackwardOffset);
+                            
 
                             tI_r.FrameWidth = width;
                         }
@@ -241,7 +285,7 @@ namespace Delight.Controls
                             x_canvas = x;
                             
                             double left = x_item + Offset;
-                            Console.WriteLine(x_item + " :: " + left);
+                            
                             if (left < 0)
                             {
                                 x_canvas -= left;
@@ -253,7 +297,7 @@ namespace Delight.Controls
                             trackItem_m.SetRightMargin(itemGrid.ActualWidth - trackItem_m.Margin.Left - trackItem_m.ActualWidth);
 
                             trackItem_m.Offset = (int)(left / _realSize);
-                            Console.WriteLine(ItemsMaxWidth);
+                            
                         }
 
                         break;
