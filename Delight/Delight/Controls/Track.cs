@@ -199,6 +199,8 @@ namespace Delight.Controls
             {
                 
                 var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
+                var media = comp as Media;
+
 
                 trackItem = new TrackItem()
                 {
@@ -209,8 +211,9 @@ namespace Delight.Controls
                     Text = comp.Identifier,
                     Thumbnail = comp.Thumbnail,
                     TrackType = comp.TrackType,
+                    OriginalPath = media == null ? "" : media.OriginalPath,
                 };
-
+                
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
                 trackItem.RightSide_MouseLeftButtonDown += TrackItem_RightSide_MouseLeftButtonDown;
                 trackItem.MovingSide_MouseLeftButtonDown += TrackItem_MovingSide_MouseLeftButtonDown;

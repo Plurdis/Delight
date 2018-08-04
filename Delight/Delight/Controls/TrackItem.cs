@@ -75,6 +75,8 @@ namespace Delight.Controls
         /// </summary>
         public int FrameWidth { get; set; }
         
+        public string OriginalPath { get; set; }
+
         public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 
         public ColorTheme ColorTheme
