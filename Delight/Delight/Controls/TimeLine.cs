@@ -45,6 +45,8 @@ namespace Delight.Controls
 
         TimeLineTimer _timer;
 
+        public TimeLineReader TimeLineReader { get; }
+
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
@@ -65,6 +67,8 @@ namespace Delight.Controls
                     }
                 });
             };
+
+            TimeLineReader = new TimeLineReader(this);
         }
 
         public override void OnApplyTemplate()
@@ -92,7 +96,6 @@ namespace Delight.Controls
             };
 
             prop.AddValueChanged(scrollBar, ScrollBarValueChanged);
-
 
             AddTrack(TrackType.Image);
             AddTrack(TrackType.Video);
@@ -303,6 +306,12 @@ namespace Delight.Controls
 
         public void Play()
         {
+            //await Task.Factory.StartNew(() => {  });
+
+            TimeLineReader.StartLoad();
+
+            var videos = TimeLineReader._loadWaitVideos;
+
             _timer.Start();
         }
 

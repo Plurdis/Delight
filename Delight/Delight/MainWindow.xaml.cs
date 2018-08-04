@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
@@ -68,7 +69,6 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
-            reader = new TimeLineReader(tl);
 
             tl.FrameRate = Core.Common.FrameRate._24FPS;
 
@@ -199,8 +199,6 @@ namespace Delight
         #region [  Global Variable  ]
 
         ProjectInfo ProjectInfo { get; set; }
-
-        TimeLineReader reader { get; set; }
 
         #endregion
 
