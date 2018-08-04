@@ -140,31 +140,40 @@ namespace Delight.Controls
 
         private void ItemCanvas_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Effects == DragDropEffects.None)
+            var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
+
+            if (comp == null)
                 return;
 
+            if (comp.TrackType != this.TrackType)
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+                return;
+            }
 
-            double x = e.GetPosition(itemGrid).X;
-            x_canvas += x - x_item;
+            if (trackItem != null)
+            {
+                double x = e.GetPosition(itemGrid).X;
+                x_canvas += x - x_item;
 
-            double left = (int)(x_item / _realSize) * _realSize;
-            int leftRaw = (int)(x_item / _realSize);
+                double left = (int)(x_item / _realSize) * _realSize;
+                int leftRaw = (int)(x_item / _realSize);
 
-            trackItem.SetLeftMargin(left);
+                trackItem.SetLeftMargin(left);
 
 
 
-            double right = itemGrid.ActualWidth - (trackItem.FrameWidth * _realSize) - x_item;
-            right = (int)(right / _realSize) * _realSize;
+                double right = itemGrid.ActualWidth - (trackItem.FrameWidth * _realSize) - x_item;
+                right = (int)(right / _realSize) * _realSize;
 
-            double rightRaw = (int)(right / _realSize);
+                double rightRaw = (int)(right / _realSize);
 
-            trackItem.SetRightMargin(right);
-            trackItem.Offset = leftRaw;
+                trackItem.SetRightMargin(right);
+                trackItem.Offset = leftRaw;
 
-            x_item = x;
-
-            
+                x_item = x;
+            }
         }
 
         private void ItemCanvas_DragEnter(object sender, DragEventArgs e)
