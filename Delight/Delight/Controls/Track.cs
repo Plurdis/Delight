@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
+using Delight.Components.Medias;
 using Delight.Core.Common;
 using Delight.Extensions;
 using Delight.TimeLineComponents;
@@ -35,6 +36,10 @@ namespace Delight.Controls
         }
 
         public event EventHandler ItemsMaxWidthChanged;
+
+        public event EventHandler<ItemEventArgs> ItemAdded;
+        public event EventHandler<ItemEventArgs> ItemRemoving;
+        public event EventHandler ItemRemoved;
 
         static TrackItem trackItem;
         Grid itemGrid;
@@ -121,8 +126,8 @@ namespace Delight.Controls
         {
             if (trackItem != null)
             {
-                ItemsMaxWidthChanged?.Invoke(trackItem, new EventArgs());
-
+                ItemsMaxWidthChanged?.Invoke(this, new EventArgs());
+                ItemAdded?.Invoke(this, new ItemEventArgs(trackItem));
                 trackItem.IsHitTestVisible = true;
                 trackItem = null;
             }

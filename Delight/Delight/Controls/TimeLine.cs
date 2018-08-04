@@ -29,6 +29,10 @@ namespace Delight.Controls
         public event EventHandler FrameChanged;
         public event EventHandler FrameMouseChanged;
 
+        public event EventHandler<ItemEventArgs> ItemAdded;
+        public event EventHandler<ItemEventArgs> ItemRemoving;
+        public event EventHandler ItemRemoved;
+
         Rectangle positioner;
         Grid dragRange;
         ScrollBar scrollBar;
@@ -231,6 +235,11 @@ namespace Delight.Controls
             return Items.Where(i => i.TrackType == trackType);
         }
 
+        public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
+        {
+            return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame));
+        }
+
         #endregion
 
         #region [  Track Management (Add/Remove)  ]
@@ -241,9 +250,28 @@ namespace Delight.Controls
 
             track.ItemsMaxWidthChanged += Track_ItemsMaxWidthChanged;
 
+            track.ItemAdded += Track_ItemAdded;
+            track.ItemRemoving += Track_ItemRemoving;
+            track.ItemRemoved += Track_ItemRemoved;
+
             tracks.Children.Add(track);
         }
-        
+
+        private void Track_ItemRemoved(object sender, EventArgs e)
+        {
+            ItemRemoved?.Invoke(sender, e);
+        }
+
+        private void Track_ItemRemoving(object sender, ItemEventArgs e)
+        {
+            ItemRemoving?.Invoke(sender, e);
+        }
+
+        private void Track_ItemAdded(object sender, ItemEventArgs e)
+        {
+            ItemAdded?.Invoke(sender, e);
+        }
+
         private void Track_ItemsMaxWidthChanged(object sender, EventArgs e)
         {
             MaxFrame = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxFrame);
