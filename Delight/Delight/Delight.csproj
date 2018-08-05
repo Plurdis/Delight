@@ -78,7 +78,10 @@
     </ApplicationDefinition>
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Common\ControlCommands.cs" />
+    <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
+    <Compile Include="Common\PlayerState.cs" />
+    <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="TimeLineComponents\TimeLineReader.cs" />

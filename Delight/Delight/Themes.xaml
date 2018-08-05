@@ -238,6 +238,18 @@
         </Style.Triggers>-->
     </Style>
 
+    <Style TargetType="{x:Type ct:MediaElementPro}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <MediaElement x:Name="mediaElement"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type ct:ItemToolTip}">
         <Setter Property="Background" Value="LightGray"/>
         <Setter Property="Foreground" Value="Black"/>
