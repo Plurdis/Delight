@@ -52,7 +52,6 @@ namespace Delight.TimeLineComponents
                     {
                         Tick?.Invoke();
                     }
-                        
                     
                     lastValue = value;
                     Thread.Sleep(10);

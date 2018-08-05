@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Unosquare.FFME;
 
 namespace Delight.Windows
 {
@@ -27,11 +28,20 @@ namespace Delight.Windows
 
             //WindowsPlatform
 
-            this.MouseDown += (s, e) => this.DragMove();
+            this.MouseLeftButtonDown += (s, e) => this.DragMove();
 
-            player1.Open(new Uri(@"D:\도깨비\[tvN] 도깨비.E03.161209.720p-NEXT.mp4", UriKind.Absolute));
-            player2.Open(new Uri(@"D:\영화\소아온\[바카-Raws] Sword Art Online #01 VFR (MX 1280x720 x264 AAC).mp4", UriKind.Absolute));
-            player2.MediaOpened += (s, e) => player2.Play();
+            //Console.WriteLine(sw.ElapsedMilliseconds + "ms");
+            //player1.Open(stream);
+
+            //player1.MediaOpened += (s, e) =>
+            //{
+            //    Console.WriteLine(sw.ElapsedMilliseconds + "ms");
+            //};
+
+
+
+            //player2.Open(new Uri(@"D:\영화\소아온\[바카-Raws] Sword Art Online #01 VFR (MX 1280x720 x264 AAC).mp4", UriKind.Absolute));
+            //player2.MediaOpened += (s, e) => player2.Play();
             //player.MediaEnded += (s, e) => { player.Close(); };
 
             foreach (Screen scr in Screen.AllScreens)
@@ -44,14 +54,44 @@ namespace Delight.Windows
                 }
             }
 
-            MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
-
             this.Topmost = true;
             this.Activate();
 
-            mw.preview.Fill = new VisualBrush(rootElement);
+
+            this.Loaded += PlayWindow_Loaded;
+
+
 
             //this.Loaded += (s, e) => this.Hide();
         }
+
+        private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
+
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)rootElement.ActualWidth, (int)rootElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            
+            mw.preview.Fill = new ImageBrush(bitmap);
+            Thread thr = new Thread(() =>
+            {
+                int i = 0;
+                while (true)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        bitmap.Render(rootElement);
+
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        GC.Collect();
+                    });
+                    i++;
+                    Thread.Sleep(1000 / 60);
+                }
+            });
+
+            //thr.Start();
+        }
+
     }
 }

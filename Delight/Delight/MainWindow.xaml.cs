@@ -72,9 +72,6 @@ namespace Delight
 
             tl.FrameRate = Core.Common.FrameRate._24FPS;
 
-            pw = new PlayWindow();
-            pw.Show();
-            pw.player1.PositionChanged += Player_PositionChanged;
 
             //pw.player1.Open()
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");

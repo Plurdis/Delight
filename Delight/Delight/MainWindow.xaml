@@ -7,7 +7,6 @@
     xmlns:ct="clr-namespace:Delight.Controls"
     xmlns:l="clr-namespace:Delight.Localization"
     xmlns:cm="clr-namespace:Delight.Common"
-    xmlns:ffme="clr-namespace:Unosquare.FFME;assembly=ffme.win"
     x:Class="Delight.MainWindow"
     mc:Ignorable="d" WindowState="Maximized"
     Title="Delight" Height="800" Width="1400">
