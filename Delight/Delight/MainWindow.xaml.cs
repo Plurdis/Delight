@@ -69,27 +69,39 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
+            pw = new PlayWindow();
+            pw.Show();
+            //pw.player1. += Player_PositionChanged;
 
+            tl.TimeLineReader.SetPlayer(pw.player1, pw.player2);
+            
             tl.FrameRate = Core.Common.FrameRate._24FPS;
+            
 
+
+            this.LocationChanged += MainWindow_LocationChanged;
 
             //pw.player1.Open()
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
+            
+            //tl.FrameMouseChanged += async (s, e) =>
+            //{
+            //    var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
+            //    tl.Stop();
+            //    allowedChange = true;
+            //    pw.player1.Position = ts;
+            //    allowedChange = false;
 
-            tl.FrameMouseChanged += async (s, e) =>
-            {
-                var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-                tl.Stop();
-                allowedChange = true;
-                pw.player1.Position = ts;
-                allowedChange = false;
+            //    if (pw.player1.IsPlaying)
+            //    {
+            //        Thread.Sleep(10);
+            //        await pw.player1.Pause();
+            //    }
+            //};
+        }
 
-                if (pw.player1.IsPlaying)
-                {
-                    Thread.Sleep(10);
-                    await pw.player1.Pause();
-                }
-            };
+        private void MainWindow_LocationChanged(object sender, EventArgs e)
+        {
         }
 
         private void LogManager_InfoTextChanged(string text)
@@ -116,18 +128,18 @@ namespace Delight
 
         bool allowedChange = false;
 
-        private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
-        {
-            if (allowedChange)
-                return;
-            if (!tl.IsRunning)
-            {
-                var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-                pw.player1.Position = ts;
-                await pw.player1.Pause();
+        //private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
+        //{
+        //    if (allowedChange)
+        //        return;
+        //    if (!tl.IsRunning)
+        //    {
+        //        var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
+        //        pw.player1.Position = ts;
+        //        await pw.player1.Pause();
 
-            }
-        }
+        //    }
+        //}
 
         PlayWindow pw;
 

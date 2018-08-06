@@ -307,12 +307,12 @@ namespace Delight.Controls
         public void Play()
         {
             //await Task.Factory.StartNew(() => {  });
-
-            TimeLineReader.StartLoad();
-
-            var videos = TimeLineReader._loadWaitVideos;
-
-            _timer.Start();
+            Task.Run(() =>
+            {
+                TimeLineReader.StartLoad();
+                
+                _timer.Start();
+            });
         }
 
         public void Stop()

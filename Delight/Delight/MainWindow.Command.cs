@@ -131,7 +131,7 @@ namespace Delight
             if (!tl.IsRunning)
             {
                 tl.Play();
-                pw?.player1.Play();
+                //pw?.player1.Play();
             }
             else
             {
