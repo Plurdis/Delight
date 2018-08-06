@@ -70,7 +70,7 @@ namespace Delight.Windows
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
 
             RenderTargetBitmap bitmap = new RenderTargetBitmap((int)rootElement.ActualWidth, (int)rootElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            
+
             mw.preview.Fill = new ImageBrush(bitmap);
             Thread thr = new Thread(() =>
             {
@@ -86,11 +86,11 @@ namespace Delight.Windows
                         GC.Collect();
                     });
                     i++;
-                    Thread.Sleep(1000 / 60);
+                    Thread.Sleep(1000 / 24);
                 }
             });
 
-            //thr.Start();
+            thr.Start();
         }
 
     }
