@@ -16,6 +16,7 @@ namespace Delight.Common
         None,
         Opening,
         Ended,
-        Opened
+        Opened,
+        Closed
     }
 }

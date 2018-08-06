@@ -574,6 +574,13 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             IsPlaying = false;
             Timer.Stop();
         }
+        public void Close()
+        {
+            mediaElement.Close();
+            SetState(PlayerState.Closed);
+            IsPlaying = false;
+            Timer.Stop();
+        }
         public void SetSource(Uri uri)
         {
             Source = uri;
