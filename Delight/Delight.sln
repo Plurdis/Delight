@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delight.Core", "Delight.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delight.Debug", "Delight.Debug\Delight.Debug.csproj", "{9AE5F767-D9EE-4FB6-BA4F-DDDB9279A917}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delight.Server", "Delight.Server\Delight.Server.csproj", "{358BD120-473B-4AAA-BA7B-70E0586D1AA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9AE5F767-D9EE-4FB6-BA4F-DDDB9279A917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AE5F767-D9EE-4FB6-BA4F-DDDB9279A917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AE5F767-D9EE-4FB6-BA4F-DDDB9279A917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{358BD120-473B-4AAA-BA7B-70E0586D1AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{358BD120-473B-4AAA-BA7B-70E0586D1AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{358BD120-473B-4AAA-BA7B-70E0586D1AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{358BD120-473B-4AAA-BA7B-70E0586D1AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
