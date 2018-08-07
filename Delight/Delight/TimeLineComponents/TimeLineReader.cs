@@ -48,29 +48,31 @@ namespace Delight.TimeLineComponents
             player1.CurrentStateChanged += Player_CurrentStateChanged;
             player2.MediaOpened += Player_MediaOpened;
             player2.CurrentStateChanged += Player_CurrentStateChanged;
+
+            StopLoad();
         }
 
         private void Player_CurrentStateChanged(MediaElementPro sender, Common.PlayerState state)
         {
-            Console.WriteLine(state);
-        }
-
-        public bool IsPlaying { get; private set; } = false;
-
-        public void PrintLoadVideosInfo()
-        {
-            Console.WriteLine("------------------------------------");
-            Console.WriteLine("            Loaded Videos           ");
-            Console.WriteLine("------------------------------------");
-
-            int i = 1;
-            foreach(TrackItem item in _allVideos)
+            if (state == Common.PlayerState.Playing)
             {
-                Console.WriteLine(i++ + " Item");
-                Console.WriteLine("Location : " + item.OriginalPath);
-                Console.WriteLine("StartPosition : " + item.Offset);
-                Console.WriteLine("------------------------------------");
+                if (sender == player1)
+                {
+                    player1.Position =
+                        MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
+
+                    player1.Pause();
+                }
+                else if (sender == player2)
+                {
+                    player2.Position =
+                        MediaTools.FrameToTimeSpan(player2.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
+                    player2.Pause();
+                }
+
+                loadComplete = true;
             }
+            Console.WriteLine(state);
         }
 
         Queue<TrackItem> _allVideos = new Queue<TrackItem>();
@@ -85,10 +87,7 @@ namespace Delight.TimeLineComponents
         {
             if (e.Item.TrackType == TrackType.Video)
             {
-                var item = e.Item;
-
-                _allVideos.Enqueue(item);
-                PrintLoadVideosInfo();
+                _allVideos.Enqueue(e.Item);
             }
         }
 
@@ -118,6 +117,8 @@ namespace Delight.TimeLineComponents
             player2.Close();
             player1.Visibility = Visibility.Hidden;
             player2.Visibility = Visibility.Hidden;
+            player1.Volume = 0;
+            player2.Volume = 0;
         }
 
         public void SwitchPlayer(bool showPlayer1)
@@ -154,9 +155,9 @@ namespace Delight.TimeLineComponents
                 if (_timeLine.Position == player1.GetTag<TrackItem>().Offset)
                 {
                     player1.Play();
+                    player1.Volume = 1;
                     player1.Visibility = Visibility.Visible;
                 }
-                
             }
         }
         
@@ -179,37 +180,21 @@ namespace Delight.TimeLineComponents
             {
                 player2.Dispatcher.Invoke(() =>
                 {
-
                     player2.Tag = _loadWaitVideos.Dequeue();
                     player2.Source = new Uri(player2.GetTag<TrackItem>().OriginalPath, UriKind.Absolute);
                     player2.Play();
-
                 });
             }
 
-            while (!loadComplete)
-            {
-            }
-            Console.WriteLine("Complete");
+            //while (!loadComplete)
+            //{
+            //}
+            //Console.WriteLine("Complete");
         }
 
         private void Player_MediaOpened(object sender, RoutedEventArgs e)
         {
-            if (sender == player1)
-            {
-                player1.Position = 
-                    MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
-                
-                player1.Pause();
-            }
-            else if (sender == player2)
-            {
-                player2.Position = 
-                    MediaTools.FrameToTimeSpan(player2.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
-                player2.Pause();
-            }
 
-            loadComplete = true;
         }
 
         private void LoadCheck()

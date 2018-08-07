@@ -343,7 +343,7 @@ new PropertyMetadata(default(bool), ScrubbingEnabledPropertyChanged));
         public readonly static DependencyProperty VolumeProperty = DependencyProperty.Register(
 "Volume", typeof(double), typeof(MediaElementPro),
 new PropertyMetadata(default(double), VolumePropertyChanged));
-        public double VolumeEnabled
+        public double Volume
         {
             get
             {
@@ -353,6 +353,7 @@ new PropertyMetadata(default(double), VolumePropertyChanged));
             set
             {
                 SetValue(VolumeProperty, value);
+                Current.mediaElement.Volume = value;
             }
         }
         private static void VolumePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
