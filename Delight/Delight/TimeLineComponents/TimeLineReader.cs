@@ -52,7 +52,7 @@ namespace Delight.TimeLineComponents
 
         private void Player_CurrentStateChanged(MediaElementPro sender, Common.PlayerState state)
         {
-            
+            Console.WriteLine(state);
         }
 
         public bool IsPlaying { get; private set; } = false;
@@ -116,6 +116,8 @@ namespace Delight.TimeLineComponents
             loading = false;
             player1.Close();
             player2.Close();
+            player1.Visibility = Visibility.Hidden;
+            player2.Visibility = Visibility.Hidden;
         }
 
         public void SwitchPlayer(bool showPlayer1)
@@ -146,14 +148,18 @@ namespace Delight.TimeLineComponents
             {
                 LoadCheck();
                 LoadWaitingVideos();
-                if (_timeLine.Tag == null)
+                if (player1.Tag == null)
                     return;
 
                 if (_timeLine.Position == player1.GetTag<TrackItem>().Offset)
+                {
                     player1.Play();
+                    player1.Visibility = Visibility.Visible;
+                }
+                
             }
         }
-
+        
         bool player1Playing = false;
         bool loadComplete = false;
         private void LoadWaitingVideos()

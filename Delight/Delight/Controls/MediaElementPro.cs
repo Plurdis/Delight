@@ -672,6 +672,8 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         {
             if (lastPosition != Position)
             {
+                if (CurrentState == PlayerState.Ended)
+                    return;
                 SetPosition(Position);
                 SetState(PlayerState.Playing);
             }

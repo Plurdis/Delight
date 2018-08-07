@@ -9,8 +9,8 @@
         
         Title="PlayWindow" Width="1920" Height="1080" AllowsTransparency="True" WindowStyle="None" Background="Black">
     <Grid x:Name="rootElement" Background="Black">
-        <ct:MediaElementPro x:Name="player2" IsHitTestVisible="False" Opacity="0.7"/>
-        <ct:MediaElementPro x:Name="player1" IsHitTestVisible="False" Opacity="0.7"/>
+        <ct:MediaElementPro x:Name="player2" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
+        <ct:MediaElementPro x:Name="player1" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         <Slider Value="{Binding ElementName=player1, Path=Opacity}" Width="100" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="1"/>
     </Grid>
 </Window>
