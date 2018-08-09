@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using Delight.Common;
+
 namespace Delight.Windows
 {
     /// <summary>
@@ -67,30 +69,38 @@ namespace Delight.Windows
 
         private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
+
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
 
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)rootElement.ActualWidth, (int)rootElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            mw.bg.Background = new VisualBrush(rootElement);
 
-            mw.preview.Fill = new ImageBrush(bitmap);
-            Thread thr = new Thread(() =>
-            {
-                int i = 0;
-                while (true)
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        bitmap.Render(rootElement);
+            //RenderTargetBitmap bitmap = new RenderTargetBitmap((int)rootElement.ActualWidth, (int)rootElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
 
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                        GC.Collect();
-                    });
-                    i++;
-                    Thread.Sleep(1000 / 24);
-                }
-            });
+            //mw.preview.Fill = new ImageBrush(bitmap);
+            //Thread thr = new Thread(() =>
+            //{
+            //    int i = 0;
+            //    while (true)
+            //    {
+            //        Dispatcher.Invoke(() =>
+            //        {
+            //            if (mw.tl.TimeLineReader.IsPlaying)
+            //            {
+            //                bitmap.Render(rootElement);
 
-            thr.Start();
+            //                GC.Collect();
+            //                GC.WaitForPendingFinalizers();
+            //                GC.Collect();
+            //            }
+
+            //        });
+            //        i++;
+            //        Thread.Sleep(1000 / 24);
+            //    }
+            //});
+
+            //thr.Start();
         }
 
     }

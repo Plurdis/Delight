@@ -195,6 +195,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid>
+                            <Grid x:Name="bg"/>
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                 <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview2}" Margin="5"/>
                             </Border>
