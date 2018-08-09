@@ -55,7 +55,8 @@ namespace Delight.Controls
 
         TrackType _trackType = TrackType.Unknown;
 
-        TrackType TrackType {
+        TrackType TrackType
+        {
             set
             {
                 switch (value)
@@ -84,7 +85,7 @@ namespace Delight.Controls
             {
                 return _trackType;
             }
-        } 
+        }
         FrameRate FrameRate { get; set; } = FrameRate._60FPS;
 
         FrameworkElement element;
@@ -197,7 +198,7 @@ namespace Delight.Controls
 
             if (trackItem == null)
             {
-                
+
                 var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
                 var media = comp as Media;
 
@@ -213,7 +214,7 @@ namespace Delight.Controls
                     TrackType = comp.TrackType,
                     OriginalPath = media == null ? "" : media.OriginalPath,
                 };
-                
+
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
                 trackItem.RightSide_MouseLeftButtonDown += TrackItem_RightSide_MouseLeftButtonDown;
                 trackItem.MovingSide_MouseLeftButtonDown += TrackItem_MovingSide_MouseLeftButtonDown;
@@ -240,101 +241,92 @@ namespace Delight.Controls
         {
             if (captured)
             {
+                TrackItem trackItem = element as TrackItem;
+
+                double left = 0, x;
+                int diff;
+
                 switch (dragSide)
                 {
                     case DragSide.LeftSide:
-                        if (element is TrackItem ti_l)
-                        {
-                            double x = Mouse.GetPosition(itemGrid).X;
-                            x_canvas += x - x_item;
 
-                            double left = x_canvas + Offset;
+                        x = Mouse.GetPosition(itemGrid).X;
+                        x_canvas += x - x_item;
 
-
-                            if (left < (ti_l.Offset - ti_l.ForwardOffset) * _realSize)
-                            {
-                                left = (ti_l.Offset - ti_l.ForwardOffset) * _realSize;
-                            }
-                            else if (left < 0)
-                            {
-                                left = 0;
-                            }
-                            else if ((x_canvas + ti_l.Margin.Right) >= itemGrid.ActualWidth)
-                            {
-                                left = itemGrid.ActualWidth - ti_l.Margin.Right - 1;
-                            }
-
-                            int leftOffset = (int)((left) / _realSize);
-
-                            int diff = leftOffset - ti_l.Offset;
-
-                            ti_l.ForwardOffset += diff;
-                            
-                            ti_l.Offset = leftOffset;
-                            ti_l.FrameWidth = (int)(fWidth + (fLeft - leftOffset));
-
-                            ti_l.SetLeftMargin((leftOffset * _realSize) - Offset);
-                            
-                            x_item = x;
-                        }
+                        left = x_canvas + Offset;
                         
+                        if (left < (trackItem.Offset - trackItem.ForwardOffset) * _realSize)
+                        {
+                            left = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
+                        }
+                        else if (left < 0)
+                        {
+                            left = 0;
+                        }
+                        else if ((x_canvas + trackItem.Margin.Right) >= itemGrid.ActualWidth)
+                        {
+                            left = itemGrid.ActualWidth - trackItem.Margin.Right - 1;
+                        }
+
+                        int leftOffset = (int)((left) / _realSize);
+
+                        diff = leftOffset - trackItem.Offset;
+
+                        trackItem.ForwardOffset += diff;
+
+                        trackItem.Offset = leftOffset;
+                        trackItem.FrameWidth = (int)(fWidth + (fLeft - leftOffset));
+
+                        trackItem.SetLeftMargin((leftOffset * _realSize) - Offset);
+
+                        x_item = x;
+
                         break;
                     case DragSide.RightSide:
-                        if (element is TrackItem tI_r)
-                        {
-                            
-                            double x = Mouse.GetPosition(itemGrid).X;
+                        x = Mouse.GetPosition(itemGrid).X;
 
-                            // right는 반대 방향으로 감
-                            double rightRaw = itemGrid.ActualWidth - (Math.Ceiling(x / _realSize) * _realSize);
+                        // right는 반대 방향으로 감
+                        double rightRaw = itemGrid.ActualWidth - (Math.Ceiling(x / _realSize) * _realSize);
 
-                            // ==================================================================
-                            // TODO: 특정한 경우 살짝 길이 계산에 오류가 있는거 같음 체크 해보기
-                            // ==================================================================
+                        // ==================================================================
+                        // TODO: 특정한 경우 살짝 길이 계산에 오류가 있는거 같음 체크 해보기
+                        // ==================================================================
 
+                        if (rightRaw < itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset)) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
+                            rightRaw = itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset);
+                        if (rightRaw > (itemGrid.ActualWidth - trackItem.Margin.Left)) // 전체 길이보다 작아질 경우
+                            rightRaw = (itemGrid.ActualWidth - trackItem.Margin.Left) - _realSize;
 
-                            if (rightRaw < itemGrid.ActualWidth - (((tI_r.Offset - tI_r.ForwardOffset + tI_r.MaxFrame) * _realSize) - Offset)) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
-                                rightRaw = itemGrid.ActualWidth - (((tI_r.Offset - tI_r.ForwardOffset + tI_r.MaxFrame) * _realSize) - Offset);
-                            if (rightRaw > (itemGrid.ActualWidth - tI_r.Margin.Left)) // 전체 길이보다 작아질 경우
-                                rightRaw = (itemGrid.ActualWidth - tI_r.Margin.Left) - _realSize;
-
-                            tI_r.SetRightMargin(rightRaw);
+                        trackItem.SetRightMargin(rightRaw);
 
 
-                            int width = (int)((itemGrid.ActualWidth - tI_r.Margin.Left - tI_r.Margin.Right) / _realSize);
+                        int width = (int)((itemGrid.ActualWidth - trackItem.Margin.Left - trackItem.Margin.Right) / _realSize);
 
-                            int diff = width - tI_r.FrameWidth;
-                            tI_r.BackwardOffset -= diff;
+                        diff = width - trackItem.FrameWidth;
+                        trackItem.BackwardOffset -= diff;
 
-                            
 
-                            tI_r.FrameWidth = width;
-                        }
 
+                        trackItem.FrameWidth = width;
                         break;
                     case DragSide.MovingSide:
-                        if (element is TrackItem trackItem_m)
+                        x = e.GetPosition(itemGrid).X;
+                        x_item += x - x_canvas;
+                        x_canvas = x;
+
+                        left = x_item + Offset;
+
+                        if (left < 0)
                         {
-                            double x = e.GetPosition(itemGrid).X;
-                            x_item += x - x_canvas;
-                            x_canvas = x;
-                            
-                            double left = x_item + Offset;
-                            
-                            if (left < 0)
-                            {
-                                x_canvas -= left;
-                                x_item = -Offset;
-                                left = 0;
-                            }
-
-                            trackItem_m.SetLeftMargin(((int)(x_item / _realSize)) * _realSize);
-                            trackItem_m.SetRightMargin(itemGrid.ActualWidth - trackItem_m.Margin.Left - trackItem_m.ActualWidth);
-
-                            trackItem_m.Offset = (int)(left / _realSize);
-                            
+                            x_canvas -= left;
+                            x_item = -Offset;
+                            left = 0;
                         }
 
+                        trackItem.SetLeftMargin(((int)(x_item / _realSize)) * _realSize);
+                        trackItem.SetRightMargin(itemGrid.ActualWidth - trackItem.Margin.Left - trackItem.ActualWidth);
+
+                        trackItem.Offset = (int)(left / _realSize);
                         break;
                     case DragSide.Unknown:
                         break;
@@ -422,13 +414,13 @@ namespace Delight.Controls
 
         public void RelocationTrackItems()
         {
-            foreach(TrackItem item in itemGrid.Children)
+            foreach (TrackItem item in itemGrid.Children)
             {
                 item.SetLeftMargin(item.Offset * _realSize - _parent.Offset);
                 item.SetRightMargin(itemGrid.ActualWidth - item.Margin.Left - (item.FrameWidth * _realSize)); // + _parent.Offset
             }
         }
 
-    #endregion
+        #endregion
     }
 }
