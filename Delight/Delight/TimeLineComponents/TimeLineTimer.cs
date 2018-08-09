@@ -46,15 +46,14 @@ namespace Delight.TimeLineComponents
                 while (true)
                 {
                     long elapsed = sw.ElapsedMilliseconds % 1000;
-                    int value = (int)(elapsed / (1000 / FrameRateInt));
-
+                    int value = (int)(elapsed / (1000.0 / FrameRateInt));
+                    //Console.WriteLine(value);
                     if (lastValue != value && value != FrameRateInt)
                     {
                         Tick?.Invoke();
                     }
-                    
                     lastValue = value;
-                    Thread.Sleep(10);
+                    Thread.Sleep(1);
                 }
             });
 
