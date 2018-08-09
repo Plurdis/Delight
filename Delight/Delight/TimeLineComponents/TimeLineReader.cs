@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
+using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
@@ -19,12 +19,12 @@ namespace Delight.TimeLineComponents
     {
         public TimeLineReader(TimeLine timeLine)
         {
-            _timeLine = timeLine;
+            TimeLine = timeLine;
 
-            _timeLine.FrameChanged += _timeLine_FrameChanged;
-            _timeLine.FrameMouseChanged += (s, e) => StopLoad();
+            TimeLine.FrameChanged += TimeLine_FrameChanged;
+            TimeLine.FrameMouseChanged += (s, e) => StopLoad();
 
-            _timeLine.ItemAdded += _timeLine_ItemAdded;
+            TimeLine.ItemAdded += TimeLine_ItemAdded;
         }
 
         public void SetPlayer(MediaElementPro player1, MediaElementPro player2)
@@ -32,63 +32,103 @@ namespace Delight.TimeLineComponents
             if (player1 == player2)
                 throw new Exception("player1와 player2는 같은 인스턴스 일 수 없습니다.");
 
-            if (player1 != null)
-            {
-                player1.MediaOpened -= Player_MediaOpened;
-            }
-            if (player2 != null)
-            {
-                player2.MediaOpened -= Player_MediaOpened;
-            }
-
             this.player1 = player1;
             this.player2 = player2;
 
-            player1.MediaOpened += Player_MediaOpened;
+            loader1 = new MediaElementLoader(player1);
+            loader2 = new MediaElementLoader(player2);
+            
             player1.CurrentStateChanged += Player_CurrentStateChanged;
-            player2.MediaOpened += Player_MediaOpened;
             player2.CurrentStateChanged += Player_CurrentStateChanged;
 
             StopLoad();
         }
 
-        private void Player_CurrentStateChanged(MediaElementPro sender, Common.PlayerState state)
-        {
-            if (state == Common.PlayerState.Playing)
-            {
-                if (sender == player1)
-                {
-                    player1.Position =
-                        MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
-
-                    player1.Pause();
-                }
-                else if (sender == player2)
-                {
-                    player2.Position =
-                        MediaTools.FrameToTimeSpan(player2.GetTag<TrackItem>().ForwardOffset, _timeLine.FrameRate);
-                    player2.Pause();
-                }
-
-                loadComplete = true;
-            }
-            Console.WriteLine(state);
-        }
-
         Queue<TrackItem> _allVideos = new Queue<TrackItem>();
         Queue<TrackItem> _loadWaitVideos = new Queue<TrackItem>();
         MediaElementPro player1, player2;
+        MediaElementLoader loader1, loader2;
+
+        public bool IsPlaying => 
+            player1?.CurrentState == PlayerState.Playing || player2?.CurrentState == PlayerState.Playing;
 
         public bool PlayerAssigned => (player1 != null) && (player2 != null);
 
         bool loading = false;
 
-        private void _timeLine_ItemAdded(object sender, ItemEventArgs e)
+        #region [  TimeLine Event  ]
+
+        private void TimeLine_ItemAdded(object sender, ItemEventArgs e)
         {
             if (e.Item.TrackType == TrackType.Video)
             {
                 _allVideos.Enqueue(e.Item);
             }
+        }
+
+        private void TimeLine_FrameChanged(object sender, EventArgs e)
+        {
+            if (!PlayerAssigned)
+                throw new NullReferenceException("player1 또는 player2가 할당되지 않았습니다. SetPlayer 함수를 이용해서 할당해주세요.");
+
+            if (!TimeLine.IsRunning)
+                return;
+
+            //Console.WriteLine(MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate));
+
+            if (loading)
+            {
+                LoadCheck();
+                Task.Run(() =>
+                {
+                    LoadWaitingVideos();
+                    
+                    player1.Dispatcher.Invoke(() =>
+                    {
+                        MainWindow mw = Application.Current.MainWindow as MainWindow;
+
+                        mw.Title = MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate).ToString();
+                        if (player1.Tag == null && player2.Tag == null)
+                        {
+                            return;
+                        }
+                        if (player1.CurrentState != PlayerState.Playing &&
+                            TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
+                        {
+                            player1.Position = MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
+                            player1.Play();
+                            player1.Volume = 1;
+                            player1.Visibility = Visibility.Visible;
+                        }
+                    });
+                });
+            }
+        }
+
+        #endregion
+
+        bool p1Playing = false;
+
+        TimeLine TimeLine { get; }
+
+        private void LoadWaitingVideos()
+        {
+            if (!TimeLine.IsRunning && !TimeLine.IsReady)
+                return;
+
+            if (_loadWaitVideos.Count == 0)
+                return;
+            if (!p1Playing)
+            {
+                loader1.LoadVideo(_loadWaitVideos.Dequeue()).Wait();
+            }
+            else
+            {
+                loader2.LoadVideo(_loadWaitVideos.Dequeue()).Wait();
+            }
+            Console.WriteLine("Loader LoadVideo 종료 (outer)");
+
+            p1Playing = !p1Playing;
         }
 
         public void StartLoad()
@@ -97,9 +137,9 @@ namespace Delight.TimeLineComponents
 
             _allVideos.Clear();
 
-            _timeLine.Dispatcher.Invoke(() =>
+            TimeLine.Dispatcher.Invoke(() =>
             {
-                foreach (TrackItem item in _timeLine.GetItems(TrackType.Video, _timeLine.Position).OrderBy(i => i.Offset))
+                foreach (TrackItem item in TimeLine.GetItems(TrackType.Video, TimeLine.Position).OrderBy(i => i.Offset))
                 {
                     _allVideos.Enqueue(item);
                 }
@@ -108,11 +148,15 @@ namespace Delight.TimeLineComponents
             });
 
             LoadWaitingVideos();
+
+            Console.WriteLine("StartLoad Method End");
         }
 
         public void StopLoad()
         {
             loading = false;
+            player1.Source = null;
+            player2.Source = null;
             player1.Close();
             player2.Close();
             player1.Visibility = Visibility.Hidden;
@@ -137,64 +181,25 @@ namespace Delight.TimeLineComponents
 
         public IEnumerable<TrackItem> GetTrackItem(int frame)
         {
-            return _timeLine.Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
+            return TimeLine.Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
         }
 
-        private void _timeLine_FrameChanged(object sender, EventArgs e)
+        private void Player_CurrentStateChanged(MediaElementPro sender, PlayerState state)
         {
-            if (!PlayerAssigned)
-                throw new NullReferenceException("player1 또는 player2가 할당되지 않았습니다. SetPlayer 함수를 이용해서 할당해주세요.");
-
-            if (loading)
+            if (state == PlayerState.Playing)
             {
-                LoadCheck();
-                LoadWaitingVideos();
-                if (player1.Tag == null)
-                    return;
+                //sender.Position =
+                //    MediaTools.FrameToTimeSpan(sender.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
 
-                if (_timeLine.Position == player1.GetTag<TrackItem>().Offset)
-                {
-                    player1.Play();
-                    player1.Volume = 1;
-                    player1.Visibility = Visibility.Visible;
-                }
+                //sender.Pause();
+
+                //loadComplete = true;
             }
-        }
-        
-        bool player1Playing = false;
-        bool loadComplete = false;
-        private void LoadWaitingVideos()
-        {
-            if (_loadWaitVideos.Count == 0)
-                return;
-            if (!player1Playing)
+            else if (state == PlayerState.Ended)
             {
-                player1.Dispatcher.Invoke(() =>
-                {
-                    player1.Tag = _loadWaitVideos.Dequeue();
-                    player1.Source = new Uri(player1.GetTag<TrackItem>().OriginalPath, UriKind.Absolute);
-                    player1.Play();
-                });
+                "현재 재생중이던 플레이어가 종료되었습니다.".Log();
             }
-            else
-            {
-                player2.Dispatcher.Invoke(() =>
-                {
-                    player2.Tag = _loadWaitVideos.Dequeue();
-                    player2.Source = new Uri(player2.GetTag<TrackItem>().OriginalPath, UriKind.Absolute);
-                    player2.Play();
-                });
-            }
-
-            //while (!loadComplete)
-            //{
-            //}
-            //Console.WriteLine("Complete");
-        }
-
-        private void Player_MediaOpened(object sender, RoutedEventArgs e)
-        {
-
+            Console.WriteLine(sender.Name + " :; " + state);
         }
 
         private void LoadCheck()
@@ -203,7 +208,7 @@ namespace Delight.TimeLineComponents
                 return;
 
             TrackItem item = _allVideos.Peek();
-            if ((item.Offset - _timeLine.Position) < MediaTools.TimeSpanToFrame(TimeSpan.FromSeconds(10), _timeLine.FrameRate))
+            if ((item.Offset - TimeLine.Position) < MediaTools.TimeSpanToFrame(TimeSpan.FromSeconds(10), TimeLine.FrameRate))
             {
                 Console.WriteLine("Should be Load!" + item.OriginalPath);
 
@@ -212,7 +217,5 @@ namespace Delight.TimeLineComponents
                 _allVideos.Dequeue();
             }
         }
-
-        TimeLine _timeLine;
     }
 }

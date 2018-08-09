@@ -85,7 +85,7 @@ namespace Delight.Controls
                 return _trackType;
             }
         } 
-        FrameRate FrameRate { get; set; } = FrameRate._24FPS;
+        FrameRate FrameRate { get; set; } = FrameRate._60FPS;
 
         FrameworkElement element;
         DragSide dragSide = DragSide.Unknown;
