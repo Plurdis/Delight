@@ -132,15 +132,18 @@ new PropertyMetadata(null, SourcePropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var uri = (Uri)e.NewValue;
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.SetState(PlayerState.Opening);
-                Current.mediaElement.Source = uri;
-                //Current.SetState(PlayerState.Playing);
-                //Current.Timer.Start();
+                var uri = (Uri)e.NewValue;
+                try
+                {
+                    element.SetState(PlayerState.Opening);
+                    element.mediaElement.Source = uri;
+                    //Current.SetState(PlayerState.Playing);
+                    //Current.Timer.Start();
+                }
+                catch { }
             }
-            catch { }
         }
 
 
@@ -241,12 +244,15 @@ new PropertyMetadata(null, SourcePropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var stretch = (Stretch)e.NewValue;
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.Stretch = stretch;
+                var stretch = (Stretch)e.NewValue;
+                try
+                {
+                    element.mediaElement.Stretch = stretch;
+                }
+                catch { }
             }
-            catch { }
         }
 
 
@@ -270,13 +276,17 @@ new PropertyMetadata(default(StretchDirection), StretchDirectionPropertyChanged)
         {
             if (e.NewValue == null)
                 return;
-            var stretchDir = (StretchDirection)e.NewValue;
-
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.StretchDirection = stretchDir;
+                var stretchDir = (StretchDirection)e.NewValue;
+
+                try
+                {
+                    element.mediaElement.StretchDirection = stretchDir;
+                }
+                catch { }
             }
-            catch { }
+            
         }
 
 
@@ -288,7 +298,6 @@ new PropertyMetadata(default(bool), IsMutedPropertyChanged));
             get
             {
                 return mediaElement.IsMuted;
-                //return (bool)GetValue(IsMutedProperty);
             }
             set
             {
@@ -299,13 +308,17 @@ new PropertyMetadata(default(bool), IsMutedPropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var isMute = (bool)e.NewValue;
-
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.IsMuted = isMute;
+                var isMute = (bool)e.NewValue;
+
+                try
+                {
+                    element.mediaElement.IsMuted = isMute;
+                }
+                catch { }
             }
-            catch { }
+            
         }
 
 
@@ -329,17 +342,18 @@ new PropertyMetadata(default(bool), ScrubbingEnabledPropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var scrubbing = (bool)e.NewValue;
-
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.ScrubbingEnabled = scrubbing;
+                var scrubbing = (bool)e.NewValue;
+
+                try
+                {
+                    element.mediaElement.ScrubbingEnabled = scrubbing;
+                }
+                catch { }
             }
-            catch { }
         }
-
-
-
+        
         public readonly static DependencyProperty VolumeProperty = DependencyProperty.Register(
 "Volume", typeof(double), typeof(MediaElementPro),
 new PropertyMetadata(default(double), VolumePropertyChanged));
@@ -353,19 +367,23 @@ new PropertyMetadata(default(double), VolumePropertyChanged));
             set
             {
                 SetValue(VolumeProperty, value);
-                Current.mediaElement.Volume = value;
+                //mediaElement.Volume = value; // TODO: 오류 생기면 제일 먼저 확인
             }
         }
         private static void VolumePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null)
                 return;
-            var volume = (double)e.NewValue;
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.Volume = volume;
+                var volume = (double)e.NewValue;
+                try
+                {
+                    element.mediaElement.Volume = volume;
+                }
+                catch { }
             }
-            catch { }
+            
         }
 
 
@@ -389,12 +407,15 @@ new PropertyMetadata(default(double), SpeedRatioPropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var speedRatio = (double)e.NewValue;
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.SpeedRatio = speedRatio;
-            }
-            catch { }
+                var speedRatio = (double)e.NewValue;
+                try
+                {
+                    element.mediaElement.SpeedRatio = speedRatio;
+                }
+                catch { }
+            }   
         }
 
 
@@ -418,12 +439,15 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         {
             if (e.NewValue == null)
                 return;
-            var balance = (double)e.NewValue;
-            try
+            if (obj is MediaElementPro element)
             {
-                Current.mediaElement.Balance = balance;
+                var balance = (double)e.NewValue;
+                try
+                {
+                    element.mediaElement.Balance = balance;
+                }
+                catch { }
             }
-            catch { }
         }
 
 
@@ -475,11 +499,8 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
 
         #endregion
         DispatcherTimer Timer = new DispatcherTimer();
-        public static MediaElementPro Current;
         public MediaElementPro()
         {
-            Current = this;
-            
             Timer.Interval = TimeSpan.FromSeconds(.5);
             Timer.Tick += OnTimerTick;
         }
@@ -516,8 +537,8 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
 
         private void OnMediaOpened(object sender, RoutedEventArgs e)
         {
-            MediaOpened?.Invoke(this, e);
             SetState(PlayerState.Opened);
+            MediaOpened?.Invoke(this, e);
         }
 
         private void OnMediaFailed(object sender, ExceptionRoutedEventArgs e)
@@ -557,10 +578,12 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         public void Play()
         {
             mediaElement.Play();
-            Position = TimeSpan.FromMilliseconds(0);
+            if (CurrentState != PlayerState.Paused)
+                Position = TimeSpan.FromMilliseconds(0);
             IsPlaying = true;
             Timer.Start();
         }
+        
         public void Pause()
         {
             mediaElement.Pause();
@@ -675,6 +698,7 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             {
                 if (CurrentState == PlayerState.Ended)
                     return;
+                Console.WriteLine(Position.ToString());
                 SetPosition(Position);
                 SetState(PlayerState.Playing);
             }
