@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,33 +43,61 @@ namespace Delight.Controls
         bool captured = false;
         UIElement source;
         double absLeft, relLeft;
-
         TimeLineTimer _timer;
 
         public TimeLineReader TimeLineReader { get; }
 
+        int i = 0;
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
+            
+            Thread thr = new Thread(ThreadRun);
+
+            thr.Start();
+
+            TimeLineReader = new TimeLineReader(this);
+        }
+
+        public void ThreadRun()
+        {
+            int v = 0;
 
             _timer = new TimeLineTimer(FrameRate);
             _timer.Tick += () =>
             {
-                Dispatcher.Invoke(() =>
+                int p = 0;
+                Dispatcher.Invoke(() => p = Position);
+
+                v++;
+
+                if (p >= MaxFrame)
                 {
-                    if (Position < MaxFrame)
-                    {
-                        Position++;
-                    }
-                    else
+                    Dispatcher.Invoke(() =>
                     {
                         this.Position = MaxFrame;
-                        _timer.Stop();
-                    }
-                });
+                    });
+                    
+                    _timer.Stop();
+                }
             };
 
-            TimeLineReader = new TimeLineReader(this);
+            while (true)
+            {
+                if (_timer.IsRunning)
+                {
+                    if (v != 0)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            Position += v;
+                        });
+                    }
+                    
+                    v = 0;
+                }
+                Thread.Sleep(100);
+            }
         }
 
         public override void OnApplyTemplate()
@@ -304,14 +333,20 @@ namespace Delight.Controls
 
         #region [  Positioner Movement  ]
 
+        public bool IsReady { get; set; } = false;
+
         public void Play()
         {
             //await Task.Factory.StartNew(() => {  });
             Task.Run(() =>
             {
+                IsReady = true;
                 TimeLineReader.StartLoad();
-                
+                Console.WriteLine("┌────────┐");
+                Console.WriteLine("  Timer Started!");
+                Console.WriteLine("└────────┘");
                 _timer.Start();
+                IsReady = false;
             });
         }
 
