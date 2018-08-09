@@ -128,6 +128,8 @@ namespace Delight
         
         private void PlayExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            if (tl.IsReady)
+                return;
             if (!tl.IsRunning)
             {
                 tl.Play();
