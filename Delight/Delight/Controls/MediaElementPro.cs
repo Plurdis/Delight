@@ -9,10 +9,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using WPFMediaKit.DirectShow.Controls;
+using WPFMediaKit.DirectShow.MediaPlayers;
 
 namespace Delight.Controls
 {
-    [TemplatePart(Name = "mediaElement", Type = typeof(MediaElement))]
+    [TemplatePart(Name = "mediaElement", Type = typeof(MediaUriElement))]
     public partial class MediaElementPro : Control, INotifyPropertyChanged
     {
         #region Properties
@@ -75,26 +77,25 @@ namespace Delight.Controls
         /// Media items. DON'T USE THIS TO ADD ITEM DIRECTLY!!!! default value is null.
         /// </summary>
         public List<Uri> MediaItems { get; private set; }
-        /// <summary>
-        /// Gets natural duration of the media.
-        /// </summary>
-        public Duration NaturalDuration => mediaElement.NaturalDuration;
+        
         /// <summary>
         /// Gets or sets the current position of progress through the media's playback time.
         /// </summary>
         public TimeSpan Position
         {
-            get => mediaElement.Position;
-            set => mediaElement.Position = value;
+            get => TimeSpan.FromTicks(mediaElement.MediaPosition);
+            set => mediaElement.MediaPosition = value.Ticks;
         }
         public int NaturalVideoHeight => mediaElement.NaturalVideoHeight;
         public int NaturalVideoWidth => mediaElement.NaturalVideoWidth;
-        public double BufferingProgress => mediaElement.BufferingProgress;
-        public bool CanPause => mediaElement.CanPause;
-        public bool HasAudio => mediaElement.HasAudio;
         public bool HasVideo => mediaElement.HasVideo;
-        public bool IsBuffering => mediaElement.IsBuffering;
-        public double DownloadProgress => mediaElement.DownloadProgress;
+        
+        public VideoRendererType VideoRenderer
+        {
+            get => mediaElement.VideoRenderer;
+            set => mediaElement.VideoRenderer = value;
+        }
+
         /// <summary>
         /// Selected index of <see cref="MediaItems"/>, if it wasn't null!
         /// </summary>
@@ -103,14 +104,7 @@ namespace Delight.Controls
         /// Selected item of <see cref="MediaItems"/>, if it wasn't null!
         /// </summary>
         public Uri SelectedItem { get; private set; }
-        public MediaClock Clock
-        {
-            get => mediaElement.Clock;
-            set => mediaElement.Clock = value;
-        }
-
-
-
+        
         public readonly static DependencyProperty SourceProperty = DependencyProperty.Register(
 "Source", typeof(Uri), typeof(MediaElementPro),
 new PropertyMetadata(null, SourcePropertyChanged));
@@ -288,69 +282,12 @@ new PropertyMetadata(default(StretchDirection), StretchDirectionPropertyChanged)
             }
             
         }
-
-
-        public readonly static DependencyProperty IsMutedProperty = DependencyProperty.Register(
-"IsMuted", typeof(bool), typeof(MediaElementPro),
-new PropertyMetadata(default(bool), IsMutedPropertyChanged));
+        
         public bool IsMuted
         {
             get
             {
-                return mediaElement.IsMuted;
-            }
-            set
-            {
-                SetValue(IsMutedProperty, value);
-            }
-        }
-        private static void IsMutedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null)
-                return;
-            if (obj is MediaElementPro element)
-            {
-                var isMute = (bool)e.NewValue;
-
-                try
-                {
-                    element.mediaElement.IsMuted = isMute;
-                }
-                catch { }
-            }
-            
-        }
-
-
-
-        public readonly static DependencyProperty ScrubbingEnabledProperty = DependencyProperty.Register(
-"ScrubbingEnabled", typeof(bool), typeof(MediaElementPro),
-new PropertyMetadata(default(bool), ScrubbingEnabledPropertyChanged));
-        public bool ScrubbingEnabled
-        {
-            get
-            {
-                return mediaElement.ScrubbingEnabled;
-                //return (bool)GetValue(ScrubbingEnabledProperty);
-            }
-            set
-            {
-                SetValue(ScrubbingEnabledProperty, value);
-            }
-        }
-        private static void ScrubbingEnabledPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null)
-                return;
-            if (obj is MediaElementPro element)
-            {
-                var scrubbing = (bool)e.NewValue;
-
-                try
-                {
-                    element.mediaElement.ScrubbingEnabled = scrubbing;
-                }
-                catch { }
+                return mediaElement.Volume == 0;
             }
         }
         
@@ -490,7 +427,7 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         #region Events
         public event RoutedEventHandler MediaEnded;
         public event RoutedEventHandler MediaOpened;
-        public event RoutedEventHandler MediaFailed;
+        public event EventHandler<MediaFailedEventArgs> MediaFailed;
         public event RoutedEventHandler BufferingStarted;
         public event RoutedEventHandler BufferingEnded;
         public event CurrentStateChangedHandler CurrentStateChanged;
@@ -505,43 +442,28 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             Timer.Tick += OnTimerTick;
         }
 
-        MediaElement mediaElement;
+        MediaUriElement mediaElement;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            mediaElement = GetTemplateChild("mediaElement") as MediaElement;
+            mediaElement = GetTemplateChild("mediaElement") as MediaUriElement;
 
-            mediaElement.LoadedBehavior = MediaState.Manual;
-            mediaElement.UnloadedBehavior = MediaState.Manual;
+            mediaElement.LoadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
+            mediaElement.UnloadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
             mediaElement.MediaEnded += OnMediaEnded;
             mediaElement.MediaFailed += OnMediaFailed;
             mediaElement.MediaOpened += OnMediaOpened;
-            mediaElement.BufferingStarted += OnBufferingStarted;
-            mediaElement.BufferingEnded += OnBufferingEnded;
         }
-
-
-        private void OnBufferingStarted(object sender, RoutedEventArgs e)
-        {
-            BufferingStarted?.Invoke(this, e);
-            SetState(PlayerState.Buffering);
-        }
-
-        private void OnBufferingEnded(object sender, RoutedEventArgs e)
-        {
-            BufferingEnded?.Invoke(this, e);
-            //SetState(PlayerState.Playing);
-        }
-
+        
         private void OnMediaOpened(object sender, RoutedEventArgs e)
         {
             SetState(PlayerState.Opened);
             MediaOpened?.Invoke(this, e);
         }
 
-        private void OnMediaFailed(object sender, ExceptionRoutedEventArgs e)
+        private void OnMediaFailed(object sender, MediaFailedEventArgs e)
         {
             MediaFailed?.Invoke(this, e);
             SetState(PlayerState.Failed);

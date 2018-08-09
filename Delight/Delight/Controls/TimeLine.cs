@@ -53,7 +53,6 @@ namespace Delight.Controls
             this.Style = FindResource("TimeLineStyle") as Style;
             
             Thread thr = new Thread(ThreadRun);
-
             thr.Start();
 
             TimeLineReader = new TimeLineReader(this);
@@ -61,43 +60,14 @@ namespace Delight.Controls
 
         public void ThreadRun()
         {
-            int v = 0;
-
             _timer = new TimeLineTimer(FrameRate);
             _timer.Tick += () =>
             {
-                int p = 0;
-                Dispatcher.Invoke(() => p = Position);
-
-                v++;
-
-                if (p >= MaxFrame)
+                Dispatcher.Invoke(() =>
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        this.Position = MaxFrame;
-                    });
-                    
-                    _timer.Stop();
-                }
+                    Position++;
+                });
             };
-
-            while (true)
-            {
-                if (_timer.IsRunning)
-                {
-                    if (v != 0)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            Position += v;
-                        });
-                    }
-                    
-                    v = 0;
-                }
-                Thread.Sleep(100);
-            }
         }
 
         public override void OnApplyTemplate()

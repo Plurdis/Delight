@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using WPFMediaKit.DirectShow.Controls;
 
 namespace Delight.TimeLineComponents
 {
@@ -15,7 +17,16 @@ namespace Delight.TimeLineComponents
         {
             MediaElement = mediaElement;
 
-            mediaElement.MediaOpened += MediaElement_MediaOpened; ;
+            mediaElement.MediaOpened += MediaElement_MediaOpened;
+            mediaElement.CurrentStateChanged += MediaElement_CurrentStateChanged;
+        }
+
+        private void MediaElement_CurrentStateChanged(MediaElementPro sender, Common.PlayerState state)
+        {
+            if (state == Common.PlayerState.Closed)
+            {
+                IsReadyForPlay = false;
+            }
         }
 
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
@@ -23,12 +34,15 @@ namespace Delight.TimeLineComponents
             Console.WriteLine(MediaElement.Name + " Load Complete");
             MediaElement.Pause();
             IsLoaded = true;
+            Console.WriteLine(IsLoaded);
         }
 
         MediaElementPro MediaElement { get; }
 
         bool IsLoaded = false;
 
+        public bool IsReadyForPlay = false;
+        
         public Task LoadVideo(TrackItem trackItem)
         {
             Task task = Task.Run(() =>
@@ -51,6 +65,8 @@ namespace Delight.TimeLineComponents
                 {
                     Console.WriteLine($"Load Complete {MediaElement.Name} Item");
                 });
+
+                IsReadyForPlay = true;
             });
 
             Console.WriteLine("Loader LoadVideo 종료 (inner)");

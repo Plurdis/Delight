@@ -12,6 +12,7 @@ using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
 using Delight.LogManage;
+using WPFMediaKit.DirectShow.Controls;
 
 namespace Delight.TimeLineComponents
 {
@@ -35,13 +36,24 @@ namespace Delight.TimeLineComponents
             this.player1 = player1;
             this.player2 = player2;
 
-            loader1 = new MediaElementLoader(player1);
-            loader2 = new MediaElementLoader(player2);
-            
+            player1.VideoRenderer = WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.VideoMixingRenderer9;
+            player2.VideoRenderer = WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.VideoMixingRenderer9;
+
             player1.CurrentStateChanged += Player_CurrentStateChanged;
             player2.CurrentStateChanged += Player_CurrentStateChanged;
 
+            loader1 = new MediaElementLoader(player1);
+            loader2 = new MediaElementLoader(player2);
+            
             StopLoad();
+        }
+
+        private void Player_CurrentStateChanged(MediaElementPro sender, PlayerState state)
+        {
+            if (state == PlayerState.Ended)
+            {
+                sender.Close();
+            }
         }
 
         Queue<TrackItem> _allVideos = new Queue<TrackItem>();
@@ -50,7 +62,7 @@ namespace Delight.TimeLineComponents
         MediaElementLoader loader1, loader2;
 
         public bool IsPlaying => 
-            player1?.CurrentState == PlayerState.Playing || player2?.CurrentState == PlayerState.Playing;
+            (player1?.IsPlaying).GetValueOrDefault() || (player2?.IsPlaying).GetValueOrDefault();
 
         public bool PlayerAssigned => (player1 != null) && (player2 != null);
 
@@ -65,6 +77,8 @@ namespace Delight.TimeLineComponents
                 _allVideos.Enqueue(e.Item);
             }
         }
+
+        bool p1Playing = false;
 
         private void TimeLine_FrameChanged(object sender, EventArgs e)
         {
@@ -92,22 +106,42 @@ namespace Delight.TimeLineComponents
                         {
                             return;
                         }
-                        if (player1.CurrentState != PlayerState.Playing &&
-                            TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
+                        Console.WriteLine(player1.Position + " :: " + player2.Position);
+                        if (!p1Playing)
                         {
-                            player1.Position = MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
-                            player1.Play();
-                            player1.Volume = 1;
-                            player1.Visibility = Visibility.Visible;
+                            if (!player1.IsPlaying && player1.Tag != null &&
+                                TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
+                            {
+                                player1.Position = MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
+                                player1.Play();
+                                player1.Volume = 1;
+                                player1.Visibility = Visibility.Visible;
+                                player2.Visibility = Visibility.Hidden;
+                                
+                            }
+                            p1Playing = true;
                         }
+                        else
+                        {
+                            if (!player2.IsPlaying && player2.Tag != null &&
+                                TimeLine.Position - 1 > player2.GetTag<TrackItem>().Offset)
+                            {
+                                player2.Position = MediaTools.FrameToTimeSpan(player2.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
+                                player2.Play();
+                                player2.Volume = 1;
+                                player2.Visibility = Visibility.Visible;
+                                player1.Visibility = Visibility.Hidden;
+                            }
+
+                            p1Playing = false;
+                        }
+                        
                     });
                 });
             }
         }
 
         #endregion
-
-        bool p1Playing = false;
 
         TimeLine TimeLine { get; }
 
@@ -118,17 +152,16 @@ namespace Delight.TimeLineComponents
 
             if (_loadWaitVideos.Count == 0)
                 return;
-            if (!p1Playing)
+
+            
+            if (!loader1.IsReadyForPlay)
             {
                 loader1.LoadVideo(_loadWaitVideos.Dequeue()).Wait();
             }
-            else
+            else if (!loader2.IsReadyForPlay)
             {
                 loader2.LoadVideo(_loadWaitVideos.Dequeue()).Wait();
             }
-            Console.WriteLine("Loader LoadVideo 종료 (outer)");
-
-            p1Playing = !p1Playing;
         }
 
         public void StartLoad()
@@ -183,25 +216,7 @@ namespace Delight.TimeLineComponents
         {
             return TimeLine.Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
         }
-
-        private void Player_CurrentStateChanged(MediaElementPro sender, PlayerState state)
-        {
-            if (state == PlayerState.Playing)
-            {
-                //sender.Position =
-                //    MediaTools.FrameToTimeSpan(sender.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
-
-                //sender.Pause();
-
-                //loadComplete = true;
-            }
-            else if (state == PlayerState.Ended)
-            {
-                "현재 재생중이던 플레이어가 종료되었습니다.".Log();
-            }
-            Console.WriteLine(sender.Name + " :; " + state);
-        }
-
+        
         private void LoadCheck()
         {
             if (_allVideos.Count == 0)

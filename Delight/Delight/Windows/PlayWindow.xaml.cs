@@ -52,6 +52,8 @@ namespace Delight.Windows
                 {
                     this.Left = scr.Bounds.Left;
                     this.Top = scr.Bounds.Top;
+                    this.Width = scr.Bounds.Width;
+                    this.Height = scr.Bounds.Height;
                     break;
                 }
             }
@@ -69,8 +71,6 @@ namespace Delight.Windows
 
         private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
-
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
 
             mw.bg.Background = new VisualBrush(rootElement);
