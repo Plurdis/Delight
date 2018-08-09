@@ -75,29 +75,20 @@ namespace Delight
 
             tl.TimeLineReader.SetPlayer(pw.player1, pw.player2);
             
-            tl.FrameRate = Core.Common.FrameRate._24FPS;
+            tl.FrameRate = Core.Common.FrameRate._60FPS;
             
-
-
             this.LocationChanged += MainWindow_LocationChanged;
 
             //pw.player1.Open()
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
-            
-            //tl.FrameMouseChanged += async (s, e) =>
-            //{
-            //    var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-            //    tl.Stop();
-            //    allowedChange = true;
-            //    pw.player1.Position = ts;
-            //    allowedChange = false;
 
-            //    if (pw.player1.IsPlaying)
-            //    {
-            //        Thread.Sleep(10);
-            //        await pw.player1.Pause();
-            //    }
-            //};
+            tl.FrameMouseChanged += (s, e) =>
+            {
+                tl.Stop();
+                //allowedChange = true;
+                //pw.player1.Position = ts;
+                //allowedChange = false;
+            };
         }
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
@@ -106,24 +97,32 @@ namespace Delight
 
         private void LogManager_InfoTextChanged(string text)
         {
-            tbInfo.Text = text;
+            Dispatcher.Invoke(() =>
+            {
+                tbInfo.Text = text;
+            });
         }
 
         private void LogManager_InfoProgressChanged(double value)
         {
-            pbInfo.Value = value;
+            Dispatcher.Invoke(() =>
+            {
+                pbInfo.Value = value;
+            });
         }
 
         private void LogManager_InfoMaximumChanged(double value)
         {
-            pbInfo.Maximum = value;
+            Dispatcher.Invoke(() =>
+            {
+                pbInfo.Maximum = value;
+            });
         }
 
         int i = 0;
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            tl.Play();
         }
 
         bool allowedChange = false;
