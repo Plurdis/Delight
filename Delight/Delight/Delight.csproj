@@ -82,7 +82,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\ColorTheme.cs" />
-    <Compile Include="Common\ControlCommands.cs" />
+    <Compile Include="Commands\ControlCommands.cs" />
     <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\PlayerState.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="Controls\Track.cs" />
     <Compile Include="Converter\RangeConverter.cs" />
     <Compile Include="Components\Common\MediaTools.cs" />
-    <Compile Include="Common\MenuCommands.cs" />
+    <Compile Include="Commands\MenuCommands.cs" />
     <Compile Include="Controls\TemplateItem.cs" />
     <Compile Include="Converter\MinusConverter.cs" />
     <Compile Include="Extensions\FrameworkElementEx.cs" />

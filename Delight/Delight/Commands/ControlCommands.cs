@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Delight.Common
+namespace Delight.Commands
 {
     public static class ControlCommands
     {
