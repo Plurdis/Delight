@@ -375,7 +375,6 @@ namespace Delight.Controls
             }
         }
         
-
         public double GetSliderLeft()
         {
             return positioner.Margin.Left;

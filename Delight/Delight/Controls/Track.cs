@@ -254,7 +254,7 @@ namespace Delight.Controls
                         x_canvas += x - x_item;
 
                         left = x_canvas + Offset;
-                        
+
                         if (left < (trackItem.Offset - trackItem.ForwardOffset) * _realSize)
                         {
                             left = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
@@ -269,6 +269,30 @@ namespace Delight.Controls
                         }
 
                         int leftOffset = (int)((left) / _realSize);
+
+                        // ==================== 마그넷
+
+                        var itemsLeft = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth < leftOffset);
+                        var itemsRight = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth > leftOffset);
+
+                        int leftMax = itemsLeft.Count() != 0 ? itemsLeft.Max(i => i.Offset + i.FrameWidth) : int.MinValue;
+                        int rightMin = itemsRight.Count() != 0 ? itemsRight.Min(i => i.Offset + i.FrameWidth) : int.MaxValue;
+
+                        double leftBetweenWidth = (leftOffset - leftMax) * _realSize;
+                        bool leftMagnetAllowed = leftBetweenWidth < 6 && leftBetweenWidth >= 0;
+                        
+                        bool rightMagnetAllowed = ((leftOffset) - rightMin) * _realSize > -6;
+                        
+                        if (leftMagnetAllowed)
+                        {
+                            leftOffset = leftMax;
+                        }
+                        else if (rightMagnetAllowed)
+                        {
+                            leftOffset = rightMin;
+                        }
+                        
+                        // ===========================
 
                         diff = leftOffset - trackItem.Offset;
 
