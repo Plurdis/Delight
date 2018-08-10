@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using Delight.Commands;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;

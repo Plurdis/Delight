@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using Delight.Commands;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
@@ -27,7 +27,15 @@ namespace Delight.Controls
         public Track()
         {
             this.Style = FindResource("TrackStyle") as Style;
+
+            this.CommandBindings.Add(new CommandBinding(TrackItemCommands.DeleteCommand, DeleteCommandExecuted));
         }
+
+        private void DeleteCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show(sender.ToString());
+        }
+
         public Track(TimeLine parent, TrackType trackType, FrameRate frameRate) : this()
         {
             _parent = parent;

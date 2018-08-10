@@ -81,6 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\TrackItemCommands.cs" />
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Commands\ControlCommands.cs" />
     <Compile Include="Common\Delegates.cs" />
