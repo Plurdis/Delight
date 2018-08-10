@@ -86,6 +86,7 @@
     <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\PlayerState.cs" />
+    <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="LogManage\LogManager.cs" />
@@ -175,6 +176,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

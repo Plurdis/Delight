@@ -42,24 +42,51 @@ namespace Delight.TimeLineComponents
             {
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                int lastValue = -1;
+                int lastElap = -1;
                 while (true)
                 {
-                    long elapsed = sw.ElapsedMilliseconds % 1000;
-                    int value = (int)(elapsed / (1000.0 / FrameRateInt));
-                    //Console.WriteLine(value);
-                    if (lastValue != value && value != FrameRateInt)
+                    int elapsed = ((int)Math.Truncate(sw.ElapsedMilliseconds / 1000.0) * 60)
+                                    + (int)((sw.ElapsedMilliseconds % 1000) / (1000.0 / FrameRateInt));
+                    if (lastElap != elapsed)
                     {
-                        Tick?.Invoke();
+                        int diff = (elapsed - lastElap);
+                        i += diff;
+                        while (i > 0)
+                        {
+                            Tick?.Invoke();
+                            i--;
+                        }
                     }
-                    lastValue = value;
+
+                    lastElap = elapsed;
+
                     Thread.Sleep(1);
                 }
             });
 
-            thr.Start();
+            //thr = new Thread(() =>
+            //{
+            //    Stopwatch sw = new Stopwatch();
+            //    sw.Start();
+            //    int lastValue = -1;
+            //    while (true)
+            //    {
+            //        long elapsed = sw.ElapsedMilliseconds % 1000;
+            //        int value = (int)(elapsed / (1000.0 / FrameRateInt));
+            //        //Console.WriteLine(value);
+            //        if (lastValue != value && value != FrameRateInt)
+            //        {
+            //            Tick?.Invoke();
+            //        }
+            //        lastValue = value;
+            //        Thread.Sleep(1);
+            //    }
+            //});
 
+            thr.Start();
         }
+
+        int i = 0;
 
         public void Stop()
         {

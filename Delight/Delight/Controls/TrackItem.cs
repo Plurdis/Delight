@@ -35,7 +35,7 @@ namespace Delight.Controls
         public event MouseButtonEventHandler LeftSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler RightSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler MovingSide_MouseLeftButtonDown;
-        
+        public event MouseButtonEventHandler MouseRightButtonClick;
         Rectangle leftSide, movingSide, rightSide;
 
         public override void OnApplyTemplate()
@@ -49,6 +49,26 @@ namespace Delight.Controls
             leftSide.MouseLeftButtonDown += (s,e) => LeftSide_MouseLeftButtonDown?.Invoke(s,e);
             rightSide.MouseLeftButtonDown += (s,e) => RightSide_MouseLeftButtonDown?.Invoke(s,e);
             movingSide.MouseLeftButtonDown += (s,e) => MovingSide_MouseLeftButtonDown?.Invoke(s,e);
+
+            this.MouseRightButtonDown += TrackItem_MouseRightButtonDown;
+            this.MouseRightButtonUp += TrackItem_MouseRightButtonUp;
+        }
+
+        bool isDown = false;
+
+        private void TrackItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isDown)
+            {
+                MouseRightButtonClick?.Invoke(sender, e);
+            }
+
+            isDown = false;
+        }
+
+        private void TrackItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isDown = true;
         }
 
         public TrackType TrackType { get; set; }

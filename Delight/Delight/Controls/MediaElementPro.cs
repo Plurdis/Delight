@@ -428,8 +428,6 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         public event RoutedEventHandler MediaEnded;
         public event RoutedEventHandler MediaOpened;
         public event EventHandler<MediaFailedEventArgs> MediaFailed;
-        public event RoutedEventHandler BufferingStarted;
-        public event RoutedEventHandler BufferingEnded;
         public event CurrentStateChangedHandler CurrentStateChanged;
         public event PositionChangedHandler PositionChanged;
         public event PropertyChangedEventHandler PropertyChanged;

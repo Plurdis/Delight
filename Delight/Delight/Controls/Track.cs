@@ -198,7 +198,6 @@ namespace Delight.Controls
 
             if (trackItem == null)
             {
-
                 var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
                 var media = comp as Media;
 
@@ -221,6 +220,8 @@ namespace Delight.Controls
                 trackItem.MouseMove += TrackItem_MouseMove;
                 trackItem.MouseLeftButtonUp += TrackItem_MouseLeftButtonUp;
 
+                trackItem.MouseRightButtonClick += TrackItem_MouseRightButtonClick;
+
             }
             if (!itemGrid.Children.Contains(trackItem))
             {
@@ -235,6 +236,14 @@ namespace Delight.Controls
 
                 trackItem.SetLeftMargin(x_item);
             }
+        }
+
+        private void TrackItem_MouseRightButtonClick(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu cm = FindResource("TrackItemContextMenu") as ContextMenu;
+
+            cm.PlacementTarget = ((UIElement)sender);
+            cm.IsOpen = true;
         }
 
         private void TrackItem_MouseMove(object sender, MouseEventArgs e)
