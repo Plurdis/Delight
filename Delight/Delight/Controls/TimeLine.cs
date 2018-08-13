@@ -236,10 +236,10 @@ namespace Delight.Controls
         {
             return Items.Where(i => i.TrackType == trackType);
         }
-
+        
         public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
         {
-            return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame));
+            return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));
         }
 
         #endregion
