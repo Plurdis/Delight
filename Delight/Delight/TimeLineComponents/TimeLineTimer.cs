@@ -43,7 +43,7 @@ namespace Delight.TimeLineComponents
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
                 int lastElap = -1;
-                while (true)
+                while (IsRunning)
                 {
                     int elapsed = ((int)Math.Truncate(sw.ElapsedMilliseconds / 1000.0) * 60)
                                     + (int)((sw.ElapsedMilliseconds % 1000) / (1000.0 / FrameRateInt));
@@ -91,7 +91,6 @@ namespace Delight.TimeLineComponents
         public void Stop()
         {
             sw.Stop();
-            thr?.Abort();
         }
     }
 }
