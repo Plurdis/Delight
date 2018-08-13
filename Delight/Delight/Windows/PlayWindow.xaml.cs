@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -61,12 +63,7 @@ namespace Delight.Windows
             this.Topmost = true;
             this.Activate();
 
-
             this.Loaded += PlayWindow_Loaded;
-
-
-
-            //this.Loaded += (s, e) => this.Hide();
         }
 
         private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
@@ -74,33 +71,8 @@ namespace Delight.Windows
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
 
             mw.bg.Background = new VisualBrush(rootElement);
-
-            //RenderTargetBitmap bitmap = new RenderTargetBitmap((int)rootElement.ActualWidth, (int)rootElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-
-            //mw.preview.Fill = new ImageBrush(bitmap);
-            //Thread thr = new Thread(() =>
-            //{
-            //    int i = 0;
-            //    while (true)
-            //    {
-            //        Dispatcher.Invoke(() =>
-            //        {
-            //            if (mw.tl.TimeLineReader.IsPlaying)
-            //            {
-            //                bitmap.Render(rootElement);
-
-            //                GC.Collect();
-            //                GC.WaitForPendingFinalizers();
-            //                GC.Collect();
-            //            }
-
-            //        });
-            //        i++;
-            //        Thread.Sleep(1000 / 24);
-            //    }
-            //});
-
-            //thr.Start();
+            
+            UnityContainerLoader loader = new UnityContainerLoader(@"C:\Users\장유탁\Desktop\EmbeddedWindow\Container\bin\Debug\UnityProgram.exe", this, control);
         }
 
     }

@@ -5,16 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Delight.Windows"
         xmlns:ct="clr-namespace:Delight.Controls"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        
-        Title="PlayWindow" Width="1920" Height="1080" AllowsTransparency="True" WindowStyle="None" Background="Black">
+        Title="PlayWindow" Width="1920" Height="1080" WindowStyle="None" ResizeMode="NoResize" Background="Black">
+    <!--AllowsTransparency="True" WindowStyle="None"-->
     <Grid x:Name="rootElement" Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <ct:MediaElementPro x:Name="player1" Grid.Column="0" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         <ct:MediaElementPro x:Name="player2" Grid.Column="1" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         <Slider Value="{Binding ElementName=player1, Path=Opacity}" Width="100" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="1"/>
+        <WindowsFormsHost Grid.Row="1" Grid.Column="1" Background="#FF642828">
+            <wf:Panel x:Name="control" Dock="Fill" BackColor="BlueViolet"/>
+        </WindowsFormsHost>
     </Grid>
 </Window>

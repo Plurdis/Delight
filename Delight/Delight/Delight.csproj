@@ -72,6 +72,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WPFMediaKit, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFMediaKit.2.2.0\lib\WPFMediaKit.dll</HintPath>
     </Reference>
@@ -87,6 +88,7 @@
     <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\PlayerState.cs" />
+    <Compile Include="Common\UnityContainerLoader.cs" />
     <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
