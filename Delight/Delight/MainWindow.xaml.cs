@@ -39,13 +39,15 @@ namespace Delight
             InitializeComponent();
             //MouseManager.Init();
 
-            this.Closing += (s, e) => Environment.Exit(0);
+            this.Closed += (s, e) => Environment.Exit(0);
             this.Loaded += MainWindow_Loaded;
 
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
+            lbItem.PreviewMouseMove += LbItem_PreviewMouseMove;
+            lbItem.PreviewMouseLeftButtonUp += LbItem_PreviewMouseLeftButtonUp;
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
 
             LogManager.InfoTextChanged += LogManager_InfoTextChanged;
@@ -151,17 +153,37 @@ namespace Delight
             }
         }
 
+        bool dragStart;
         ListBox dragSource;
         private void LbItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            dragStart = true;
             ListBox parent = (ListBox)sender;
-            dragSource = parent;
-            ListBoxItem data = (ListBoxItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+            ListBoxItem data = (ListBoxItem)GetDataFromListBox(parent, e.GetPosition(parent));
+            if (data == null)
+                parent.SelectedIndex = -1;
+        }
 
-            if (data is TemplateItem item)
+        private void LbItem_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            dragStart = false;   
+        }
+
+        private void LbItem_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragStart)
             {
-                DragDrop.DoDragDrop(parent, item.StageComponent, DragDropEffects.Move);
+                dragStart = false;
+                ListBox parent = (ListBox)sender;
+                dragSource = parent;
+                ListBoxItem data = (ListBoxItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+
+                if (data is TemplateItem item)
+                {
+                    DragDrop.DoDragDrop(parent, item.StageComponent, DragDropEffects.Move);
+                }
             }
+            
         }
 
         private void RbList_Checked(object sender, RoutedEventArgs e)
