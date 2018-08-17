@@ -272,9 +272,14 @@ namespace Delight.Controls
 
                         left = x_canvas + Offset;
 
-                        if (left < (trackItem.Offset - trackItem.ForwardOffset) * _realSize)
+                        bool skipMagnet = false;
+
+                        double maxLeftMargin = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
+                        Console.WriteLine(maxLeftMargin);
+                        if (left < maxLeftMargin)
                         {
-                            left = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
+                            left = maxLeftMargin;
+                            skipMagnet = true;
                         }
                         else if (left < 0)
                         {
@@ -288,27 +293,33 @@ namespace Delight.Controls
                         int leftOffset = (int)((left) / _realSize);
 
                         // ==================== 마그넷
-
-                        var itemsLeft = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth < leftOffset);
-                        var itemsRight = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth > leftOffset);
-
-                        int leftMax = itemsLeft.Count() != 0 ? itemsLeft.Max(i => i.Offset + i.FrameWidth) : int.MinValue;
-                        int rightMin = itemsRight.Count() != 0 ? itemsRight.Min(i => i.Offset + i.FrameWidth) : int.MaxValue;
-
-                        double leftBetweenWidth = (leftOffset - leftMax) * _realSize;
-                        bool leftMagnetAllowed = leftBetweenWidth < 6 && leftBetweenWidth >= 0;
-                        
-                        bool rightMagnetAllowed = ((leftOffset) - rightMin) * _realSize > -6;
-                        
-                        if (leftMagnetAllowed)
+                        if (!skipMagnet)
                         {
-                            leftOffset = leftMax;
+                            int recoSize = 6;
+
+                            if (!((left - recoSize) <= maxLeftMargin)) // 만약 마그넷이 되더라도 최대 길이를 넘지 않는다면 계산
+                            {
+                                var itemsLeft = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth < leftOffset);
+                                var itemsRight = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth > leftOffset);
+
+                                int lSideMax = itemsLeft.Count() != 0 ? itemsLeft.Max(i => i.Offset + i.FrameWidth) : int.MinValue;
+                                int rSideMin = itemsRight.Count() != 0 ? itemsRight.Min(i => i.Offset + i.FrameWidth) : int.MaxValue;
+
+                                double leftBetweenWidth = (leftOffset - lSideMax) * _realSize;
+                                bool leftMagnetAllowed = leftBetweenWidth < 6 && leftBetweenWidth >= 0;
+
+                                bool rightMagnetAllowed = ((leftOffset) - rSideMin) * _realSize > -recoSize;
+
+                                if (leftMagnetAllowed)
+                                {
+                                    leftOffset = lSideMax;
+                                }
+                                else if (rightMagnetAllowed)
+                                {
+                                    leftOffset = rSideMin;
+                                }
+                            }
                         }
-                        else if (rightMagnetAllowed)
-                        {
-                            leftOffset = rightMin;
-                        }
-                        
                         // ===========================
 
                         diff = leftOffset - trackItem.Offset;
