@@ -29,7 +29,7 @@ namespace Delight.Controls
     {
         public event EventHandler FrameChanged;
         public event EventHandler FrameMouseChanged;
-
+        
         public event EventHandler<ItemEventArgs> ItemAdded;
         public event EventHandler<ItemEventArgs> ItemRemoving;
         public event EventHandler ItemRemoved;
@@ -317,11 +317,12 @@ namespace Delight.Controls
                 Console.WriteLine("└────────┘");
                 _timer.Start();
                 IsReady = false;
-            });
+            }); 
         }
 
         public void Stop()
         {
+            TimeLineReader.StopLoad();
             _timer.Stop();
         }
 

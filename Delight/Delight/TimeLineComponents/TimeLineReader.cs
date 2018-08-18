@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +25,7 @@ namespace Delight.TimeLineComponents
 
             TimeLine.FrameChanged += TimeLine_FrameChanged;
             TimeLine.FrameMouseChanged += (s, e) => StopLoad();
-
+            
             TimeLine.ItemAdded += TimeLine_ItemAdded;
         }
 
@@ -99,6 +100,19 @@ namespace Delight.TimeLineComponents
                     
                     player1.Dispatcher.Invoke(() =>
                     {
+                        void localPositionChanged(MediaElementPro s, TimeSpan p)
+                        {
+                            s.PositionChanged -= localPositionChanged;
+
+                            TrackItem itm = s.GetTag<TrackItem>();
+                            s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + TimeLine.Position - itm.Offset, TimeLine.FrameRate);
+                            s.Volume = 1;
+                            s.Visibility = Visibility.Visible;
+                            if (s == player1)
+                                player2.Visibility = Visibility.Hidden;
+                            else
+                                player1.Visibility = Visibility.Hidden;
+                        }   
                         MainWindow mw = Application.Current.MainWindow as MainWindow;
 
                         mw.Title = MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate).ToString();
@@ -112,12 +126,8 @@ namespace Delight.TimeLineComponents
                             if (!player1.IsPlaying && player1.Tag != null &&
                                 TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
                             {
-                                player1.Position = MediaTools.FrameToTimeSpan(player1.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
                                 player1.Play();
-                                player1.Volume = 1;
-                                player1.Visibility = Visibility.Visible;
-                                player2.Visibility = Visibility.Hidden;
-                                
+                                player1.PositionChanged += localPositionChanged;
                             }
                             p1Playing = true;
                         }
@@ -126,11 +136,8 @@ namespace Delight.TimeLineComponents
                             if (!player2.IsPlaying && player2.Tag != null &&
                                 TimeLine.Position - 1 > player2.GetTag<TrackItem>().Offset)
                             {
-                                player2.Position = MediaTools.FrameToTimeSpan(player2.GetTag<TrackItem>().ForwardOffset, TimeLine.FrameRate);
                                 player2.Play();
-                                player2.Volume = 1;
-                                player2.Visibility = Visibility.Visible;
-                                player1.Visibility = Visibility.Hidden;
+                                player2.PositionChanged += localPositionChanged;
                             }
 
                             p1Playing = false;
@@ -188,14 +195,19 @@ namespace Delight.TimeLineComponents
         public void StopLoad()
         {
             loading = false;
-            player1.Source = null;
-            player2.Source = null;
+            player1.Stop();
+            player2.Stop();
             player1.Close();
             player2.Close();
-            player1.Visibility = Visibility.Hidden;
-            player2.Visibility = Visibility.Hidden;
+            player1.Source = null;
+            player2.Source = null;
             player1.Volume = 0;
             player2.Volume = 0;
+            player1.Play();
+            player2.Play();
+            player1.Visibility = Visibility.Hidden;
+            player2.Visibility = Visibility.Hidden;
+            
         }
 
         public void SwitchPlayer(bool showPlayer1)

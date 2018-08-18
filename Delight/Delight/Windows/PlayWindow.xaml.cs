@@ -72,7 +72,7 @@ namespace Delight.Windows
 
             mw.bg.Background = new VisualBrush(rootElement);
             
-            UnityContainerLoader loader = new UnityContainerLoader(@"C:\Users\uutak\바탕 화면\UnityTest\UnityTest.exe", this, control);
+            //UnityContainerLoader loader = new UnityContainerLoader(@"C:\Users\uutak\바탕 화면\UnityTest\UnityTest.exe", this, control);
 
             //Thread thr = new Thread(() =>
             //{

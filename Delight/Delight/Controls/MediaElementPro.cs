@@ -155,7 +155,10 @@ new PropertyMetadata(null, SourcePropertyChanged));
             }
             private set
             {
-                SetValue(CurrentStateProperty, value);
+                this.Dispatcher.Invoke(() =>
+                {
+                    SetValue(CurrentStateProperty, value);
+                });
             }
         }
         private static void CurrentStatePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

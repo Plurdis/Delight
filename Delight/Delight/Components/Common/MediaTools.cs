@@ -24,11 +24,17 @@ namespace Delight.Components.Common
     {
         public static TimeSpan GetMediaDuration(string filePath)
         {
+            if (!File.Exists(filePath))
+                return TimeSpan.MinValue;
+
             return GetMediaInfo(filePath).Duration;
         }
 
         public static MediaInfo GetMediaInfo(string filePath)
         {
+            if (!File.Exists(filePath))
+                return null;
+
             var probe = new FFProbe();
             return probe.GetMediaInfo(filePath);
         }
@@ -50,6 +56,9 @@ namespace Delight.Components.Common
 
         public static ImageSource GetMediaThumbnail(string filePath)
         {
+            if (!File.Exists(filePath))
+                return null;
+
             var converter = new FFMpegConverter();
 
             string imagePath = Path.Combine(Path.GetTempPath(), $"temp{i++}.jpg");

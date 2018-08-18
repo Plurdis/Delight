@@ -41,6 +41,9 @@ namespace Delight
 
         private void AddItem(string location)
         {
+            if (!File.Exists(location))
+                return;
+
             var fi = new FileInfo(location);
             ImageSource image;
             switch (MediaTools.GetMediaTypeFromFile(location))
