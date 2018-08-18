@@ -161,6 +161,23 @@
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="현재 선택된 아이템" Margin="5" Grid.ColumnSpan="2"/>
+                    <Image Grid.Row="1" Source="Resources/CloseButton.png"/>
+                    <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                        <TextBlock x:Name="tbSelectItem">
+                            
+                        </TextBlock>
+                    </Grid>
+                </Grid>
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
             <Grid Grid.Column="2">

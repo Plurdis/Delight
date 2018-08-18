@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -91,6 +92,12 @@ namespace Delight
                 //pw.player1.Position = ts;
                 //allowedChange = false;
             };
+
+            tbSelectItem.Inlines.Add(new Run("아이템s!")
+            {
+                FontWeight = FontWeights.Bold,
+                Foreground = Brushes.Red,
+            });
         }
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
