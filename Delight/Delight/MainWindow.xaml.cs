@@ -72,6 +72,8 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
+            
+
             pw = new PlayWindow();
             pw.Show();
             //pw.player1. += Player_PositionChanged;
@@ -93,11 +95,11 @@ namespace Delight
                 //allowedChange = false;
             };
 
-            tbSelectItem.Inlines.Add(new Run("아이템s!")
-            {
-                FontWeight = FontWeights.Bold,
-                Foreground = Brushes.Red,
-            });
+            //tbSelectItem.Inlines.Add(new Run("아이템s!")
+            //{
+            //    FontWeight = FontWeights.Bold,
+            //    Foreground = Brushes.Red,
+            //});
         }
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
@@ -132,9 +134,10 @@ namespace Delight
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            bg.Height = 1080 / (1920 / bg.ActualWidth);
         }
 
-        bool allowedChange = false;
+        //bool allowedChange = false;
 
         //private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
         //{
@@ -264,7 +267,7 @@ namespace Delight
         {
             string id = ((UIElement)sender).Uid;
 
-            this.Title = id;
+            //this.Title = id;
         }
     }
 }

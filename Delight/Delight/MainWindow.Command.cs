@@ -54,8 +54,9 @@ namespace Delight
                     image = new BitmapImage(new Uri(location));
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = fi.Name,
-                        Description = "Local Image File",
+                        //Content = fi.Name,
+                        //ItemName = "Local Image File",
+                        ItemName = fi.Name,
                         Source = image,
                         StageComponent = new DelightImage()
                         {
@@ -72,9 +73,10 @@ namespace Delight
                     image = MediaTools.GetMediaThumbnail(location);
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = fi.Name,
+                        //Content = fi.Name,
+                        //ItemName = "Local Video File",
+                        ItemName = fi.Name,
                         Source = image,
-                        Description = "Local Video File",
                         StageComponent = new Video()
                         {
                             Identifier = fi.Name,

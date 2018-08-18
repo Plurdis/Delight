@@ -251,6 +251,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Helvetica.ttf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -304,6 +305,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\NAudio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\view_block.png" />
+    <Resource Include="Resources\view_block_sel.png" />
+    <Resource Include="Resources\view_list.png" />
+    <Resource Include="Resources\view_list_sel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets" Condition="Exists('..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets')" />

@@ -30,6 +30,26 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid x:Name="Grid">
+                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
+                        <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag" Value="Horizontal">
+                            <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
+                            <Setter TargetName="Rectangle1" Property="Height" Value="7" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="TimeLineStyle" TargetType="{x:Type ct:TimeLine}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ClipToBounds" Value="True"/>
@@ -39,16 +59,16 @@
                 <ControlTemplate TargetType="{x:Type ct:TimeLine}">
                     <Grid Background="Transparent">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="39"/>
+                            <RowDefinition Height="32"/>
                             <RowDefinition Height="1"/>
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="184"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.RowSpan="4" Grid.ColumnSpan="2" BorderBrush="{TemplateBinding BorderBrush}" 
+                        <Border x:Name="bgBorder" Grid.RowSpan="4" Grid.ColumnSpan="2" BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
@@ -60,12 +80,21 @@
                                    IsHitTestVisible="False"
                                    VerticalAlignment="Top"/>
 
-                        <StackPanel x:Name="tracks" 
-                                    Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="184"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#FF2C2C2C" />
+                            <Border Grid.Column="1" Background="#FF262626" />
+                            <StackPanel x:Name="tracks" Grid.ColumnSpan="2"/>
+                        </Grid>
+
 
                         <Grid Grid.Column="1" Grid.RowSpan="3" ClipToBounds="True">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="39"/>
+                                <RowDefinition Height="32"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid x:Name="dragRange"
@@ -88,7 +117,70 @@
                         </Grid>
 
 
-                        <ScrollBar x:Name="scrollBar" Grid.ColumnSpan="2" Grid.Row="3" Maximum="100" Visibility="Hidden" Orientation="Horizontal"/>
+                        <ScrollBar x:Name="scrollBar" Grid.ColumnSpan="2" Grid.Row="3" Maximum="100" Visibility="Hidden" Orientation="Horizontal">
+                            <ScrollBar.Style>
+                                <!--ScrollBars-->
+                                <Style TargetType="{x:Type ScrollBar}">
+                                    <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+                                    <Setter Property="Foreground" Value="LightGray" />
+                                    <Setter Property="Background" Value="#FF333333" />
+                                    <Setter Property="Width" Value="10" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                <Grid x:Name="GridRoot" Width="19" Background="{TemplateBinding Background}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="0.00001*" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
+                                                        <Track.Thumb>
+                                                            <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
+                                                        </Track.Thumb>
+                                                        <Track.IncreaseRepeatButton>
+                                                            <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="false" />
+                                                        </Track.IncreaseRepeatButton>
+                                                        <Track.DecreaseRepeatButton>
+                                                            <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="false" />
+                                                        </Track.DecreaseRepeatButton>
+                                                    </Track>
+                                                </Grid>
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                                        <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
+                                                    </Trigger>
+                                                    <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                                        <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
+                                                    </Trigger>
+
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                                                    </Trigger>
+                                                    <Trigger Property="Orientation" Value="Horizontal">
+                                                        <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                                            <Setter.Value>
+                                                                <RotateTransform Angle="-90" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                            <Setter.Value>
+                                                                <RotateTransform Angle="-90" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Width" Value="Auto" />
+                                                        <Setter Property="Height" Value="12" />
+                                                        <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
+                                                        <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
+                                                        <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ScrollBar.Style>
+                        </ScrollBar>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -96,31 +188,45 @@
     </Style>
 
     <Style x:Key="TrackStyle" TargetType="{x:Type ct:Track}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="#FF262626"/>
         <Setter Property="MinHeight" Value="50"/>
         <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:Track}">
                     <Grid Background="{TemplateBinding Background}" AllowDrop="{TemplateBinding AllowDrop}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="184"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Grid.RowDefinitions>
+                        <Grid Background="#FF2C2C2C">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="33"/>
+                                <ColumnDefinition Width="33"/>
+                            </Grid.ColumnDefinitions>
+                            <!--<Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Margin="2" Text="{TemplateBinding TrackTypeText}" TextAlignment="Center" VerticalAlignment="Center"/>
-                            <Grid Grid.Row="1">
+                            </Grid.RowDefinitions>-->
+                            <TextBlock Margin="10" Text="{TemplateBinding TrackTypeText}" TextAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+
+                            <Grid Grid.Column="1" Background="#FF185A8C">
+                                <TextBlock Text="M" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Background="#FFDE9000">
+                                <TextBlock Text="S" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+                            </Grid>
+
+                            <!--<Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock FontSize="10" Text="보이기/숨기기" HorizontalAlignment="Center"/>
                                 <TextBlock FontSize="10" Text="100%" Margin="4,0" Grid.Column="1" TextAlignment="Center"/>
-                            </Grid>
+                            </Grid>-->
                         </Grid>
                         <Grid Grid.Column="1">
                             <Border BorderBrush="Black" BorderThickness="1,0,1,1" IsHitTestVisible="False"/>
@@ -132,35 +238,35 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="TemplateItemStyle" TargetType="{x:Type ct:TemplateItem}">
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/>
-        <!--TODO: 나중에 이부분 처리해서 줄어들때 ..처리되도록 변경할것 -->
+        <Setter Property="Height" Value="88"/>
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="ToolTipService.ShowDuration" Value="1000000"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:TemplateItem}">
-                    <Grid x:Name="bgGrid" Background="{TemplateBinding Background}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Image Source="{TemplateBinding Source}" Margin="2.5" MaxHeight="25"/>
-                        <Grid Grid.Column="1">
+
+                    <Grid>
+                        <Border x:Name="bgBorder" Grid.RowSpan="2" CornerRadius="10"
+                                Background="{TemplateBinding Background}"/>
+
+                        <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
-                            <TextBlock Text="{TemplateBinding Description}" FontSize="9" Grid.Row="1"/>
+
+                            <Image Width="120" Height="64" Source="{TemplateBinding Source}" Stretch="UniformToFill"/>
+                            <TextBlock Margin="0,5,0,0" Grid.Row="1" Text="{TemplateBinding ItemName}" TextAlignment="Center"/>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="bgGrid" Property="Background" Value="Blue"/>
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter TargetName="bgBorder" Property="Background" Value="#FF2B2B2B"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -186,7 +292,7 @@
     </Style>
 
     <Style x:Key="TrackItemStyle" TargetType="{x:Type ct:TrackItem}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="#FF414141"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:TrackItem}">
@@ -197,7 +303,7 @@
                             <ColumnDefinition Width="5"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Background="{TemplateBinding Background}" Grid.Column="1" IsHitTestVisible="False">
+                        <Grid Background="{TemplateBinding Background}" Grid.ColumnSpan="3" IsHitTestVisible="False">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="30"/>
@@ -207,9 +313,9 @@
                             <Image Source="{TemplateBinding Thumbnail}" HorizontalAlignment="Left" Grid.Row="1"/>
                         </Grid>
 
-                        <Rectangle x:Name="dragLeft" Fill="Black" Cursor="SizeWE"/>
+                        <Rectangle x:Name="dragLeft" Fill="Transparent" Cursor="SizeWE"/>
                         <Rectangle x:Name="dragMove" Fill="Transparent" Grid.Column="1"/>
-                        <Rectangle x:Name="dragRight" Fill="Black" Grid.Column="2" Cursor="SizeWE"/>
+                        <Rectangle x:Name="dragRight" Fill="Transparent" Grid.Column="2" Cursor="SizeWE"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -251,11 +357,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type ct:ItemToolTip}">
         <Setter Property="Background" Value="LightGray"/>
         <Setter Property="Foreground" Value="Black"/>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ct:ItemToolTip}">
@@ -275,9 +381,140 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type Separator}">
+        <Setter Property="Margin" Value="0,3,0,3" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Grid>
+                        <Rectangle Height="1" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type MenuItem}">
+
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="Col0" MinWidth="17" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTextColumnGroup"/>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
+                                <ColumnDefinition x:Name="Col3" Width="14"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- ContentPresenter to show an Icon if needed -->
+                            <ContentPresenter Grid.Column="0" Margin="4,0,6,0" x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
+
+                            <!-- Glyph is a checkmark if needed for a checkable menu -->
+                            <Grid Grid.Column="0" Visibility="Hidden" Margin="4,0,6,0" x:Name="GlyphPanel" VerticalAlignment="Center">
+                                <Path x:Name="GlyphPanelpath" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="M0,2 L0,4.8 L2.5,7.4 L7.1,2.8 L7.1,0 L2.5,4.6 z" FlowDirection="LeftToRight"/>
+                            </Grid>
+
+                            <!-- Content for the menu text etc -->
+                            <ContentPresenter Grid.Column="1"
+                                          Margin="{TemplateBinding Padding}"
+                                          x:Name="HeaderHost"
+                                          RecognizesAccessKey="True"
+                                          ContentSource="Header"/>
+
+                            <!-- Content for the menu IGT -->
+                            <ContentPresenter Grid.Column="2"
+                                          Margin="8,1,8,1"
+                                          x:Name="IGTHost"
+                                          ContentSource="InputGestureText"
+                                          VerticalAlignment="Center"/>
+
+                            <!-- Arrow drawn path which points to the next level of the menu -->
+                            <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
+                                <Path x:Name="ArrowPanelPath" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}" Data="M0,0 L0,8 L4,4 z"/>
+                            </Grid>
+
+                            <!-- The Popup is the body of the menu which expands down or across depending on the level of the item -->
+                            <Popup IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" x:Name="SubMenuPopup" Focusable="false" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+                                <Border x:Name="SubMenuBorder" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}" BorderThickness="1" Padding="2,2,2,2">
+                                    <Grid x:Name="SubMenu" Grid.IsSharedSizeScope="True">
+                                        <!-- StackPanel holds children of the menu. This is set by IsItemsHost=True -->
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+
+                    <!-- These triggers re-configure the four arrangements of MenuItem to show different levels of menu via Role -->
+                    <ControlTemplate.Triggers>
+                        <!-- Role = TopLevelHeader : this is the root menu item in a menu; the Popup expands down -->
+                        <Trigger Property="Role" Value="TopLevelHeader">
+                            <Setter Property="Padding" Value="6,1,6,1"/>
+                            <Setter Property="Placement" Value="Bottom" TargetName="SubMenuPopup"/>
+                            <Setter Property="MinWidth" Value="0" TargetName="Col0"/>
+                            <Setter Property="Width" Value="Auto" TargetName="Col3"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="GlyphPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="IGTHost"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
+                        </Trigger>
+
+                        <!-- Role = TopLevelItem :  this is a child menu item from the top level without any child items-->
+                        <Trigger Property="Role" Value="TopLevelItem">
+                            <Setter Property="Padding" Value="6,1,6,1"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
+                        </Trigger>
+
+                        <!-- Role = SubMenuHeader : this is a child menu item which does not have children -->
+                        <Trigger Property="Role" Value="SubmenuHeader">
+                            <Setter Property="DockPanel.Dock" Value="Top"/>
+                            <Setter Property="Padding" Value="0,2,0,2"/>
+                        </Trigger>
+
+                        <!-- Role = SubMenuItem : this is a child menu item which has children-->
+                        <Trigger Property="Role" Value="SubmenuItem">
+                            <Setter Property="DockPanel.Dock" Value="Top"/>
+                            <Setter Property="Padding" Value="0,2,0,2"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="ArrowPanel"/>
+                        </Trigger>
+                        <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                            <Setter Property="PopupAnimation" Value="None" TargetName="SubMenuPopup"/>
+                        </Trigger>
+
+                        <!-- If no Icon is present the we collapse the Icon Content -->
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                        </Trigger>
+
+                        <!-- The GlyphPanel contains the CheckMark -->
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="Icon"/>
+                        </Trigger>
+
+                        <!-- Using the system colors for the Menu Highlight and IsEnabled-->
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter Property="Background" Value="LightGray" TargetName="Border"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

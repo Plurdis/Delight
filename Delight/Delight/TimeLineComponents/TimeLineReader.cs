@@ -115,7 +115,7 @@ namespace Delight.TimeLineComponents
                         }   
                         MainWindow mw = Application.Current.MainWindow as MainWindow;
 
-                        mw.Title = MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate).ToString();
+                        //mw.Title = MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate).ToString();
                         if (player1.Tag == null && player2.Tag == null)
                         {
                             return;
@@ -195,19 +195,22 @@ namespace Delight.TimeLineComponents
         public void StopLoad()
         {
             loading = false;
-            player1.Stop();
-            player2.Stop();
-            player1.Close();
-            player2.Close();
-            player1.Source = null;
-            player2.Source = null;
-            player1.Volume = 0;
-            player2.Volume = 0;
-            player1.Play();
-            player2.Play();
-            player1.Visibility = Visibility.Hidden;
-            player2.Visibility = Visibility.Hidden;
-            
+
+            if (IsPlaying)
+            {
+                player1.Stop();
+                player2.Stop();
+                player1.Close();
+                player2.Close();
+                player1.Source = null;
+                player2.Source = null;
+                player1.Volume = 0;
+                player2.Volume = 0;
+                player1.Play();
+                player2.Play();
+                player1.Visibility = Visibility.Hidden;
+                player2.Visibility = Visibility.Hidden;
+            }
         }
 
         public void SwitchPlayer(bool showPlayer1)
