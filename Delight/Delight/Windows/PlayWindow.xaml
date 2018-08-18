@@ -12,19 +12,23 @@
     <Grid x:Name="rootElement" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="1"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition Width="1"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ct:MediaElementPro x:Name="player1" Grid.Column="0" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
-        <ct:MediaElementPro x:Name="player2" Grid.Column="1" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
+        <ct:MediaElementPro x:Name="player2" Grid.Column="2" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         <Slider Value="{Binding ElementName=player1, Path=Opacity}" Width="100" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Maximum="1"/>
-        <Image x:Name="testImage" Grid.Column="0" Grid.Row="1"/>
-        <WindowsFormsHost Grid.Row="1" Grid.Column="1" IsHitTestVisible="False">
+        <Image x:Name="testImage" Grid.Column="0" Grid.Row="2"/>
+        <WindowsFormsHost Grid.Row="2" Grid.Column="2" IsHitTestVisible="False">
             <wf:Panel x:Name="control" Dock="Fill" BackColor="Black"/>
         </WindowsFormsHost>
-        
+
+        <Rectangle Grid.RowSpan="3" Grid.Column="1" Fill="Red"/>
+        <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Fill="Red"/>
     </Grid>
 </Window>
