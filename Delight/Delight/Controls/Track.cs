@@ -340,25 +340,52 @@ namespace Delight.Controls
                         // right는 반대 방향으로 감
                         double rightRaw = itemGrid.ActualWidth - (Math.Ceiling(x / _realSize) * _realSize);
 
+
                         // ==================================================================
                         // TODO: 특정한 경우 살짝 길이 계산에 오류가 있는거 같음 체크 해보기
                         // ==================================================================
 
-                        if (rightRaw < itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset)) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
-                            rightRaw = itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset);
+                        double maxMarginRight = itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset);
+
+                        if (rightRaw < maxMarginRight) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
+                            rightRaw = maxMarginRight;
                         if (rightRaw > (itemGrid.ActualWidth - trackItem.Margin.Left)) // 전체 길이보다 작아질 경우
                             rightRaw = (itemGrid.ActualWidth - trackItem.Margin.Left) - _realSize;
 
-                        trackItem.SetRightMargin(rightRaw);
+                        int width = (int)((itemGrid.ActualWidth - trackItem.Margin.Left - rightRaw) / _realSize);
 
 
-                        int width = (int)((itemGrid.ActualWidth - trackItem.Margin.Left - trackItem.Margin.Right) / _realSize);
+                        //// ==================== 마그넷
+                        //{
+                        //    var itemsLeft = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth < leftOffset);
+                        //    var itemsRight = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset + i.FrameWidth > leftOffset);
+
+                        //    int leftMax = itemsLeft.Count() != 0 ? itemsLeft.Max(i => i.Offset + i.FrameWidth) : int.MinValue;
+                        //    int rightMin = itemsRight.Count() != 0 ? itemsRight.Min(i => i.Offset + i.FrameWidth) : int.MaxValue;
+
+                        //    double leftBetweenWidth = (leftOffset - leftMax) * _realSize;
+                        //    bool leftMagnetAllowed = leftBetweenWidth < 6 && leftBetweenWidth >= 0;
+
+                        //    bool rightMagnetAllowed = ((leftOffset) - rightMin) * _realSize > -6;
+
+                        //    if (leftMagnetAllowed)
+                        //    {
+                        //        leftOffset = leftMax;
+                        //    }
+                        //    else if (rightMagnetAllowed)
+                        //    {
+                        //        leftOffset = rightMin;
+                        //    }
+                        //}
+
+                        //// ===========================
+
 
                         diff = width - trackItem.FrameWidth;
                         trackItem.BackwardOffset -= diff;
 
 
-
+                        trackItem.SetRightMargin(rightRaw);
                         trackItem.FrameWidth = width;
                         break;
                     case DragSide.MovingSide:
