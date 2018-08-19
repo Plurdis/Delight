@@ -10,7 +10,6 @@
         Title="PlayWindow" Width="1920" Height="1080" WindowStyle="None" ResizeMode="NoResize" Background="Black">
     <!--AllowsTransparency="True" WindowStyle="None"-->
     <Grid x:Name="rootElement" Background="Black">
-
         <ct:MediaElementPro x:Name="player1" Grid.Column="0" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         <ct:MediaElementPro x:Name="player2" Grid.Column="2" Visibility="Hidden" IsHitTestVisible="False" Opacity="0.7"/>
         

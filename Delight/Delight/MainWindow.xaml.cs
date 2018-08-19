@@ -13,6 +13,7 @@ using Delight.Commands;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
+using Delight.Components.Medias;
 using Delight.Controls;
 using Delight.Extensions;
 using Delight.LogManage;
@@ -90,7 +91,7 @@ namespace Delight
             this.LocationChanged += MainWindow_LocationChanged;
 
             //pw.player1.Open()
-            AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
+            //AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
             tl.FrameMouseChanged += (s, e) =>
             {
@@ -101,12 +102,32 @@ namespace Delight
             };
 
 
-//#if DEBUG
-            if (MediaTools.GetFile("유니티 실행 파일(*.exe)|*.exe", out string fileLoc))
-            {
-                UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
-            }
-//#endif
+
+            //MediaTools.GetFile("사진|*.png", out string floc);
+
+            //ImageSource thumbnail = new BitmapImage(new Uri(floc));
+            ////#if DEBUG
+            //if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
+            //{
+            //    UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
+
+            //    lbItem.Items.Add(new TemplateItem()
+            //    {
+            //        ItemName = "Stage Visualize Component",
+            //        Source = thumbnail,
+            //        StageComponent = new Unity()
+            //        {
+            //            Time = TimeSpan.FromMinutes(3),
+            //            Identifier = "Stage Visualize Component",
+            //            Thumbnail = thumbnail,
+            //        },
+            //    });
+            //}
+            //else
+            //{
+            //    unityBg.Visibility = Visibility.Hidden;
+            //}
+            //#endif
 
             //tbSelectItem.Inlines.Add(new Run("아이템s!")
             //{

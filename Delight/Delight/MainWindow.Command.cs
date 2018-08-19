@@ -39,7 +39,7 @@ namespace Delight
             if (MediaTools.GetMediaFile(out string location))
                 AddItem(location);
         }
-
+        
         private void AddItem(string location)
         {
             if (!File.Exists(location))

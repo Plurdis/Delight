@@ -76,7 +76,7 @@ namespace Delight.Controls
                         TrackTypeText = "비디오";
                         break;
                     case TrackType.Unity:
-                        TrackTypeText = "유니티";
+                        TrackTypeText = "시각 효과";
                         break;
                     case TrackType.Sound:
                         TrackTypeText = "사운드";
