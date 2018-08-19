@@ -453,7 +453,7 @@ namespace Delight.Controls
                     pen.Brush = Brushes.White;
                     dc.DrawText(new FormattedText(MediaTools.GetTimeText((i + value) * Weight, FrameRate), CultureInfo.GetCultureInfo("en-us"),
                         FlowDirection.LeftToRight,
-                        new Typeface("Arial"),
+                        new Typeface("/Delight;component/Fonts/#Helvetica"),
                         10, Brushes.White),
                         new Point(startPoint + i * _displaySize + sizeOffset + 4, 20));
 

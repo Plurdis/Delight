@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Menu Background="#FF3D3D3D" Foreground="White">
-            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove">
+            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiOpen}">
                     <MenuItem Header="{x:Static l:Menus.MiProject}" InputGestureText="Ctrl+Shift+O" Command="{x:Static cm:MenuCommands.OpenProjectCommand}"/>
                     <MenuItem Header="{x:Static l:Menus.MiFile}" InputGestureText="Ctrl+O" Command="{x:Static cm:MenuCommands.OpenFileCommand}"/>
@@ -39,17 +39,17 @@
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="{x:Static l:Menus.MiEdit}">
+            <MenuItem Header="{x:Static l:Menus.MiEdit}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiUndo}" InputGestureText="Ctrl+Z" Command="{x:Static cm:MenuCommands.UndoCommand}"/>
                 <MenuItem Header="{x:Static l:Menus.MiRedo}" InputGestureText="Ctrl+Shift+Z" Command="{x:Static cm:MenuCommands.RedoCommand}"/>
             </MenuItem>
-            <MenuItem Uid="Info3" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
+            <MenuItem Uid="Info3" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiHelpView}" InputGestureText="Ctrl+H" Command="{x:Static cm:MenuCommands.ViewHelpCommand}"/>
                 <MenuItem Header="{x:Static l:Menus.MiTutorialView}" InputGestureText="Ctrl+Alt+H" Command="{x:Static cm:MenuCommands.ViewTutorialCommand}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiViewInfo}" InputGestureText="Ctrl+Shift+H"  Command="{x:Static cm:MenuCommands.ViewInfoCommand}"/>
             </MenuItem>
-            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
+            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
                 <MenuItem Header="{x:Static l:Menus.MiManageDevice}" InputGestureText="Ctrl+Shift+T"/>
                 <MenuItem Header="{x:Static l:Menus.MiManageStage}"/>
