@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -147,5 +148,34 @@ namespace Delight
                 pw?.player1.Pause();
             }
         }
+
+
+//#if DEBUG
+
+        private void PlayWindowVisibleExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (pw.Visibility == Visibility.Visible)
+            {
+                pw.Hide();
+            }
+            else
+            {
+                pw.Show();
+            }
+        }
+
+        private void UnityPreviewVisibleCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (bg.Visibility == Visibility.Visible)
+            {
+                bg.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                bg.Visibility = Visibility.Visible;
+            }
+        }
+
+//#endif
     }
 }

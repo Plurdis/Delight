@@ -67,6 +67,11 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(ControlCommands.PlayCommand, PlayExecuted));
 
+//#if DEBUG
+            CommandBindings.Add(new CommandBinding(DebugCommands.PlayWindowVisibleCommand, PlayWindowVisibleExecuted));
+            CommandBindings.Add(new CommandBinding(DebugCommands.UnityPreviewVisibleCommand, UnityPreviewVisibleCommandExecuted));
+//#endif
+
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
@@ -94,6 +99,14 @@ namespace Delight
                 //pw.player1.Position = ts;
                 //allowedChange = false;
             };
+
+
+//#if DEBUG
+            if (MediaTools.GetFile("유니티 실행 파일(*.exe)|*.exe", out string fileLoc))
+            {
+                UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
+            }
+//#endif
 
             //tbSelectItem.Inlines.Add(new Run("아이템s!")
             //{
@@ -135,6 +148,10 @@ namespace Delight
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             bg.Height = 1080 / (1920 / bg.ActualWidth);
+            bg.SizeChanged += (s, ev) =>
+            {
+                bg.Height = 1080 / (1920 / bg.ActualWidth);
+            };
         }
 
         //bool allowedChange = false;
@@ -236,11 +253,11 @@ namespace Delight
             noItemInfo.Visibility = (lbItem.Items.Count == 0) ? Visibility.Visible : Visibility.Hidden;
         }
 
-        #region [  Global Variable  ]
+#region [  Global Variable  ]
 
         ProjectInfo ProjectInfo { get; set; }
 
-        #endregion
+#endregion
 
         public void SetProject(ProjectInfo projectInfo)
         {

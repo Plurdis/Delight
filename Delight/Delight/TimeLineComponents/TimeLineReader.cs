@@ -120,6 +120,25 @@ namespace Delight.TimeLineComponents
                         {
                             return;
                         }
+
+                        if (player1.IsPlaying && player1.Source != null)
+                        {
+                            var p1Tag = player1.GetTag<TrackItem>();
+                            if (TimeLine.Position == p1Tag.Offset + p1Tag.FrameWidth)
+                            {
+                                DisablePlayer(player1);
+                            }
+                        }
+
+                        if (player2.IsPlaying && player2.Source != null)
+                        {
+                            var p2Tag = player2.GetTag<TrackItem>();
+                            if (TimeLine.Position == p2Tag.Offset + p2Tag.FrameWidth)
+                            {
+                                DisablePlayer(player2);
+                            }
+                        }
+
                         Console.WriteLine(player1.Position + " :: " + player2.Position);
                         if (!p1Playing)
                         {
@@ -142,7 +161,7 @@ namespace Delight.TimeLineComponents
 
                             p1Playing = false;
                         }
-                        
+
                     });
                 });
             }
@@ -155,10 +174,16 @@ namespace Delight.TimeLineComponents
         private void LoadWaitingVideos()
         {
             if (!TimeLine.IsRunning && !TimeLine.IsReady)
+            {
                 return;
+            }
+                
 
             if (_loadWaitVideos.Count == 0)
+            {
                 return;
+            }
+                
 
             
             if (!loader1.IsReadyForPlay)
@@ -186,9 +211,7 @@ namespace Delight.TimeLineComponents
 
                 LoadCheck();
             });
-
             LoadWaitingVideos();
-
             Console.WriteLine("StartLoad Method End");
         }
 
@@ -198,19 +221,19 @@ namespace Delight.TimeLineComponents
 
             if (IsPlaying)
             {
-                player1.Stop();
-                player2.Stop();
-                player1.Close();
-                player2.Close();
-                player1.Source = null;
-                player2.Source = null;
-                player1.Volume = 0;
-                player2.Volume = 0;
-                player1.Play();
-                player2.Play();
-                player1.Visibility = Visibility.Hidden;
-                player2.Visibility = Visibility.Hidden;
+                DisablePlayer(player1);
+                DisablePlayer(player2);
             }
+        }
+
+        public void DisablePlayer(MediaElementPro player)
+        {
+            player.Stop();
+            player.Close();
+            player.Source = null;
+            player.Volume = 0;
+            player.Play();
+            player.Visibility = Visibility.Hidden;
         }
 
         public void SwitchPlayer(bool showPlayer1)

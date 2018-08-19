@@ -221,6 +221,22 @@ namespace Delight.Components.Common
             }
         }
 
+        public static bool GetFile(string filter, out string fileLocation)
+        {
+            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            ofd.Filter = filter;
+            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            {
+                fileLocation = ofd.FileName;
+                return true;
+            }
+            else
+            {
+                fileLocation = string.Empty;
+                return false;
+            }
+        }
+
         public static bool GetMediaFile(out string fileLocation)
         {
             wf.OpenFileDialog ofd = new wf.OpenFileDialog();
