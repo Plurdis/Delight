@@ -247,10 +247,10 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Background="Black">
-                            <WindowsFormsHost x:Name="unityBg">
+                            <WindowsFormsHost x:Name="unityBg" Visibility="Hidden">
                                 <wf:Panel x:Name="unityPanel"/>
                             </WindowsFormsHost>
-                            <Grid x:Name="bg" Height="100" Visibility="Hidden"/>
+                            <Grid x:Name="bg" Height="100" Visibility="Visible"/>
                         </Grid>
 
                         <Grid Grid.Row="1">
