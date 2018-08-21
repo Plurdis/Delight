@@ -2,6 +2,7 @@
 using Delight.Components;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +19,15 @@ namespace Delight.Controls
             this.Style = FindResource("TemplateItemStyle") as Style;
         }
 
-        public static DependencyProperty DescriptionProperty = DependencyProperty.Register(nameof(Description), typeof(string), typeof(TemplateItem));
-        public string Description
+        [Category("UI적 요소")]
+        public static DependencyProperty ItemNameProperty = DependencyProperty.Register(nameof(ItemName), typeof(string), typeof(TemplateItem));
+        public string ItemName
         {
-            get => GetValue(DescriptionProperty) as string;
-            set => SetValue(DescriptionProperty, value);
+            get => GetValue(ItemNameProperty) as string;
+            set => SetValue(ItemNameProperty, value);
         }
 
+        [Category("UI적 요소")]
         public static DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(ImageSource), typeof(TemplateItem));
         public ImageSource Source
         {

@@ -283,7 +283,7 @@ namespace Delight.Controls
 
             MaxValue = tracks.Children.Cast<Track>().Max(i => i.ItemsMaxWidth);
 
-            double value = MaxValue - (this.ActualWidth - 100);
+            double value = MaxValue - (this.ActualWidth - 184);
             if (value > 0)
             {
                 scrollBar.Maximum = value;
@@ -427,7 +427,7 @@ namespace Delight.Controls
 
         public void DrawHelperLine(DrawingContext dc)
         {
-            int startPoint = 100;
+            int startPoint = 184;
 
             positioner.SetLeftMargin(Position * _realSize - Offset);
 
@@ -450,26 +450,32 @@ namespace Delight.Controls
                 if ((i + value) % 12 == 0)
                 {
                     height = 28;
-                    pen.Brush = Brushes.Black;
+                    pen.Brush = Brushes.White;
                     dc.DrawText(new FormattedText(MediaTools.GetTimeText((i + value) * Weight, FrameRate), CultureInfo.GetCultureInfo("en-us"),
                         FlowDirection.LeftToRight,
-                        new Typeface("Arial"),
-                        10, Brushes.Black),
-                        new Point(startPoint + i * _displaySize + sizeOffset + 4, 2));
+                        new Typeface("/Delight;component/Fonts/#Helvetica"),
+                        10, Brushes.White),
+                        new Point(startPoint + i * _displaySize + sizeOffset + 4, 20));
 
                     guidelines.GuidelinesY.Add(35.5 - height);
-                    dc.DrawLine(pen, new Point(startPoint + i * _displaySize + sizeOffset, 35 - height), new Point(startPoint + i * _displaySize + sizeOffset + 3, 35 - height));
+                    //DrawLine(dc, pen, new Point(startPoint + i * _displaySize + sizeOffset, 35 - height), new Point(startPoint + i * _displaySize + sizeOffset + 3, 35 - height));
                 }
                 else if ((i + value) % 4 == 0)
                 {
                     height = 20;
-                    pen.Brush = Brushes.Black;
+                    pen.Brush = Brushes.White;
                 }
-                dc.DrawLine(pen, new Point(startPoint + i * _displaySize + sizeOffset, 35 - height), new Point(startPoint + i * _displaySize + sizeOffset, 35));
+                DrawLine(dc, pen, new Point(startPoint + i * _displaySize + sizeOffset, 0), new Point(startPoint + i * _displaySize + sizeOffset, height));
                 dc.Pop();
             }
+        }
 
-            dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, 100, 39));
+        public void DrawLine(DrawingContext dc, Pen p, Point p1, Point p2)
+        {
+            if (p1.X >= 184)
+            {
+                dc.DrawLine(p, p1, p2);
+            }
         }
 
         #endregion

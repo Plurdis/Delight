@@ -26,6 +26,11 @@ namespace Delight.Common
 
 
             RegisterCommand(MenuCommands.ViewInfoCommand, new KeyGesture(Key.H, ModifierKeys.Control | ModifierKeys.Shift));
+
+//#if DEBUG
+            RegisterCommand(DebugCommands.PlayWindowVisibleCommand, new KeyGesture(Key.B, ModifierKeys.Control));
+            RegisterCommand(DebugCommands.UnityPreviewVisibleCommand, new KeyGesture(Key.G, ModifierKeys.Control));
+//#endif
         }
 
         static Dictionary<string, RoutedCommand> commands = new Dictionary<string, RoutedCommand>();

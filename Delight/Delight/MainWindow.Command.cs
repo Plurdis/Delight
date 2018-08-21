@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -38,7 +39,7 @@ namespace Delight
             if (MediaTools.GetMediaFile(out string location))
                 AddItem(location);
         }
-
+        
         private void AddItem(string location)
         {
             if (!File.Exists(location))
@@ -54,8 +55,9 @@ namespace Delight
                     image = new BitmapImage(new Uri(location));
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = fi.Name,
-                        Description = "Local Image File",
+                        //Content = fi.Name,
+                        //ItemName = "Local Image File",
+                        ItemName = fi.Name,
                         Source = image,
                         StageComponent = new DelightImage()
                         {
@@ -72,9 +74,10 @@ namespace Delight
                     image = MediaTools.GetMediaThumbnail(location);
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        Content = fi.Name,
+                        //Content = fi.Name,
+                        //ItemName = "Local Video File",
+                        ItemName = fi.Name,
                         Source = image,
-                        Description = "Local Video File",
                         StageComponent = new Video()
                         {
                             Identifier = fi.Name,
@@ -145,5 +148,34 @@ namespace Delight
                 pw?.player1.Pause();
             }
         }
+
+
+//#if DEBUG
+
+        private void PlayWindowVisibleExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (pw.Visibility == Visibility.Visible)
+            {
+                pw.Hide();
+            }
+            else
+            {
+                pw.Show();
+            }
+        }
+
+        private void UnityPreviewVisibleCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (bg.Visibility == Visibility.Visible)
+            {
+                bg.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                bg.Visibility = Visibility.Visible;
+            }
+        }
+
+//#endif
     }
 }

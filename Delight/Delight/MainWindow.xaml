@@ -7,6 +7,7 @@
     xmlns:ct="clr-namespace:Delight.Controls"
     xmlns:l="clr-namespace:Delight.Localization"
     xmlns:cm="clr-namespace:Delight.Commands"
+    xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     x:Class="Delight.MainWindow"
     mc:Ignorable="d" WindowState="Maximized"
     Title="Delight" Height="800" Width="1400">
@@ -17,8 +18,8 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu>
-            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove">
+        <Menu Background="#FF3D3D3D" Foreground="White">
+            <MenuItem Header="{x:Static l:Menus.MiFile}" Uid="Info1" MouseMove="Menu_MouseMove" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiOpen}">
                     <MenuItem Header="{x:Static l:Menus.MiProject}" InputGestureText="Ctrl+Shift+O" Command="{x:Static cm:MenuCommands.OpenProjectCommand}"/>
                     <MenuItem Header="{x:Static l:Menus.MiFile}" InputGestureText="Ctrl+O" Command="{x:Static cm:MenuCommands.OpenFileCommand}"/>
@@ -39,17 +40,17 @@
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiExit}" InputGestureText="Alt+F4" Command="{x:Static cm:MenuCommands.ExitCommand}"/>
             </MenuItem>
-            <MenuItem Header="{x:Static l:Menus.MiEdit}">
+            <MenuItem Header="{x:Static l:Menus.MiEdit}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiUndo}" InputGestureText="Ctrl+Z" Command="{x:Static cm:MenuCommands.UndoCommand}"/>
                 <MenuItem Header="{x:Static l:Menus.MiRedo}" InputGestureText="Ctrl+Shift+Z" Command="{x:Static cm:MenuCommands.RedoCommand}"/>
             </MenuItem>
-            <MenuItem Uid="Info3" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}">
+            <MenuItem Uid="Info3" MouseMove="Menu_MouseMove" Header="{x:Static l:Menus.MiHelp}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiHelpView}" InputGestureText="Ctrl+H" Command="{x:Static cm:MenuCommands.ViewHelpCommand}"/>
                 <MenuItem Header="{x:Static l:Menus.MiTutorialView}" InputGestureText="Ctrl+Alt+H" Command="{x:Static cm:MenuCommands.ViewTutorialCommand}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiViewInfo}" InputGestureText="Ctrl+Shift+H"  Command="{x:Static cm:MenuCommands.ViewInfoCommand}"/>
             </MenuItem>
-            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}">
+            <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}" FontFamily="/Delight;component/Fonts/#Helvetica">
                 <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
                 <MenuItem Header="{x:Static l:Menus.MiManageDevice}" InputGestureText="Ctrl+Shift+T"/>
                 <MenuItem Header="{x:Static l:Menus.MiManageStage}"/>
@@ -58,18 +59,21 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="2" Height="Auto" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="350"/>
-            </Grid.ColumnDefinitions>
-            <ProgressBar x:Name="pbInfo" Grid.Column="3"/>
-            <TextBlock x:Name="tbInfo" Text="작업을 위한 모든 준비를 마쳤습니다."/>
+        <Grid Grid.Row="2" Height="Auto" Background="#FF333333">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="350"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar x:Name="pbInfo" Grid.Column="3" Foreground="White" Background="#FF1D1D1D" BorderBrush="{x:Null}"/>
+                <TextBlock x:Name="tbInfo" Text="작업을 위한 모든 준비를 마쳤습니다." Foreground="White" FontFamily="/Delight;component/Fonts/#Helvetica"/>
+            </Grid>
+
         </Grid>
-        
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="350"/>
@@ -87,30 +91,41 @@
 
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="116"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock TextWrapping="Wrap" Margin="5"><Run Text="{x:Static l:WindowText.UI_Item1}" FontSize="15"/><LineBreak/><Run Text="{x:Static l:WindowText.UI_Item2}"/></TextBlock>
-                    <Grid Grid.Row="1">
+                    <Grid>
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="1,1" MappingMode="RelativeToBoundingBox" StartPoint="0,0">
+                                <GradientStop Color="#FF0074B5"/>
+                                <GradientStop Color="#FF9C2DCE" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+                    <TextBlock TextWrapping="Wrap" Margin="10" FontFamily="/Delight;component/Fonts/#Helvetica">
+                        <Run Text="{x:Static l:WindowText.UI_Item1}" FontSize="40" FontWeight="Bold" Foreground="White"/><LineBreak/>
+                        <TextBlock FontSize="5"/>
+                        <LineBreak/>
+                        <Run Text="원하는 요소들을 끌어다가 타임라인에 배치하세요" Foreground="White"/>
+                    </TextBlock>
+                    <Grid Grid.Row="1" Background="#FF333333">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="47"/>
+                            <ColumnDefinition Width="2"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ListBox x:Name="ItemHeader" Background="{x:Null}" BorderBrush="{x:Null}">
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List1}"/>
-                            <Separator IsHitTestVisible="False"/>
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List2}"/>
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List3}"/>
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List4}"/>
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List5}"/>
-                            <ListBoxItem Content="{x:Static l:WindowText.UI_Item_List6}"/>
-                        </ListBox>
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <WrapPanel HorizontalAlignment="Right">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.ColumnSpan="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <WrapPanel HorizontalAlignment="Left">
                                 <WrapPanel.Resources>
                                     <Style TargetType="{x:Type RadioButton}">
                                         <Setter Property="Template">
@@ -130,23 +145,45 @@
                                         </Setter>
                                     </Style>
                                 </WrapPanel.Resources>
-                                <RadioButton x:Name="rbList" Height="20" Width="20" IsChecked="True">
-                                    <Image Margin="3" Source="Resources/list_menu.png"/>
+                                <RadioButton x:Name="rbList" Height="25" Width="25" IsChecked="True">
+                                    <Image Margin="5" Source="Resources/view_block.png"/>
                                 </RadioButton>
-                                <RadioButton x:Name="rbBox" Height="20" Width="20">
-                                    <Image Margin="3" Source="Resources/box_menu.png"/>
+                                <RadioButton x:Name="rbBox" Height="25" Width="25">
+                                    <Image Margin="5" Source="Resources/view_list.png"/>
                                 </RadioButton>
                             </WrapPanel>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="3" Background="#FF3D3D3D"/>
+
+                            <TextBlock FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" Text="새 폴더" Foreground="White" Margin="5,0" VerticalAlignment="Center" Grid.Column="2"/>
+                            <TextBlock FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" Text="편집"    Foreground="White" Margin="5,0" VerticalAlignment="Center" Grid.Column="3"/>
+                        </Grid>
+
+
+                        <ListBox x:Name="ItemHeader" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="/Delight;component/Fonts/#Helvetica">
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List1}" FontSize="14" FontWeight="Bold"/>
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List2}"/>
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List3}"/>
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List4}"/>
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List5}"/>
+                            <ListBoxItem Margin="0,5" HorizontalAlignment="Right" Foreground="White" IsHitTestVisible="False" Content="{x:Static l:WindowText.UI_Item_List6}"/>
+                        </ListBox>
+
+                        <Rectangle Grid.Column="1" Grid.Row="1" Margin="0,10" Fill="#FFBEBEBE"/>
+
+                        <Grid Grid.Column="2" Grid.Row="1">
                             <Grid Grid.Row="1">
-                                <ListBox x:Name="lbItem" Background="{x:Null}" BorderBrush="#FFA0A0A0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                    <ListBox.ItemContainerStyle>
+                                <ListBox x:Name="lbItem" Background="#FF333333" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <!--<ListBox.ItemContainerStyle>
                                         <Style TargetType="{x:Type ListBoxItem}">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                         </Style>
-                                    </ListBox.ItemContainerStyle>
-                                    <!--<ListBox.GroupStyle>
-                                        <GroupStyle ContainerStyle="{StaticResource TemplateItemGroupStyle}"/>
-                                    </ListBox.GroupStyle>-->
+                                    </ListBox.ItemContainerStyle>-->
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" Orientation="Horizontal"  />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
                                 </ListBox>
                                 <Grid x:Name="noItemInfo" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
                                     <Grid.RowDefinitions>
@@ -154,14 +191,14 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <Image Source="Resources/box.png" Width="50"/>
-                                    <TextBlock Margin="0,10,0,0" Grid.Row="1" Text="{x:Static l:WindowText.UI_NoItem}" TextAlignment="Center"/>
+                                    <TextBlock Margin="0,10,0,0" Grid.Row="1" Text="{x:Static l:WindowText.UI_NoItem}" TextAlignment="Center" Foreground="White" FontFamily="/Delight;component/Fonts/#Helvetica"/>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                <Grid Grid.Row="2">
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FF333333" Foreground="{x:Null}"/>
+                <Grid Grid.Row="2" Background="#FF333333">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
@@ -170,59 +207,67 @@
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="현재 선택된 아이템" Margin="5" Grid.ColumnSpan="2"/>
-                    <Image Grid.Row="1" Source="Resources/CloseButton.png"/>
+                    <TextBlock Text="" Margin="5" Grid.ColumnSpan="2"/>
                     <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
                         <TextBlock x:Name="tbSelectItem">
-                            
+
                         </TextBlock>
                     </Grid>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FF252525"/>
             <Grid Grid.Column="2">
-                <Grid>
-                    <ct:TimeLine x:Name="tl"/>
+                <Grid Background="#FF1D1D1D">
+                    <TabControl Background="{x:Null}" BorderBrush="{x:Null}">
+                        <TabControl.Resources>
+                            <Style TargetType="{x:Type TabItem}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem x:Name="timeLine">
+                            <ct:TimeLine x:Name="tl"/>
+                        </TabItem>
+                        <TabItem x:Name="loopPanel">
+                            
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FF252525"/>
             <Grid Grid.Column="4">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="8"/>
-                    <RowDefinition Height="410"/>
+                    <RowDefinition Height="468"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0">
-                    <Rectangle Fill="DarkBlue"/>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Property Screen"/>
+                <Grid Grid.Row="0" Background="#FF262626">
+                    <!--<Rectangle/>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Property Screen"/>-->
                 </Grid>
 
-                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FF252525"/>
 
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="2" Background="#FF262626">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Static l:WindowText.UI_preview1}"/>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid>
-                            <Grid x:Name="bg"/>
-                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview2}" Margin="5"/>
-                            </Border>
+                        <Grid Background="Black">
+                            <WindowsFormsHost x:Name="unityBg" Visibility="Hidden">
+                                <wf:Panel x:Name="unityPanel"/>
+                            </WindowsFormsHost>
+                            <Grid x:Name="bg" Height="100" Visibility="Visible"/>
                         </Grid>
 
                         <Grid Grid.Row="1">
                             <Image x:Name="test" Source="Resources/Test3DPreview.png"/>
-                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                <TextBlock Foreground="White" Text="{x:Static l:WindowText.UI_preview3}" Margin="5"/>
-                            </Border>
+                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Grid>
                 </Grid>

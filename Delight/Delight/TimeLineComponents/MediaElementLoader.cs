@@ -59,7 +59,7 @@ namespace Delight.TimeLineComponents
 
                 while (!IsLoaded) // 로딩이 되지 않을 때 까지
                 {
-
+                    Thread.Sleep(10);
                 }
                 MediaElement.Dispatcher.Invoke(() =>
                 {
