@@ -218,7 +218,19 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FF252525"/>
             <Grid Grid.Column="2">
                 <Grid Background="#FF1D1D1D">
-                    <ct:TimeLine x:Name="tl"/>
+                    <TabControl Background="{x:Null}" BorderBrush="{x:Null}">
+                        <TabControl.Resources>
+                            <Style TargetType="{x:Type TabItem}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem x:Name="timeLine">
+                            <ct:TimeLine x:Name="tl"/>
+                        </TabItem>
+                        <TabItem x:Name="loopPanel">
+                            
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </Grid>
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FF252525"/>
