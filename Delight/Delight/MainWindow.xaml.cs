@@ -9,6 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Delight.Commands;
 using Delight.Common;
 using Delight.Components;
@@ -32,29 +33,35 @@ namespace Delight
     {
         public MainWindow()
         {
-            //TutorialWindow tw = new TutorialWindow();
-            //tw.ShowDialog();
-
-            MenuCommands.ExportInputGestureText = "Ctrl+Z";
+            #region [  Initalize  ]
 
             LocalCommandManager.Init();
             InitializeComponent();
-            //MouseManager.Init();
 
-            this.Closed += (s, e) => Environment.Exit(0);
-            this.Loaded += MainWindow_Loaded;
+            #endregion
+
+            #region [  EventHandler Connect  ]
 
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
+
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
+
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
             lbItem.PreviewMouseMove += LbItem_PreviewMouseMove;
             lbItem.PreviewMouseLeftButtonUp += LbItem_PreviewMouseLeftButtonUp;
-            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
 
             LogManager.InfoTextChanged += LogManager_InfoTextChanged;
             LogManager.InfoProgressChanged += LogManager_InfoProgressChanged;
             LogManager.InfoMaximumChanged += LogManager_InfoMaximumChanged;
+            
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+            this.Closed += (s, e) => Environment.Exit(0);
+            this.Loaded += MainWindow_Loaded;
+
+            #endregion
+
+            #region [  CommandBindings Adding  ]
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, ExitCommandExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, OpenFileExecuted));
@@ -71,64 +78,29 @@ namespace Delight
 //#if DEBUG
             CommandBindings.Add(new CommandBinding(DebugCommands.PlayWindowVisibleCommand, PlayWindowVisibleExecuted));
             CommandBindings.Add(new CommandBinding(DebugCommands.UnityPreviewVisibleCommand, UnityPreviewVisibleCommandExecuted));
-//#endif
+            //#endif
+
+            #endregion
 
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
             });
-
             
-
             pw = new PlayWindow();
             pw.Show();
-            //pw.player1. += Player_PositionChanged;
 
-            tl.TimeLineReader.SetPlayer(pw.player1, pw.player2);
-            
-            tl.FrameRate = Core.Common.FrameRate._60FPS;
-            
-            this.LocationChanged += MainWindow_LocationChanged;
+            LoadUnityDebug();
 
-            //pw.player1.Open()
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
+            tl.TimeLineReader.SetPlayer(pw.player1, pw.player2);
+            tl.FrameRate = Core.Common.FrameRate._60FPS;
             tl.FrameMouseChanged += (s, e) =>
             {
                 tl.Stop();
-                //allowedChange = true;
-                //pw.player1.Position = ts;
-                //allowedChange = false;
             };
-
-
-
-            //MediaTools.GetFile("사진|*.png", out string floc);
-
-            //ImageSource thumbnail = new BitmapImage(new Uri(floc));
-            ////#if DEBUG
-            //if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
-            //{
-            //    UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
-
-            //    lbItem.Items.Add(new TemplateItem()
-            //    {
-            //        ItemName = "Stage Visualize Component",
-            //        Source = thumbnail,
-            //        StageComponent = new Unity()
-            //        {
-            //            Time = TimeSpan.FromMinutes(3),
-            //            Identifier = "Stage Visualize Component",
-            //            Thumbnail = thumbnail,
-            //        },
-            //    });
-            //}
-            //else
-            //{
-            //    unityBg.Visibility = Visibility.Hidden;
-            //}
-            //#endif
-
+            
             //tbSelectItem.Inlines.Add(new Run("아이템s!")
             //{
             //    FontWeight = FontWeights.Bold,
@@ -136,9 +108,55 @@ namespace Delight
             //});
         }
 
-        private void MainWindow_LocationChanged(object sender, EventArgs e)
+        public void LoadUnityDebug()
         {
+            MediaTools.GetFile("사진|*.png", out string floc);
+
+            ImageSource thumbnail = new BitmapImage(new Uri(floc));
+            //#if DEBUG
+            if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
+            {
+                UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
+
+                lbItem.Items.Add(new TemplateItem()
+                {
+                    ItemName = "Stage Visualize Component",
+                    Source = thumbnail,
+                    StageComponent = new Unity()
+                    {
+                        Time = TimeSpan.FromMinutes(3),
+                        Identifier = "Stage Visualize Component",
+                        Thumbnail = thumbnail,
+                    },
+                });
+            }
+            else
+            {
+                unityBg.Visibility = Visibility.Hidden;
+            }
+            //#endif
         }
+
+        #region [  Global Veriable  ]
+        
+        PlayWindow pw;
+
+        bool dragStart;
+        ListBox dragSource;
+
+
+
+        #endregion
+
+        #region [  Global Property  ]
+
+        ProjectInfo ProjectInfo { get; set; }
+
+        #endregion
+
+
+
+        #region [  LogManager Events  ]
 
         private void LogManager_InfoTextChanged(string text)
         {
@@ -164,7 +182,11 @@ namespace Delight
             });
         }
 
+        #endregion
+
         int i = 0;
+
+        #region [  MainWindow's Events  ]
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -174,23 +196,7 @@ namespace Delight
                 bg.Height = 1080 / (1920 / bg.ActualWidth);
             };
         }
-
-        //bool allowedChange = false;
-
-        //private async void Player_PositionChanged(object sender, Unosquare.FFME.Events.PositionChangedRoutedEventArgs e)
-        //{
-        //    if (allowedChange)
-        //        return;
-        //    if (!tl.IsRunning)
-        //    {
-        //        var ts = MediaTools.FrameToTimeSpan(tl.Position, tl.FrameRate);
-        //        pw.player1.Position = ts;
-        //        await pw.player1.Pause();
-
-        //    }
-        //}
-
-        PlayWindow pw;
+        
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -201,8 +207,6 @@ namespace Delight
             }
         }
 
-        bool dragStart;
-        ListBox dragSource;
         private void LbItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             dragStart = true;
@@ -244,6 +248,33 @@ namespace Delight
 
         }
 
+        private void lbItem_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            noItemInfo.Visibility = (lbItem.Items.Count == 0) ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void ProjectInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ProjectInfo pi)
+            {
+                switch (e.PropertyName)
+                {
+                    case "ProjectName":
+                        this.Title = "Delight - " + pi.ProjectName;
+                        break;
+                }
+            }
+        }
+
+        private void Menu_MouseMove(object sender, MouseEventArgs e)
+        {
+            string id = ((UIElement)sender).Uid;
+
+            //this.Title = id;
+        }
+
+        #endregion
+
         private static object GetDataFromListBox(ListBox source, Point point)
         {
             if (source.InputHitTest(point) is UIElement element)
@@ -269,43 +300,12 @@ namespace Delight
             return null;
         }
 
-        private void lbItem_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            noItemInfo.Visibility = (lbItem.Items.Count == 0) ? Visibility.Visible : Visibility.Hidden;
-        }
-
-#region [  Global Variable  ]
-
-        ProjectInfo ProjectInfo { get; set; }
-
-#endregion
-
         public void SetProject(ProjectInfo projectInfo)
         {
             ProjectInfo = projectInfo;
             projectInfo.PropertyChanged += ProjectInfo_PropertyChanged;
 
             this.Title = "Delight - " + projectInfo.ProjectName;
-        }
-
-        private void ProjectInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is ProjectInfo pi)
-            {
-                switch (e.PropertyName)
-                {
-                    case "ProjectName":
-                        this.Title = "Delight - " + pi.ProjectName;
-                        break;
-                }
-            }
-        }
-
-        private void Menu_MouseMove(object sender, MouseEventArgs e)
-        {
-            string id = ((UIElement)sender).Uid;
-
-            //this.Title = id;
         }
     }
 }
