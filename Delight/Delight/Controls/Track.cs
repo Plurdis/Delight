@@ -340,7 +340,6 @@ namespace Delight.Controls
                         // right는 반대 방향으로 감
                         double rightRaw = itemGrid.ActualWidth - (Math.Ceiling(x / _realSize) * _realSize);
 
-
                         // ==================================================================
                         // TODO: 특정한 경우 살짝 길이 계산에 오류가 있는거 같음 체크 해보기
                         // ==================================================================
@@ -353,6 +352,26 @@ namespace Delight.Controls
                             rightRaw = (itemGrid.ActualWidth - trackItem.Margin.Left) - _realSize;
 
                         int width = (int)((itemGrid.ActualWidth - trackItem.Margin.Left - rightRaw) / _realSize);
+
+                        // 마그넷 연구 중 (실패)
+                        //Console.WriteLine(width);
+
+                        //{
+                        //    var itemsLeft = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset < width + trackItem.Offset);
+                        //    var itemsRight = Items.Except(new TrackItem[] { trackItem }).Where(i => i.Offset > width + trackItem.Offset);
+
+                        //    int leftMax = itemsLeft.Count() != 0 ? itemsLeft.Max(i => i.Offset) : int.MinValue;
+                        //    int rightMin = itemsRight.Count() != 0 ? itemsRight.Min(i => i.Offset) : int.MaxValue;
+
+                        //    double rightBetweenWidth = (trackItem.Offset + width - rightMin) * _realSize;
+
+                        //    if (rightBetweenWidth < 6)
+                        //    {
+                        //        width = rightMin;
+                        //        rightRaw = ActualWidth - (width / _realSize);
+                        //    }
+
+                        //}
 
 
                         //// ==================== 마그넷

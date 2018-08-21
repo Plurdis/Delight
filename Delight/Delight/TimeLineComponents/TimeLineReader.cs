@@ -219,9 +219,13 @@ namespace Delight.TimeLineComponents
         {
             loading = false;
 
-            if (IsPlaying)
+            if (player1.CurrentState == PlayerState.Playing)
             {
                 DisablePlayer(player1);
+            }
+            
+            if (player2.CurrentState == PlayerState.Playing)
+            {
                 DisablePlayer(player2);
             }
         }
