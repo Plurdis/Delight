@@ -215,10 +215,12 @@
                     </Grid>
                 </Grid>
             </Grid>
+            
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FF252525"/>
+            
             <Grid Grid.Column="2">
                 <Grid Background="#FF1D1D1D">
-                    <TabControl Background="{x:Null}" BorderBrush="{x:Null}">
+                    <TabControl SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}"> 
                         <TabControl.Resources>
                             <Style TargetType="{x:Type TabItem}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -228,6 +230,129 @@
                             <ct:TimeLine x:Name="tl"/>
                         </TabItem>
                         <TabItem x:Name="loopPanel">
+                            <!--UI용 테스트-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Background="#FF2C2C2C" VerticalAlignment="Top">
+                                        <Grid.Resources>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="FontSize" Value="15"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+                                                <Setter Property="Margin" Value="10,0"/>
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="이미지"/>
+                                        <TextBlock Grid.Row="1" Text="비디오"/>
+                                        <TextBlock Grid.Row="2" Text="시각 효과"/>
+                                        <TextBlock Grid.Row="3" Text="사운드"/>
+                                    </Grid>
+                                </Grid>
+                                <ScrollViewer Grid.Column="1" Grid.RowSpan="2">
+                                    <Grid Width="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="28"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="{x:Type Rectangle}">
+                                                <Setter Property="Fill" Value="#FF252525"/>
+                                                <Setter Property="Stroke" Value="#FF2E2E2E"/>
+                                            </Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Style>
+                                            <Style TargetType="{x:Type ct:CircleBar}">
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Background" Value="#FF1D1D1D"/>
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Border Grid.Column="0" BorderBrush="White" BorderThickness="1">
+                                            <TextBlock Text="Preset 1" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="1" BorderBrush="White" BorderThickness="1">
+                                            <TextBlock Text="Preset 2" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="2" BorderBrush="White" BorderThickness="1">
+                                            <TextBlock Text="Preset 3" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                        <Border Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+
+                                        <Rectangle Grid.Row="1" Grid.Column="0"/>
+                                        <Rectangle Grid.Row="1" Grid.Column="1"/>
+                                        <Rectangle Grid.Row="1" Grid.Column="2"/>
+                                        <Rectangle Grid.Row="1" Grid.Column="3"/>
+                                        <Rectangle Grid.Row="1" Grid.Column="4"/>
+
+                                        <Rectangle Grid.Row="2" Grid.Column="0"/>
+                                        <Rectangle Grid.Row="2" Grid.Column="1"/>
+                                        <Rectangle Grid.Row="2" Grid.Column="2"/>
+                                        <Rectangle Grid.Row="2" Grid.Column="3"/>
+                                        <Rectangle Grid.Row="2" Grid.Column="4"/>
+
+                                        <Rectangle Grid.Row="3" Grid.Column="0"/>
+                                        <Rectangle Grid.Row="3" Grid.Column="1"/>
+                                        <Rectangle Grid.Row="3" Grid.Column="2"/>
+                                        <Rectangle Grid.Row="3" Grid.Column="3"/>
+                                        <Rectangle Grid.Row="3" Grid.Column="4"/>
+
+                                        <Rectangle Grid.Row="4" Grid.Column="0"/>
+                                        <Rectangle Grid.Row="4" Grid.Column="1"/>
+                                        <Rectangle Grid.Row="4" Grid.Column="2"/>
+                                        <Rectangle Grid.Row="4" Grid.Column="3"/>
+                                        <Rectangle Grid.Row="4" Grid.Column="4"/>
+
+                                        <ct:CircleBar Grid.Row="5" Grid.Column="0" InnerValue="307"/>
+                                        <ct:CircleBar Grid.Row="5" Grid.Column="1"/>
+                                        <ct:CircleBar Grid.Row="5" Grid.Column="2"/>
+                                    </Grid>
+                                </ScrollViewer>
+                                <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                                    <Grid VerticalAlignment="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
+                                        </Grid.RowDefinitions>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                             
                         </TabItem>
                     </TabControl>
