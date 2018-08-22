@@ -90,7 +90,7 @@ namespace Delight
             pw = new PlayWindow();
             pw.Show();
 
-            LoadUnityDebug();
+            //LoadUnityDebug();
 
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 

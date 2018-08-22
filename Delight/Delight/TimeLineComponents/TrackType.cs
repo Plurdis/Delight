@@ -14,6 +14,7 @@ namespace Delight.TimeLineComponents
         Sound = 8,
         Effect = 16,
         Template = 32,
+        Light = 64,
         Unknown = int.MaxValue,
     }
 }

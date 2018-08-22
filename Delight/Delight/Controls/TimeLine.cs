@@ -100,6 +100,9 @@ namespace Delight.Controls
             AddTrack(TrackType.Video);
             AddTrack(TrackType.Unity);
             AddTrack(TrackType.Sound);
+            AddTrack(TrackType.Light, 1);
+            AddTrack(TrackType.Light, 2);
+            AddTrack(TrackType.Light, 3);
         }
 
         #region [  Properties  ]
@@ -246,9 +249,14 @@ namespace Delight.Controls
 
         #region [  Track Management (Add/Remove)  ]
 
-        public void AddTrack(TrackType trackType)
+        public void AddTrack(TrackType trackType, int number = -1)
         {
             Track track = new Track(this, trackType, FrameRate);
+
+            if (number != -1)
+            {
+                track.TrackNumber = number;
+            }
 
             track.ItemsMaxWidthChanged += Track_ItemsMaxWidthChanged;
 
