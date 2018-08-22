@@ -53,6 +53,14 @@ namespace Delight.Controls
         Grid itemGrid;
         TimeLine _parent;
 
+        public static DependencyProperty TrackNumberProperty = DependencyProperty.Register(nameof(TrackNumber), typeof(int), typeof(Track));
+        
+        public int TrackNumber
+        {
+            get => (int)GetValue(TrackNumberProperty);
+            set => SetValue(TrackNumberProperty, value);
+        }
+        
         public static DependencyProperty TrackTypeTextProperty = DependencyProperty.Register(nameof(TrackTypeText), typeof(string), typeof(Track));
 
         public string TrackTypeText
@@ -60,7 +68,7 @@ namespace Delight.Controls
             get => GetValue(TrackTypeTextProperty) as string;
             set => SetValue(TrackTypeTextProperty, value);
         }
-
+        
         TrackType _trackType = TrackType.Unknown;
 
         TrackType TrackType
@@ -80,6 +88,9 @@ namespace Delight.Controls
                         break;
                     case TrackType.Sound:
                         TrackTypeText = "사운드";
+                        break;
+                    case TrackType.Light:
+                        TrackTypeText = "조명";
                         break;
                     case TrackType.Unknown:
                         break;

@@ -8,6 +8,7 @@
 
     <cvter:RangeConverter x:Key="RangeConverter"/>
     <cvter:MinusConverter x:Key="MinusConverter"/>
+    <cvter:StringConverter x:Key="StringConverter"/>
 
     <Style x:Key="CircleBarStyle" TargetType="{x:Type ct:CircleBar}">
         <Setter Property="Background" Value="Gray"/>
@@ -210,7 +211,10 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>-->
-                            <TextBlock Margin="10" Text="{TemplateBinding TrackTypeText}" TextAlignment="Left" VerticalAlignment="Center" FontSize="15"/>
+                            <TextBlock Margin="10" TextAlignment="Left" VerticalAlignment="Center" FontSize="15">
+                                <Run Text="{TemplateBinding TrackTypeText}"/>
+                                <Run x:Name="trackNumber" Text="{TemplateBinding TrackNumber, Converter={StaticResource ResourceKey=StringConverter}}"/>
+                            </TextBlock>
 
                             <Grid Grid.Column="1" Background="#FF185A8C">
                                 <TextBlock Text="M" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
@@ -234,6 +238,11 @@
                                   x:Name="itemGrid" AllowDrop="True"/>
                         </Grid>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TrackNumber" Value="0">
+                            <Setter TargetName="trackNumber" Property="Text" Value=""/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
