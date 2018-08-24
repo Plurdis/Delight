@@ -280,20 +280,10 @@
     <Resource Include="Resources\ffmpeg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\TestPreview.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Test3DPreview.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\box.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\box_menu.png" />
-    <Resource Include="Resources\list_menu.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Nreco.png" />
@@ -315,6 +305,9 @@
     <Resource Include="Resources\view_block_sel.png" />
     <Resource Include="Resources\view_list.png" />
     <Resource Include="Resources\view_list_sel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\조명 미리보기.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets" Condition="Exists('..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets')" />

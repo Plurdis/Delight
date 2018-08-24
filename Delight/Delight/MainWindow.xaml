@@ -244,7 +244,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="8"/>
-                    <RowDefinition Height="468"/>
+                    <RowDefinition Height="550"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Background="#FF262626">
@@ -286,7 +286,7 @@
                         </Grid>
 
                         <Grid Grid.Row="1">
-                            <Image x:Name="test" Source="Resources/Test3DPreview.png"/>
+                            <Image x:Name="test" Source="Resources/조명 미리보기.png"/>
                             <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Grid>
