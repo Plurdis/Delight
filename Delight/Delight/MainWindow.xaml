@@ -204,17 +204,22 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="" Margin="5" Grid.ColumnSpan="2"/>
-                    <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
-                        <TextBlock x:Name="tbSelectItem">
-
-                        </TextBlock>
+                    <Grid>
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="1,1" MappingMode="RelativeToBoundingBox" StartPoint="0,0">
+                                <GradientStop Color="#FF0074B5"/>
+                                <GradientStop Color="#FF9C2DCE" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <TextBlock Margin="10" Text="추가된 템플릿 목록" Foreground="White" FontSize="18" FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <ListBox Background="{x:Null}" BorderBrush="{x:Null}" TextBlock.Foreground="White" FontSize="14">
+                            <ListBoxItem x:Name="testItem" Content="대나무 숲 (4개의 아이템)" Visibility="Hidden"/>
+                        </ListBox>
                     </Grid>
                 </Grid>
+                
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FF252525"/>
             <Grid Grid.Column="2">
@@ -243,8 +248,22 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Background="#FF262626">
-                    <!--<Rectangle/>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Text="Property Screen"/>-->
+                    <Grid Grid.Row="2" Background="#FF333333">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="" Margin="5" Grid.ColumnSpan="2"/>
+                        <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                            <TextBlock x:Name="tbSelectItem">
+
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
                 </Grid>
 
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FF252525"/>

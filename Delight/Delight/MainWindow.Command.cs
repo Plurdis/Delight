@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using Delight.Common;
+using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
@@ -40,6 +41,22 @@ namespace Delight
                 AddItem(location);
         }
         
+        public void AddEffect(ImageSource img, string name)
+        {
+            lbItem.Items.Add(new TemplateItem()
+            {
+                StageComponent = new Effect()
+                {
+                    Identifier = name,
+                    Thumbnail = img,
+                    Time = TimeSpan.FromSeconds(10),
+                },
+                Source = img,
+                ItemName = name,
+            });
+                
+        }
+
         private void AddItem(string location)
         {
             if (!File.Exists(location))
@@ -85,11 +102,11 @@ namespace Delight
                             Time = MediaTools.GetMediaDuration(location),
                             Thumbnail = image,
                         },
-                        ToolTip = new ItemToolTip()
-                        {
-                            Image = image,
-                            Text= "Test",
-                        },
+                        //ToolTip = new ItemToolTip()
+                        //{
+                        //    Image = image,
+                        //    Text= "Test",
+                        //},
                     });
                     break;
                 default:
@@ -171,7 +188,7 @@ namespace Delight
 #endif
         }
 
-//#if DEBUG
+        //#if DEBUG
 
         private void PlayWindowVisibleExecuted(object sender, ExecutedRoutedEventArgs e)
         {
