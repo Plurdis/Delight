@@ -149,6 +149,27 @@ namespace Delight
             }
         }
 
+        private void ManageTemplateExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+#if DEBUG
+            TemplateWindow tw = new TemplateWindow();
+            var titm = tw.ShowDialog();
+            if (titm != null)
+            {
+                testItem.Visibility = Visibility.Visible;
+                var img = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/Template/대나무숲_나비.png", UriKind.Absolute));
+                AddEffect(img, "요소 - 나비");
+                img = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/Template/대나무숲_카메라 이동.png", UriKind.Absolute));
+                AddEffect(img, "이동 - 카메라");
+                img = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/Template/대나무숲_하늘 씬.png", UriKind.Absolute));
+                AddEffect(img, "장면 - 하늘 장면");
+                img = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/Template/대나무숲 자료.png", UriKind.Absolute));
+                AddEffect(img, "장면 - 대나무 장면");
+            }
+#else
+
+#endif
+        }
 
 //#if DEBUG
 

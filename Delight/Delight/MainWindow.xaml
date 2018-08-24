@@ -51,9 +51,9 @@
                 <MenuItem Header="{x:Static l:Menus.MiViewInfo}" InputGestureText="Ctrl+Shift+H"  Command="{x:Static cm:MenuCommands.ViewInfoCommand}"/>
             </MenuItem>
             <MenuItem Uid="Info3" Header="{x:Static l:Menus.MiTools}" FontFamily="/Delight;component/Fonts/#Helvetica">
-                <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T"/>
-                <MenuItem Header="{x:Static l:Menus.MiManageDevice}" InputGestureText="Ctrl+Shift+T"/>
-                <MenuItem Header="{x:Static l:Menus.MiManageStage}"/>
+                <MenuItem Header="{x:Static l:Menus.MiManageTemplate}" InputGestureText="Ctrl+T" Command="{x:Static cm:MenuCommands.ManageTemplateCommand}"/>
+                <MenuItem Header="{x:Static l:Menus.MiManageDevice}" InputGestureText="Ctrl+Shift+T" Command="{x:Static cm:MenuCommands.ManageDeviceCommand}"/>
+                <MenuItem Header="{x:Static l:Menus.MiManageStage}" Command="{x:Static cm:MenuCommands.ManageStageCommand}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static l:Menus.MiOptions}"/>
             </MenuItem>
@@ -84,7 +84,7 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="8"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -198,6 +198,7 @@
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FF333333" Foreground="{x:Null}"/>
+
                 <Grid Grid.Row="2" Background="#FF333333">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

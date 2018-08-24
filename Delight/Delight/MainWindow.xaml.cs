@@ -73,6 +73,8 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ViewInfoCommand, ViewInfoExecuted));
 
+            CommandBindings.Add(new CommandBinding(MenuCommands.ManageTemplateCommand, ManageTemplateExecuted));
+
             CommandBindings.Add(new CommandBinding(ControlCommands.PlayCommand, PlayExecuted));
 
 //#if DEBUG
@@ -86,7 +88,7 @@ namespace Delight
             {
                 ProjectName = "EmptyProject1"
             });
-            
+
             pw = new PlayWindow();
             pw.Show();
 

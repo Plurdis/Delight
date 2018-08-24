@@ -47,6 +47,16 @@ namespace Delight.Commands
 
         #endregion
 
+        #region [  Tools Tab  ]
+
+        public static RoutedCommand ManageTemplateCommand { get; }
+
+        public static RoutedCommand ManageDeviceCommand { get; }
+        
+        public static RoutedCommand ManageStageCommand { get; }
+
+        #endregion
+
         static MenuCommands()
         {
             OpenFileCommand = new RoutedCommand("OpenFile", typeof(MenuCommands));
@@ -69,6 +79,12 @@ namespace Delight.Commands
             ViewHelpCommand = new RoutedCommand("ViewHelp", typeof(MenuCommands));
             ViewTutorialCommand = new RoutedCommand("ViewTutorial", typeof(MenuCommands));
             ViewInfoCommand = new RoutedCommand("ViewInfo", typeof(MenuCommands));
+
+            // ====================
+
+            ManageTemplateCommand = new RoutedCommand("ManageTemplate", typeof(MenuCommands));
+            ManageDeviceCommand = new RoutedCommand("ManageDevice", typeof(MenuCommands));
+            ManageStageCommand = new RoutedCommand("ManageStage", typeof(MenuCommands));
         }
     }
 }
