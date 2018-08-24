@@ -234,6 +234,7 @@ namespace Delight.Controls
                     Thumbnail = comp.Thumbnail,
                     TrackType = comp.TrackType,
                     OriginalPath = media == null ? "" : media.OriginalPath,
+                    MaxSizeFixed = comp.MaxSizeFixed
                 };
 
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
@@ -287,21 +288,25 @@ namespace Delight.Controls
                         left = x_canvas + Offset;
 
                         bool skipMagnet = false;
-
+                        // TODO: 길이 제한이 없을 경우에도 마그넷 기능 넣도록 리팩토링
                         double maxLeftMargin = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
-                        Console.WriteLine(maxLeftMargin);
-                        if (left < maxLeftMargin)
+                        if (trackItem.MaxSizeFixed)
                         {
-                            left = maxLeftMargin;
-                            skipMagnet = true;
-                        }
-                        else if (left < 0)
-                        {
-                            left = 0;
-                        }
-                        else if ((x_canvas + trackItem.Margin.Right) >= itemGrid.ActualWidth)
-                        {
-                            left = itemGrid.ActualWidth - trackItem.Margin.Right - 1;
+                            Console.WriteLine(maxLeftMargin);
+                            if (left < maxLeftMargin)
+                            {
+                                left = maxLeftMargin;
+                                skipMagnet = true;
+                            }
+                            else if (left < 0)
+                            {
+                                left = 0;
+                            }
+                            else if ((x_canvas + trackItem.Margin.Right) >= itemGrid.ActualWidth)
+                            {
+                                left = itemGrid.ActualWidth - trackItem.Margin.Right - 1;
+                            }
+
                         }
 
                         int leftOffset = (int)((left) / _realSize);
@@ -360,7 +365,7 @@ namespace Delight.Controls
 
                         double maxMarginRight = itemGrid.ActualWidth - (((trackItem.Offset - trackItem.ForwardOffset + trackItem.MaxFrame) * _realSize) - Offset);
 
-                        if (rightRaw < maxMarginRight) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
+                        if (rightRaw < maxMarginRight && trackItem.MaxSizeFixed) // ForwardOffset 계산해서 전체 길이 이상 늘어나지 못하도록
                             rightRaw = maxMarginRight;
                         if (rightRaw > (itemGrid.ActualWidth - trackItem.Margin.Left)) // 전체 길이보다 작아질 경우
                             rightRaw = (itemGrid.ActualWidth - trackItem.Margin.Left) - _realSize;

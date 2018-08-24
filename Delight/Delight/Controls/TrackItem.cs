@@ -94,7 +94,9 @@ namespace Delight.Controls
         /// 프레임 단위에서의 길이를 나타냅니다.
         /// </summary>
         public int FrameWidth { get; set; }
-        
+
+        public bool MaxSizeFixed { get; set; } = true;
+
         public string OriginalPath { get; set; }
 
         public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
