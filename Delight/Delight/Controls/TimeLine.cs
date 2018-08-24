@@ -98,7 +98,9 @@ namespace Delight.Controls
 
             AddTrack(TrackType.Image);
             AddTrack(TrackType.Video);
-            AddTrack(TrackType.Unity);
+            AddTrack(TrackType.Effect,1);
+            AddTrack(TrackType.Effect,2);
+            AddTrack(TrackType.Effect,3);
             AddTrack(TrackType.Sound);
             AddTrack(TrackType.Light, 1);
             AddTrack(TrackType.Light, 2);
@@ -294,7 +296,7 @@ namespace Delight.Controls
             double value = MaxValue - (this.ActualWidth - 184);
             if (value > 0)
             {
-                scrollBar.Maximum = value;
+                scrollBar.Maximum = value + 1;
                 scrollBar.Visibility = Visibility.Visible;
             }
             else

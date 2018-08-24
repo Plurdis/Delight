@@ -283,6 +283,42 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BigTemplateItemStyle" TargetType="{x:Type ct:TemplateItem}">
+        <Setter Property="Height" Value="176"/>
+        <Setter Property="Width" Value="260"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="ToolTipService.ShowDuration" Value="1000000"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ct:TemplateItem}">
+
+                    <Grid>
+                        <Border x:Name="bgBorder" Grid.RowSpan="2" CornerRadius="10"
+                                Background="{TemplateBinding Background}"/>
+
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Rectangle Fill="Black" Margin="10"/>
+                            <Image Margin="10" Source="{TemplateBinding Source}" Stretch="Uniform"/>
+                            <TextBlock Margin="0,5,0,0" Grid.Row="1" Text="{TemplateBinding ItemName}" TextAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bgBorder" Property="Background" Value="#FF2B2B2B"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="TemplateItemGroupStyle" TargetType="GroupItem">
         <Setter Property="Template">
             <Setter.Value>

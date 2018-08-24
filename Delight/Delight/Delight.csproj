@@ -166,6 +166,9 @@
     <Compile Include="Windows\PlayWindow.xaml.cs">
       <DependentUpon>PlayWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TemplateWindow.xaml.cs">
+      <DependentUpon>TemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TutorialWindow.xaml.cs">
       <DependentUpon>TutorialWindow.xaml</DependentUpon>
     </Compile>
@@ -204,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PlayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +312,21 @@
     <Resource Include="Resources\view_block_sel.png" />
     <Resource Include="Resources\view_list.png" />
     <Resource Include="Resources\view_list_sel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\search_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Template\대나무숲 자료.PNG" />
+    <Resource Include="Resources\Template\대나무숲_나비.png" />
+    <Resource Include="Resources\Template\대나무숲_전체화면.png" />
+    <Resource Include="Resources\Template\대나무숲_카메라 이동.png" />
+    <Resource Include="Resources\Template\대나무숲_하늘 씬.PNG" />
+    <Resource Include="Resources\Template\선셋.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Template\생명의 나무 2.png" />
+    <Resource Include="Resources\Template\생명의 나무.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\조명 미리보기.png" />
