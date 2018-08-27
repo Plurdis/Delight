@@ -45,7 +45,7 @@ namespace Delight.Controls
         double absLeft, relLeft;
         FrameTimer _timer;
 
-        public TimeLineReader TimeLineReader { get; }
+        public TimingReader TimeLineReader { get; }
 
         int i = 0;
         public TimeLine()
@@ -55,7 +55,7 @@ namespace Delight.Controls
             Thread thr = new Thread(ThreadRun);
             thr.Start();
 
-            TimeLineReader = new TimeLineReader(this);
+            TimeLineReader = new TimingReader(this);
         }
 
         public void ThreadRun()

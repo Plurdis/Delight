@@ -17,9 +17,9 @@ using WPFMediaKit.DirectShow.Controls;
 
 namespace Delight.Timing
 {
-    public class TimeLineReader
+    public class TimingReader
     {
-        public TimeLineReader(TimeLine timeLine)
+        public TimingReader(TimeLine timeLine)
         {
             TimeLine = timeLine;
 
