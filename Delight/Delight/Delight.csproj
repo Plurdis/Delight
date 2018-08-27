@@ -97,10 +97,10 @@
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="LogManage\LogManager.cs" />
-    <Compile Include="TimeLineComponents\MediaElementLoader.cs" />
-    <Compile Include="TimeLineComponents\TimeLineReader.cs" />
-    <Compile Include="TimeLineComponents\TimeLineTimer.cs" />
-    <Compile Include="TimeLineComponents\TrackType.cs" />
+    <Compile Include="Timing\MediaElementLoader.cs" />
+    <Compile Include="Timing\TimeLineReader.cs" />
+    <Compile Include="Common\FrameTimer.cs" />
+    <Compile Include="Timing\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />
     <Compile Include="Controls\DragSide.cs" />
     <Compile Include="Controls\ItemToolTip.cs" />
@@ -287,6 +287,7 @@
     <Resource Include="Resources\ffmpeg.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EventArgs\Timing\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>

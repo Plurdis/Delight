@@ -15,7 +15,7 @@ using Delight.Extensions;
 using Delight.LogManage;
 using WPFMediaKit.DirectShow.Controls;
 
-namespace Delight.TimeLineComponents
+namespace Delight.Timing
 {
     public class TimeLineReader
     {
@@ -115,7 +115,6 @@ namespace Delight.TimeLineComponents
                         }   
                         MainWindow mw = Application.Current.MainWindow as MainWindow;
 
-                        //mw.Title = MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate).ToString();
                         if (player1.Tag == null && player2.Tag == null)
                         {
                             return;

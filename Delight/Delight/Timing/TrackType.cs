@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.TimeLineComponents
+namespace Delight.Timing
 {
     public enum TrackType
     {

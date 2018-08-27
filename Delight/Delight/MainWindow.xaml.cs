@@ -19,7 +19,7 @@ using Delight.Controls;
 using Delight.Extensions;
 using Delight.LogManage;
 using Delight.Projects;
-using Delight.TimeLineComponents;
+using Delight.Timing;
 using Delight.Windows;
 
 using LocalCommandManager = Delight.Common.InputGestureManager;

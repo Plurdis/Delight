@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Delight.Common;
-using Delight.TimeLineComponents;
+using Delight.Timing;
 
 namespace Delight.Controls
 {

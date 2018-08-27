@@ -17,7 +17,7 @@ using Delight.Common;
 using Delight.Components.Common;
 using Delight.Core.Common;
 using Delight.Extensions;
-using Delight.TimeLineComponents;
+using Delight.Timing;
 
 namespace Delight.Controls
 {
@@ -43,7 +43,7 @@ namespace Delight.Controls
         bool captured = false;
         UIElement source;
         double absLeft, relLeft;
-        TimeLineTimer _timer;
+        FrameTimer _timer;
 
         public TimeLineReader TimeLineReader { get; }
 
@@ -60,7 +60,7 @@ namespace Delight.Controls
 
         public void ThreadRun()
         {
-            _timer = new TimeLineTimer(FrameRate);
+            _timer = new FrameTimer(FrameRate);
             _timer.Tick += () =>
             {
                 Dispatcher.Invoke(() =>

@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WPFMediaKit.DirectShow.Controls;
 
-namespace Delight.TimeLineComponents
+namespace Delight.Timing
 {
     public class MediaElementLoader
     {
