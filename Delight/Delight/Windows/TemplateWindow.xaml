@@ -24,7 +24,7 @@
                 <Border HorizontalAlignment="Right"
                     Margin="5" Background="Gray" CornerRadius="15" Width="300">
                     <Grid>
-                        <TextBlock Margin="10,0" Text="검색할 템플릿 입력" VerticalAlignment="Center" FontStyle="Italic" FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" Foreground="White" />
+                        <TextBlock Margin="10,0" Text="검색할 템플릿 입력" VerticalAlignment="Center" FontStyle="Italic" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontWeight="Bold" Foreground="White" />
                         <Image HorizontalAlignment="Right" Source="/Delight;component/Resources/search_icon.png" Margin="5"/>
                     </Grid>
                 </Border>
@@ -116,12 +116,12 @@
             <Rectangle Margin="10" Fill="Black"/>
             <Image x:Name="img" Margin="10"/>
             <StackPanel Grid.Row="1" Margin="10" TextBlock.Foreground="White">
-                <TextBlock x:Name="tbName" Text="템플릿 이름" FontFamily="/Delight;component/Fonts/#Helvetica" FontSize="18"/>
-                <TextBlock x:Name="tbDescription" Margin="0,20,0,0" Text="템플릿 설명" FontFamily="/Delight;component/Fonts/#Helvetica" FontSize="14"
+                <TextBlock x:Name="tbName" Text="템플릿 이름" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontSize="18"/>
+                <TextBlock x:Name="tbDescription" Margin="0,20,0,0" Text="템플릿 설명" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontSize="14"
                            TextWrapping="Wrap"/>
             </StackPanel>
 
-            <Button FontFamily="/Delight;component/Fonts/#Helvetica" Margin="10" Grid.Row="2" 
+            <Button FontFamily="/Delight;component/Resources/Fonts/#Helvetica" Margin="10" Grid.Row="2" 
                     Content="템플릿을 추가" FontSize="16" Padding="10"
                     Background="White" BorderBrush="{x:Null}" Click="Button_Click"/>
         </Grid>

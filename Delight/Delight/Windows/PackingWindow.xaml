@@ -20,7 +20,7 @@
             <Border HorizontalAlignment="Right"
                     Margin="5" Background="Gray" CornerRadius="15" Width="300">
                 <Grid>
-                    <TextBlock Margin="10,0" Text="검색할 데이터 입력" VerticalAlignment="Center" FontStyle="Italic" FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" Foreground="White" />
+                    <TextBlock Margin="10,0" Text="검색할 데이터 입력" VerticalAlignment="Center" FontStyle="Italic" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontWeight="Bold" Foreground="White" />
                     <Image HorizontalAlignment="Right" Source="/Delight;component/Resources/search_icon.png" Margin="5"/>
                 </Grid>
             </Border>
@@ -38,14 +38,14 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Margin="10" Text="프로젝트에 포함되어 있는 요소들" Foreground="White" FontSize="18"
-                           FontFamily="/Delight;component/Fonts/#Helvetica"/>
+                           FontFamily="/Delight;component/Resources/Fonts/#Helvetica"/>
                 
                 <TreeView Grid.Row="1" Margin="10" Background="#FF333333" BorderBrush="{x:Null}">
                     <TreeView.Resources>
                         <Style TargetType="{x:Type CheckBox}">
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Margin" Value="3"/>
-                            <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+                            <Setter Property="FontFamily" Value="/Delight;component/Resources/Fonts/#Helvetica"/>
                             <Setter Property="IsThreeState" Value="True"/>
                         </Style>
                     </TreeView.Resources>
@@ -129,13 +129,13 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Margin="10" Text="패키지로 묶을 요소들" Foreground="White" FontSize="18" FontFamily="/Delight;component/Fonts/#Helvetica"/>
+                <TextBlock Margin="10" Text="패키지로 묶을 요소들" Foreground="White" FontSize="18" FontFamily="/Delight;component/Resources/Fonts/#Helvetica"/>
                 <TreeView Grid.Row="1" Margin="10" Background="#FF333333" BorderBrush="{x:Null}">
                     <TreeView.Resources>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Margin" Value="3"/>
-                            <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+                            <Setter Property="FontFamily" Value="/Delight;component/Resources/Fonts/#Helvetica"/>
                         </Style>
                     </TreeView.Resources>
                     <TreeViewItem Header="프로젝트 리소스 파일">
@@ -165,8 +165,8 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="취소" Padding="50,0" Background="Gray" Foreground="White" FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" FontSize="14"/>
-                <Button Grid.Column="2" Content="확인" Padding="50,0" Background="Gray" Foreground="White" FontFamily="/Delight;component/Fonts/#Helvetica" FontWeight="Bold" FontSize="14"/>
+                <Button Grid.Column="0" Content="취소" Padding="50,0" Background="Gray" Foreground="White" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontWeight="Bold" FontSize="14"/>
+                <Button Grid.Column="2" Content="확인" Padding="50,0" Background="Gray" Foreground="White" FontFamily="/Delight;component/Resources/Fonts/#Helvetica" FontWeight="Bold" FontSize="14"/>
             </Grid>
         </Grid>
     </Grid>

@@ -269,7 +269,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Fonts\Helvetica.ttf" />
+    <Resource Include="Resources\Fonts\Helvetica.ttf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

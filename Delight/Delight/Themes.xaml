@@ -252,7 +252,7 @@
         <Setter Property="Height" Value="88"/>
         <Setter Property="Width" Value="130"/>
         <Setter Property="FontSize" Value="10"/>
-        <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+        <Setter Property="FontFamily" Value="/Delight;component/Resources/Fonts/#Helvetica"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="ToolTipService.ShowDuration" Value="1000000"/>
         <Setter Property="Template">
@@ -287,7 +287,7 @@
         <Setter Property="Height" Value="176"/>
         <Setter Property="Width" Value="260"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontFamily" Value="/Delight;component/Fonts/#Helvetica"/>
+        <Setter Property="FontFamily" Value="/Delight;component/Resources/Fonts/#Helvetica"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="ToolTipService.ShowDuration" Value="1000000"/>
         <Setter Property="Template">
