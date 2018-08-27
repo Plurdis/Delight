@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
-using Delight.LogManage;
-using WPFMediaKit.DirectShow.Controls;
 
 namespace Delight.Timing
 {
@@ -89,8 +83,6 @@ namespace Delight.Timing
             if (!TimeLine.IsRunning)
                 return;
 
-            //Console.WriteLine(MediaTools.FrameToTimeSpan(TimeLine.Position, TimeLine.FrameRate));
-
             if (loading)
             {
                 LoadCheck();
@@ -138,7 +130,7 @@ namespace Delight.Timing
                             }
                         }
 
-                        Console.WriteLine(player1.Position + " :: " + player2.Position);
+                        DebugHelper.WriteLine(player1.Position + " :: " + player2.Position);
                         if (!p1Playing)
                         {
                             if (!player1.IsPlaying && player1.Tag != null &&
@@ -173,18 +165,11 @@ namespace Delight.Timing
         private void LoadWaitingVideos()
         {
             if (!TimeLine.IsRunning && !TimeLine.IsReady)
-            {
                 return;
-            }
-                
 
             if (_loadWaitVideos.Count == 0)
-            {
                 return;
-            }
-                
 
-            
             if (!loader1.IsReadyForPlay)
             {
                 loader1.LoadVideo(_loadWaitVideos.Dequeue()).Wait();
@@ -198,7 +183,6 @@ namespace Delight.Timing
         public void StartLoad()
         {
             loading = true;
-
             _allVideos.Clear();
 
             TimeLine.Dispatcher.Invoke(() =>
@@ -210,8 +194,9 @@ namespace Delight.Timing
 
                 LoadCheck();
             });
+
             LoadWaitingVideos();
-            Console.WriteLine("StartLoad Method End");
+            DebugHelper.WriteLine("StartLoad Method End");
         }
 
         public void StopLoad()
@@ -266,7 +251,7 @@ namespace Delight.Timing
             TrackItem item = _allVideos.Peek();
             if ((item.Offset - TimeLine.Position) < MediaTools.TimeSpanToFrame(TimeSpan.FromSeconds(10), TimeLine.FrameRate))
             {
-                Console.WriteLine("Should be Load!" + item.OriginalPath);
+                DebugHelper.WriteLine("Should be Load!" + item.OriginalPath);
 
                 _loadWaitVideos.Enqueue(item);
 
