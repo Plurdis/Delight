@@ -86,6 +86,7 @@
     <Compile Include="Commands\TrackItemCommands.cs" />
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Commands\ControlCommands.cs" />
+    <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\PlayerState.cs" />
