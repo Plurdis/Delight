@@ -47,7 +47,6 @@ namespace Delight.Controls
 
         public TimingReader TimeLineReader { get; }
 
-        int i = 0;
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
@@ -90,7 +89,7 @@ namespace Delight.Controls
 
             this.SizeChanged += (s, e) =>
             {
-                tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+                tracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
                 Track_ItemsMaxWidthChanged(null, null);
             };
 
@@ -172,7 +171,7 @@ namespace Delight.Controls
                 scrollBar.ViewportSize = value * 100;
                 Track_ItemsMaxWidthChanged(null, null);
 
-                tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+                tracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
 
                 //ResetItemOffset();
             }
@@ -200,14 +199,12 @@ namespace Delight.Controls
 
         private void ScrollBarValueChanged(object sender, EventArgs e)
         {
-            tracks.Children.Cast<Track>().ToList().ForEach(i => i.RelocationTrackItems());
+            tracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
             this.InvalidateVisual();
-            // 위치 재설정
         }
 
         private void ScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            
         }
 
         private void TimeLine_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -241,7 +238,7 @@ namespace Delight.Controls
         {
             return Items.Where(i => i.TrackType == trackType);
         }
-        
+
         public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
         {
             return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));

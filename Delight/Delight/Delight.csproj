@@ -88,6 +88,7 @@
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
+    <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />
     <Compile Include="Timing\TimeLineReader.cs" />

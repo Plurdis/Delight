@@ -18,10 +18,10 @@ using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
+using Delight.Extensions;
 using Delight.Timing;
 using Delight.Windows;
 
-using NReco.VideoConverter;
 using NReco.VideoInfo;
 
 using DelightImage = Delight.Components.Medias.Image;
@@ -37,8 +37,8 @@ namespace Delight
 
         private void OpenFileExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            if (MediaTools.GetMediaFile(out string location))
-                AddItem(location);
+            if (MediaTools.GetMediaFiles(out string[] locations))
+                locations.ForEach(i => AddItem(i));
         }
         
         public void AddEffect(ImageSource img, string name)
