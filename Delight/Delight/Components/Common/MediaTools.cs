@@ -16,7 +16,9 @@ using Delight.Components.Medias;
 using NReco.VideoInfo;
 
 using wf = System.Windows.Forms;
-using NReco.VideoConverter;
+using MediaToolkit;
+using MediaToolkit.Model;
+using MediaToolkit.Options;
 
 namespace Delight.Components.Common
 {
@@ -59,10 +61,46 @@ namespace Delight.Components.Common
             if (!File.Exists(filePath))
                 return null;
 
-            var converter = new FFMpegConverter();
-
             string imagePath = Path.Combine(Path.GetTempPath(), $"temp{i++}.jpg");
-            converter.GetVideoThumbnail(filePath, imagePath);
+            using (var engine = new Engine())
+            {
+                MediaFile f1 = new MediaFile(filePath),
+                    f2 = new MediaFile(imagePath);
+
+                var opt = new ConversionOptions()
+                { Seek = TimeSpan.FromSeconds(150) };
+
+                engine.GetThumbnail(f1, f2, opt);
+
+                int time = 100;
+
+                while (!File.Exists(imagePath))
+                {
+                    opt.Seek = TimeSpan.FromSeconds(time);
+                    engine.GetThumbnail(f1, f2, opt);
+                    time /= 2;
+                }
+
+                //try
+                //{
+                //    converter.GetVideoThumbnail(filePath, imagePath, new float?(500));
+                //}
+                //catch (Exception)
+                //{
+                //    try
+                //    {
+                //        converter.GetVideoThumbnail(filePath, imagePath, new float?(250));
+                //    }
+                //    catch (Exception)
+                //    {
+                //        converter.GetVideoThumbnail(filePath, imagePath);
+                //    }
+
+                //}
+            }
+            
+            
+            
             var image = ImageFromFile(imagePath);
             File.Delete(imagePath);
             return image;
@@ -237,7 +275,7 @@ namespace Delight.Components.Common
             }
         }
 
-        public static bool GetMediaFile(out string fileLocation)
+        public static bool GetMediaFiles(out string[] fileLocations)
         {
             wf.OpenFileDialog ofd = new wf.OpenFileDialog();
             var sb = new StringBuilder();
@@ -281,14 +319,15 @@ namespace Delight.Components.Common
             sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;");
 
             ofd.Filter = sb.ToString();
+            ofd.Multiselect = true;
             if (ofd.ShowDialog() == wf.DialogResult.OK)
             {
-                fileLocation = ofd.FileName;
+                fileLocations = ofd.FileNames;
                 return true;
             }
             else
             {
-                fileLocation = string.Empty;
+                fileLocations = null;
                 return false;
             }
         }
