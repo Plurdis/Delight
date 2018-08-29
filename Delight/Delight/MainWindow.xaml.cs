@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using Delight.Commands;
 using Delight.Common;
-using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
-using Delight.Extensions;
 using Delight.LogManage;
 using Delight.Projects;
-using Delight.Timing;
 using Delight.Windows;
 
 using LocalCommandManager = Delight.Common.InputGestureManager;
@@ -185,8 +178,6 @@ namespace Delight
         }
 
         #endregion
-
-        int i = 0;
 
         #region [  MainWindow's Events  ]
 
