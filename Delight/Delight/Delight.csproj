@@ -26,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS1685</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,8 +89,11 @@
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
+    <Compile Include="EventArgs\TimingEventArgs.cs" />
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="LogManage\LogManager.cs" />
+    <Compile Include="Timing\Controller\BaseController.cs" />
+    <Compile Include="Timing\Controller\VideoController.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />
     <Compile Include="Timing\TimingReader.cs" />
     <Compile Include="Common\FrameTimer.cs" />

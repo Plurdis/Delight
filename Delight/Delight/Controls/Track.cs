@@ -19,6 +19,8 @@ using Delight.Timing;
 
 using f = System.Windows.Forms;
 
+#pragma warning disable CS0067
+
 namespace Delight.Controls
 {
     [TemplatePart(Name = "itemGrid", Type = typeof(Grid))]
