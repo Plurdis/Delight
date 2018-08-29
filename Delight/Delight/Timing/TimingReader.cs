@@ -8,19 +8,42 @@ using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
+using Delight.Timing.Controller;
+
+#pragma warning disable CS0067
 
 namespace Delight.Timing
 {
     public class TimingReader
     {
+        public event TimingDelegate ItemEnded;
+        public event TimingDelegate ItemPlaying;
+        public event TimingDelegate ItemReady;
+
+        public event EventHandler TimeLineStarted;
+        public event EventHandler TimeLineStopped;
+
         public TimingReader(TimeLine timeLine)
         {
             TimeLine = timeLine;
 
             TimeLine.FrameChanged += TimeLine_FrameChanged;
             TimeLine.FrameMouseChanged += (s, e) => StopLoad();
-            
+
+            TimeLine.TimeLineStarted += TimeLine_TimeLineStarted;
+            TimeLine.TimeLineStoped += TimeLine_TimeLineStoped;
+
             TimeLine.ItemAdded += TimeLine_ItemAdded;
+        }
+
+        private void TimeLine_TimeLineStarted(object sender, EventArgs e)
+        {
+            TimeLineStarted?.Invoke(sender, e);
+        }
+
+        private void TimeLine_TimeLineStoped(object sender, EventArgs e)
+        {
+            TimeLineStopped?.Invoke(sender, e);
         }
 
         public void SetPlayer(MediaElementPro player1, MediaElementPro player2)
@@ -86,6 +109,14 @@ namespace Delight.Timing
             if (loading)
             {
                 LoadCheck();
+
+                // 현 위치에서 정확한 포지션에 있는 아이템들 가져오기
+                IEnumerable<TrackItem> playingItems = TimeLine.GetItemsInclude(TimeLine.Position - 1);
+                playingItems.ForEach(i => ItemPlaying?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
+
+                IEnumerable<TrackItem> enditems = TimeLine.GetItemsAtEnd(TimeLine.Position);
+                enditems.ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
+
                 Task.Run(() =>
                 {
                     LoadWaitingVideos();
@@ -185,7 +216,7 @@ namespace Delight.Timing
             loading = true;
             _allVideos.Clear();
 
-            TimeLine.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 foreach (TrackItem item in TimeLine.GetItems(TrackType.Video, TimeLine.Position).OrderBy(i => i.Offset))
                 {

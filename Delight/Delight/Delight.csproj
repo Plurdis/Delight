@@ -91,7 +91,7 @@
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />
-    <Compile Include="Timing\TimeLineReader.cs" />
+    <Compile Include="Timing\TimingReader.cs" />
     <Compile Include="Common\FrameTimer.cs" />
     <Compile Include="Timing\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />
@@ -287,7 +287,6 @@
     <Resource Include="Resources\ffmpeg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EventArgs\Timing\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
