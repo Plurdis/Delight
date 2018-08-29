@@ -292,7 +292,7 @@ namespace Delight.Controls
                         double maxLeftMargin = (trackItem.Offset - trackItem.ForwardOffset) * _realSize;
                         if (trackItem.MaxSizeFixed)
                         {
-                            Console.WriteLine(maxLeftMargin);
+                            DebugHelper.WriteLine(maxLeftMargin);
                             if (left < maxLeftMargin)
                             {
                                 left = maxLeftMargin;

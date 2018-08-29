@@ -360,9 +360,9 @@ namespace Delight.Controls
             {
                 IsReady = true;
                 TimeLineReader.StartLoad();
-                Console.WriteLine("┌────────┐");
-                Console.WriteLine("  Timer Started!");
-                Console.WriteLine("└────────┘");
+                DebugHelper.WriteLine("┌────────┐");
+                DebugHelper.WriteLine("  Timer Started!");
+                DebugHelper.WriteLine("└────────┘");
                 TimeLineStarted?.Invoke(this, new EventArgs());
                 _timer.Start();
                 IsReady = false;

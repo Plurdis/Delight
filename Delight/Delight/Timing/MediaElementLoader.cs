@@ -1,4 +1,5 @@
-﻿using Delight.Controls;
+﻿using Delight.Common;
+using Delight.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,10 @@ namespace Delight.Timing
 
         private void MediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(MediaElement.Name + " Load Complete");
+            DebugHelper.WriteLine(MediaElement.Name + " Load Complete");
             MediaElement.Pause();
             IsLoaded = true;
-            Console.WriteLine(IsLoaded);
+            DebugHelper.WriteLine(IsLoaded);
         }
 
         MediaElementPro MediaElement { get; }
@@ -54,7 +55,7 @@ namespace Delight.Timing
                     MediaElement.Source = new Uri(trackItem.OriginalPath, UriKind.Absolute);
                     MediaElement.Volume = 0;
                     MediaElement.Play();
-                    Console.WriteLine($"Load For {MediaElement.Name} Item");
+                    DebugHelper.WriteLine($"Load For {MediaElement.Name} Item");
                 });
 
                 while (!IsLoaded) // 로딩이 되지 않을 때 까지
@@ -63,13 +64,13 @@ namespace Delight.Timing
                 }
                 MediaElement.Dispatcher.Invoke(() =>
                 {
-                    Console.WriteLine($"Load Complete {MediaElement.Name} Item");
+                    DebugHelper.WriteLine($"Load Complete {MediaElement.Name} Item");
                 });
 
                 IsReadyForPlay = true;
             });
 
-            Console.WriteLine("Loader LoadVideo 종료 (inner)");
+            DebugHelper.WriteLine("Loader LoadVideo 종료 (inner)");
 
             return task;
         }
