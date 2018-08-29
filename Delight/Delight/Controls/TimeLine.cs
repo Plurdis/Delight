@@ -34,6 +34,9 @@ namespace Delight.Controls
         public event EventHandler<ItemEventArgs> ItemRemoving;
         public event EventHandler ItemRemoved;
 
+        public event EventHandler TimeLineStarted;
+        public event EventHandler TimeLineStoped;
+
         Rectangle positioner;
         Grid dragRange;
         ScrollBar scrollBar;
@@ -124,7 +127,11 @@ namespace Delight.Controls
             set
             {
                 if (value > MaxFrame)
+                {
                     value = MaxFrame;
+                    Stop();
+                }
+                    
                 SetValue(PositionProperty, value);
                 SetPositionerToPosition();
             }
@@ -244,6 +251,40 @@ namespace Delight.Controls
             return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));
         }
 
+        public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame, int endFrame)
+        {
+            return Items.Where(i => (i.TrackType == trackType)
+            && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame)
+            );
+        }
+
+        public IEnumerable<TrackItem> GetItemsInclude(int frame)
+        {
+            return Items.Where(i => i.Offset <= frame && i.FrameWidth + i.Offset > frame);
+        }
+
+        public IEnumerable<TrackItem> GetItemsAtStart(int frame, TrackType trackType)
+        {
+            return Items.Where(i => i.TrackType == trackType && i.Offset == frame);
+        }
+
+        public IEnumerable<TrackItem> GetItemsAtStart(int frame)
+        {
+            return Items.Where(i => i.Offset == frame);
+        }
+
+        public IEnumerable<TrackItem> GetItemsAtEnd(int frame)
+        {
+            return Items.Where(i => i.Offset + i.FrameWidth == frame);
+        }
+
+        public IEnumerable<TrackItem> GetItemsAtEnd(int frame, TrackType trackType)
+        {
+            return Items.Where(i => trackType == i.TrackType && i.Offset + i.FrameWidth == frame);
+        }
+
+
+
         #endregion
 
         #region [  Track Management (Add/Remove)  ]
@@ -322,6 +363,7 @@ namespace Delight.Controls
                 Console.WriteLine("┌────────┐");
                 Console.WriteLine("  Timer Started!");
                 Console.WriteLine("└────────┘");
+                TimeLineStarted?.Invoke(this, new EventArgs());
                 _timer.Start();
                 IsReady = false;
             }); 
@@ -329,7 +371,9 @@ namespace Delight.Controls
 
         public void Stop()
         {
+            //  test
             TimeLineReader.StopLoad();
+            TimeLineStoped?.Invoke(this, new EventArgs());
             _timer.Stop();
         }
 
