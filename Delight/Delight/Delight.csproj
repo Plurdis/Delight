@@ -92,6 +92,7 @@
     <Compile Include="EventArgs\TimingEventArgs.cs" />
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="LogManage\LogManager.cs" />
+    <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />
     <Compile Include="Timing\Controller\VideoController.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />

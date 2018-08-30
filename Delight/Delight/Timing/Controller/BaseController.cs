@@ -1,10 +1,12 @@
-﻿using Delight.Common;
-using Delight.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+
+using Delight.Common;
+using Delight.Controls;
 
 namespace Delight.Timing.Controller
 {
@@ -15,7 +17,6 @@ namespace Delight.Timing.Controller
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
             reader.TimeLineStopped += Reader_TimeLineStopped;
-
             Reader = reader;
             Track = track;
         }
@@ -30,7 +31,7 @@ namespace Delight.Timing.Controller
 
         private void Reader_ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
-            if (sender.Parent is Track track)
+            if ((sender.Parent as Grid).TemplatedParent is Track track)
             {
                 if (this.Track == track)
                     ItemPlaying(sender, e);

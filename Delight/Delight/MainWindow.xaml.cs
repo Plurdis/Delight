@@ -78,8 +78,6 @@ namespace Delight
 
             #endregion
 
-            controller = new VideoController(tl.Tracks[1], tl.TimeLineReader);
-
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
@@ -88,11 +86,14 @@ namespace Delight
             pw = new PlayWindow();
             pw.Show();
 
+            controller = new VideoController(tl.Tracks[1], tl.TimingReader);
+            controller.SetPlayer(pw.player1, pw.player2);
+
             //LoadUnityDebug();
 
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
-            tl.TimeLineReader.SetPlayer(pw.player1, pw.player2);
+            tl.TimingReader.SetPlayer(pw.player1, pw.player2);
             tl.FrameRate = Core.Common.FrameRate._60FPS;
             tl.FrameMouseChanged += (s, e) =>
             {

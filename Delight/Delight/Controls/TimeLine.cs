@@ -19,6 +19,7 @@ using Delight.Components.Common;
 using Delight.Core.Common;
 using Delight.Extensions;
 using Delight.Timing;
+using Delight.Timing.Common;
 
 namespace Delight.Controls
 {
@@ -49,7 +50,7 @@ namespace Delight.Controls
         double absLeft, relLeft;
         FrameTimer _timer;
 
-        public TimingReader TimeLineReader { get; }
+        public TimingReader TimingReader { get; }
 
         public TimeLine()
         {
@@ -60,7 +61,7 @@ namespace Delight.Controls
 
             ApplyTemplate();
 
-            TimeLineReader = new TimingReader(this);
+            TimingReader = new TimingReader(this);
         }
 
         public void ThreadRun()
@@ -247,50 +248,93 @@ namespace Delight.Controls
         }
 
         #region [  TrackItems Management  ]
+        public IEnumerable<TrackItem> Items => 
+            tracks.Children
+                .Cast<Track>()
+                .SelectMany(i => i.Items);
 
-        public IEnumerable<TrackItem> Items => tracks.Children.Cast<Track>().SelectMany(i => i.Items);
-
-        public IEnumerable<TrackItem> GetItems(TrackType trackType)
+        private IEnumerable<TrackItem> GetItems(TrackType trackType)
         {
             return Items.Where(i => i.TrackType == trackType);
         }
 
-        public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
+        private IEnumerable<TrackItem> GetItems(int frame, FindType findType)
         {
-            return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));
+            switch (findType)
+            {
+                case FindType.FindStartPoint:
+                    return Items.Where(i => i.Offset == frame);
+                case FindType.FindEndPoint:
+                    return Items.Where(i => i.Offset + i.FrameWidth == frame);
+                case FindType.FindContains:
+                    return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
+                default:
+                    return null;
+            }
         }
 
-        public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame, int endFrame)
-        {
-            return Items.Where(i => (i.TrackType == trackType)
-            && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame)
-            );
-        }
+        //public IEnumerable<TrackItem> GetItems(TrackType trackType)
+        //{
+        //    return Items.Where(i => i.TrackType == trackType);
+        //}
 
-        public IEnumerable<TrackItem> GetItemsInclude(int frame)
-        {
-            return Items.Where(i => i.Offset <= frame && i.FrameWidth + i.Offset > frame);
-        }
+        //public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
+        //{
+        //    return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));
+        //}
 
-        public IEnumerable<TrackItem> GetItemsAtStart(int frame, TrackType trackType)
-        {
-            return Items.Where(i => i.TrackType == trackType && i.Offset == frame);
-        }
+        ///// <summary>
+        ///// 아이템들이 지정된 TrackType이며 시작 프레임과 종료 프레임에 걸처있는지에 대한 여부를 확인합니다.
+        ///// </summary>
+        ///// <param name="trackType"></param>
+        ///// <param name="startFrame"></param>
+        ///// <param name="endFrame"></param>
+        ///// <returns></returns>
+        //public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame, int endFrame)
+        //{
+        //    return Items.Where(i => (i.TrackType == trackType)
+        //    && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame)
+        //    );
+        //}
 
-        public IEnumerable<TrackItem> GetItemsAtStart(int frame)
-        {
-            return Items.Where(i => i.Offset == frame);
-        }
+        ///// <summary>
+        ///// 모든 Track에 있는 모든 아이템들을 가져옵니다.
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<TrackItem> GetItems()
+        //{
+        //    return Items;
+        //}
 
-        public IEnumerable<TrackItem> GetItemsAtEnd(int frame)
-        {
-            return Items.Where(i => i.Offset + i.FrameWidth == frame);
-        }
+        ///// <summary>
+        ///// 아이템들이 frame에 걸쳐 있는지에 대한 여부를 확인합니다.
+        ///// </summary>
+        ///// <param name="frame">확인할 프레임입니다.</param>
+        ///// <returns></returns>
+        //public IEnumerable<TrackItem> GetItemsInclude(int frame)
+        //{
+        //    return Items.Where(i => i.Offset <= frame && i.FrameWidth + i.Offset > frame);
+        //}
 
-        public IEnumerable<TrackItem> GetItemsAtEnd(int frame, TrackType trackType)
-        {
-            return Items.Where(i => trackType == i.TrackType && i.Offset + i.FrameWidth == frame);
-        }
+        //public IEnumerable<TrackItem> GetItemsAtStart(int frame, TrackType trackType)
+        //{
+        //    return Items.Where(i => i.TrackType == trackType && i.Offset == frame);
+        //}
+
+        //public IEnumerable<TrackItem> GetItemsAtStart(int frame)
+        //{
+        //    return Items.Where(i => i.Offset == frame);
+        //}
+
+        //public IEnumerable<TrackItem> GetItemsAtEnd(int frame)
+        //{
+        //    return Items.Where(i => i.Offset + i.FrameWidth == frame);
+        //}
+
+        //public IEnumerable<TrackItem> GetItemsAtEnd(int frame, TrackType trackType)
+        //{
+        //    return Items.Where(i => trackType == i.TrackType && i.Offset + i.FrameWidth == frame);
+        //}
 
         #endregion
 
@@ -371,7 +415,7 @@ namespace Delight.Controls
             Task.Run(() =>
             {
                 IsReady = true;
-                TimeLineReader.StartLoad();
+                TimingReader.StartLoad();
                 DebugHelper.WriteLine("┌────────┐");
                 DebugHelper.WriteLine("  Timer Started!");
                 DebugHelper.WriteLine("└────────┘");
@@ -384,7 +428,7 @@ namespace Delight.Controls
         public void Stop()
         {
             //  test
-            TimeLineReader.StopLoad();
+            TimingReader.StopLoad();
             TimeLineStoped?.Invoke(this, new EventArgs());
             _timer.Stop();
         }
