@@ -10,12 +10,18 @@ namespace Delight.Timing.Controller
 {
     public abstract class BaseController
     {
-        public BaseController(TimingReader reader)
+        public BaseController(Track track, TimingReader reader)
         {
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
             reader.TimeLineStopped += Reader_TimeLineStopped;
+
+            Reader = reader;
+            Track = track;
         }
+
+        TimingReader Reader { get; }
+        Track Track { get; }
 
         private void Reader_TimeLineStopped(object sender, EventArgs e)
         {
@@ -24,13 +30,21 @@ namespace Delight.Timing.Controller
 
         private void Reader_ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
-            ItemPlaying(sender, e);
+            if (sender.Parent is Track track)
+            {
+                if (this.Track == track)
+                    ItemPlaying(sender, e);
+            }
         }
 
         private void Reader_ItemEnded(TrackItem sender, TimingEventArgs e)
         {
+            if (sender.Parent is Track track)
+            {
+                if (this.Track == track)
+                    ItemEnded(sender, e);
+            }
             Console.WriteLine(sender.Text + " item Ended");
-            ItemEnded(sender, e);
         }
 
         public abstract void ItemPlaying(TrackItem sender, TimingEventArgs e);

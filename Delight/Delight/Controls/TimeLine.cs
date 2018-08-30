@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -56,6 +57,8 @@ namespace Delight.Controls
             
             Thread thr = new Thread(ThreadRun);
             thr.Start();
+
+            ApplyTemplate();
 
             TimeLineReader = new TimingReader(this);
         }
@@ -190,6 +193,12 @@ namespace Delight.Controls
 
         public bool IsRunning => _timer.IsRunning;
 
+        public ReadOnlyCollection<Track> Tracks => 
+            tracks.Children
+                .Cast<Track>()
+                .ToList()
+                .AsReadOnly();
+
         FrameRate _frameRate;
 
         public FrameRate FrameRate
@@ -283,8 +292,6 @@ namespace Delight.Controls
             return Items.Where(i => trackType == i.TrackType && i.Offset + i.FrameWidth == frame);
         }
 
-
-
         #endregion
 
         #region [  Track Management (Add/Remove)  ]
@@ -305,6 +312,11 @@ namespace Delight.Controls
             track.ItemRemoved += Track_ItemRemoved;
 
             tracks.Children.Add(track);
+        }
+
+        public void RemoveTrack(int index)
+        {
+
         }
 
         private void Track_ItemRemoved(object sender, EventArgs e)

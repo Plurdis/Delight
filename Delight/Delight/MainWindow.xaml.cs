@@ -13,6 +13,7 @@ using Delight.Components.Medias;
 using Delight.Controls;
 using Delight.LogManage;
 using Delight.Projects;
+using Delight.Timing.Controller;
 using Delight.Windows;
 
 using LocalCommandManager = Delight.Common.InputGestureManager;
@@ -77,6 +78,8 @@ namespace Delight
 
             #endregion
 
+            controller = new VideoController(tl.Tracks[1], tl.TimeLineReader);
+
             SetProject(new ProjectInfo()
             {
                 ProjectName = "EmptyProject1"
@@ -139,7 +142,7 @@ namespace Delight
         bool dragStart;
         ListBox dragSource;
 
-
+        VideoController controller;
 
         #endregion
 
