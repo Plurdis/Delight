@@ -18,7 +18,7 @@ namespace Delight.Timing
     {
         public event TimingDelegate ItemEnded;
         public event TimingDelegate ItemPlaying;
-        public event TimingDelegate ItemReady;
+        public event TimingReadyDelegate ItemReady;
 
         public event EventHandler TimeLineStarted;
         public event EventHandler TimeLineStopped;
@@ -116,6 +116,8 @@ namespace Delight.Timing
 
                 IEnumerable<TrackItem> enditems = TimeLine.GetItemsAtEnd(TimeLine.Position);
                 enditems.ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
+
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems()
             }
         }
 
@@ -159,6 +161,79 @@ namespace Delight.Timing
             LoadWaitingVideos();
             DebugHelper.WriteLine("StartLoad Method End");
         }
+
+        /*
+         
+                Task.Run(() =>
+                {
+                    LoadWaitingVideos();
+                    
+                    player1.Dispatcher.Invoke(() =>
+                    {
+                        void localPositionChanged(MediaElementPro s, TimeSpan p)
+                        {
+                            s.PositionChanged -= localPositionChanged;
+
+                            TrackItem itm = s.GetTag<TrackItem>();
+                            s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + TimeLine.Position - itm.Offset, TimeLine.FrameRate);
+                            s.Volume = 1;
+                            s.Visibility = Visibility.Visible;
+                            if (s == player1)
+                                player2.Visibility = Visibility.Hidden;
+                            else
+                                player1.Visibility = Visibility.Hidden;
+                        }   
+                        MainWindow mw = Application.Current.MainWindow as MainWindow;
+
+                        if (player1.Tag == null && player2.Tag == null)
+                        {
+                            return;
+                        }
+
+                        if (player1.IsPlaying && player1.Source != null)
+                        {
+                            var p1Tag = player1.GetTag<TrackItem>();
+                            if (TimeLine.Position == p1Tag.Offset + p1Tag.FrameWidth)
+                            {
+                                DisablePlayer(player1);
+                            }
+                        }
+
+                        if (player2.IsPlaying && player2.Source != null)
+                        {
+                            var p2Tag = player2.GetTag<TrackItem>();
+                            if (TimeLine.Position == p2Tag.Offset + p2Tag.FrameWidth)
+                            {
+                                DisablePlayer(player2);
+                            }
+                        }
+
+                        DebugHelper.WriteLine(player1.Position + " :: " + player2.Position);
+                        if (!p1Playing)
+                        {
+                            if (!player1.IsPlaying && player1.Tag != null &&
+                                TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
+                            {
+                                player1.Play();
+                                player1.PositionChanged += localPositionChanged;
+                            }
+                            p1Playing = true;
+                        }
+                        else
+                        {
+                            if (!player2.IsPlaying && player2.Tag != null &&
+                                TimeLine.Position - 1 > player2.GetTag<TrackItem>().Offset)
+                            {
+                                player2.Play();
+                                player2.PositionChanged += localPositionChanged;
+                            }
+
+                            p1Playing = false;
+                        }
+
+                    });
+                });
+         */
 
         public void StopLoad()
         {
