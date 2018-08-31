@@ -90,7 +90,6 @@
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="EventArgs\TimingEventArgs.cs" />
-    <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />

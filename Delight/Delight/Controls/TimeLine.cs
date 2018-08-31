@@ -253,12 +253,45 @@ namespace Delight.Controls
                 .Cast<Track>()
                 .SelectMany(i => i.Items);
 
-        private IEnumerable<TrackItem> GetItems(TrackType trackType)
+        /// <summary>
+        /// 해당 Track에 존재하는 아이템만 필터링합니다.
+        /// </summary>
+        /// <param name="items">필터링할 아이템들입니다.</param>
+        /// <param name="track">필터링할 Track입니다.</param>
+        /// <returns></returns>
+        private IEnumerable<TrackItem> FilterItems(IEnumerable<TrackItem> items, Track track)
         {
-            return Items.Where(i => i.TrackType == trackType);
+            return items.Where(i => i.TemplatedParent == track);
         }
 
-        private IEnumerable<TrackItem> GetItems(int frame, FindType findType)
+        /// <summary>
+        /// 해당 TrackType에 해당하는 아이템만 필터링합니다.
+        /// </summary>
+        /// <param name="items">필터링할 아이템들입니다.</param>
+        /// <param name="trackType">필터링할 TrackType입니다.</param>
+        /// <returns></returns>
+        private IEnumerable<TrackItem> FilterItems(IEnumerable<TrackItem> items, TrackType trackType)
+        {
+            return items.Where(i => i.TrackType == trackType);
+        }
+
+        /// <summary>
+        /// 현재 TimeLine에 있는 아이템 중에 TrackType에 해당하는 아이템만 필터링합니다.
+        /// </summary>
+        /// <param name="trackType"></param>
+        /// <returns></returns>
+        public IEnumerable<TrackItem> GetItems(TrackType trackType)
+        {
+            return FilterItems(Items, trackType);
+        }
+        
+        /// <summary>
+        /// 현재 TimeLine에 있는 아이템 중에
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="findType"></param>
+        /// <returns></returns>
+        public IEnumerable<TrackItem> GetItems(int frame, FindType findType)
         {
             switch (findType)
             {
@@ -268,11 +301,33 @@ namespace Delight.Controls
                     return Items.Where(i => i.Offset + i.FrameWidth == frame);
                 case FindType.FindContains:
                     return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
+                case FindType.FindWithoutStartPoint:
+                    return Items.Where(i => i.Offset < frame && i.Offset + i.FrameWidth >= frame);
+                case FindType.FindWithoutEndPoint:
+                    return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
+                case FindType.FindWithoutStartEndPoint:
+                    return Items.Where(i => i.Offset < frame && i.Offset + i.FrameWidth > frame);
                 default:
                     return null;
             }
         }
 
+        public IEnumerable<TrackItem> GetItems(int frame, FindType findType, TrackType trackType)
+        {
+            var itm = FilterItems(Items, trackType);
+            switch (findType)
+            {
+                case FindType.FindStartPoint:
+                    return itm.Where(i => i.Offset == frame);
+                case FindType.FindEndPoint:
+                    return itm.Where(i => i.Offset + i.FrameWidth == frame);
+                case FindType.FindContains:
+                    return itm.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
+                default:
+                    return null;
+            }
+        }
+        
         //public IEnumerable<TrackItem> GetItems(TrackType trackType)
         //{
         //    return Items.Where(i => i.TrackType == trackType);

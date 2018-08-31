@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Extensions
-{
+namespace Delight.Core.Extensions
+{ 
     public static class IEnumerableEx
     {
         public static void ForEach<T>(this IEnumerable<T> ienumerable, Action<T> action)

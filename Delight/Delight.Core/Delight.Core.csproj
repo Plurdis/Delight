@@ -46,6 +46,7 @@
     <Compile Include="Common\FrameRate.cs" />
     <Compile Include="Common\ImageCreator.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
+    <Compile Include="Extension\IEnumerableEx.cs" />
     <Compile Include="Exceptions\ProcessException.cs" />
     <Compile Include="Exceptions\SaveFailException.cs" />
     <Compile Include="Extension\ObjectEx.cs" />
