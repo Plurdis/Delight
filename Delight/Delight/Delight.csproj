@@ -91,6 +91,7 @@
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="EventArgs\TimingEventArgs.cs" />
     <Compile Include="LogManage\LogManager.cs" />
+    <Compile Include="Timing\Common\FindRangeType.cs" />
     <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />
     <Compile Include="Timing\Controller\VideoController.cs" />

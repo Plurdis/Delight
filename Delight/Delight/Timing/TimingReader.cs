@@ -7,7 +7,9 @@ using System.Windows;
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
+using Delight.Core.Extensions;
 using Delight.Extensions;
+using Delight.Timing.Common;
 using Delight.Timing.Controller;
 
 #pragma warning disable CS0067
@@ -110,14 +112,16 @@ namespace Delight.Timing
             {
                 LoadCheck();
 
-                // 현 위치에서 정확한 포지션에 있는 아이템들 가져오기
-                IEnumerable<TrackItem> playingItems = TimeLine.GetItemsInclude(TimeLine.Position - 1);
+                int position = TimeLine.Position;
+
+                IEnumerable<TrackItem> playingItems = TimeLine.GetItems(position - 1, FindType.FindContains);
                 playingItems.ForEach(i => ItemPlaying?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
 
-                IEnumerable<TrackItem> enditems = TimeLine.GetItemsAtEnd(TimeLine.Position);
+                IEnumerable<TrackItem> enditems = TimeLine.GetItems(position, FindType.FindEndPoint);
                 enditems.ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
 
-                IEnumerable<TrackItem> readyItems = TimeLine.GetItems()
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + 10, FindRangeType.FindStartPoint);
+                readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, TimeLine.Position - i.Offset)));
             }
         }
 
@@ -150,7 +154,7 @@ namespace Delight.Timing
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (TrackItem item in TimeLine.GetItems(TrackType.Video, TimeLine.Position).OrderBy(i => i.Offset))
+                foreach (TrackItem item in TimeLine.GetItems(TimeLine.Position, FindType.FindAfterFrame).OrderBy(i => i.Offset))
                 {
                     _allVideos.Enqueue(item);
                 }

@@ -11,27 +11,42 @@ namespace Delight.Timing.Common
         /// <summary>
         /// 오직 시작 지점을 찾습니다.
         /// </summary>
-        FindStartPoint,
+        FindStartPoint = 0,
         /// <summary>
         /// 오직 종료 지점을 찾습니다.
         /// </summary>
-        FindEndPoint,
+        FindEndPoint = 1,
         /// <summary>
         /// 포함되어 있는 지점을 찾습니다.
         /// </summary>
-        FindContains,
+        FindContains = 2,
         /// <summary>
         /// 시작 지점을 제외하고 포함되어 있는 지점을 찾습니다.
         /// </summary>
-        FindWithoutStartPoint,
+        FindWithoutStartPoint = 3,
         /// <summary>
         /// 종료 지점을 제외하고 포함되어 있는 지점을 찾습니다.
         /// </summary>
-        FindWithoutEndPoint,
+        FindWithoutEndPoint = 4,
         /// <summary>
         /// 시작과 종료 지점을 제외하고 포함되어 있는 지점을 찾습니다.
         /// </summary>
-        FindWithoutStartEndPoint,
-
+        FindWithoutStartEndPoint = 5,
+        /// <summary>
+        /// 해당 프레임 이후에 포함되어 있는 아이템들을 찾습니다. (현재 프레임 포함)
+        /// </summary>
+        FindAfterFrame = 6,
+        /// <summary>
+        /// 해당 프레임 이후에 포함되어 있는 아이템들을 찾습니다. (현재 프레임 제외)
+        /// </summary>
+        FindAfterFrameExceptThis = 7,
+        /// <summary>
+        /// 해당 프레임 이전의 아이템들을 찾습니다. (현재 프레임 포함)
+        /// </summary>
+        FindBeforeFrame = 8,
+        /// <summary>
+        /// 해당 프레임 이전의 아이템들을 찾습니다. (현재 프레임 제외)
+        /// </summary>
+        FindBeforeFrameExceptThis = 9,
     }
 }

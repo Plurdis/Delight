@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Core.Common;
+using Delight.Core.Extensions;
 using Delight.Extensions;
 using Delight.Timing;
 using Delight.Timing.Common;
@@ -286,12 +287,12 @@ namespace Delight.Controls
         }
         
         /// <summary>
-        /// 현재 TimeLine에 있는 아이템 중에
+        /// 현재 TimeLine에 있는 아이템 중에 frame 위치에 있는 아이템만 필터링합니다.
         /// </summary>
-        /// <param name="frame"></param>
-        /// <param name="findType"></param>
+        /// <param name="frame">검색할 프레임입니다.</param>
+        /// <param name="findType">검색할 조건입니다.</param>
         /// <returns></returns>
-        public IEnumerable<TrackItem> GetItems(int frame, FindType findType)
+        public IEnumerable<TrackItem> GetItems(int frame, FindType findType = FindType.FindStartPoint)
         {
             switch (findType)
             {
@@ -307,12 +308,27 @@ namespace Delight.Controls
                     return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
                 case FindType.FindWithoutStartEndPoint:
                     return Items.Where(i => i.Offset < frame && i.Offset + i.FrameWidth > frame);
+                case FindType.FindAfterFrame:
+                    return Items.Where(i => frame <= i.Offset);
+                case FindType.FindAfterFrameExceptThis:
+                    return Items.Where(i => frame < i.Offset);
+                case FindType.FindBeforeFrame:
+                    return Items.Where(i => frame >= i.Offset + i.FrameWidth);
+                case FindType.FindBeforeFrameExceptThis:
+                    return Items.Where(i => frame > i.Offset + i.FrameWidth);
                 default:
                     return null;
             }
         }
 
-        public IEnumerable<TrackItem> GetItems(int frame, FindType findType, TrackType trackType)
+        /// <summary>
+        /// 현재 TimeLine에 있는 아이템 중에 frame 위치에 있고 TrackType이 같은 아이템만 필터링합니다.
+        /// </summary>
+        /// <param name="frame">검색할 프레임입니다.</param>
+        /// <param name="trackType">필터링할 트랙의 형식입니다.</param>
+        /// <param name="findType">검색할 조건입니다.</param>
+        /// <returns></returns>
+        public IEnumerable<TrackItem> GetItems(int frame, TrackType trackType, FindType findType = FindType.FindStartPoint)
         {
             var itm = FilterItems(Items, trackType);
             switch (findType)
@@ -323,11 +339,73 @@ namespace Delight.Controls
                     return itm.Where(i => i.Offset + i.FrameWidth == frame);
                 case FindType.FindContains:
                     return itm.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
+                case FindType.FindWithoutStartPoint:
+                    return itm.Where(i => i.Offset < frame && i.Offset + i.FrameWidth >= frame);
+                case FindType.FindWithoutEndPoint:
+                    return itm.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
+                case FindType.FindWithoutStartEndPoint:
+                    return itm.Where(i => i.Offset < frame && i.Offset + i.FrameWidth > frame);
+                case FindType.FindAfterFrame:
+                    return itm.Where(i => frame <= i.Offset);
+                case FindType.FindAfterFrameExceptThis:
+                    return itm.Where(i => frame < i.Offset);
+                case FindType.FindBeforeFrame:
+                    return itm.Where(i => frame >= i.Offset + i.FrameWidth);
+                case FindType.FindBeforeFrameExceptThis:
+                    return itm.Where(i => frame > i.Offset + i.FrameWidth);
                 default:
                     return null;
             }
         }
-        
+
+        /// <summary>
+        /// 현재 TimeLine에 있는 아이템 중에 startFrame과 endFrame 사이에 있는 아이템들을 FindRangeType 조건에 따라 필터링합니다.
+        /// </summary>
+        /// <param name="startFrame">검색할 프레임의 시작점입니다.</param>
+        /// <param name="endFrame">검색할 프레임의 종료점입니다.</param>
+        /// <param name="findRangeType">검색할 조건입니다.</param>
+        /// <returns></returns>
+        public IEnumerable<TrackItem> GetItems(int startFrame, int endFrame, FindRangeType findRangeType = FindRangeType.FindContains)
+        {
+            switch (findRangeType)
+            {
+                case FindRangeType.FindExcatly:
+                    return Items.Where(i => startFrame == i.Offset && endFrame == i.Offset + i.FrameWidth);
+                case FindRangeType.FindStartPoint:
+                    return Items.Where(i => startFrame <= i.Offset && endFrame >= i.Offset);
+                case FindRangeType.FindEndPoint:
+                    return Items.Where(i => startFrame <= i.Offset + i.FrameWidth && endFrame >= i.Offset + i.FrameWidth);
+                case FindRangeType.FindContains:
+                    return Items.Where(i => startFrame <= i.Offset && endFrame >= i.Offset + i.FrameWidth);
+                default:
+                    return null;
+            }
+        }        
+        /// <summary>
+        /// 현재 TimeLine에 있는 아이템 중에 startFrame과 endFrame 사이에 있는 아이템들을 FindRangeType 조건에 따라 필터링합니다.
+        /// </summary>
+        /// <param name="startFrame">검색할 프레임의 시작점입니다.</param>
+        /// <param name="endFrame">검색할 프레임의 종료점입니다.</param>
+        /// <param name="findRangeType">검색할 조건입니다.</param>
+        /// <returns></returns>
+        public IEnumerable<TrackItem> GetItems(int startFrame, int endFrame, TrackType trackType, FindRangeType findRangeType = FindRangeType.FindContains)
+        {
+            var itm = FilterItems(Items, trackType);
+            switch (findRangeType)
+            {
+                case FindRangeType.FindExcatly:
+                    return itm.Where(i => startFrame == i.Offset && endFrame == i.Offset + i.FrameWidth);
+                case FindRangeType.FindStartPoint:
+                    return itm.Where(i => startFrame <= i.Offset && endFrame >= i.Offset);
+                case FindRangeType.FindEndPoint:
+                    return itm.Where(i => startFrame <= i.Offset + i.FrameWidth && endFrame >= i.Offset + i.FrameWidth);
+                case FindRangeType.FindContains:
+                    return itm.Where(i => startFrame <= i.Offset && endFrame >= i.Offset + i.FrameWidth);
+                default:
+                    return null;
+            }
+        }
+
         //public IEnumerable<TrackItem> GetItems(TrackType trackType)
         //{
         //    return Items.Where(i => i.TrackType == trackType);
