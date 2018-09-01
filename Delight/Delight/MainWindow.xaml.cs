@@ -74,6 +74,7 @@ namespace Delight
 //#if DEBUG
             CommandBindings.Add(new CommandBinding(DebugCommands.PlayWindowVisibleCommand, PlayWindowVisibleExecuted));
             CommandBindings.Add(new CommandBinding(DebugCommands.UnityPreviewVisibleCommand, UnityPreviewVisibleCommandExecuted));
+            CommandBindings.Add(new CommandBinding(DebugCommands.CallCustomDebugMethodCommand, CallCustomDebugMethodCommandExecuted));
             //#endif
 
             #endregion

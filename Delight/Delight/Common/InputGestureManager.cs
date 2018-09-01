@@ -30,6 +30,7 @@ namespace Delight.Common
 //#if DEBUG
             RegisterCommand(DebugCommands.PlayWindowVisibleCommand, new KeyGesture(Key.B, ModifierKeys.Control));
             RegisterCommand(DebugCommands.UnityPreviewVisibleCommand, new KeyGesture(Key.G, ModifierKeys.Control));
+            RegisterCommand(DebugCommands.CallCustomDebugMethodCommand, new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Alt));
 //#endif
         }
 

@@ -22,9 +22,9 @@ namespace Delight.Timing
             mediaElement.CurrentStateChanged += MediaElement_CurrentStateChanged;
         }
 
-        private void MediaElement_CurrentStateChanged(MediaElementPro sender, Common.PlayerState state)
+        private void MediaElement_CurrentStateChanged(MediaElementPro sender, PlayerState state)
         {
-            if (state == Common.PlayerState.Closed)
+            if (state == PlayerState.Closed)
             {
                 IsReadyForPlay = false;
             }

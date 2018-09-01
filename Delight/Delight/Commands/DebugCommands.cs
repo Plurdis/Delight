@@ -13,10 +13,13 @@ namespace Delight.Commands
 
         public static RoutedCommand UnityPreviewVisibleCommand { get; }
 
+        public static RoutedCommand CallCustomDebugMethodCommand { get; }
+
         static DebugCommands()
         {
             PlayWindowVisibleCommand = new RoutedCommand("PlayWindowVisibleCommand",typeof(DebugCommands));
             UnityPreviewVisibleCommand = new RoutedCommand("UnityPreviewVisibleCommand", typeof(DebugCommands));
+            CallCustomDebugMethodCommand = new RoutedCommand("CallCustomDebugMethodCommand", typeof(DebugCommands));
         }
     }
 }

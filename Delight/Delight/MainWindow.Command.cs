@@ -18,8 +18,10 @@ using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
+using Delight.Core.Extensions;
 using Delight.Extensions;
 using Delight.Timing;
+using Delight.Timing.Common;
 using Delight.Windows;
 
 using NReco.VideoInfo;
@@ -214,6 +216,13 @@ namespace Delight
             }
         }
 
-//#endif
+        private void CallCustomDebugMethodCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            //var itms = tl.GetItems(24, 48, FindRangeType.FindEndPoint);
+            //MessageBox.Show(itms.Count().ToString());
+            //Console.WriteLine("Find Complete");
+        }
+
+        //#endif
     }
 }
