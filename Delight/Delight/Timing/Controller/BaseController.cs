@@ -13,7 +13,7 @@ namespace Delight.Timing.Controller
 {
     public abstract class BaseController
     {
-        public BaseController(Track track, TimingReader reader)
+        public BaseController(Track track, TimingReader reader, bool waitWhileLoading = false)
         {
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
@@ -21,11 +21,19 @@ namespace Delight.Timing.Controller
             reader.ItemReady += Reader_ItemReady;
             Reader = reader;
             Track = track;
+
+            this.waitWhileLoading = waitWhileLoading;
         }
+
+        bool waitWhileLoading = false;
 
         private void Reader_ItemReady(TrackItem sender, TimingReadyEventArgs e)
         {
             ItemReady(sender, e);
+            if (!waitWhileLoading)
+            {
+                Reader.DoneTask();
+            }
         }
 
         internal int CurrentFrame => Reader.CurrentFrame;

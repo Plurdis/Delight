@@ -191,9 +191,12 @@ namespace Delight.Timing
             Application.Current.Dispatcher.Invoke(() =>
             {
                 // TODO: 처음에 시작할때에는 탐색 범위 늘려서 현재 걸쳐있는것 까지 포함
-                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, FindRangeType.FindStartPoint);
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, FindRangeType.FindContains);
                 readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
-                WaitTask();
+                if (readyItems.Count() > 0)
+                {
+                    WaitTask();
+                }
             });
 
             while (_waitTask)

@@ -16,7 +16,7 @@ namespace Delight.Timing.Controller
 {
     public class VideoController : BaseController
     {
-        public VideoController(Track track, TimingReader reader) : base(track, reader)
+        public VideoController(Track track, TimingReader reader) : base(track, reader, true)
         {
         }
 
@@ -72,6 +72,7 @@ namespace Delight.Timing.Controller
             player.Source = null;
             player.Tag = null;
             player.Volume = 0;
+            Console.WriteLine(player.Source == null ? "Null" : player.Source.ToString());
             player.Play();
             player.Visibility = Visibility.Hidden;
         }
@@ -91,6 +92,7 @@ namespace Delight.Timing.Controller
             if (lastLoadItem == trackItem)
             {
                 Console.WriteLine("lastLoadItem and TrackItem is Same!");
+                Reader.DoneTask();
                 return;
             }
                 
@@ -102,22 +104,6 @@ namespace Delight.Timing.Controller
             await loader.LoadVideo(trackItem);
             Console.WriteLine("Load Complete");
             Reader.DoneTask();
-            //void PlayVideo()
-            //{
-            //    Thread thr = new Thread(() =>
-            //    {
-            //        while (true)
-            //        {
-            //            player.Dispatcher.Invoke(() =>
-            //            {
-            //                var itm = player.GetTag<TrackItem>();
-            //            });
-            //            Thread.Sleep(10);
-            //        }
-            //    });
-            //}
-
-            //PlayVideo();
         }
 
         public async void PlayPlayer(TrackItem trackItem)
@@ -133,6 +119,10 @@ namespace Delight.Timing.Controller
                 await loader.LoadVideo(player.GetTag<TrackItem>());
             }
 
+            if (trackItem != player.GetTag<TrackItem>())
+                return;
+            
+            Console.WriteLine($"Play{player.Source.ToString()} At {player.Name}");
             player.Play();
             player.PositionChanged += localPositionChanged;
             p1Playing = !p1Playing;
@@ -186,7 +176,7 @@ namespace Delight.Timing.Controller
         public override void ItemReady(TrackItem sender, TimingReadyEventArgs e)
         {
             LoadPlayer(sender);
-            Console.WriteLine(sender.Text + " " + e.RemainFrame);
+            //Console.WriteLine(sender.Text + " " + e.RemainFrame);
         }
     }
 }
