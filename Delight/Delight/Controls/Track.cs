@@ -38,11 +38,10 @@ namespace Delight.Controls
             MessageBox.Show(sender.ToString());
         }
 
-        public Track(TimeLine parent, TrackType trackType, FrameRate frameRate) : this()
+        public Track(TimeLine parent, TrackType trackType) : this()
         {
             _parent = parent;
             TrackType = trackType;
-            FrameRate = frameRate;
         }
 
         public event EventHandler ItemsMaxWidthChanged;
@@ -110,7 +109,7 @@ namespace Delight.Controls
                 return _trackType;
             }
         }
-        FrameRate FrameRate { get; set; } = FrameRate._60FPS;
+        FrameRate FrameRate => _parent.FrameRate;
 
         FrameworkElement element;
         DragSide dragSide = DragSide.Unknown;

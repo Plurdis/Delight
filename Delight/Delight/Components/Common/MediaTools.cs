@@ -129,7 +129,7 @@ namespace Delight.Components.Common
         public static TimeSpan FrameToTimeSpan(int frame, FrameRate frameRate)
         {
             int fr = (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
-            return TimeSpan.FromSeconds((int)Math.Truncate((double)frame / fr)) + TimeSpan.FromMilliseconds((1000 / fr) * (frame % 24));
+            return TimeSpan.FromSeconds((int)Math.Truncate((double)frame / fr)) + TimeSpan.FromMilliseconds((1000 / fr) * (frame % fr));
         }
 
         public static MediaTypes GetMediaTypeFromFile(string fileName)

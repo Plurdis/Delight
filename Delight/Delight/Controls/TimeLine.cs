@@ -475,7 +475,7 @@ namespace Delight.Controls
 
         public void AddTrack(TrackType trackType, int number = -1)
         {
-            Track track = new Track(this, trackType, FrameRate);
+            Track track = new Track(this, trackType);
 
             if (number != -1)
             {
