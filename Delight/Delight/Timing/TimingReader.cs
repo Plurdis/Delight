@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
+using Delight.Core.Common;
+using Delight.Core.Extension;
 using Delight.Core.Extensions;
 using Delight.Extensions;
 using Delight.Timing.Common;
@@ -100,6 +104,9 @@ namespace Delight.Timing
 
         bool p1Playing = false;
 
+        IEnumerable<TrackItem> lastPlayingItem = null;
+        int waitFrame => ((int)TimeLine.FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value) * 5;
+
         private void TimeLine_FrameChanged(object sender, EventArgs e)
         {
             if (!PlayerAssigned)
@@ -116,18 +123,30 @@ namespace Delight.Timing
 
                 IEnumerable<TrackItem> playingItems = TimeLine.GetItems(position - 1, FindType.FindContains);
                 playingItems.ForEach(i => ItemPlaying?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
+                
+                if (lastPlayingItem == null)
+                    lastPlayingItem = Enumerable.Empty<TrackItem>();
+
+                // 가장 마지막에 플레이로 인식된 아이템
 
                 IEnumerable<TrackItem> enditems = TimeLine.GetItems(position, FindType.FindEndPoint);
-                enditems.ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
+                enditems.Concat(lastPlayingItem.Except(playingItems)).ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
 
-                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + 10, FindRangeType.FindStartPoint);
-                readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, TimeLine.Position - i.Offset)));
+                lastPlayingItem = new List<TrackItem>(playingItems);
+
+                
+
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + waitFrame, FindRangeType.FindStartPoint);
+                readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
             }
         }
 
         #endregion
 
         TimeLine TimeLine { get; }
+
+        public int CurrentFrame => TimeLine.Position;
+        public FrameRate CurrentFrameRate => TimeLine.FrameRate;
 
         private void LoadWaitingVideos()
         {
@@ -147,23 +166,56 @@ namespace Delight.Timing
             }
         }
 
+        bool _waitTask = false;
+
+        /// <summary>
+        /// 특정 상황에서 작업을 대기하게 합니다.
+        /// </summary>
+        public void WaitTask()
+        {
+            _waitTask = true;
+        }
+
+        /// <summary>
+        /// 대기했던 작업을 완료했음을 알립니다.
+        /// </summary>
+        public void DoneTask()
+        {
+            _waitTask = false;    
+        }
+
         public void StartLoad()
         {
             loading = true;
-            _allVideos.Clear();
-
+            Console.WriteLine("Start Load Start");
             Application.Current.Dispatcher.Invoke(() =>
             {
-                foreach (TrackItem item in TimeLine.GetItems(TimeLine.Position, FindType.FindAfterFrame).OrderBy(i => i.Offset))
-                {
-                    _allVideos.Enqueue(item);
-                }
-
-                LoadCheck();
+                // TODO: 처음에 시작할때에는 탐색 범위 늘려서 현재 걸쳐있는것 까지 포함
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, FindRangeType.FindStartPoint);
+                readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
+                WaitTask();
             });
 
-            LoadWaitingVideos();
-            DebugHelper.WriteLine("StartLoad Method End");
+            while (_waitTask)
+            {
+                Thread.Sleep(100);
+            }
+
+            Console.WriteLine("Start Load End");
+            //_allVideos.Clear();
+
+            //Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    foreach (TrackItem item in TimeLine.GetItems(TimeLine.Position, FindType.FindAfterFrame).OrderBy(i => i.Offset))
+            //    {
+            //        _allVideos.Enqueue(item);
+            //    }
+
+            //    LoadCheck();
+            //});
+
+            //LoadWaitingVideos();
+
         }
 
         /*

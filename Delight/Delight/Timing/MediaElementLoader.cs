@@ -1,5 +1,6 @@
 ﻿using Delight.Common;
 using Delight.Controls;
+using Delight.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace Delight.Timing
                     MediaElement.Source = new Uri(trackItem.OriginalPath, UriKind.Absolute);
                     MediaElement.Volume = 0;
                     MediaElement.Play();
-                    DebugHelper.WriteLine($"Load For {MediaElement.Name} Item");
+                    Console.WriteLine($"Load For {MediaElement.Name} Item");
                 });
 
                 while (!IsLoaded) // 로딩이 되지 않을 때 까지
@@ -64,15 +65,16 @@ namespace Delight.Timing
                 }
                 MediaElement.Dispatcher.Invoke(() =>
                 {
-                    DebugHelper.WriteLine($"Load Complete {MediaElement.Name} Item");
+                    Console.WriteLine($"Load Complete {MediaElement.Name} Item");
                 });
 
                 IsReadyForPlay = true;
             });
 
-            DebugHelper.WriteLine("Loader LoadVideo 종료 (inner)");
+            Console.WriteLine("Loader LoadVideo 종료 (inner)");
 
             return task;
         }
+
     }
 }

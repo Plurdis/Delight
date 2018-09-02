@@ -426,7 +426,6 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
 
         #endregion
 
-
         #region Events
         public event RoutedEventHandler MediaEnded;
         public event RoutedEventHandler MediaOpened;
@@ -436,6 +435,7 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
         DispatcherTimer Timer = new DispatcherTimer();
         public MediaElementPro()
         {
@@ -457,7 +457,9 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             mediaElement.MediaFailed += OnMediaFailed;
             mediaElement.MediaOpened += OnMediaOpened;
         }
-        
+
+        public bool VideoLoaded => Source != null;
+
         private void OnMediaOpened(object sender, RoutedEventArgs e)
         {
             SetState(PlayerState.Opened);

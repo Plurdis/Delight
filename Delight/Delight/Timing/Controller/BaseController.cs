@@ -7,6 +7,7 @@ using System.Windows.Controls;
 
 using Delight.Common;
 using Delight.Controls;
+using Delight.Core.Common;
 
 namespace Delight.Timing.Controller
 {
@@ -17,11 +18,20 @@ namespace Delight.Timing.Controller
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
             reader.TimeLineStopped += Reader_TimeLineStopped;
+            reader.ItemReady += Reader_ItemReady;
             Reader = reader;
             Track = track;
         }
 
-        TimingReader Reader { get; }
+        private void Reader_ItemReady(TrackItem sender, TimingReadyEventArgs e)
+        {
+            ItemReady(sender, e);
+        }
+
+        internal int CurrentFrame => Reader.CurrentFrame;
+        internal FrameRate CurrentFrameRate => Reader.CurrentFrameRate;
+        internal TimingReader Reader { get; }
+
         Track Track { get; }
 
         private void Reader_TimeLineStopped(object sender, EventArgs e)
@@ -40,7 +50,7 @@ namespace Delight.Timing.Controller
 
         private void Reader_ItemEnded(TrackItem sender, TimingEventArgs e)
         {
-            if (sender.Parent is Track track)
+            if ((sender.Parent as Grid).TemplatedParent is Track track)
             {
                 if (this.Track == track)
                     ItemEnded(sender, e);
@@ -51,6 +61,8 @@ namespace Delight.Timing.Controller
         public abstract void ItemPlaying(TrackItem sender, TimingEventArgs e);
 
         public abstract void ItemEnded(TrackItem sender, TimingEventArgs e);
+
+        public abstract void ItemReady(TrackItem sender, TimingReadyEventArgs e);
 
         public abstract void TimeLineStopped();
     }

@@ -566,6 +566,20 @@ namespace Delight.Controls
             _timer.Stop();
         }
 
+        public bool isPaused = false;
+
+        public void Pause()
+        {
+            _timer.Stop();
+            isPaused = true;
+        }
+
+        public void Resume()
+        {
+            _timer.Start();
+            isPaused = false;
+        }
+
         private void DragRange_MouseMove(object sender, MouseEventArgs e)
         {
             if (captured)
