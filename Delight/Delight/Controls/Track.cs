@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+
 using Delight.Commands;
 using Delight.Common;
 using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Core.Common;
+using Delight.Core.Extension;
 using Delight.Extensions;
 using Delight.Timing;
-
-using f = System.Windows.Forms;
 
 #pragma warning disable CS0067
 
@@ -29,7 +26,6 @@ namespace Delight.Controls
         public Track()
         {
             this.Style = FindResource("TrackStyle") as Style;
-
             this.CommandBindings.Add(new CommandBinding(TrackItemCommands.DeleteCommand, DeleteCommandExecuted));
         }
 
@@ -44,15 +40,17 @@ namespace Delight.Controls
             TrackType = trackType;
         }
 
+        #region [  Events  ]
+
         public event EventHandler ItemsMaxWidthChanged;
 
         public event EventHandler<ItemEventArgs> ItemAdded;
         public event EventHandler<ItemEventArgs> ItemRemoving;
         public event EventHandler ItemRemoved;
 
-        static TrackItem trackItem;
-        Grid itemGrid;
-        TimeLine _parent;
+        #endregion
+
+        #region [  Dependency Properties  ]
 
         public static DependencyProperty TrackNumberProperty = DependencyProperty.Register(nameof(TrackNumber), typeof(int), typeof(Track));
         
@@ -69,56 +67,28 @@ namespace Delight.Controls
             get => GetValue(TrackTypeTextProperty) as string;
             set => SetValue(TrackTypeTextProperty, value);
         }
-        
-        TrackType _trackType = TrackType.Unknown;
 
-        TrackType TrackType
-        {
-            set
-            {
-                switch (value)
-                {
-                    case TrackType.Image:
-                        TrackTypeText = "이미지";
-                        break;
-                    case TrackType.Video:
-                        TrackTypeText = "비디오";
-                        break;
-                    case TrackType.Unity:
-                        TrackTypeText = "시각 효과";
-                        break;
-                    case TrackType.Effect:
-                        TrackTypeText = "시각 효과";
-                        break;
-                    case TrackType.Sound:
-                        TrackTypeText = "사운드";
-                        break;
-                    case TrackType.Light:
-                        TrackTypeText = "조명";
-                        break;
-                    case TrackType.Unknown:
-                        break;
-                    default:
-                        break;
-                }
+        #endregion
 
-                _trackType = value;
-            }
-            get
-            {
-                return _trackType;
-            }
-        }
-        FrameRate FrameRate => _parent.FrameRate;
+        #region [  Local Variables  ]
 
         FrameworkElement element;
-        DragSide dragSide = DragSide.Unknown;
         bool captured;
         double x_item, x_canvas;
-        int fWidth;
         double fLeft;
+        int fWidth;
+        DragSide dragSide = DragSide.Unknown;
+        TrackType _trackType = TrackType.Unknown;
+        static TrackItem trackItem;
+        Grid itemGrid;
+        TimeLine _parent;
 
-        public double ItemSize = 0.25;
+        #endregion
+
+        #region [  Properties  ]
+
+        public double ItemSize => 0.25;
+
         private double _realSize => ItemSize * Ratio;
 
         private double Ratio => _parent.Ratio;
@@ -133,6 +103,20 @@ namespace Delight.Controls
 
         public IEnumerable<TrackItem> Items => itemGrid.Children.Cast<TrackItem>();
 
+        public FrameRate FrameRate => _parent.FrameRate;
+
+        TrackType TrackType
+        {
+            set
+            {
+                TrackTypeText = value.GetEnumAttribute<DescriptionAttribute>()?.Description;
+                _trackType = value;
+            }
+            get => _trackType;
+        }
+
+        #endregion
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -144,7 +128,7 @@ namespace Delight.Controls
             itemGrid.Drop += ItemCanvas_Drop;
         }
 
-        #region [  Item Drag & Drop  ] 
+        #region [  TrackItem Drag & Drop  ] 
 
         private void ItemCanvas_Drop(object sender, DragEventArgs e)
         {
@@ -160,9 +144,7 @@ namespace Delight.Controls
         private void ItemCanvas_DragLeave(object sender, DragEventArgs e)
         {
             if (trackItem != null)
-            {
                 itemGrid.Children.Remove(trackItem);
-            }
 
             trackItem = null;
         }
@@ -190,8 +172,7 @@ namespace Delight.Controls
                 int leftRaw = (int)(x_item / _realSize);
 
                 trackItem.SetLeftMargin(left);
-
-
+                
 
                 double right = itemGrid.ActualWidth - (trackItem.FrameWidth * _realSize) - x_item;
                 right = (int)(right / _realSize) * _realSize;
@@ -234,7 +215,7 @@ namespace Delight.Controls
                     Text = comp.Identifier,
                     Thumbnail = comp.Thumbnail,
                     TrackType = comp.TrackType,
-                    OriginalPath = media == null ? "" : media.OriginalPath,
+                    OriginalPath = media == null ? string.Empty : media.OriginalPath,
                     MaxSizeFixed = comp.MaxSizeFixed
                 };
 
@@ -243,9 +224,7 @@ namespace Delight.Controls
                 trackItem.MovingSide_MouseLeftButtonDown += TrackItem_MovingSide_MouseLeftButtonDown;
                 trackItem.MouseMove += TrackItem_MouseMove;
                 trackItem.MouseLeftButtonUp += TrackItem_MouseLeftButtonUp;
-
                 trackItem.MouseRightButtonClick += TrackItem_MouseRightButtonClick;
-
             }
             if (!itemGrid.Children.Contains(trackItem))
             {
@@ -253,7 +232,7 @@ namespace Delight.Controls
                 x_canvas = e.GetPosition(itemGrid).X;
 
                 double cl = trackItem.Margin.Left;
-                if (Double.IsNaN(cl))
+                if (double.IsNaN(cl))
                     cl = 0;
 
                 x_item = cl + Mouse.GetPosition(trackItem).X;
@@ -261,6 +240,10 @@ namespace Delight.Controls
                 trackItem.SetLeftMargin(x_item);
             }
         }
+
+        #endregion
+
+        #region [  TrackItem Events  ]
 
         private void TrackItem_MouseRightButtonClick(object sender, MouseButtonEventArgs e)
         {
@@ -462,7 +445,6 @@ namespace Delight.Controls
             dragSide = DragSide.Unknown;
             Mouse.Capture(null);
         }
-
         #endregion
 
         #region [  TrackItem Side MouseLeftButtonDown Events  ]
