@@ -49,7 +49,11 @@ namespace Delight.Timing.Controller
 
         private void Reader_ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
-            if ((sender.Parent as Grid).TemplatedParent is Track track)
+            var parent = sender.Parent;
+            if (parent == null)
+                return;
+
+            if ((parent as Grid).TemplatedParent is Track track)
             {
                 if (this.Track == track)
                     ItemPlaying(sender, e);
@@ -58,7 +62,11 @@ namespace Delight.Timing.Controller
 
         private void Reader_ItemEnded(TrackItem sender, TimingEventArgs e)
         {
-            if ((sender.Parent as Grid).TemplatedParent is Track track)
+            var parent = sender.Parent;
+            if (parent == null)
+                return;
+
+            if ((parent as Grid).TemplatedParent is Track track)
             {
                 if (this.Track == track)
                     ItemEnded(sender, e);

@@ -141,6 +141,8 @@ namespace Delight.Timing.Controller
             }
         }
 
+        int lastFrame;
+
         public override void ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
             if (!Items.Contains(sender))
@@ -152,9 +154,14 @@ namespace Delight.Timing.Controller
 
             if (sender == CurrentPlayer.GetTag<TrackItem>())
             {
-                //Console.WriteLine($"{sender.Text}'s Current Frame : {e.Frame - sender.Offset + sender.ForwardOffset}");
+                int currentFrame = e.Frame - sender.Offset + sender.ForwardOffset;
+                if (lastFrame + 1 != currentFrame)
+                {
+                    CurrentPlayer.Position = MediaTools.FrameToTimeSpan(currentFrame, CurrentFrameRate);
+                }
+                
+                lastFrame = e.Frame - sender.Offset + sender.ForwardOffset;
             }
-            int currentFrame = e.Frame - sender.Offset;
         }
 
         public override void ItemEnded(TrackItem sender, TimingEventArgs e)
