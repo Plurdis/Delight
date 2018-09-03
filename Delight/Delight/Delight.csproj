@@ -95,6 +95,7 @@
     <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />
     <Compile Include="Timing\Controller\VideoController.cs" />
+    <Compile Include="Timing\MagnetHelper.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />
     <Compile Include="Timing\TimingReader.cs" />
     <Compile Include="Common\FrameTimer.cs" />
