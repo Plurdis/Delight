@@ -20,6 +20,7 @@ using Delight.Timing.Controller;
 
 namespace Delight.Timing
 {
+    // TODO: 코드 정리
     public class TimingReader
     {
         public event TimingDelegate ItemEnded;
@@ -190,7 +191,6 @@ namespace Delight.Timing
             Console.WriteLine("Start Load Start");
             Application.Current.Dispatcher.Invoke(() =>
             {
-                // TODO: 처음에 시작할때에는 탐색 범위 늘려서 현재 걸쳐있는것 까지 포함
                 IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, FindRangeType.FindContains);
                 readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
                 if (readyItems.Count() > 0)
@@ -205,95 +205,8 @@ namespace Delight.Timing
             }
 
             Console.WriteLine("Start Load End");
-            //_allVideos.Clear();
-
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    foreach (TrackItem item in TimeLine.GetItems(TimeLine.Position, FindType.FindAfterFrame).OrderBy(i => i.Offset))
-            //    {
-            //        _allVideos.Enqueue(item);
-            //    }
-
-            //    LoadCheck();
-            //});
-
-            //LoadWaitingVideos();
-
         }
-
-        /*
-         
-                Task.Run(() =>
-                {
-                    LoadWaitingVideos();
-                    
-                    player1.Dispatcher.Invoke(() =>
-                    {
-                        void localPositionChanged(MediaElementPro s, TimeSpan p)
-                        {
-                            s.PositionChanged -= localPositionChanged;
-
-                            TrackItem itm = s.GetTag<TrackItem>();
-                            s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + TimeLine.Position - itm.Offset, TimeLine.FrameRate);
-                            s.Volume = 1;
-                            s.Visibility = Visibility.Visible;
-                            if (s == player1)
-                                player2.Visibility = Visibility.Hidden;
-                            else
-                                player1.Visibility = Visibility.Hidden;
-                        }   
-                        MainWindow mw = Application.Current.MainWindow as MainWindow;
-
-                        if (player1.Tag == null && player2.Tag == null)
-                        {
-                            return;
-                        }
-
-                        if (player1.IsPlaying && player1.Source != null)
-                        {
-                            var p1Tag = player1.GetTag<TrackItem>();
-                            if (TimeLine.Position == p1Tag.Offset + p1Tag.FrameWidth)
-                            {
-                                DisablePlayer(player1);
-                            }
-                        }
-
-                        if (player2.IsPlaying && player2.Source != null)
-                        {
-                            var p2Tag = player2.GetTag<TrackItem>();
-                            if (TimeLine.Position == p2Tag.Offset + p2Tag.FrameWidth)
-                            {
-                                DisablePlayer(player2);
-                            }
-                        }
-
-                        DebugHelper.WriteLine(player1.Position + " :: " + player2.Position);
-                        if (!p1Playing)
-                        {
-                            if (!player1.IsPlaying && player1.Tag != null &&
-                                TimeLine.Position - 1 > player1.GetTag<TrackItem>().Offset)
-                            {
-                                player1.Play();
-                                player1.PositionChanged += localPositionChanged;
-                            }
-                            p1Playing = true;
-                        }
-                        else
-                        {
-                            if (!player2.IsPlaying && player2.Tag != null &&
-                                TimeLine.Position - 1 > player2.GetTag<TrackItem>().Offset)
-                            {
-                                player2.Play();
-                                player2.PositionChanged += localPositionChanged;
-                            }
-
-                            p1Playing = false;
-                        }
-
-                    });
-                });
-         */
-
+        
         public void StopLoad()
         {
             loading = false;

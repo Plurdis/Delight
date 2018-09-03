@@ -24,6 +24,8 @@ using Delight.Timing.Common;
 
 namespace Delight.Controls
 {
+    // TODO: 코드 정리
+
     [TemplatePart(Name = "positioner", Type = typeof(Rectangle))]
     [TemplatePart(Name = "dragRange", Type = typeof(Grid))]
     [TemplatePart(Name = "scrollBar", Type = typeof(ScrollBar))]
