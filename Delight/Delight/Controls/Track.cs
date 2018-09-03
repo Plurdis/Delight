@@ -183,6 +183,11 @@ namespace Delight.Controls
                 trackItem.Offset = leftRaw;
 
                 x_item = x;
+
+                if (trackItem.Visibility == Visibility.Hidden)
+                {
+                    trackItem.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -216,7 +221,8 @@ namespace Delight.Controls
                     Thumbnail = comp.Thumbnail,
                     TrackType = comp.TrackType,
                     OriginalPath = media == null ? string.Empty : media.OriginalPath,
-                    MaxSizeFixed = comp.MaxSizeFixed
+                    MaxSizeFixed = comp.MaxSizeFixed,
+                    Visibility = Visibility.Hidden
                 };
 
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
@@ -229,6 +235,7 @@ namespace Delight.Controls
             if (!itemGrid.Children.Contains(trackItem))
             {
                 itemGrid.Children.Add(trackItem);
+
                 x_canvas = e.GetPosition(itemGrid).X;
 
                 double cl = trackItem.Margin.Left;
