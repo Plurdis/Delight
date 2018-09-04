@@ -12,5 +12,10 @@ namespace Delight.Core.Extensions
         {
             ienumerable.ToList().ForEach(action);
         }
+
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> ienumerable, T item)
+        {
+            return ienumerable.Except(new T[] { item });
+        }
     }
 }
