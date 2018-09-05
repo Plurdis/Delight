@@ -87,6 +87,7 @@
     <Compile Include="Components\Medias\Unity.cs" />
     <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
     <Compile Include="Controls\MediaElementPro.cs" />
+    <Compile Include="Controls\PresetPanel.cs" />
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="EventArgs\TimingEventArgs.cs" />
