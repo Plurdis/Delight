@@ -391,6 +391,54 @@
         </Style.Triggers>-->
     </Style>
 
+    <Style x:Name="PresetPanelStyle" TargetType="{x:Type ct:PresetPanel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="188"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Background="Red"/>
+                        <Grid Grid.RowSpan="2" Grid.Column="1">
+                            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                                <WrapPanel x:Name="PresetItems">
+                                    
+                                </WrapPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Name="PresetItemStyle" TargetType="{x:Type ct:PresetItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            
+                        </Grid>
+                        <StackPanel x:Name="Items" Grid.Row="1">
+
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type ct:MediaElementPro}">
         <Setter Property="Template">
             <Setter.Value>
