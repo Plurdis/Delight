@@ -117,7 +117,7 @@ namespace Delight.Components.Common
             second -= minute * 60;
             minute -= hour * 60;
 
-            return $"{hour.ToString("00")}:{minute.ToString("00")}:{second.ToString("00")}.{frame}";
+            return $"{hour.ToString("00")}:{minute.ToString("00")}:{second.ToString("00")};{frame}";
         }
 
         public static int TimeSpanToFrame(TimeSpan span, FrameRate frame)

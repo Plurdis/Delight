@@ -55,6 +55,11 @@ namespace Delight.Timing
                     MediaElement.Tag = trackItem;
                     MediaElement.Source = new Uri(trackItem.OriginalPath, UriKind.Absolute);
                     MediaElement.Volume = 0;
+                    
+                    // ===
+                    MediaElement.Visibility = Visibility.Hidden;
+                    // ===
+
                     MediaElement.Play();
                     Console.WriteLine($"Load For {MediaElement.Name} Item");
                 });

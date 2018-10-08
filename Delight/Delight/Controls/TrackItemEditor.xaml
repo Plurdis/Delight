@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Delight.Controls.TrackItemEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Delight.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Image x:Name="img" Margin="5"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontFamily="/Delight;component/Resources/Fonts/#Helvetica" x:Name="tbName" Margin="5" Foreground="White" FontSize="15" TextTrimming="CharacterEllipsis">
+                    과연 이름이 길면 어떻게 될지 궁금하지 않습니까?
+                </TextBlock>
+                <TextBlock FontFamily="/Delight;component/Resources/Fonts/#Helvetica" Foreground="White" Margin="5" Grid.Row="1">
+                    <Run x:Name="rType" Text="비디오"/> 아이템
+                </TextBlock>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="10" Foreground="White" FontFamily="/Delight;component/Resources/Fonts/#Helvetica">
+                        투명도 (<Run x:Name="runOpacity" Text="100"/>%)
+                    </TextBlock>
+                    <Slider x:Name="slOpacity" Margin="10" Grid.Column="1" Maximum="1"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="10" Foreground="White" FontFamily="/Delight;component/Resources/Fonts/#Helvetica">
+                        사이즈 (<Run x:Name="runSize" Text="100"/>%)
+                    </TextBlock>
+                    <Slider x:Name="slSize" Margin="10" Grid.Column="1" Minimum="0" Maximum="5"/>
+                </Grid>
+
+                <Grid Visibility="Hidden">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="10" Foreground="White" FontFamily="/Delight;component/Resources/Fonts/#Helvetica">
+                        속도 (x<Run x:Name="runSpeed" Text="1.12"/>)
+                    </TextBlock>
+                    <Slider x:Name="slSpeed" Margin="10" Grid.Column="1" Maximum="2" Minimum="0.1" Value="1" TickFrequency="100"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

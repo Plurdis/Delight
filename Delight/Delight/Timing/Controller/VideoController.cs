@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-
+using System.Windows.Controls;
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
 using Delight.Extensions;
+using Delight.Layer;
 using WPFMediaKit.DirectShow.MediaPlayers;
 
 namespace Delight.Timing.Controller
@@ -134,6 +135,18 @@ namespace Delight.Timing.Controller
                 s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + CurrentFrame - itm.Offset, CurrentFrameRate);
                 s.Volume = 1;
                 s.Visibility = Visibility.Visible;
+                s.Opacity = itm.ItemProperty.Opacity;
+                itm.ItemProperty.OpacityChanged += (sen, e) =>
+                {
+                    s.Opacity = itm.ItemProperty.Opacity;
+                };
+                itm.ItemProperty.SizeChanged += (sen, e) =>
+                {
+                    Canvas rootCanvas = ((VideoLayer)s.TemplatedParent).Parent as Canvas;
+
+                    s.Width = rootCanvas.ActualWidth * itm.ItemProperty.Size;
+                    s.Height = rootCanvas.ActualHeight * itm.ItemProperty.Size;
+                };
                 if (s == player1)
                     player2.Visibility = Visibility.Hidden;
                 else
@@ -142,7 +155,6 @@ namespace Delight.Timing.Controller
         }
 
         int lastFrame;
-
         public override void ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
             if (!Items.Contains(sender))
@@ -166,8 +178,15 @@ namespace Delight.Timing.Controller
 
         public override void ItemEnded(TrackItem sender, TimingEventArgs e)
         {
-            DisablePlayer(GetPlayer(sender));
+            MediaElementPro player = GetPlayer(sender);
+            DisablePlayer(player);
             Items.Remove(sender);
+
+            player.Width = double.NaN;
+            player.Height = double.NaN;
+
+            sender.ItemProperty.ResetOpacityHandler();
+            sender.ItemProperty.ResetSizeHandler();
             Console.WriteLine("Item Closed");
         }
 
@@ -178,6 +197,7 @@ namespace Delight.Timing.Controller
             p1Playing = false;
             DisablePlayer(player1);
             DisablePlayer(player2);
+            Console.WriteLine("!!");
         }
 
         public override void ItemReady(TrackItem sender, TimingReadyEventArgs e)

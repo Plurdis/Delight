@@ -19,7 +19,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using Delight.Common;
+using Delight.Controls;
 using Delight.Extensions;
+using Delight.Layer;
+using Delight.Timing;
 
 namespace Delight.Windows
 {
@@ -42,8 +45,6 @@ namespace Delight.Windows
             //    Console.WriteLine(sw.ElapsedMilliseconds + "ms");
             //};
 
-
-
             //player2.Open(new Uri(@"D:\영화\소아온\[바카-Raws] Sword Art Online #01 VFR (MX 1280x720 x264 AAC).mp4", UriKind.Absolute));
             //player2.MediaOpened += (s, e) => player2.Play();
             //player.MediaEnded += (s, e) => { player.Close(); };
@@ -56,6 +57,9 @@ namespace Delight.Windows
                     this.Top = scr.Bounds.Top;
                     this.Width = scr.Bounds.Width;
                     this.Height = scr.Bounds.Height;
+
+                    rootElement.Width = scr.Bounds.Width;
+                    rootElement.Height = scr.Bounds.Height;
                     break;
                 }
             }
@@ -64,6 +68,107 @@ namespace Delight.Windows
             this.Activate();
 
             this.Loaded += PlayWindow_Loaded;
+
+            Scenes = new List<ILayer>();
+
+            List<UIElement> itm = rootElement.Children.Cast<UIElement>().ToList();
+        }
+
+        TimeLine _timeLine;
+
+        public void ConnectTimeLine(TimeLine timeLine)
+        {
+            if (timeLine != null)
+            {
+                if (_timeLine != null)
+                {
+                    _timeLine.TrackAdded -= TimeLine_TrackAdded;
+                    _timeLine.TrackRemoved -= TimeLine_TrackRemoved;
+                }
+                timeLine.TrackAdded += TimeLine_TrackAdded;
+                timeLine.TrackRemoved += TimeLine_TrackRemoved;
+
+                _timeLine = timeLine;
+            }
+        }
+
+        private bool IsVisualTrackType(TrackType trackType)
+        {
+            switch (trackType)
+            {
+                case TrackType.Image:
+                case TrackType.Video:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private void TimeLine_TrackAdded(object sender, TrackEventArgs e)
+        {
+            if (sender is TimeLine tl)
+            {
+                if (IsVisualTrackType(e.TrackType))
+                {
+                    if (e.TrackType == TrackType.Video)
+                    {
+                        var vLayer = new VideoLayer(e.Track);
+                        vLayer.Loaded += (s, ev) =>
+                        {
+                            tl.TimingReaders[e.Track].SetPlayer(vLayer.Player1, vLayer.Player2);
+                            tl.VideoControllers[e.Track].SetPlayer(vLayer.Player1, vLayer.Player2);
+                        };
+
+                        rootElement.Children.Add(vLayer);
+                    }
+                    else if (e.TrackType == TrackType.Image)
+                    {
+                        rootElement.Children.Add(new ImageLayer(e.Track));
+                    }
+                    UpdateZIndex();
+                }
+            }
+        }
+
+        public void UpdateZIndex()
+        {
+            var items = rootElement.Children.Cast<BaseLayer>();
+            int i = items.Count();
+            foreach (BaseLayer layer in items)
+            {
+                int zindex = i - _timeLine.GetVisualTrackIndex(layer.Track);
+                Canvas.SetZIndex(layer, zindex);
+            }
+        }
+
+        private void TimeLine_TrackRemoved(object sender, TrackEventArgs e)
+        {
+        }
+
+        private List<ILayer> Scenes { get; }
+
+        private void AddLayer(ILayer scene)
+        {
+            if (!Scenes.Contains(scene))
+            {
+                Scenes.Add(scene);
+            }
+            if (!rootElement.Children.Contains((UIElement)scene))
+            {
+                rootElement.Children.Add((UIElement)scene);
+            }
+        }
+
+        private void RemoveScene(ILayer scene)
+        {
+            if (Scenes.Contains(scene))
+            {
+                Scenes.Remove(scene);
+            }
+            if (rootElement.Children.Contains((UIElement)scene))
+            {
+                rootElement.Children.Remove((UIElement)scene);
+            }
         }
 
         private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
@@ -71,25 +176,6 @@ namespace Delight.Windows
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
 
             mw.bg.Background = new VisualBrush(rootElement);
-            
-            //UnityContainerLoader loader = new UnityContainerLoader(@"C:\Users\uutak\바탕 화면\UnityTest\UnityTest.exe", this, control);
-
-            //Thread thr = new Thread(() =>
-            //{
-            //    while (true)
-            //    {
-            //        Dispatcher.Invoke(() =>
-            //        {
-                        
-            //            testImage.Source = WinFormControlToImage(control);
-                        
-            //        });
-                    
-            //        Thread.Sleep(1000 / 24);
-            //    }
-            //});
-
-            //thr.Start();
         }
 
         public ImageSource WinFormControlToImage(System.Windows.Forms.Control ctrl)

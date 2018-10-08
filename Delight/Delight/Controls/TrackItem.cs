@@ -25,9 +25,10 @@ namespace Delight.Controls
         public TrackItem()
         {
             this.Style = FindResource("TrackItemStyle") as Style;
+            ItemProperty = new TrackItemProperty();
         }
 
-        public TrackItem(TrackType trackType)
+        public TrackItem(TrackType trackType) : this()
         {
             TrackType = trackType;
         }
@@ -35,7 +36,9 @@ namespace Delight.Controls
         public event MouseButtonEventHandler LeftSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler RightSide_MouseLeftButtonDown;
         public event MouseButtonEventHandler MovingSide_MouseLeftButtonDown;
+
         public event MouseButtonEventHandler MouseRightButtonClick;
+        public event MouseButtonEventHandler MouseLeftButtonClick;
         Rectangle leftSide, movingSide, rightSide;
 
         public override void OnApplyTemplate()
@@ -52,24 +55,45 @@ namespace Delight.Controls
 
             this.MouseRightButtonDown += TrackItem_MouseRightButtonDown;
             this.MouseRightButtonUp += TrackItem_MouseRightButtonUp;
+
+            this.MouseLeftButtonDown += TrackItem_MouseLeftButtonDown;
+            this.MouseLeftButtonUp += TrackItem_MouseLeftButtonUp;
         }
 
-        bool isDown = false;
+        private void TrackItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isLeftDown)
+            {
+                MouseLeftButtonClick?.Invoke(sender, e);
+            }
+
+            isLeftDown = false;
+        }
+
+        private void TrackItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isLeftDown = true;
+        }
+
+        bool isLeftDown = false;
+        bool isRightDown = false;
 
         private void TrackItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (isDown)
+            if (isRightDown)
             {
                 MouseRightButtonClick?.Invoke(sender, e);
             }
 
-            isDown = false;
+            isRightDown = false;
         }
 
         private void TrackItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDown = true;
+            isRightDown = true;
         }
+
+        public TrackItemProperty ItemProperty { get; }
 
         public TrackType TrackType { get; set; }
 
@@ -98,6 +122,14 @@ namespace Delight.Controls
         public bool MaxSizeFixed { get; set; } = true;
 
         public string OriginalPath { get; set; }
+
+        public static DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(TrackItem));
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
 
         public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 

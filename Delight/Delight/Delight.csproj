@@ -86,12 +86,21 @@
     <Compile Include="Components\Effect.cs" />
     <Compile Include="Components\Medias\Unity.cs" />
     <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
+    <Compile Include="Controls\ImageTextBlock.cs" />
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="Controls\PresetItem.cs" />
     <Compile Include="Controls\PresetPanel.cs" />
+    <Compile Include="Controls\TrackItemEditor.xaml.cs">
+      <DependentUpon>TrackItemEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\StringConverter.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
     <Compile Include="EventArgs\TimingEventArgs.cs" />
+    <Compile Include="EventArgs\TrackEventArgs.cs" />
+    <Compile Include="Layer\BaseLayer.cs" />
+    <Compile Include="Layer\ILayer.cs" />
+    <Compile Include="Layer\ImageLayer.cs" />
+    <Compile Include="Layer\VideoLayer.cs" />
     <Compile Include="LogManage\LogManager.cs" />
     <Compile Include="Timing\Common\FindRangeType.cs" />
     <Compile Include="Timing\Common\FindType.cs" />
@@ -102,6 +111,7 @@
     <Compile Include="Timing\MediaElementLoader.cs" />
     <Compile Include="Timing\TimingReader.cs" />
     <Compile Include="Common\FrameTimer.cs" />
+    <Compile Include="Timing\TrackItemProperty.cs" />
     <Compile Include="Timing\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />
     <Compile Include="Controls\DragSide.cs" />
@@ -177,6 +187,10 @@
     <Compile Include="Windows\TutorialWindow.xaml.cs">
       <DependentUpon>TutorialWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\TrackItemEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -163,8 +163,7 @@ namespace Delight
             else
             {
                 tl.Stop();
-                
-                pw?.player1.Pause();
+                //pw?.player1.Pause();
             }
         }
 

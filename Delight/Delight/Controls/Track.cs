@@ -109,7 +109,7 @@ namespace Delight.Controls
 
         public FrameRate FrameRate => _parent.FrameRate;
 
-        TrackType TrackType
+        public TrackType TrackType
         {
             set
             {

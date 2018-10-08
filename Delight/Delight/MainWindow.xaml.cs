@@ -13,6 +13,7 @@ using Delight.Components.Medias;
 using Delight.Controls;
 using Delight.LogManage;
 using Delight.Projects;
+using Delight.Timing;
 using Delight.Timing.Controller;
 using Delight.Windows;
 
@@ -40,6 +41,8 @@ namespace Delight
 
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
+
+            
 
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
             lbItem.PreviewMouseMove += LbItem_PreviewMouseMove;
@@ -84,21 +87,29 @@ namespace Delight
                 ProjectName = "EmptyProject1"
             });
 
-            pw = new PlayWindow();
-            pw.Show();
-
-            controller = new VideoController(tl.Tracks[1], tl.TimingReader);
-            controller.SetPlayer(pw.player1, pw.player2);
-
             //LoadUnityDebug();
 
             AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
 
-            tl.TimingReader.SetPlayer(pw.player1, pw.player2);
             tl.FrameRate = Core.Common.FrameRate._60FPS;
+            tl.FrameChanged += (s, e) =>
+            {
+                tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
+            };
+
             tl.FrameMouseChanged += (s, e) =>
             {
                 tl.Stop();
+            };
+
+            tl.ItemSelected += (s, e) =>
+            {
+                tiEditor.SetTrackItem((TrackItem)s);
+            };
+
+            tl.ItemDeselected += (s, e) =>
+            {
+                tiEditor.SetTrackItem(null);
             };
             
             //tbSelectItem.Inlines.Add(new Run("아이템s!")
@@ -116,7 +127,7 @@ namespace Delight
             //#if DEBUG
             if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
             {
-                UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
+                //UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
 
                 lbItem.Items.Add(new TemplateItem()
                 {
@@ -132,7 +143,7 @@ namespace Delight
             }
             else
             {
-                unityBg.Visibility = Visibility.Hidden;
+                //unityBg.Visibility = Visibility.Hidden;
             }
             //#endif
         }
@@ -143,8 +154,6 @@ namespace Delight
 
         bool dragStart;
         ListBox dragSource;
-
-        VideoController controller;
 
         #endregion
 
@@ -193,8 +202,27 @@ namespace Delight
             {
                 bg.Height = 1080 / (1920 / bg.ActualWidth);
             };
+            pw = new PlayWindow();
+            pw.ConnectTimeLine(tl);
+            pw.Loaded += Pw_Loaded;
+            pw.Show();
+            
         }
-        
+
+        private void Pw_Loaded(object sender, RoutedEventArgs e)
+        {
+            tl.AddTrack(TrackType.Image);
+            tl.AddTrack(TrackType.Video);
+            tl.AddTrack(TrackType.Video);
+            tl.AddTrack(TrackType.Video);
+            tl.AddTrack(TrackType.Effect, 1);
+            tl.AddTrack(TrackType.Effect, 2);
+            tl.AddTrack(TrackType.Effect, 3);
+            tl.AddTrack(TrackType.Sound);
+            tl.AddTrack(TrackType.Light, 1);
+            tl.AddTrack(TrackType.Light, 2);
+            tl.AddTrack(TrackType.Light, 3);
+        }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {

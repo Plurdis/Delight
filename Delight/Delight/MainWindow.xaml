@@ -244,9 +244,9 @@
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FF252525"/>
             <Grid Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
                     <RowDefinition Height="8"/>
-                    <RowDefinition Height="550"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Background="#FF262626">
@@ -255,15 +255,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="" Margin="5" Grid.ColumnSpan="2"/>
-                        <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
-                            <TextBlock x:Name="tbSelectItem">
-
-                            </TextBlock>
+                        <TextBlock x:Name="tbTime" Text="00:00:00;24" FontSize="25" Foreground="White" Margin="10" Grid.ColumnSpan="2" FontFamily="/Delight;component/Resources/Fonts/#Helvetica"/>
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <ct:TrackItemEditor x:Name="tiEditor"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -275,22 +269,11 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid Background="Black">
-                            <WindowsFormsHost x:Name="unityBg" Visibility="Hidden">
+                    <Grid Background="Black" Grid.Row="1">
+                        <!--<WindowsFormsHost x:Name="unityBg" Visibility="Hidden">
                                 <wf:Panel x:Name="unityPanel"/>
-                            </WindowsFormsHost>
-                            <Grid x:Name="bg" Height="100" Visibility="Visible"/>
-                        </Grid>
-
-                        <Grid Grid.Row="1">
-                            <Image x:Name="test" Source="Resources/조명 미리보기.png"/>
-                            <Border Background="#BF000000" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                        </Grid>
+                            </WindowsFormsHost>-->
+                        <Grid x:Name="bg" Height="100" Visibility="Visible"/>
                     </Grid>
                 </Grid>
             </Grid>

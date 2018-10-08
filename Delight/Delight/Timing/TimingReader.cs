@@ -30,9 +30,10 @@ namespace Delight.Timing
         public event EventHandler TimeLineStarted;
         public event EventHandler TimeLineStopped;
 
-        public TimingReader(TimeLine timeLine)
+        public TimingReader(TimeLine timeLine, Track track)
         {
             TimeLine = timeLine;
+            Track = track;
 
             TimeLine.FrameChanged += TimeLine_FrameChanged;
             TimeLine.FrameMouseChanged += (s, e) => StopLoad();
@@ -81,6 +82,7 @@ namespace Delight.Timing
             }
         }
 
+        Track Track;
         Queue<TrackItem> _allVideos = new Queue<TrackItem>();
         Queue<TrackItem> _loadWaitVideos = new Queue<TrackItem>();
         MediaElementPro player1, player2;
@@ -122,7 +124,7 @@ namespace Delight.Timing
 
                 int position = TimeLine.Position;
 
-                IEnumerable<TrackItem> playingItems = TimeLine.GetItems(position - 1, FindType.FindContains);
+                IEnumerable<TrackItem> playingItems = TimeLine.GetItems(position - 1, Track, FindType.FindContains);
                 playingItems.ForEach(i => ItemPlaying?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
                 
                 if (lastPlayingItem == null)
@@ -130,14 +132,12 @@ namespace Delight.Timing
 
                 // 가장 마지막에 플레이로 인식된 아이템
 
-                IEnumerable<TrackItem> enditems = TimeLine.GetItems(position, FindType.FindEndPoint);
+                IEnumerable<TrackItem> enditems = TimeLine.GetItems(position, Track, FindType.FindEndPoint);
                 enditems.Concat(lastPlayingItem.Except(playingItems)).ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
 
                 lastPlayingItem = new List<TrackItem>(playingItems);
 
-                
-
-                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + waitFrame, FindRangeType.FindStartPoint);
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + waitFrame, Track, FindRangeType.FindStartPoint);
                 readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
             }
         }
@@ -191,7 +191,7 @@ namespace Delight.Timing
             Console.WriteLine("Start Load Start");
             Application.Current.Dispatcher.Invoke(() =>
             {
-                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, FindRangeType.FindContains);
+                IEnumerable<TrackItem> readyItems = TimeLine.GetItems(TimeLine.Position, TimeLine.Position + waitFrame, Track, FindRangeType.FindContains);
                 readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
                 if (readyItems.Count() > 0)
                 {

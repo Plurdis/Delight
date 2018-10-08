@@ -3,7 +3,9 @@
                     xmlns:ct="clr-namespace:Delight.Controls"
                     xmlns:cvter="clr-namespace:Delight.Converter"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:wkct="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit">
+                    xmlns:wkct="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
+                    xmlns:layer="clr-namespace:Delight.Layer"
+                    xmlns:timing="clr-namespace:Delight.Timing">
 
 
     <cvter:RangeConverter x:Key="RangeConverter"/>
@@ -89,7 +91,38 @@
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" Background="#FF2C2C2C" />
                             <Border Grid.Column="1" Background="#FF262626" />
-                            <StackPanel x:Name="tracks" Grid.ColumnSpan="2"/>
+                            <Grid Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid>
+                                        <Rectangle Height="30" Fill="#FF3A3A3A"/>
+                                        <TextBlock Margin="10,0" Text="시각 트랙" Foreground="White" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <StackPanel x:Name="visualTracks" Grid.Row="1"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid>
+                                        <Rectangle Height="30" Fill="#FF3A3A3A"/>
+                                        <TextBlock Margin="10,0" Text="비시각적 트랙" Foreground="White" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    
+                                    <StackPanel x:Name="otherTracks" Grid.Row="1"/>
+                                </Grid>
+                                
+                            </Grid>
                         </Grid>
 
 
@@ -362,6 +395,11 @@
                         <Rectangle x:Name="dragMove" Fill="Transparent" Grid.Column="1"/>
                         <Rectangle x:Name="dragRight" Fill="Transparent" Grid.Column="2" Cursor="SizeWE"/>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -391,10 +429,10 @@
         </Style.Triggers>-->
     </Style>
 
-    <Style x:Name="PresetPanelStyle" TargetType="{x:Type ct:PresetPanel}">
+    <Style x:Key="PresetPanelStyle" TargetType="{x:Type ct:PresetPanel}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type ct:PresetPanel}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -405,10 +443,29 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid Background="Red"/>
+                        <Grid Grid.Row="1">
+                            <StackPanel x:Name="spTypes">
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="FontFamily" Value="/Delight;component/Resources/Fonts/#Helvetica"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Label}">
+                                                    <Grid Height="50" Background="#FF2C2C2C">
+                                                        <ContentPresenter Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" Content="{TemplateBinding Content}"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </StackPanel.Resources>
+                            </StackPanel>
+                        </Grid>
                         <Grid Grid.RowSpan="2" Grid.Column="1">
                             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                                <WrapPanel x:Name="PresetItems">
-                                    
+                                <WrapPanel x:Name="presetItems">
                                 </WrapPanel>
                             </ScrollViewer>
                         </Grid>
@@ -418,22 +475,34 @@
         </Setter>
     </Style>
 
-    <Style x:Name="PresetItemStyle" TargetType="{x:Type ct:PresetItem}">
+    <Style x:Key="PresetItemStyle" TargetType="{x:Type ct:PresetItem}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type ct:PresetItem}">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            
+                        <Grid Background="#FF1D1D1D">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridHeader" Background="Transparent">
+                                <TextBlock Foreground="White" TextAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Text}"/>
+                            </Grid>
+                            <StackPanel x:Name="Items" Grid.Row="1">
+                                <Border Background="#FF262626" Height="50" BorderBrush="Black" BorderThickness="1,0,1,0"/>
+                                <Border Background="#FF262626" Height="50" BorderBrush="Black" BorderThickness="1,0,1,0"/>
+                                <Border Background="#FF262626" Height="50" BorderBrush="Black" BorderThickness="1,0,1,0"/>
+                                <Border Background="#FF262626" Height="50" BorderBrush="Black" BorderThickness="1,0,1,0"/>
+                                <Border Background="#FF262626" Height="50" BorderBrush="Black" BorderThickness="1,0,1,0"/>
+                            </StackPanel>
                         </Grid>
-                        <StackPanel x:Name="Items" Grid.Row="1">
-
-                        </StackPanel>
+                        <Border x:Name="borderSel" Visibility="Hidden" BorderBrush="Red" BorderThickness="3"/>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Checked" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="borderSel"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -479,6 +548,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style TargetType="{x:Type Separator}">
         <Setter Property="Margin" Value="0,3,0,3" />
         <Setter Property="Template">
@@ -605,6 +675,46 @@
                             <Setter Property="Foreground" Value="LightGray"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ct:ImageTextBlock}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ct:ImageTextBlock}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{TemplateBinding Source}"/>
+                        <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Column="1"/>
+                    </Grid> 
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VideoLayerStyle" TargetType="{x:Type layer:VideoLayer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <ct:MediaElementPro x:Name="player1"/>
+                        <ct:MediaElementPro x:Name="player2"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ImageLayerStyle" TargetType="{x:Type layer:ImageLayer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Image x:Name="image"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

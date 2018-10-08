@@ -340,7 +340,7 @@ namespace Delight.Debug.Controls
 
         #region [  Property & Variable  ]
 
-        public FrameRate FrameRate { get; private set; } = FrameRate._60FPS;
+        public FrameRate FrameRate { get; private set; } = FrameRate._24FPS;
 
         public double MaxItemSize = 30;
 

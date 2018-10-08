@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Common\FrameRate.cs" />
     <Compile Include="Common\ImageCreator.cs" />
+    <Compile Include="Common\PlayDevice.cs" />
+    <Compile Include="Common\PlayDeviceAttribute.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
     <Compile Include="Extension\IEnumerableEx.cs" />
     <Compile Include="Exceptions\ProcessException.cs" />

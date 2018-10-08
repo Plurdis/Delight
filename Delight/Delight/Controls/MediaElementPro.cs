@@ -390,8 +390,6 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             }
         }
 
-
-
         #endregion
 
 
@@ -441,9 +439,18 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
         {
             Timer.Interval = TimeSpan.FromSeconds(.5);
             Timer.Tick += OnTimerTick;
+            
+            this.Loaded += MediaElementPro_Loaded;
+        }
+
+        private void MediaElementPro_Loaded(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(this.Parent.ToString());
+            //MessageBox.Show(TemplateApplied.ToString());
         }
 
         MediaUriElement mediaElement;
+        bool TemplateApplied;
 
         public override void OnApplyTemplate()
         {
@@ -456,6 +463,8 @@ new PropertyMetadata(default(double), BalancePropertyChanged));
             mediaElement.MediaEnded += OnMediaEnded;
             mediaElement.MediaFailed += OnMediaFailed;
             mediaElement.MediaOpened += OnMediaOpened;
+
+            TemplateApplied = true;
         }
 
         public bool VideoLoaded => Source != null;
