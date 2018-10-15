@@ -47,7 +47,7 @@ namespace Delight.Controls
         public event EventHandler ItemRemoved;
 
         public event EventHandler TimeLineStarted;
-        public event EventHandler TimeLineStoped;
+        public event EventHandler TimeLineStopped;
 
         public event EventHandler<TrackEventArgs> TrackAdded;
         public event EventHandler<TrackEventArgs> TrackRemoved;
@@ -68,7 +68,7 @@ namespace Delight.Controls
 
         public TrackItem SelectedItem { get; private set; }
 
-        public Dictionary<Track,TimingReader> TimingReaders { get; }
+        public Dictionary<Track,DelayTimingReader> TimingReaders { get; }
         public Dictionary<Track, VideoController> VideoControllers { get; }
 
         public TimeLine()
@@ -78,7 +78,7 @@ namespace Delight.Controls
             Thread thr = new Thread(ThreadRun);
             thr.Start();
 
-            TimingReaders = new Dictionary<Track, TimingReader>();
+            TimingReaders = new Dictionary<Track, DelayTimingReader>();
             VideoControllers = new Dictionary<Track, VideoController>();
 
             ApplyTemplate();
@@ -612,8 +612,12 @@ namespace Delight.Controls
 
                 if (trackType == TrackType.Video)
                 {
-                    TimingReaders[track] = new TimingReader(this, track);
+                    TimingReaders[track] = new DelayTimingReader(this, track);
                     VideoControllers[track] = new VideoController(track, TimingReaders[track]);
+                }
+                else if (trackType == TrackType.Image)
+                {
+                    TimingReaders[track] = new DelayTimingReader(this, track);
                 }
             }
             else
@@ -703,7 +707,7 @@ namespace Delight.Controls
         {
             //  test
             TimingReaders.ForEach(i => i.Value.StopLoad());
-            TimeLineStoped?.Invoke(this, new EventArgs());
+            TimeLineStopped?.Invoke(this, new EventArgs());
             _timer.Stop();
         }
 

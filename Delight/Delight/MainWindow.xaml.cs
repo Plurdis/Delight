@@ -35,9 +35,6 @@ namespace Delight
 
             #endregion
 
-            PackingWindow pw = new PackingWindow();
-            pw.ShowDialog();
-
             //RGB2HSL(Color.FromRgb(5, 215, 5), out double hh, out double ss, out double ll);
 
             //sliderHueMin.Value = hh;

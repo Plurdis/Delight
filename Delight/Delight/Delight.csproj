@@ -127,8 +127,9 @@
     <Compile Include="Timing\MagnetHelper.cs" />
     <Compile Include="Timing\MagnetOptions.cs" />
     <Compile Include="Timing\MediaElementLoader.cs" />
-    <Compile Include="Timing\TimingReader.cs" />
+    <Compile Include="Timing\DelayTimingReader.cs" />
     <Compile Include="Common\FrameTimer.cs" />
+    <Compile Include="Timing\TimingReader.cs" />
     <Compile Include="Timing\TrackItemProperty.cs" />
     <Compile Include="Timing\TrackType.cs" />
     <Compile Include="Components\StageComponent.cs" />

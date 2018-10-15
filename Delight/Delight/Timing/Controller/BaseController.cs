@@ -13,7 +13,7 @@ namespace Delight.Timing.Controller
 {
     public abstract class BaseController
     {
-        public BaseController(Track track, TimingReader reader, bool waitWhileLoading = false)
+        public BaseController(Track track, DelayTimingReader reader, bool waitWhileLoading = false)
         {
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
@@ -38,7 +38,7 @@ namespace Delight.Timing.Controller
 
         internal int CurrentFrame => Reader.CurrentFrame;
         internal FrameRate CurrentFrameRate => Reader.CurrentFrameRate;
-        internal TimingReader Reader { get; }
+        internal DelayTimingReader Reader { get; }
 
         Track Track { get; }
 

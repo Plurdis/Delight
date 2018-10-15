@@ -18,7 +18,7 @@ namespace Delight.Timing.Controller
 {
     public class VideoController : BaseController
     {
-        public VideoController(Track track, TimingReader reader) : base(track, reader, true)
+        public VideoController(Track track, DelayTimingReader reader) : base(track, reader, true)
         {
         }
 
