@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using Delight.Common;
 using Delight.Components.Common;
 using Delight.Controls;
+using Delight.Effects;
 using Delight.Extensions;
 using Delight.Layer;
 using WPFMediaKit.DirectShow.MediaPlayers;
@@ -21,7 +22,6 @@ namespace Delight.Timing.Controller
         {
         }
 
-        
         MediaElementPro player1, player2;
         MediaElementLoader loader1, loader2;
 
@@ -131,28 +131,76 @@ namespace Delight.Timing.Controller
             {
                 s.PositionChanged -= localPositionChanged;
 
+                Canvas rootCanvas = ((VideoLayer)s.TemplatedParent).Parent as Canvas;
+                VideoLayer rootLayer = (VideoLayer)s.TemplatedParent;
+
                 TrackItem itm = s.GetTag<TrackItem>();
                 s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + CurrentFrame - itm.Offset, CurrentFrameRate);
-                s.Volume = 1;
+                s.Volume = itm.ItemProperty.Volume;
                 s.Visibility = Visibility.Visible;
                 s.Opacity = itm.ItemProperty.Opacity;
-                itm.ItemProperty.OpacityChanged += (sen, e) =>
-                {
-                    s.Opacity = itm.ItemProperty.Opacity;
-                };
-                itm.ItemProperty.SizeChanged += (sen, e) =>
-                {
-                    Canvas rootCanvas = ((VideoLayer)s.TemplatedParent).Parent as Canvas;
 
-                    s.Width = rootCanvas.ActualWidth * itm.ItemProperty.Size;
-                    s.Height = rootCanvas.ActualHeight * itm.ItemProperty.Size;
+                s.Width = rootCanvas.ActualWidth * itm.ItemProperty.Size;
+                s.Height = rootCanvas.ActualHeight * itm.ItemProperty.Size;
+                Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
+                Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
+
+                itm.ItemProperty.PropertyChanged += (sen, e) =>
+                {
+                    switch (e.ChangedProperty.ToLower())
+                    {
+                        case "opacity":
+                            s.Opacity = itm.ItemProperty.Opacity;
+                            break;
+
+                        case "positionx":
+                        case "positiony":
+                        case "size":
+                            s.Width = rootCanvas.ActualWidth * itm.ItemProperty.Size;
+                            s.Height = rootCanvas.ActualHeight * itm.ItemProperty.Size;
+
+                            Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
+                            Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
+                            break;
+
+                        case "volume":
+                            s.Volume = itm.ItemProperty.Volume;
+                            break;
+                        case "chromakeyusage":
+                        case "chromakeycolor":
+                        case "chromakeyenabled":
+                            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
+
+                            if (itm.ItemProperty.ChromaKeyEnabled)
+                            {
+                                itm.ItemProperty.ChromaKeyColor.ToHSL(out double _h, out double _s, out double _l);
+                                
+                                vLayer.Effect = new ChromaKeyEffect()
+                                {
+                                    HueMin = (float)_h,
+                                    HueMax = (float)_h,
+                                    SaturationMax = (float)_s,
+                                    SaturationMin = (float)_s,
+                                    LuminanceMax = (float)_l,
+                                    LuminanceMin = (float)_l,
+                                    Smooth = (float)itm.ItemProperty.ChromaKeyUsage,
+                                };
+                            }
+                            else
+                            {
+                                vLayer.Effect = null;
+                            }
+                            break;
+                    }
                 };
+
                 if (s == player1)
                     player2.Visibility = Visibility.Hidden;
                 else
                     player1.Visibility = Visibility.Hidden;
             }
         }
+
 
         int lastFrame;
         public override void ItemPlaying(TrackItem sender, TimingEventArgs e)
@@ -181,12 +229,18 @@ namespace Delight.Timing.Controller
             MediaElementPro player = GetPlayer(sender);
             DisablePlayer(player);
             Items.Remove(sender);
+            if (player != null)
+            {
+                player.Width = double.NaN;
+                player.Height = double.NaN;
 
-            player.Width = double.NaN;
-            player.Height = double.NaN;
+                VideoLayer rootLayer = (VideoLayer)player.TemplatedParent;
 
-            sender.ItemProperty.ResetOpacityHandler();
-            sender.ItemProperty.ResetSizeHandler();
+                Canvas.SetLeft(rootLayer, 0);
+                Canvas.SetTop(rootLayer, 0);
+            }
+
+            sender.ItemProperty.ResetEventHandler();
             Console.WriteLine("Item Closed");
         }
 

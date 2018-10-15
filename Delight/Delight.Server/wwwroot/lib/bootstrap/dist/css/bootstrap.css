@@ -263,8 +263,8 @@ th {
 @font-face {
   font-family: 'Glyphicons Halflings';
 
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  srct: url('../fonts/glyphicons-halflings-regular.eot');
+  srct: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -303,7 +303,7 @@ th {
 .glyphicon-glass:before {
   content: "\e001";
 }
-.glyphicon-music:before {
+.glyphicon-musict:before {
   content: "\e002";
 }
 .glyphicon-search:before {
@@ -441,7 +441,7 @@ th {
 .glyphicon-bold:before {
   content: "\e048";
 }
-.glyphicon-italic:before {
+.glyphicon-italict:before {
   content: "\e049";
 }
 .glyphicon-text-height:before {
@@ -954,7 +954,7 @@ th {
 .glyphicon-bitcoin:before {
   content: "\e227";
 }
-.glyphicon-btc:before {
+.glyphicon-btct:before {
   content: "\e227";
 }
 .glyphicon-xbt:before {

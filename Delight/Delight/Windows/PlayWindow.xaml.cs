@@ -60,6 +60,8 @@ namespace Delight.Windows
 
                     rootElement.Width = scr.Bounds.Width;
                     rootElement.Height = scr.Bounds.Height;
+                    testElement.Width = scr.Bounds.Width;
+                    testElement.Height = scr.Bounds.Height;
                     break;
                 }
             }
@@ -69,12 +71,13 @@ namespace Delight.Windows
 
             this.Loaded += PlayWindow_Loaded;
 
-            Scenes = new List<ILayer>();
+            Layers = new List<ILayer>();
 
             List<UIElement> itm = rootElement.Children.Cast<UIElement>().ToList();
         }
 
         TimeLine _timeLine;
+        VisualBrush _brush;
 
         public void ConnectTimeLine(TimeLine timeLine)
         {
@@ -89,6 +92,11 @@ namespace Delight.Windows
                 timeLine.TrackRemoved += TimeLine_TrackRemoved;
 
                 _timeLine = timeLine;
+
+                _timeLine.FrameChanged += (s, e) =>
+                {
+                    
+                };
             }
         }
 
@@ -145,25 +153,25 @@ namespace Delight.Windows
         {
         }
 
-        private List<ILayer> Scenes { get; }
+        private List<ILayer> Layers { get; }
 
-        private void AddLayer(ILayer scene)
+        private void AddLayer(ILayer layer)
         {
-            if (!Scenes.Contains(scene))
+            if (!Layers.Contains(layer))
             {
-                Scenes.Add(scene);
+                Layers.Add(layer);
             }
-            if (!rootElement.Children.Contains((UIElement)scene))
+            if (!rootElement.Children.Contains((UIElement)layer))
             {
-                rootElement.Children.Add((UIElement)scene);
+                rootElement.Children.Add((UIElement)layer);
             }
         }
 
         private void RemoveScene(ILayer scene)
         {
-            if (Scenes.Contains(scene))
+            if (Layers.Contains(scene))
             {
-                Scenes.Remove(scene);
+                Layers.Remove(scene);
             }
             if (rootElement.Children.Contains((UIElement)scene))
             {
@@ -174,8 +182,26 @@ namespace Delight.Windows
         private void PlayWindow_Loaded(object sender, RoutedEventArgs e)
         {
             MainWindow mw = (MainWindow)System.Windows.Application.Current.MainWindow;
+            
+            _brush = new VisualBrush(rootElement)
+            {
+                AlignmentX = AlignmentX.Center,
+                AlignmentY = AlignmentY.Center,
+                ViewportUnits = BrushMappingMode.RelativeToBoundingBox,
+                Stretch = Stretch.Uniform,
+                
+            };
 
-            mw.bg.Background = new VisualBrush(rootElement);
+            mw.bg.Background = _brush;
+
+            //_timeLine.FrameChanged += 
+        }
+
+        public void SetViewportRange()
+        {
+            //double translateX = -50;
+            //Viewport = new Rect(-0.2, 0, 1, 1)
+            _brush.Viewport = new Rect(0.2, 0, 1 - 0.2, 1);
         }
 
         public ImageSource WinFormControlToImage(System.Windows.Forms.Control ctrl)

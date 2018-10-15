@@ -265,7 +265,7 @@ jQuery.extend( {
 		return obj != null && obj === obj.window;
 	},
 
-	isNumeric: function( obj ) {
+	isNumerict: function( obj ) {
 
 		// parseFloat NaNs numeric-cast false positives (null|true|false|"")
 		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
@@ -5804,7 +5804,7 @@ function curCSS( elem, name, computed ) {
 		// A tribute to the "awesome hack by Dean Edwards"
 		// Android Browser returns percentage for some values,
 		// but width seems to be reliably pixels.
-		// This is against the CSSOM draft spec:
+		// This is against the CSSOM draft spect:
 		// http://dev.w3.org/csswg/cssom/#resolved-values
 		if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
 
@@ -8271,7 +8271,7 @@ jQuery.extend( {
 		isLocal: rlocalProtocol.test( location.protocol ),
 		global: true,
 		processData: true,
-		async: true,
+		asynct: true,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		/*
 		timeout: 0,
@@ -8819,7 +8819,7 @@ jQuery._evalUrl = function( url ) {
 		// Make this explicit, since user can override this through ajaxSetup (#11264)
 		type: "GET",
 		dataType: "script",
-		async: false,
+		asynct: false,
 		global: false,
 		"throws": true
 	} );
@@ -9228,7 +9228,7 @@ jQuery.ajaxTransport( "script", function( s ) {
 			send: function( _, complete ) {
 				script = jQuery( "<script>" ).prop( {
 					charset: s.scriptCharset,
-					src: s.url
+					srct: s.url
 				} ).on(
 					"load error",
 					callback = function( evt ) {

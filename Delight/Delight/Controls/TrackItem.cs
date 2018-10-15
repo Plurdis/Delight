@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Delight.Common;
+using Delight.Core.Common;
+using Delight.Core.Extension;
 using Delight.Timing;
 
 namespace Delight.Controls
@@ -20,7 +23,7 @@ namespace Delight.Controls
     [TemplatePart(Name = "dragLeft", Type = typeof(Rectangle))]
     [TemplatePart(Name = "dragMove", Type = typeof(Rectangle))]
     [TemplatePart(Name = "dragRight", Type = typeof(Rectangle))]
-    public class TrackItem : Control
+    public class TrackItem : Control, INotifyPropertyChanged
     {
         public TrackItem()
         {
@@ -39,6 +42,8 @@ namespace Delight.Controls
 
         public event MouseButtonEventHandler MouseRightButtonClick;
         public event MouseButtonEventHandler MouseLeftButtonClick;
+        public event PropertyChangedEventHandler PropertyChanged;
+
         Rectangle leftSide, movingSide, rightSide;
 
         public override void OnApplyTemplate()
@@ -95,7 +100,38 @@ namespace Delight.Controls
 
         public TrackItemProperty ItemProperty { get; }
 
-        public TrackType TrackType { get; set; }
+        TrackType _trackType = default(TrackType);
+        public TrackType TrackType
+        {
+            get => _trackType;
+            set
+            {
+                //    if (value.GetEnumAttribute<PlayDeviceAttribute>().PlayDevice == PlayDevice.Display)
+                //    {
+                //        SetValue(IsVisibleLayerProperty, true);
+                //    }
+                //    else
+                //    {
+                //        SetValue(IsVisibleLayerProperty, false);
+                //    }
+
+                _trackType = value;
+            }
+        }
+
+        //public bool IsVisibleLayer
+        //{
+        //    get => (bool)GetValue(IsVisibleLayerProperty);
+        //}
+
+        //public static readonly DependencyPropertyKey IsVisibleLayerKey = 
+        //    DependencyProperty.RegisterReadOnly(nameof(IsVisibleLayer), 
+        //        typeof(bool), 
+        //        typeof(TrackType), 
+        //        new PropertyMetadata(false)
+        //        );
+
+        //public static readonly DependencyProperty IsVisibleLayerProperty = IsVisibleLayerKey.DependencyProperty;
 
         public int Offset { get; set; }
 

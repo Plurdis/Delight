@@ -1,9 +1,10 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:cm="clr-namespace:Delight.Commands"
-                    xmlns:local="clr-namespace:Delight">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cm="clr-namespace:Delight.Commands"
+    xmlns:local="clr-namespace:Delight">
     <ContextMenu x:Key="TrackItemContextMenu">
-        <MenuItem Header="이 아이템을 삭제(_D)" Command="{x:Static cm:TrackItemCommands.DeleteCommand}"/>
-        <Separator/>
+        <MenuItem Command="{x:Static cm:TrackItemCommands.DeleteCommand}" Header="이 아이템을 삭제(_D)" />
+        <Separator />
     </ContextMenu>
 </ResourceDictionary>

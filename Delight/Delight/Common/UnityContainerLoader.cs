@@ -53,7 +53,7 @@ namespace Delight.Common
             process.StartInfo.Arguments = $"-parentHWND {winformControl.Handle} {Environment.NewLine}";
             process.StartInfo.UseShellExecute = true;
             process.StartInfo.CreateNoWindow = true;
-            //process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
 
             process.Start();
 

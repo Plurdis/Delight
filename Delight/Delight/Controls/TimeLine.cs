@@ -37,6 +37,11 @@ namespace Delight.Controls
         public event EventHandler FrameChanged;
         public event EventHandler FrameMouseChanged;
         
+        public void OnFrameMouseChanged(object sender, EventArgs e)
+        {
+            FrameMouseChanged?.Invoke(sender, e);
+        }
+
         public event EventHandler<ItemEventArgs> ItemAdded;
         public event EventHandler<ItemEventArgs> ItemRemoving;
         public event EventHandler ItemRemoved;
@@ -61,7 +66,7 @@ namespace Delight.Controls
         double absLeft, relLeft;
         FrameTimer _timer;
 
-        TrackItem SelectedItem;
+        public TrackItem SelectedItem { get; private set; }
 
         public Dictionary<Track,TimingReader> TimingReaders { get; }
         public Dictionary<Track, VideoController> VideoControllers { get; }
@@ -290,8 +295,10 @@ namespace Delight.Controls
 
         #region [  TrackItems Management  ]
         public IEnumerable<TrackItem> Items => 
-            visualTracks.Children
+            otherTracks.Children
                 .Cast<Track>()
+                .Concat(visualTracks.Children
+                           .Cast<Track>())
                 .SelectMany(i => i.Items);
 
         /// <summary>
@@ -666,8 +673,6 @@ namespace Delight.Controls
                 scrollBar.Maximum = 0;
                 scrollBar.Visibility = Visibility.Hidden;
             }
-            
-            
         }
 
         #endregion
@@ -826,7 +831,7 @@ namespace Delight.Controls
 
             for (int i = 0; i <= (ActualWidth - startPoint) / _displaySize; i++)
             {
-                var pen = new Pen(Brushes.Gray, 1);
+                var pen = new Pen(Brushes.Black, 1);
 
                 double halfPenWidth = pen.Thickness / 2;
 
@@ -840,11 +845,11 @@ namespace Delight.Controls
                 if ((i + value) % 12 == 0)
                 {
                     height = 28;
-                    pen.Brush = Brushes.White;
+                    pen.Brush = Brushes.Black;
                     dc.DrawText(new FormattedText(MediaTools.GetTimeText((i + value) * Weight, FrameRate), CultureInfo.GetCultureInfo("en-us"),
                         FlowDirection.LeftToRight,
                         new Typeface("/Delight;component/Resources/Fonts/#Helvetica"),
-                        10, Brushes.White),
+                        10, Brushes.Black),
                         new Point(startPoint + i * _displaySize + sizeOffset + 4, 20));
 
                     guidelines.GuidelinesY.Add(35.5 - height);
@@ -853,7 +858,7 @@ namespace Delight.Controls
                 else if ((i + value) % 4 == 0)
                 {
                     height = 20;
-                    pen.Brush = Brushes.White;
+                    pen.Brush = Brushes.Black;
                 }
                 DrawLine(dc, pen, new Point(startPoint + i * _displaySize + sizeOffset, 0), new Point(startPoint + i * _displaySize + sizeOffset, height));
                 dc.Pop();

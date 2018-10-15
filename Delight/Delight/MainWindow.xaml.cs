@@ -35,14 +35,30 @@ namespace Delight
 
             #endregion
 
+            PackingWindow pw = new PackingWindow();
+            pw.ShowDialog();
+
+            //RGB2HSL(Color.FromRgb(5, 215, 5), out double hh, out double ss, out double ll);
+
+            //sliderHueMin.Value = hh;
+            //sliderHueMax.Value = hh;
+
+            //sliderSatMax.Value = ss;
+            //sliderSatMin.Value = ss;
+
+            //sliderLightMax.Value = ll;
+            //sliderLightMin.Value = ll;
+
+            //sliderSmooth.Value = 0.288;
+
+            //MessageBox.Show($"{hh}, {ss}, {ll}");
+            
             #region [  EventHandler Connect  ]
 
             ((INotifyCollectionChanged)lbItem.Items).CollectionChanged += lbItem_CollectionChanged;
 
             rbBox.Checked += RbBox_Checked;
             rbList.Checked += RbList_Checked;
-
-            
 
             lbItem.PreviewMouseLeftButtonDown += LbItem_PreviewMouseLeftButtonDown;
             lbItem.PreviewMouseMove += LbItem_PreviewMouseMove;
@@ -71,15 +87,19 @@ namespace Delight
             CommandBindings.Add(new CommandBinding(MenuCommands.ViewInfoCommand, ViewInfoExecuted));
 
             CommandBindings.Add(new CommandBinding(MenuCommands.ManageTemplateCommand, ManageTemplateExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ManageDeviceCommand, ManageDeviceExecuted));
 
             CommandBindings.Add(new CommandBinding(ControlCommands.PlayCommand, PlayExecuted));
 
-//#if DEBUG
+            CommandBindings.Add(new CommandBinding(TrackItemCommands.DeleteCommand, DeleteCommandExecuted));
+
+
+            //#if DEBUG
             CommandBindings.Add(new CommandBinding(DebugCommands.PlayWindowVisibleCommand, PlayWindowVisibleExecuted));
             CommandBindings.Add(new CommandBinding(DebugCommands.UnityPreviewVisibleCommand, UnityPreviewVisibleCommandExecuted));
             CommandBindings.Add(new CommandBinding(DebugCommands.CallCustomDebugMethodCommand, CallCustomDebugMethodCommandExecuted));
             //#endif
-
+            
             #endregion
 
             SetProject(new ProjectInfo()
@@ -89,7 +109,9 @@ namespace Delight
 
             //LoadUnityDebug();
 
-            AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
+            //AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
+
+            anEditor.SetTimeLine(tl);
 
             tl.FrameRate = Core.Common.FrameRate._60FPS;
             tl.FrameChanged += (s, e) =>
@@ -105,11 +127,13 @@ namespace Delight
             tl.ItemSelected += (s, e) =>
             {
                 tiEditor.SetTrackItem((TrackItem)s);
+                anEditor.SetTrackItem((TrackItem)s);
             };
 
             tl.ItemDeselected += (s, e) =>
             {
                 tiEditor.SetTrackItem(null);
+                anEditor.SetTrackItem(null);
             };
             
             //tbSelectItem.Inlines.Add(new Run("아이템s!")
@@ -119,32 +143,42 @@ namespace Delight
             //});
         }
 
+        private void DeleteCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            TrackItem item = tl.SelectedItem;
+
+            Track track = ((FrameworkElement)item.Parent).TemplatedParent as Track;
+
+            track.RemoveItem(item);
+            //MessageBox.Show(sender.ToString());
+        }
+
         public void LoadUnityDebug()
         {
-            MediaTools.GetFile("사진|*.png", out string floc);
+            //MediaTools.GetFile("사진|*.png", out string floc);
 
-            ImageSource thumbnail = new BitmapImage(new Uri(floc));
-            //#if DEBUG
-            if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
-            {
-                //UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
+            //ImageSource thumbnail = new BitmapImage(new Uri(floc));
+            ////#if DEBUG
+            //if (MediaTools.GetFile("시각화 실행 파일(*.exe)|*.exe", out string fileLoc))
+            //{
+            //    UnityContainerLoader loader = new UnityContainerLoader(fileLoc, this, unityPanel);
 
-                lbItem.Items.Add(new TemplateItem()
-                {
-                    ItemName = "Stage Visualize Component",
-                    Source = thumbnail,
-                    StageComponent = new Unity()
-                    {
-                        Time = TimeSpan.FromMinutes(3),
-                        Identifier = "Stage Visualize Component",
-                        Thumbnail = thumbnail,
-                    },
-                });
-            }
-            else
-            {
-                //unityBg.Visibility = Visibility.Hidden;
-            }
+            //    lbItem.Items.Add(new TemplateItem()
+            //    {
+            //        ItemName = "Stage Visualize Component",
+            //        Source = thumbnail,
+            //        StageComponent = new Unity()
+            //        {
+            //            Time = TimeSpan.FromMinutes(3),
+            //            Identifier = "Stage Visualize Component",
+            //            Thumbnail = thumbnail,
+            //        },
+            //    });
+            //}
+            //else
+            //{
+            //    unityBg.Visibility = Visibility.Hidden;
+            //}
             //#endif
         }
 
@@ -211,17 +245,14 @@ namespace Delight
 
         private void Pw_Loaded(object sender, RoutedEventArgs e)
         {
-            tl.AddTrack(TrackType.Image);
+            //tl.AddTrack(TrackType.Image);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Effect, 1);
             tl.AddTrack(TrackType.Effect, 2);
-            tl.AddTrack(TrackType.Effect, 3);
             tl.AddTrack(TrackType.Sound);
-            tl.AddTrack(TrackType.Light, 1);
-            tl.AddTrack(TrackType.Light, 2);
-            tl.AddTrack(TrackType.Light, 3);
+            tl.AddTrack(TrackType.Light);
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)

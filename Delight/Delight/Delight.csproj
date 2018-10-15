@@ -68,6 +68,9 @@
     <Reference Include="WPFMediaKit, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFMediaKit.2.2.0\lib\WPFMediaKit.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>C:\Users\uutak\Downloads\VirtualCamSrc\ColorPickerSample_other\bin\Debug\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -76,27 +79,42 @@
     </ApplicationDefinition>
     <Compile Include="Commands\DebugCommands.cs" />
     <Compile Include="Commands\TrackItemCommands.cs" />
+    <Compile Include="Common\DependencyHelper.cs" />
     <Compile Include="Common\ColorTheme.cs" />
     <Compile Include="Commands\ControlCommands.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Delegates.cs" />
+    <Compile Include="Common\DMXLib.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
     <Compile Include="Common\PlayerState.cs" />
+    <Compile Include="Common\TrackValueChangedEventArgs.cs" />
     <Compile Include="Common\UnityContainerLoader.cs" />
     <Compile Include="Components\Effect.cs" />
     <Compile Include="Components\Medias\Unity.cs" />
     <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
+    <Compile Include="Controls\AnimationEditor.cs" />
     <Compile Include="Controls\ImageTextBlock.cs" />
     <Compile Include="Controls\MediaElementPro.cs" />
     <Compile Include="Controls\PresetItem.cs" />
     <Compile Include="Controls\PresetPanel.cs" />
+    <Compile Include="Controls\PrestoSeekBar.cs" />
+    <Compile Include="Controls\Property\PropertyCheckBox.cs" />
+    <Compile Include="Controls\Property\PropertyColorPick.cs" />
+    <Compile Include="Controls\Property\PropertySlider.cs" />
+    <Compile Include="Controls\TrackingRangeBase.cs" />
     <Compile Include="Controls\TrackItemEditor.xaml.cs">
       <DependentUpon>TrackItemEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\FormatConverter.cs" />
+    <Compile Include="Converter\MultiplyConverter.cs" />
     <Compile Include="Converter\StringConverter.cs" />
+    <Compile Include="Converter\ValueConverter.cs" />
+    <Compile Include="Effects\ChromaKeyEffect.cs" />
     <Compile Include="EventArgs\ItemEventArgs.cs" />
+    <Compile Include="EventArgs\PropertyChangedEventArgs.cs" />
     <Compile Include="EventArgs\TimingEventArgs.cs" />
     <Compile Include="EventArgs\TrackEventArgs.cs" />
+    <Compile Include="Extensions\ColorEx.cs" />
     <Compile Include="Layer\BaseLayer.cs" />
     <Compile Include="Layer\ILayer.cs" />
     <Compile Include="Layer\ImageLayer.cs" />
@@ -172,6 +190,9 @@
     <Compile Include="Windows\LicenseWindow.xaml.cs">
       <DependentUpon>LicenseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LightControlWindow.xaml.cs">
+      <DependentUpon>LightControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
@@ -187,6 +208,22 @@
     <Compile Include="Windows\TutorialWindow.xaml.cs">
       <DependentUpon>TutorialWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\Property\PropertyCheckBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Property\PropertyColorPickStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Property\PropertySlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Property\PropertyStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TrackItemEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LicenseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LightControlWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -285,6 +326,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Resources\chromakey.ps" />
     <Resource Include="Resources\Fonts\Helvetica.ttf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -309,7 +351,20 @@
   <ItemGroup>
     <Resource Include="Resources\ffmpeg.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\chromakey.fx" />
+    <Content Include="USB-DMX.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\MovingLightX.png" />
+    <Resource Include="Resources\MovingLightBack.png" />
+    <Resource Include="Resources\MovingLightColor.png" />
+    <Resource Include="Resources\MovingLightTicking.png" />
+    <Resource Include="Resources\MovingLightY.png" />
+    <Resource Include="Resources\MovingLightImage.png" />
+    <Resource Include="Resources\defaultSoundImage.png" />
+    <Resource Include="Resources\greenImage.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\box.png" />
   </ItemGroup>
@@ -360,4 +415,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86\fxc.exe" /Zi /T ps_3_0 /Fo "D:\Delight\Delight\Delight\Resources\chromakey.ps" "D:\Delight\Delight\Delight\Resources\chromakey.fx"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

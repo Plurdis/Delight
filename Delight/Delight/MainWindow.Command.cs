@@ -88,6 +88,19 @@ namespace Delight
                     });
                     break;
                 case MediaTypes.Sound:
+                    image = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/defaultSoundimage.png", UriKind.Absolute));
+                    lbItem.Items.Add(new TemplateItem()
+                    {
+                        ItemName = "김윤아 - 야상곡",
+                        Source = image,
+                        StageComponent = new Sound()
+                        {
+                            Identifier = "김윤아 - 야상곡", //fi.Name,
+                            OriginalPath = location,
+                            Time = MediaTools.GetMediaDuration(location),
+                            Thumbnail = image,
+                        },
+                    });
                     break;
                 case MediaTypes.Video:
                     image = MediaTools.GetMediaThumbnail(location);
@@ -189,6 +202,13 @@ namespace Delight
 #endif
         }
 
+        private void ManageDeviceExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            LightControlWindow lw = new LightControlWindow();
+            lw.Show();
+        }
+
+
         //#if DEBUG
 
         private void PlayWindowVisibleExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -202,6 +222,10 @@ namespace Delight
                 pw.Show();
             }
         }
+
+        // Unity 임시 방편
+        //public Grid bg = new Grid();
+
 
         private void UnityPreviewVisibleCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {

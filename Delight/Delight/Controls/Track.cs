@@ -26,14 +26,8 @@ namespace Delight.Controls
         public Track()
         {
             this.Style = FindResource("TrackStyle") as Style;
-            this.CommandBindings.Add(new CommandBinding(TrackItemCommands.DeleteCommand, DeleteCommandExecuted));
 
             helper = new MagnetHelper(this, 10);
-        }
-
-        private void DeleteCommandExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            MessageBox.Show(sender.ToString());
         }
 
         public Track(TimeLine parent, TrackType trackType) : this()
@@ -539,5 +533,10 @@ namespace Delight.Controls
         }
 
         #endregion
+
+        public void RemoveItem(TrackItem item)
+        {
+            itemGrid.Children.Remove(item);
+        }
     }
 }
