@@ -13,32 +13,53 @@ namespace Delight.Timing.Controller
 {
     public abstract class BaseController
     {
-        public BaseController(Track track, DelayTimingReader reader, bool waitWhileLoading = false)
+        public BaseController(Track track, TimingReader reader, bool waitWhileLoading = false)
         {
             reader.ItemEnded += Reader_ItemEnded;
             reader.ItemPlaying += Reader_ItemPlaying;
+            reader.ItemStarted += Reader_ItemStarted;
             reader.TimeLineStopped += Reader_TimeLineStopped;
-            reader.ItemReady += Reader_ItemReady;
+            if (reader is DelayTimingReader dReader)
+            {
+                dReader.ItemReady += Reader_ItemReady;
+            }
+            
             Reader = reader;
             Track = track;
 
             this.waitWhileLoading = waitWhileLoading;
         }
 
+        private void Reader_ItemStarted(TrackItem sender, TimingEventArgs e)
+        {
+            var parent = sender.Parent;
+            if (parent == null)
+                return;
+
+            if ((parent as Grid).TemplatedParent is Track track)
+            {
+                if (this.Track == track)
+                    ItemStarted(sender, e);
+            }
+        }
+
         bool waitWhileLoading = false;
 
         private void Reader_ItemReady(TrackItem sender, TimingReadyEventArgs e)
         {
-            ItemReady(sender, e);
-            if (!waitWhileLoading)
+            if (Reader is DelayTimingReader dReader)
             {
-                Reader.DoneTask();
+                ItemReady(sender, e);
+                if (!waitWhileLoading)
+                {
+                    dReader.DoneTask();
+                }
             }
         }
 
         internal int CurrentFrame => Reader.CurrentFrame;
         internal FrameRate CurrentFrameRate => Reader.CurrentFrameRate;
-        internal DelayTimingReader Reader { get; }
+        internal TimingReader Reader { get; }
 
         Track Track { get; }
 
@@ -73,6 +94,8 @@ namespace Delight.Timing.Controller
             }
             Console.WriteLine(sender.Text + " item Ended");
         }
+
+        public abstract void ItemStarted(TrackItem sender, TimingEventArgs e);
 
         public abstract void ItemPlaying(TrackItem sender, TimingEventArgs e);
 

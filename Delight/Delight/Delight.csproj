@@ -123,6 +123,8 @@
     <Compile Include="Timing\Common\FindRangeType.cs" />
     <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />
+    <Compile Include="Timing\Controller\ImageController.cs" />
+    <Compile Include="Timing\Controller\SoundController.cs" />
     <Compile Include="Timing\Controller\VideoController.cs" />
     <Compile Include="Timing\MagnetHelper.cs" />
     <Compile Include="Timing\MagnetOptions.cs" />

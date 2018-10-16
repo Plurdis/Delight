@@ -91,11 +91,11 @@ namespace Delight
                     image = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/defaultSoundimage.png", UriKind.Absolute));
                     lbItem.Items.Add(new TemplateItem()
                     {
-                        ItemName = "김윤아 - 야상곡",
+                        ItemName = fi.Name,
                         Source = image,
                         StageComponent = new Sound()
                         {
-                            Identifier = "김윤아 - 야상곡", //fi.Name,
+                            Identifier = fi.Name, //fi.Name,
                             OriginalPath = location,
                             Time = MediaTools.GetMediaDuration(location),
                             Thumbnail = image,

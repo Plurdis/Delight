@@ -15,6 +15,7 @@ namespace Delight.Layer
     {
         public ImageLayer(Track track) : base(track)
         {
+            this.Style = FindResource("ImageLayerStyle") as Style;
         }
 
         public override void OnApplyTemplate()

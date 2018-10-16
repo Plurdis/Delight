@@ -73,7 +73,6 @@ namespace Delight.Timing.Controller
             player.Source = null;
             player.Tag = null;
             player.Volume = 0;
-            Console.WriteLine(player.Source == null ? "Null" : player.Source.ToString());
             player.Play();
             player.Visibility = Visibility.Hidden;
         }
@@ -92,19 +91,19 @@ namespace Delight.Timing.Controller
         {
             if (lastLoadItem == trackItem)
             {
-                Console.WriteLine("lastLoadItem and TrackItem is Same!");
-                Reader.DoneTask();
+                //Console.WriteLine("lastLoadItem and TrackItem is Same!");
+                ((DelayTimingReader)Reader).DoneTask();
                 return;
             }
-                
+            
             MediaElementPro player = p1Playing ? player2 : player1;
             MediaElementLoader loader = p1Playing ? loader2 : loader1;
             lastLoadItem = trackItem;
-            Console.WriteLine("Load Start");
+            //Console.WriteLine("Load Start");
 
             await loader.LoadVideo(trackItem);
-            Console.WriteLine("Load Complete");
-            Reader.DoneTask();
+            //Console.WriteLine("Load Complete");
+            ((DelayTimingReader)Reader).DoneTask();
         }
 
         public async void PlayPlayer(TrackItem trackItem)
@@ -201,7 +200,6 @@ namespace Delight.Timing.Controller
             }
         }
 
-
         int lastFrame;
         public override void ItemPlaying(TrackItem sender, TimingEventArgs e)
         {
@@ -251,13 +249,16 @@ namespace Delight.Timing.Controller
             p1Playing = false;
             DisablePlayer(player1);
             DisablePlayer(player2);
-            Console.WriteLine("!!");
         }
 
         public override void ItemReady(TrackItem sender, TimingReadyEventArgs e)
         {
             LoadPlayer(sender);
             //Console.WriteLine(sender.Text + " " + e.RemainFrame);
+        }
+
+        public override void ItemStarted(TrackItem sender, TimingEventArgs e)
+        {
         }
     }
 }

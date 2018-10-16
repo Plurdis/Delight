@@ -123,7 +123,10 @@ namespace Delight.Windows
                         var vLayer = new VideoLayer(e.Track);
                         vLayer.Loaded += (s, ev) =>
                         {
-                            tl.TimingReaders[e.Track].SetPlayer(vLayer.Player1, vLayer.Player2);
+                            if (tl.TimingReaders[e.Track] is DelayTimingReader dReader)
+                            {
+                                dReader.SetPlayer(vLayer.Player1, vLayer.Player2);
+                            }
                             tl.VideoControllers[e.Track].SetPlayer(vLayer.Player1, vLayer.Player2);
                         };
 
@@ -131,7 +134,17 @@ namespace Delight.Windows
                     }
                     else if (e.TrackType == TrackType.Image)
                     {
-                        rootElement.Children.Add(new ImageLayer(e.Track));
+                        var iLayer = new ImageLayer(e.Track);
+                        iLayer.Loaded += (s, ev) =>
+                        {
+                            tl.ImageControllers[e.Track].SetLayer(iLayer);
+                        };
+
+                        rootElement.Children.Add(iLayer);
+                    }
+                    else if (e.TrackType == TrackType.Sound)
+                    {
+                        
                     }
                     UpdateZIndex();
                 }

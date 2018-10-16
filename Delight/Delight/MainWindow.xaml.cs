@@ -242,8 +242,7 @@ namespace Delight
 
         private void Pw_Loaded(object sender, RoutedEventArgs e)
         {
-            //tl.AddTrack(TrackType.Image);
-            tl.AddTrack(TrackType.Video);
+            tl.AddTrack(TrackType.Image);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Effect, 1);

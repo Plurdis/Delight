@@ -20,6 +20,7 @@ using Delight.Core.Common;
 using Delight.Core.Extension;
 using Delight.Core.Extensions;
 using Delight.Extensions;
+using Delight.Layer;
 using Delight.Timing;
 using Delight.Timing.Common;
 using Delight.Timing.Controller;
@@ -68,9 +69,10 @@ namespace Delight.Controls
 
         public TrackItem SelectedItem { get; private set; }
 
-        public Dictionary<Track,DelayTimingReader> TimingReaders { get; }
+        public Dictionary<Track,TimingReader> TimingReaders { get; }
         public Dictionary<Track, VideoController> VideoControllers { get; }
-
+        public Dictionary<Track, SoundController> SoundControllers { get; }
+        public Dictionary<Track, ImageController> ImageControllers { get; }
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
@@ -78,8 +80,10 @@ namespace Delight.Controls
             Thread thr = new Thread(ThreadRun);
             thr.Start();
 
-            TimingReaders = new Dictionary<Track, DelayTimingReader>();
+            TimingReaders = new Dictionary<Track, TimingReader>();
             VideoControllers = new Dictionary<Track, VideoController>();
+            SoundControllers = new Dictionary<Track, SoundController>();
+            ImageControllers = new Dictionary<Track, ImageController>();
 
             ApplyTemplate();
         }
@@ -120,7 +124,7 @@ namespace Delight.Controls
 
             this.SizeChanged += (s, e) =>
             {
-                visualTracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
+                Tracks.ForEach(i => i.RelocationTrackItems());
                 Track_ItemsMaxWidthChanged(null, null);
             };
 
@@ -135,7 +139,7 @@ namespace Delight.Controls
 
             FrameworkElement element = ((FrameworkElement)e.OriginalSource).TemplatedParent as FrameworkElement;
 
-            Items.ForEach(i => i.IsSelected = false);
+            AllItems.ForEach(i => i.IsSelected = false);
             SelectedItem = null;
             if (element is TrackItem trackItem)
             {
@@ -214,11 +218,10 @@ namespace Delight.Controls
                 SetValue(RatioProperty, value);
                 SetPositionerToPosition();
 
-
                 scrollBar.ViewportSize = value * 100;
                 Track_ItemsMaxWidthChanged(null, null);
 
-                visualTracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
+                Tracks.ForEach(i => i.RelocationTrackItems());
 
                 //ResetItemOffset();
             }
@@ -230,11 +233,19 @@ namespace Delight.Controls
 
         public bool IsRunning => _timer.IsRunning;
 
-        public ReadOnlyCollection<Track> Tracks => 
+        public ReadOnlyCollection<Track> VisualTracks => 
             visualTracks.Children
                 .Cast<Track>()
                 .ToList()
                 .AsReadOnly();
+
+        public ReadOnlyCollection<Track> InVisualTracks =>
+            otherTracks.Children
+                .Cast<Track>()
+                .ToList()
+                .AsReadOnly();
+
+        public IEnumerable<Track> Tracks => VisualTracks.Concat(InVisualTracks);
 
         public int GetVisualTrackIndex(Track track)
         {
@@ -243,7 +254,7 @@ namespace Delight.Controls
 
         public int GetNotvisualTrackIndex(Track track)
         {
-            return visualTracks.Children.IndexOf(track);
+            return otherTracks.Children.IndexOf(track);
         }
 
         FrameRate _frameRate;
@@ -262,7 +273,7 @@ namespace Delight.Controls
 
         private void ScrollBarValueChanged(object sender, EventArgs e)
         {
-            visualTracks.Children.Cast<Track>().ForEach(i => i.RelocationTrackItems());
+            Tracks.ForEach(i => i.RelocationTrackItems());
             this.InvalidateVisual();
         }
 
@@ -293,13 +304,11 @@ namespace Delight.Controls
             }
         }
 
+        public IEnumerable<TrackItem> AllItems => 
+            Tracks.SelectMany(i => i.Items);
+
+
         #region [  TrackItems Management  ]
-        public IEnumerable<TrackItem> Items => 
-            otherTracks.Children
-                .Cast<Track>()
-                .Concat(visualTracks.Children
-                           .Cast<Track>())
-                .SelectMany(i => i.Items);
 
         /// <summary>
         /// 해당 Track에 존재하는 아이템만 필터링합니다.
@@ -333,7 +342,7 @@ namespace Delight.Controls
         /// <returns></returns>
         public IEnumerable<TrackItem> GetItems(TrackType trackType)
         {
-            return FilterItems(Items, trackType);
+            return FilterItems(AllItems, trackType);
         }
         
         /// <summary>
@@ -347,25 +356,25 @@ namespace Delight.Controls
             switch (findType)
             {
                 case FindType.FindStartPoint:
-                    return Items.Where(i => i.Offset == frame);
+                    return AllItems.Where(i => i.Offset == frame);
                 case FindType.FindEndPoint:
-                    return Items.Where(i => i.Offset + i.FrameWidth == frame);
+                    return AllItems.Where(i => i.Offset + i.FrameWidth == frame);
                 case FindType.FindContains:
-                    return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
+                    return AllItems.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth >= frame);
                 case FindType.FindWithoutStartPoint:
-                    return Items.Where(i => i.Offset < frame && i.Offset + i.FrameWidth >= frame);
+                    return AllItems.Where(i => i.Offset < frame && i.Offset + i.FrameWidth >= frame);
                 case FindType.FindWithoutEndPoint:
-                    return Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
+                    return AllItems.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
                 case FindType.FindWithoutStartEndPoint:
-                    return Items.Where(i => i.Offset < frame && i.Offset + i.FrameWidth > frame);
+                    return AllItems.Where(i => i.Offset < frame && i.Offset + i.FrameWidth > frame);
                 case FindType.FindAfterFrame:
-                    return Items.Where(i => frame <= i.Offset);
+                    return AllItems.Where(i => frame <= i.Offset);
                 case FindType.FindAfterFrameExceptThis:
-                    return Items.Where(i => frame < i.Offset);
+                    return AllItems.Where(i => frame < i.Offset);
                 case FindType.FindBeforeFrame:
-                    return Items.Where(i => frame >= i.Offset + i.FrameWidth);
+                    return AllItems.Where(i => frame >= i.Offset + i.FrameWidth);
                 case FindType.FindBeforeFrameExceptThis:
-                    return Items.Where(i => frame > i.Offset + i.FrameWidth);
+                    return AllItems.Where(i => frame > i.Offset + i.FrameWidth);
                 default:
                     return null;
             }
@@ -380,7 +389,7 @@ namespace Delight.Controls
         /// <returns></returns>
         public IEnumerable<TrackItem> GetItems(int frame, TrackType trackType, FindType findType = FindType.FindStartPoint)
         {
-            var itm = FilterItems(Items, trackType);
+            var itm = FilterItems(AllItems, trackType);
             switch (findType)
             {
                 case FindType.FindStartPoint:
@@ -417,7 +426,7 @@ namespace Delight.Controls
         /// <returns></returns>
         public IEnumerable<TrackItem> GetItems(int frame, Track track, FindType findType = FindType.FindStartPoint)
         {
-            var itm = FilterItems(Items, track);
+            var itm = FilterItems(AllItems, track);
             switch (findType)
             {
                 case FindType.FindStartPoint:
@@ -457,13 +466,13 @@ namespace Delight.Controls
             switch (findRangeType)
             {
                 case FindRangeType.FindExcatly:
-                    return Items.Where(i => startFrame == i.Offset && endFrame == i.Offset + i.FrameWidth);
+                    return AllItems.Where(i => startFrame == i.Offset && endFrame == i.Offset + i.FrameWidth);
                 case FindRangeType.FindStartPoint:
-                    return Items.Where(i => startFrame <= i.Offset && endFrame >= i.Offset);
+                    return AllItems.Where(i => startFrame <= i.Offset && endFrame >= i.Offset);
                 case FindRangeType.FindEndPoint:
-                    return Items.Where(i => startFrame <= i.Offset + i.FrameWidth && endFrame >= i.Offset + i.FrameWidth);
+                    return AllItems.Where(i => startFrame <= i.Offset + i.FrameWidth && endFrame >= i.Offset + i.FrameWidth);
                 case FindRangeType.FindContains:
-                    return Items.Where(i => startFrame <= i.Offset && endFrame >= i.Offset + i.FrameWidth);
+                    return AllItems.Where(i => startFrame <= i.Offset && endFrame >= i.Offset + i.FrameWidth);
                 default:
                     return null;
             }
@@ -478,7 +487,7 @@ namespace Delight.Controls
         /// <returns></returns>
         public IEnumerable<TrackItem> GetItems(int startFrame, int endFrame, TrackType trackType, FindRangeType findRangeType = FindRangeType.FindContains)
         {
-            var itm = FilterItems(Items, trackType);
+            var itm = FilterItems(AllItems, trackType);
             switch (findRangeType)
             {
                 case FindRangeType.FindExcatly:
@@ -503,7 +512,7 @@ namespace Delight.Controls
         /// <returns></returns>
         public IEnumerable<TrackItem> GetItems(int startFrame, int endFrame, Track track, FindRangeType findRangeType = FindRangeType.FindContains)
         {
-            var itm = FilterItems(Items, track);
+            var itm = FilterItems(AllItems, track);
             switch (findRangeType)
             {
                 case FindRangeType.FindExcatly:
@@ -518,69 +527,6 @@ namespace Delight.Controls
                     return null;
             }
         }
-
-        //public IEnumerable<TrackItem> GetItems(TrackType trackType)
-        //{
-        //    return Items.Where(i => i.TrackType == trackType);
-        //}
-
-        //public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame)
-        //{
-        //    return Items.Where(i => (i.TrackType == trackType) && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame));
-        //}
-
-        ///// <summary>
-        ///// 아이템들이 지정된 TrackType이며 시작 프레임과 종료 프레임에 걸처있는지에 대한 여부를 확인합니다.
-        ///// </summary>
-        ///// <param name="trackType"></param>
-        ///// <param name="startFrame"></param>
-        ///// <param name="endFrame"></param>
-        ///// <returns></returns>
-        //public IEnumerable<TrackItem> GetItems(TrackType trackType, int startFrame, int endFrame)
-        //{
-        //    return Items.Where(i => (i.TrackType == trackType)
-        //    && (i.Offset >= startFrame || i.Offset + i.FrameWidth > startFrame)
-        //    );
-        //}
-
-        ///// <summary>
-        ///// 모든 Track에 있는 모든 아이템들을 가져옵니다.
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<TrackItem> GetItems()
-        //{
-        //    return Items;
-        //}
-
-        ///// <summary>
-        ///// 아이템들이 frame에 걸쳐 있는지에 대한 여부를 확인합니다.
-        ///// </summary>
-        ///// <param name="frame">확인할 프레임입니다.</param>
-        ///// <returns></returns>
-        //public IEnumerable<TrackItem> GetItemsInclude(int frame)
-        //{
-        //    return Items.Where(i => i.Offset <= frame && i.FrameWidth + i.Offset > frame);
-        //}
-
-        //public IEnumerable<TrackItem> GetItemsAtStart(int frame, TrackType trackType)
-        //{
-        //    return Items.Where(i => i.TrackType == trackType && i.Offset == frame);
-        //}
-
-        //public IEnumerable<TrackItem> GetItemsAtStart(int frame)
-        //{
-        //    return Items.Where(i => i.Offset == frame);
-        //}
-
-        //public IEnumerable<TrackItem> GetItemsAtEnd(int frame)
-        //{
-        //    return Items.Where(i => i.Offset + i.FrameWidth == frame);
-        //}
-
-        //public IEnumerable<TrackItem> GetItemsAtEnd(int frame, TrackType trackType)
-        //{
-        //    return Items.Where(i => trackType == i.TrackType && i.Offset + i.FrameWidth == frame);
-        //}
 
         #endregion
 
@@ -613,15 +559,23 @@ namespace Delight.Controls
                 if (trackType == TrackType.Video)
                 {
                     TimingReaders[track] = new DelayTimingReader(this, track);
-                    VideoControllers[track] = new VideoController(track, TimingReaders[track]);
+                    VideoControllers[track] = new VideoController(track, (DelayTimingReader)TimingReaders[track]);
                 }
                 else if (trackType == TrackType.Image)
                 {
-                    TimingReaders[track] = new DelayTimingReader(this, track);
+                    var reader = new TimingReader(this, track);
+                    TimingReaders[track] = reader;
+                    ImageControllers[track] = new ImageController(track, reader);
                 }
             }
             else
             {
+                if (trackType == TrackType.Sound)
+                {
+                    var reader = new TimingReader(this, track);
+                    TimingReaders[track] = reader;
+                    SoundControllers[track] = new SoundController(track, reader);
+                }
                 otherTracks.Children.Add(track);
             }
 
@@ -654,16 +608,15 @@ namespace Delight.Controls
 
         private void Track_ItemsMaxWidthChanged(object sender, EventArgs e)
         {
-            IEnumerable<Track> tracks = visualTracks.Children.Cast<Track>();
-            if (tracks.Count() == 0)
+            if (Tracks.Count() == 0)
                 return;
 
-            MaxFrame = tracks.Max(i => i.ItemsMaxFrame);
+            MaxFrame = Tracks.Max(i => i.ItemsMaxFrame);
 
             if (this.Position > MaxFrame)
                 this.Position = MaxFrame;
 
-            MaxValue = visualTracks.Children.Cast<Track>().Max(i => i.ItemsMaxWidth);
+            MaxValue = Tracks.Max(i => i.ItemsMaxWidth);
 
             double value = MaxValue - (this.ActualWidth - 184);
             if (value > 0)
@@ -692,7 +645,14 @@ namespace Delight.Controls
             {
                 IsReady = true;
 
-                TimingReaders.ForEach(i => i.Value.StartLoad());
+                TimingReaders
+                    .ForEach(i => 
+                    {
+                        if (i.Value is DelayTimingReader dReader)
+                        {
+                            dReader.StartLoad();
+                        }
+                    });
 
                 DebugHelper.WriteLine("┌────────┐");
                 DebugHelper.WriteLine("  Timer Started!");
@@ -706,7 +666,15 @@ namespace Delight.Controls
         public void Stop()
         {
             //  test
-            TimingReaders.ForEach(i => i.Value.StopLoad());
+            TimingReaders
+                .ForEach(i =>
+                {
+                    if (i.Value is DelayTimingReader dReader)
+                    {
+                        dReader.StopLoad();
+                    }
+                });
+
             TimeLineStopped?.Invoke(this, new EventArgs());
             _timer.Stop();
         }
