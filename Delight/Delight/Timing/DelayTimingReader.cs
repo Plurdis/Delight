@@ -24,37 +24,19 @@ namespace Delight.Timing
     /// <summary>
     /// 미리 타이밍에 대한 정보를 받는 <see cref="TimingReader"/> 입니다.
     /// </summary>
-    public class DelayTimingReader
+    public class DelayTimingReader : TimingReader
     {
-        public event TimingDelegate ItemEnded;
-        public event TimingDelegate ItemPlaying;
         public event TimingReadyDelegate ItemReady;
 
-        public event EventHandler TimeLineStarted;
-        public event EventHandler TimeLineStopped;
-
-        public DelayTimingReader(TimeLine timeLine, Track track)
+        public DelayTimingReader(TimeLine timeLine, Track track) : base(timeLine, track)
         {
-            TimeLine = timeLine;
-            Track = track;
-
             TimeLine.FrameChanged += TimeLine_FrameChanged;
+
+            // DelayTimingReader에서만 사용 -> 미리 로드된 아이템을 모두 없앰
             TimeLine.FrameMouseChanged += (s, e) => StopLoad();
 
-            TimeLine.TimeLineStarted += TimeLine_TimeLineStarted;
-            TimeLine.TimeLineStopped += TimeLine_TimeLineStoped;
-
+            // DelayTimingReader에서만 사용 -> 아이템이 추가될때는 전체 아이템에 추가
             TimeLine.ItemAdded += TimeLine_ItemAdded;
-        }
-
-        private void TimeLine_TimeLineStarted(object sender, EventArgs e)
-        {
-            TimeLineStarted?.Invoke(sender, e);
-        }
-
-        private void TimeLine_TimeLineStoped(object sender, EventArgs e)
-        {
-            TimeLineStopped?.Invoke(sender, e);
         }
 
         public void SetPlayer(MediaElementPro player1, MediaElementPro player2)
@@ -85,7 +67,6 @@ namespace Delight.Timing
             }
         }
 
-        Track Track;
         Queue<TrackItem> _allVideos = new Queue<TrackItem>();
         Queue<TrackItem> _loadWaitVideos = new Queue<TrackItem>();
         MediaElementPro player1, player2;
@@ -102,15 +83,10 @@ namespace Delight.Timing
 
         private void TimeLine_ItemAdded(object sender, ItemEventArgs e)
         {
-            if (e.Item.TrackType == TrackType.Video)
-            {
-                _allVideos.Enqueue(e.Item);
-            }
+            _allVideos.Enqueue(e.Item);
         }
 
-        bool p1Playing = false;
-
-        IEnumerable<TrackItem> lastPlayingItem = null;
+        
         int waitFrame => ((int)TimeLine.FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value) * 5;
 
         private void TimeLine_FrameChanged(object sender, EventArgs e)
@@ -124,21 +100,7 @@ namespace Delight.Timing
             if (loading)
             {
                 LoadCheck();
-
                 int position = TimeLine.Position;
-
-                IEnumerable<TrackItem> playingItems = TimeLine.GetItems(position - 1, Track, FindType.FindContains);
-                playingItems.ForEach(i => ItemPlaying?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
-                
-                if (lastPlayingItem == null)
-                    lastPlayingItem = Enumerable.Empty<TrackItem>();
-
-                // 가장 마지막에 플레이로 인식된 아이템
-
-                IEnumerable<TrackItem> enditems = TimeLine.GetItems(position, Track, FindType.FindEndPoint);
-                enditems.Concat(lastPlayingItem.Except(playingItems)).ForEach(i => ItemEnded?.Invoke(i, new TimingEventArgs(TimeLine, TimeLine.Position)));
-
-                lastPlayingItem = new List<TrackItem>(playingItems);
 
                 IEnumerable<TrackItem> readyItems = TimeLine.GetItems(position, position + waitFrame, Track, FindRangeType.FindStartPoint);
                 readyItems.ForEach(i => ItemReady?.Invoke(i, new TimingReadyEventArgs(TimeLine, i.Offset, i.Offset - TimeLine.Position)));
@@ -146,11 +108,6 @@ namespace Delight.Timing
         }
 
         #endregion
-
-        TimeLine TimeLine { get; }
-
-        public int CurrentFrame => TimeLine.Position;
-        public FrameRate CurrentFrameRate => TimeLine.FrameRate;
 
         private void LoadWaitingVideos()
         {
@@ -251,7 +208,7 @@ namespace Delight.Timing
 
         public IEnumerable<TrackItem> GetTrackItem(int frame)
         {
-            return TimeLine.Items.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
+            return TimeLine.AllItems.Where(i => i.Offset <= frame && i.Offset + i.FrameWidth > frame);
         }
         
         private void LoadCheck()
