@@ -68,8 +68,9 @@
     <Reference Include="WPFMediaKit, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFMediaKit.2.2.0\lib\WPFMediaKit.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>C:\Users\uutak\Downloads\VirtualCamSrc\ColorPickerSample_other\bin\Debug\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +360,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\chromakey.fx" />
+    <Content Include="Xceed.Wpf.Toolkit.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\defaultLightImage.png" />
     <Content Include="USB-DMX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
