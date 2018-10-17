@@ -139,7 +139,17 @@ namespace Delight.Controls
             //((Control)e.OriginalSource).TemplatedParent.ToString() = {}
             //e.Source.ToString() = {e.Source.ToString()}";
 
-            FrameworkElement element = ((FrameworkElement)e.OriginalSource).TemplatedParent as FrameworkElement;
+            FrameworkElement element = null;
+
+            try
+            {
+                element = ((FrameworkElement)e.OriginalSource).TemplatedParent as FrameworkElement;
+            }
+            catch (InvalidCastException)
+            {
+                return;
+            }
+            
 
             AllItems.ForEach(i => i.IsSelected = false);
             SelectedItem = null;
@@ -241,13 +251,13 @@ namespace Delight.Controls
                 .ToList()
                 .AsReadOnly();
 
-        public ReadOnlyCollection<Track> InVisualTracks =>
+        public ReadOnlyCollection<Track> NotVisualTracks =>
             otherTracks.Children
                 .Cast<Track>()
                 .ToList()
                 .AsReadOnly();
 
-        public IEnumerable<Track> Tracks => VisualTracks.Concat(InVisualTracks);
+        public IEnumerable<Track> Tracks => VisualTracks.Concat(NotVisualTracks);
 
         public int GetVisualTrackIndex(Track track)
         {

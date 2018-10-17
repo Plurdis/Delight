@@ -7,4 +7,9 @@
         <MenuItem Command="{x:Static cm:TrackItemCommands.DeleteCommand}" Header="이 아이템을 삭제(_D)" />
         <Separator />
     </ContextMenu>
+
+    <ContextMenu x:Key="TrackContextMenu">
+        <MenuItem Command="{x:Static cm:TrackCommands.DeleteCommand}" Header="트랙 삭제 (_D)"/>
+        <MenuItem Command="{x:Static cm:TrackCommands.AddCommand}" Header="트랙 추가 (_A)"/>
+    </ContextMenu>
 </ResourceDictionary>

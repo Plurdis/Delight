@@ -91,6 +91,9 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(TrackItemCommands.DeleteCommand, DeleteCommandExecuted));
 
+            CommandBindings.Add(new CommandBinding(TrackCommands.AddCommand, AddCommandExecuted));
+            CommandBindings.Add(new CommandBinding(TrackCommands.DeleteCommand, DeleteCommandExecuted));
+
 
             //#if DEBUG
             CommandBindings.Add(new CommandBinding(DebugCommands.PlayWindowVisibleCommand, PlayWindowVisibleExecuted));
@@ -175,6 +178,11 @@ namespace Delight
             //    FontWeight = FontWeights.Bold,
             //    Foreground = Brushes.Red,
             //});
+        }
+
+        private void AddCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void DeleteCommandExecuted(object sender, ExecutedRoutedEventArgs e)

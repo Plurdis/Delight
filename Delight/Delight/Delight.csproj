@@ -79,6 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\DebugCommands.cs" />
+    <Compile Include="Commands\TrackCommands.cs" />
     <Compile Include="Commands\TrackItemCommands.cs" />
     <Compile Include="Common\DependencyHelper.cs" />
     <Compile Include="Common\ColorTheme.cs" />
@@ -200,6 +201,9 @@
     <Compile Include="Windows\LightControlWindow.xaml.cs">
       <DependentUpon>LightControlWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
@@ -266,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LightControlWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -427,6 +435,12 @@
     <Error Condition="!Exists('..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WPFMediaKit.2.2.0\build\WPFMediaKit.targets'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86\fxc.exe" /Zi /T ps_3_0 /Fo "D:\Delight\Delight\Delight\Resources\chromakey.ps" "D:\Delight\Delight\Delight\Resources\chromakey.fx"</PreBuildEvent>
+    <PreBuildEvent>if "%25computername%25" == "DESKTOP-PMKUS2T" (
+    echo 다름
+) else (
+    "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86\fxc.exe" /Zi /T ps_3_0 /Fo "D:\Delight\Delight\Delight\Resources\chromakey.ps" "D:\Delight\Delight\Delight\Resources\chromakey.fx"    
+)
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

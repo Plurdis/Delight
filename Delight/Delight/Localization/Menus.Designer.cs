@@ -124,7 +124,7 @@ namespace Delight.Localization {
         }
         
         /// <summary>
-        ///   Export(_E)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Export As Template(_E)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MiExport {
             get {

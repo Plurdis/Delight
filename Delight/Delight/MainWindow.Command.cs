@@ -155,6 +155,10 @@ namespace Delight
 
         private void ExportExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            PackingWindow pw = new PackingWindow();
+
+            pw.ShowDialog();
+
             // 내보내기
         }
 

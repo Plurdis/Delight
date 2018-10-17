@@ -139,7 +139,7 @@
     <value>끝내기(_X)</value>
   </data>
   <data name="MiExport" xml:space="preserve">
-    <value>내보내기(_E)</value>
+    <value>템플릿으로 내보내기(_E)</value>
   </data>
   <data name="MiFile" xml:space="preserve">
     <value>파일(_F)</value>

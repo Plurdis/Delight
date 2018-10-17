@@ -20,6 +20,7 @@ using Delight.Timing;
 
 namespace Delight.Controls
 {
+    [TemplatePart(Name = "trackMenuSide", Type = typeof(Grid))]
     [TemplatePart(Name = "itemGrid", Type = typeof(Grid))]
     public class Track : Control
     {
@@ -80,6 +81,7 @@ namespace Delight.Controls
         TrackType _trackType = TrackType.Unknown;
         static TrackItem trackItem;
         Grid itemGrid;
+        Grid trackMenuSide;
 
         #endregion
 
@@ -119,11 +121,19 @@ namespace Delight.Controls
         {
             base.OnApplyTemplate();
 
+            trackMenuSide = GetTemplateChild("trackMenuSide") as Grid;
+            trackMenuSide.MouseRightButtonDown += TrackMenuSide_MouseRightButtonDown;
+
             itemGrid = GetTemplateChild("itemGrid") as Grid;
             itemGrid.DragEnter += ItemCanvas_DragEnter;
             itemGrid.DragOver += ItemCanvas_DragOver;
             itemGrid.DragLeave += ItemCanvas_DragLeave;
             itemGrid.Drop += ItemCanvas_Drop;
+        }
+
+        private void TrackMenuSide_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
         }
 
         #region [  TrackItem Drag & Drop  ] 

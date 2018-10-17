@@ -139,7 +139,7 @@
     <value>Exit(_X)</value>
   </data>
   <data name="MiExport" xml:space="preserve">
-    <value>Export(_E)</value>
+    <value>Export As Template(_E)</value>
   </data>
   <data name="MiFile" xml:space="preserve">
     <value>File(_F)</value>
