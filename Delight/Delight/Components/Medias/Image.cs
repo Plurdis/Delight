@@ -14,7 +14,7 @@ namespace Delight.Components.Medias
     /// </summary>
     public class Image : Media
     {
-        public Image() : base(TrackType.Image)
+        public Image() : base(TrackType.Image, false)
         {
         }
     }

@@ -7,9 +7,9 @@
     xmlns:local="clr-namespace:Delight.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pCtrl="clr-namespace:Delight.Controls.Property"
-    d:DesignHeight="450"
+    d:DesignHeight="700"
     d:DesignWidth="300"
-    Background="#00000000"
+    Background="White"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -77,17 +77,23 @@
                         Maximum="1"
                         Minimum="-1"
                         Text="위쪽" />
-                    <GroupBox
-                        Margin="4"
-                        BorderBrush="{x:Null}"
-                        Foreground="Black"
-                        Header="크로마키">
-                        <StackPanel>
-                            <pCtrl:PropertyCheckBox x:Name="cbChromaKey" Text="사용" />
-                            <pCtrl:PropertyColorPick x:Name="pickChromaColor" Text="색상" />
-                            <pCtrl:PropertySlider x:Name="slChromaUsage" Text="사용량" />
-                        </StackPanel>
-                    </GroupBox>
+                    <Grid x:Name="groupChromaKey" Height="34">
+                        <TextBlock
+                            Margin="6"
+                            VerticalAlignment="Bottom"
+                            Text="크로마키" />
+                    </Grid>
+
+                    <pCtrl:PropertyCheckBox x:Name="cbChromaKey" Text="사용" />
+                    <pCtrl:PropertyColorPick x:Name="pickChromaColor" Text="색상" />
+                    <pCtrl:PropertySlider x:Name="slChromaUsage" Text="사용량" />
+                    <pCtrl:PropertySlider
+                        x:Name="slLightFast"
+                        Maximum="3"
+                        Minimum="0.5"
+                        Text="빠르기"
+                        Unit="초"
+                        UsePercent="False" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>

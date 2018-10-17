@@ -86,11 +86,13 @@
     <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\DMXLib.cs" />
     <Compile Include="Common\InputGestureManager.cs" />
+    <Compile Include="Common\LightControl.cs" />
     <Compile Include="Common\PlayerState.cs" />
     <Compile Include="Common\TrackValueChangedEventArgs.cs" />
     <Compile Include="Common\UnityContainerLoader.cs" />
     <Compile Include="Components\Effect.cs" />
     <Compile Include="Components\Medias\Unity.cs" />
+    <Compile Include="Components\MovingLight.cs" />
     <Compile Include="ContextMenus\TrackItemMenuManager.cs" />
     <Compile Include="Controls\AnimationEditor.cs" />
     <Compile Include="Controls\ImageTextBlock.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Timing\Common\FindType.cs" />
     <Compile Include="Timing\Controller\BaseController.cs" />
     <Compile Include="Timing\Controller\ImageController.cs" />
+    <Compile Include="Timing\Controller\LightController.cs" />
     <Compile Include="Timing\Controller\SoundController.cs" />
     <Compile Include="Timing\Controller\VideoController.cs" />
     <Compile Include="Timing\MagnetHelper.cs" />
@@ -356,6 +359,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\chromakey.fx" />
+    <Resource Include="Resources\defaultLightImage.png" />
     <Content Include="USB-DMX.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

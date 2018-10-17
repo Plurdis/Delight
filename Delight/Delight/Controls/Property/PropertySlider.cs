@@ -16,12 +16,29 @@ namespace Delight.Controls.Property
     public class PropertySlider : Control, INotifyPropertyChanged
     {
         public static DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(PropertySlider));
-        
+
         public string Text
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
+
+        public static DependencyProperty UnitProperty = DependencyProperty.Register(nameof(Unit), typeof(string), typeof(PropertySlider), new PropertyMetadata("%"));
+
+        public string Unit
+        {
+            get => (string)GetValue(UnitProperty);
+            set => SetValue(UnitProperty, value);
+        }
+
+        public static DependencyProperty UsePercentProperty = DependencyProperty.Register(nameof(UsePercent), typeof(bool), typeof(PropertySlider), new PropertyMetadata(true));
+
+        public bool UsePercent
+        {
+            get => (bool)GetValue(UsePercentProperty);
+            set => SetValue(UsePercentProperty, value);
+        }
+
 
         double _savedValue = double.MinValue,
                _savedMaximum = double.MinValue,
@@ -101,7 +118,15 @@ namespace Delight.Controls.Property
             
             slider.ValueChanged += (s, e) =>
             {
-                runValue.Text = ((int)((Value / Maximum) * 100)).ToString();
+                if (UsePercent)
+                {
+                    runValue.Text = ((int)((Value / Maximum) * 100)).ToString();
+                }
+                else
+                {
+                    runValue.Text = Math.Round(Value,2).ToString();
+                }
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
             };
 

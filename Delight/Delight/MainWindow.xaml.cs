@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 
 using Delight.Commands;
 using Delight.Common;
+using Delight.Components;
 using Delight.Components.Common;
 using Delight.Components.Medias;
 using Delight.Controls;
@@ -107,6 +108,42 @@ namespace Delight
             //LoadUnityDebug();
 
             //AddItem(@"C:\Program Files\WindowsApps\Microsoft.Windows.Photos_2018.18051.18420.0_x64__8wekyb3d8bbwe\AppCS\Assets\WelcomePage\620x252_MakeMovies.mp4");
+
+            #region [  조명 X축 아이템  ]
+
+            var image = new BitmapImage(new Uri("pack://application:,,,/Delight;component/Resources/defaultLightimage.png", UriKind.Absolute));
+
+            lbItem.Items.Add(new TemplateItem()
+            {
+                //Content = fi.Name,
+                //ItemName = "Local Image File",
+                ItemName = "조명 X축",
+                Source = image,
+                StageComponent = new MovingLight()
+                {
+                    Identifier = "조명 X축",
+                    Time = TimeSpan.FromSeconds(20),
+                    Thumbnail = image,
+                    MovingPreset = "moveToX",
+                },
+            });
+
+            lbItem.Items.Add(new TemplateItem()
+            {
+                //Content = fi.Name,
+                //ItemName = "Local Image File",
+                ItemName = "조명 Y축",
+                Source = image,
+                StageComponent = new MovingLight()
+                {
+                    Identifier = "조명 Y축",
+                    Time = TimeSpan.FromSeconds(20),
+                    Thumbnail = image,
+                    MovingPreset = "moveToY",
+                },
+            });
+
+            #endregion
 
             anEditor.SetTimeLine(tl);
 

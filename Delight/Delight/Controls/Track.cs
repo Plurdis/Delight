@@ -220,7 +220,8 @@ namespace Delight.Controls
                     TrackType = comp.TrackType,
                     OriginalPath = media == null ? string.Empty : media.OriginalPath,
                     MaxSizeFixed = comp.MaxSizeFixed,
-                    Visibility = Visibility.Hidden
+                    Visibility = Visibility.Hidden,
+                    Tag = comp,
                 };
 
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;

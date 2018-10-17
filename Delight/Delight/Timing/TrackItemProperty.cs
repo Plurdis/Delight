@@ -97,6 +97,18 @@ namespace Delight.Timing
 
         #endregion
 
+        int _lightFast;
+
+        public int LightFast
+        {
+            get => _lightFast;
+            set
+            {
+                _lightFast = value;
+                _propertyChanged?.Invoke(this, new PropertyChangedEventArgs("lightFast"));
+            }
+        }
+
         #region [  ChromaKey  ]
 
         bool _chromaKeyEnabled = false;

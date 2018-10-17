@@ -73,6 +73,7 @@ namespace Delight.Controls
         public Dictionary<Track, VideoController> VideoControllers { get; }
         public Dictionary<Track, SoundController> SoundControllers { get; }
         public Dictionary<Track, ImageController> ImageControllers { get; }
+        public Dictionary<Track, LightController> LightControllers { get; }
         public TimeLine()
         {
             this.Style = FindResource("TimeLineStyle") as Style;
@@ -84,6 +85,7 @@ namespace Delight.Controls
             VideoControllers = new Dictionary<Track, VideoController>();
             SoundControllers = new Dictionary<Track, SoundController>();
             ImageControllers = new Dictionary<Track, ImageController>();
+            LightControllers = new Dictionary<Track, LightController>();
 
             ApplyTemplate();
         }
@@ -575,6 +577,12 @@ namespace Delight.Controls
                     var reader = new TimingReader(this, track);
                     TimingReaders[track] = reader;
                     SoundControllers[track] = new SoundController(track, reader);
+                }
+                else if (trackType == TrackType.Light)
+                {
+                    var reader = new TimingReader(this, track);
+                    TimingReaders[track] = reader;
+                    LightControllers[track] = new LightController(track, reader);
                 }
                 otherTracks.Children.Add(track);
             }

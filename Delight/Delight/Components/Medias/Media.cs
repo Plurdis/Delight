@@ -10,7 +10,7 @@ namespace Delight.Components.Medias
 {
     public abstract class Media : StageComponent
     {
-        public Media(TrackType trackType) : base(trackType)
+        public Media(TrackType trackType, bool maxSizeFixed = true) : base(trackType, maxSizeFixed)
         {
         }
 

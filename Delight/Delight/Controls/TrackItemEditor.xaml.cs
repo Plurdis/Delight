@@ -39,6 +39,13 @@ namespace Delight.Controls
             slChromaUsage.PropertyChanged += SlChromaUsage_PropertyChanged;
             pickChromaColor.PropertyChanged += PickChromaColor_PropertyChanged;
             cbChromaKey.PropertyChanged += CbChromaKey_PropertyChanged;
+            slLightFast.PropertyChanged += SlLightFast_PropertyChanged;
+        }
+
+        private void SlLightFast_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (item != null)
+                item.ItemProperty.LightFast = (int)(slLightFast.Value * 1000);
         }
 
         private void CbChromaKey_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -109,6 +116,74 @@ namespace Delight.Controls
                 image = trackItem.Thumbnail;
 
                 item = trackItem;
+
+                Visibility[] visibles =
+                    new Visibility[] { Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,
+                                       Visibility.Visible,};
+
+                FrameworkElement[] controls =
+                    new FrameworkElement[]
+                    {
+                        slOpacity,
+                        slSize,
+                        slVolume,
+                        cbChromaKey,
+                        pickChromaColor,
+                        slChromaUsage,
+                        groupChromaKey,
+                    };
+
+                if (trackItem.TrackType == Timing.TrackType.Video)
+                {
+                }
+                else if (trackItem.TrackType == Timing.TrackType.Image)
+                {
+                    visibles[2] = Visibility.Hidden;
+                }
+                else if (trackItem.TrackType == Timing.TrackType.Light)
+                {
+                    visibles[0] = Visibility.Hidden;
+                    visibles[1] = Visibility.Hidden;
+                    visibles[2] = Visibility.Hidden;
+                    visibles[3] = Visibility.Hidden;
+                    visibles[4] = Visibility.Hidden;
+                    visibles[5] = Visibility.Hidden;
+                    visibles[6] = Visibility.Hidden;
+                    visibles[7] = Visibility.Hidden;
+                    visibles[8] = Visibility.Hidden;
+                }
+
+                int i = 0;
+                foreach(FrameworkElement ct in controls)
+                {
+                    if (visibles[i] == Visibility.Hidden)
+                    {
+                        ct.Height = 0;
+                    }
+                    else if (visibles[i] == Visibility.Visible)
+                    {
+                        ct.Height = 34;
+                    }
+
+                    ct.Visibility = visibles[i++];
+                }
+
+                slOpacity.Visibility = visibles[0];
+                slSize.Visibility = visibles[1];
+                slVolume.Visibility = visibles[2];
+                slX.Visibility = visibles[3];
+                slY.Visibility = visibles[4];
+                cbChromaKey.Visibility = visibles[5];
+                pickChromaColor.Visibility = visibles[6];
+                slChromaUsage.Visibility = visibles[7];
+                groupChromaKey.Visibility = visibles[8];
 
                 slOpacity.Value = trackItem.ItemProperty.Opacity;
                 slSize.Value = trackItem.ItemProperty.Size;
