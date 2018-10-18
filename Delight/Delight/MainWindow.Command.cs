@@ -162,6 +162,19 @@ namespace Delight
             // 내보내기
         }
 
+        private void ImportExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (MediaTools.GetPackageFile(out string location))
+            {
+                AddItem(@"C:\Users\uutak\Documents\KakaoTalk_Video_20181016_1650_15_015.mp4");
+                AddItem(@"C:\Users\uutak\Documents\KakaoTalk_Video_20181015_0802_51_219.mp4");
+                AddItem(@"C:\Users\uutak\Documents\NOMA - Brain Power - LYRICS! - YouTube (720p).mp4");
+            }
+
+            // 불러오기
+        }
+
+
         private void ViewInfoExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             InfoWindow wdw = new InfoWindow();

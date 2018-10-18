@@ -77,6 +77,8 @@ namespace Delight
             CommandBindings.Add(new CommandBinding(MenuCommands.ExitCommand, ExitCommandExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenFileCommand, OpenFileExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.ExportCommand, ExportExecuted));
+            CommandBindings.Add(new CommandBinding(MenuCommands.ImportCommand, ImportExecuted));
+
             CommandBindings.Add(new CommandBinding(MenuCommands.NewProjectCommand, NewProjectExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.OpenProjectCommand, OpenProjectExecuted));
             CommandBindings.Add(new CommandBinding(MenuCommands.SaveAsCommand, SaveAsExecuted));
@@ -182,7 +184,7 @@ namespace Delight
 
         private void AddCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void DeleteCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -287,7 +289,8 @@ namespace Delight
 
         private void Pw_Loaded(object sender, RoutedEventArgs e)
         {
-            tl.AddTrack(TrackType.Image);
+            tl.AddTrack(TrackType.Video);
+            tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Video);
             tl.AddTrack(TrackType.Effect, 1);

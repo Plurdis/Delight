@@ -321,6 +321,9 @@
                     Command="{x:Static cm:MenuCommands.ExportCommand}"
                     Header="{x:Static l:Menus.MiExport}"
                     InputGestureText="Ctrl+E" />
+                <MenuItem Command="{x:Static cm:MenuCommands.ImportCommand}" Header="템플릿으로 불러오기(_I)">
+
+                </MenuItem>
                 <Separator />
                 <MenuItem
                     Command="{x:Static cm:MenuCommands.ExitCommand}"

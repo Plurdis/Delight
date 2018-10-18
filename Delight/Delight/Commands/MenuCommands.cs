@@ -23,6 +23,8 @@ namespace Delight.Commands
 
         public static RoutedCommand ExportCommand { get; }
 
+        public static RoutedCommand ImportCommand { get; }
+
         public static string ExportInputGestureText { get; set; } = "Ctrl+E";
 
         public static RoutedCommand ExitCommand { get; }
@@ -67,6 +69,8 @@ namespace Delight.Commands
             SaveAsCommand = new RoutedCommand("SaveAs", typeof(MenuCommands));
 
             ExportCommand = new RoutedCommand("Export", typeof(MenuCommands));
+            ImportCommand = new RoutedCommand("Import", typeof(MenuCommands));
+
             ExitCommand = new RoutedCommand("Exit", typeof(MenuCommands));
 
             // ====================

@@ -259,6 +259,23 @@ namespace Delight.Components.Common
             }
         }
 
+        public static bool GetPackageFile(out string fileLocation)
+        {
+            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            ofd.Filter = "Delight 패키지 파일 (*.dpack)|*.dpack;";
+
+            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            {
+                fileLocation = ofd.FileName;
+                return true;
+            }
+            else
+            {
+                fileLocation = string.Empty;
+                return false;
+            }
+        }
+
         public static bool GetFile(string filter, out string fileLocation)
         {
             wf.OpenFileDialog ofd = new wf.OpenFileDialog();
