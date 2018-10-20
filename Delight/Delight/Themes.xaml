@@ -455,15 +455,15 @@
                             </Grid.RowDefinitions>-->
                             <Grid x:Name="trackMenuSide">
                                 <TextBlock
-                                Margin="10"
-                                VerticalAlignment="Center"
-                                FontSize="15"
-                                TextAlignment="Left">
-                                <Run Text="{TemplateBinding TrackTypeText}" />
-                                <Run x:Name="trackNumber" Text="{TemplateBinding TrackNumber, Converter={StaticResource ResourceKey=StringConverter}}" />
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    TextAlignment="Left">
+                                    <Run Text="{TemplateBinding TrackTypeText}" />
+                                    <Run x:Name="trackNumber" Text="{TemplateBinding TrackNumber, Converter={StaticResource ResourceKey=StringConverter}}" />
                                 </TextBlock>
                             </Grid>
-                            
+
                             <Grid Grid.Column="1" Background="#FF185A8C">
                                 <TextBlock
                                     HorizontalAlignment="Center"
