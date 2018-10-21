@@ -51,7 +51,7 @@ namespace Delight.Windows
 
             foreach (Screen scr in Screen.AllScreens)
             {
-                if (!scr.Primary)
+                if (scr.Primary)
                 {
                     this.Left = scr.Bounds.Left;
                     this.Top = scr.Bounds.Top;

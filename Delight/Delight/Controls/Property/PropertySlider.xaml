@@ -19,8 +19,7 @@
                             Foreground="Black">
                             <Run x:Name="runPropName" Text="{TemplateBinding Text}" />
                             (<Run x:Name="runValue" Text="0" />
-                            <Run Text="{TemplateBinding Unit}" />
-                            )</TextBlock>
+                            <Run Text="{TemplateBinding Unit}" />)</TextBlock>
                         <ct:PrestoSeekBar
                             x:Name="slider"
                             Grid.Column="1"

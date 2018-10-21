@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Delight.Timing;
 
-namespace Delight.Common.Components
+namespace Delight.Components
 {
     public class Effect : StageComponent
     {
