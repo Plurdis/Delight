@@ -1,0 +1,22 @@
+﻿<Application
+    x:Class="Delight.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:component="clr-namespace:Delight.Component;assembly=Delight.Component"
+    xmlns:local="clr-namespace:Delight"
+    xmlns:other="clr-namespace:Delight.Component.Controls;assembly=Delight.Component"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <component:DelightTheme />
+                <ResourceDictionary>
+                    <LinearGradientBrush x:Key="Delight.BackgroundColor" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FFD7928D" />
+                        <GradientStop Offset="1" Color="#FFCD66A2" />
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

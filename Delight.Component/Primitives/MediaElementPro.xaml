@@ -1,0 +1,19 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Delight.Component.Primitives"
+    xmlns:wkct="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit">
+
+    <Style TargetType="{x:Type local:MediaElementPro}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <wkct:MediaUriElement x:Name="mediaElement" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

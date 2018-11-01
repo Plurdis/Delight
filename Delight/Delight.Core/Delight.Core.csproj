@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71056F7C-733C-4217-9163-AF523E1E0CC7}</ProjectGuid>
+    <ProjectGuid>{ACD3B3D0-4398-4BF9-8412-385730FE3E47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Delight.Core</RootNamespace>
     <AssemblyName>Delight.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,38 +30,58 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="YoutubeExtractor, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExtractor.0.10.11\lib\net35\YoutubeExtractor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\IsVisualTrackAttribute.cs" />
+    <Compile Include="Attributes\OutputDeviceAttribute.cs" />
+    <Compile Include="Common\DragSide.cs" />
+    <Compile Include="Common\ActionCommand.cs" />
     <Compile Include="Common\FrameRate.cs" />
-    <Compile Include="Common\ImageCreator.cs" />
-    <Compile Include="Common\PlayDevice.cs" />
-    <Compile Include="Common\PlayDeviceAttribute.cs" />
-    <Compile Include="Exceptions\AttributeNotFoundException.cs" />
-    <Compile Include="Extension\IEnumerableEx.cs" />
-    <Compile Include="Exceptions\ProcessException.cs" />
-    <Compile Include="Exceptions\SaveFailException.cs" />
-    <Compile Include="Extension\ObjectEx.cs" />
-    <Compile Include="IO\TextFormatter\BaseTextFormatter.cs" />
-    <Compile Include="IO\TextFormatter\XMLFormatter.cs" />
-    <Compile Include="IO\StorageMethodAttribute.cs" />
-    <Compile Include="IO\StorageMethodTypes.cs" />
-    <Compile Include="IO\SaveManager.cs" />
+    <Compile Include="Extensions\FrameRateEx.cs" />
+    <Compile Include="Extensions\IEnumerableEx.cs" />
+    <Compile Include="Extensions\ObjectEx.cs" />
+    <Compile Include="Extensions\SourceTypeEx.cs" />
+    <Compile Include="MovingLight\DMXLib.cs" />
+    <Compile Include="MovingLight\LightController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Template\Common\DelightTemplate.cs" />
-    <Compile Include="Template\Common\ZipManager.cs" />
+    <Compile Include="Stage\Components\LightComponent.cs" />
+    <Compile Include="Stage\Components\Media\BaseMedia.cs" />
+    <Compile Include="Stage\Components\Media\ImageMedia.cs" />
+    <Compile Include="Stage\Components\Media\SoundMedia.cs" />
+    <Compile Include="Stage\Components\Media\VideoMedia.cs" />
+    <Compile Include="Stage\Components\StageComponent.cs" />
+    <Compile Include="Stage\OutputDevice.cs" />
+    <Compile Include="Stage\SourceType.cs" />
+    <Compile Include="Template\Items\BaseSource.cs" />
+    <Compile Include="Template\Items\YoutubeSource.cs" />
+    <Compile Include="Template\ExternalSources.cs" />
+    <Compile Include="Template\Options\BaseOption.cs" />
+    <Compile Include="Template\Options\YoutubeOption.cs" />
+    <Compile Include="Template\TemplateManager.cs" />
+    <Compile Include="Template\YoutubeDownloader.cs" />
+    <Compile Include="Timers\FrameTimer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="EventArgs\" />
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

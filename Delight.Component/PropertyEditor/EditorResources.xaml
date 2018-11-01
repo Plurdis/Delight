@@ -1,0 +1,34 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="clr-namespace:Delight.Component.Converters"
+    xmlns:local="clr-namespace:Delight.Component.PropertyEditor"
+    xmlns:wkct="Xceed.Wpf.ToolKit"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <DataTemplate x:Key="PercentageTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="2,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding Value.Value, Converter={cvt:PercentageConverter}}" />
+            <Slider
+                Grid.Column="1"
+                Maximum="1"
+                Minimum="0"
+                Value="{Binding Value.Value, Mode=TwoWay}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ColorTemplate" DataType="{x:Type Color}">
+        <Grid>
+            <xctk:ColorPicker
+                ColorMode="ColorCanvas"
+                SelectedColor="{Binding Path=.}"
+                UsingAlphaChannel="False" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

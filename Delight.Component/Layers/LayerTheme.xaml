@@ -1,0 +1,28 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="clr-namespace:Delight.Component.Primitives"
+    xmlns:local="clr-namespace:Delight.Component.Layers">
+    <Style x:Key="VideoLayerStyle" TargetType="{x:Type local:VideoLayer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <ct:MediaElementPro x:Name="player1" />
+                        <ct:MediaElementPro x:Name="player2" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ImageLayerStyle" TargetType="{x:Type local:ImageLayer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Image x:Name="image" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

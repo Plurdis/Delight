@@ -1,0 +1,18 @@
+﻿<Window
+    x:Class="Delight.Windows.PlayWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="PlayWindow"
+    Width="1920"
+    Height="1080"
+    Background="Black"
+    ResizeMode="NoResize"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <!--  AllowsTransparency="True" WindowStyle="None"  -->
+    <Grid x:Name="testElement">
+        <Canvas x:Name="rootElement" Background="Black" />
+    </Grid>
+</Window>
