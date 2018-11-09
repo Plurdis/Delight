@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.Items
+namespace Delight.Core.Sources
 {
     public abstract class BaseSource
     {

@@ -99,20 +99,19 @@
     <Compile Include="Stage\Components\StageComponent.cs" />
     <Compile Include="Stage\OutputDevice.cs" />
     <Compile Include="Stage\SourceType.cs" />
-    <Compile Include="Stage\Items\BaseSource.cs" />
-    <Compile Include="Stage\Items\YoutubeSource.cs" />
-    <Compile Include="Stage\ExternalSources.cs" />
-    <Compile Include="Stage\Options\BaseOption.cs" />
-    <Compile Include="Stage\Options\YoutubeOption.cs" />
+    <Compile Include="Sources\BaseSource.cs" />
+    <Compile Include="Sources\YoutubeSource.cs" />
+    <Compile Include="Sources\ExternalSources.cs" />
+    <Compile Include="Sources\Options\BaseOption.cs" />
+    <Compile Include="Sources\Options\YoutubeOption.cs" />
     <Compile Include="Template\TemplateManager.cs" />
-    <Compile Include="Template\TempVideoConverter.cs" />
+    <Compile Include="Template\FileCacheDictionary.cs" />
     <Compile Include="Template\YoutubeDownloader.cs" />
     <Compile Include="Timers\FrameTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Sources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
