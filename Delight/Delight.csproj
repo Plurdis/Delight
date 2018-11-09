@@ -58,11 +58,15 @@
     </ApplicationDefinition>
     <Compile Include="Common\ToolBarCommand.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Pages\ExternalSourcePage.xaml.cs">
+      <DependentUpon>ExternalSourcePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TemplateShopPage.xaml.cs">
       <DependentUpon>TemplateShopPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\GlobalViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\TemplateShopViewModel.cs" />
+    <Compile Include="ViewModel\ExternalSourceViewModel.cs" />
     <Compile Include="Windows\HelloWindow.xaml.cs">
       <DependentUpon>HelloWindow.xaml</DependentUpon>
     </Compile>
@@ -81,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\ExternalSourcePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TemplateShopPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,7 +146,9 @@
       <Version>11.0.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\defaultLightImage.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\box.png" />
     <Resource Include="Resources\view_block.png" />

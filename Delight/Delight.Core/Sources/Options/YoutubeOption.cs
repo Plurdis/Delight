@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.Template.Options
+namespace Delight.Core.Sources.Options
 {
     [Serializable]
     public class YoutubeOption : BaseOption
     {
         public override string Name { get; set; }
+        public override string Tag { get; set; }
     }
 }

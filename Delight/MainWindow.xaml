@@ -31,21 +31,7 @@
 
         <ToolBarTray Grid.Row="1">
             <ToolBar Band="1" BandIndex="1">
-                <ToolBar.Resources>
-                    <DataTemplate DataType="{x:Type RoutedCommand}">
-                        <TextBlock>
-                            <Run Text="String: " />
-                            <Run Text="{Binding Path=.}" />
-                        </TextBlock>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type sys:Int32}">
-                        <TextBlock>
-                            <Run Text="Int32: " />
-                            <Run Text="{Binding Path=.}" />
-                        </TextBlock>
-                    </DataTemplate>
-                </ToolBar.Resources>
+                <Button Click="Button_Click" Content="조명 초기화" />
             </ToolBar>
         </ToolBarTray>
 
@@ -270,9 +256,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1">
-
-                </Grid>
+                <Grid Grid.Row="1" />
             </Grid>
 
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
@@ -295,6 +279,9 @@
                     </TabItem>
                     <TabItem>
                         <pages:TemplateShopPage x:Name="templateShop" />
+                    </TabItem>
+                    <TabItem>
+                        <pages:ExternalSourcePage x:Name="externalSource" />
                     </TabItem>
                 </TabControl>
             </Grid>

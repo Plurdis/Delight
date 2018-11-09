@@ -11,10 +11,8 @@ using Delight.Core.Timers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -103,6 +101,22 @@ namespace Delight.Component.Controls
             };
         }
 
+        public void Reset()
+        {
+            visualTracks.Children.Clear();
+            otherTracks.Children.Clear();
+        }
+
+        //public string ExportData()
+        //{
+
+        //}
+
+        //public string ImportData()
+        //{
+
+        //}
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -132,10 +146,6 @@ namespace Delight.Component.Controls
 
         private void TimeLine_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //            string msg = $@"e.OriginalSource.ToString() = {e.OriginalSource.ToString()}
-            //((Control)e.OriginalSource).TemplatedParent.ToString() = {}
-            //e.Source.ToString() = {e.Source.ToString()}";
-
             FrameworkElement element = null;
 
             try
@@ -146,7 +156,6 @@ namespace Delight.Component.Controls
             {
                 return;
             }
-
 
             AllItems.ForEach(i => i.IsSelected = false);
             SelectedItem = null;

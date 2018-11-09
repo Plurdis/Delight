@@ -184,10 +184,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>if "%25computername%25" == "DESKTOP-PMKUS2T" (
+    <PreBuildEvent>if "%25computername%25" == "DESKTOP-PMKUS2T__" (
     echo 다름
 ) else (
-    "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86\fxc.exe" /Zi /T ps_3_0 /Fo "C:\Users\uutak\Documents\Delight ReBuild Structure\Delight.Component\Resources\chromakey.ps" "C:\Users\uutak\Documents\Delight ReBuild Structure\Delight.Component\Resources\chromakey.fx"    
+ rem   "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x86\fxc.exe" /Zi /T ps_3_0 /Fo "C:\Users\uutak\Documents\Delight ReBuild Structure\Delight.Component\Resources\chromakey.ps" "C:\Users\uutak\Documents\Delight ReBuild Structure\Delight.Component\Resources\chromakey.fx"    
 )</PreBuildEvent>
   </PropertyGroup>
 </Project>

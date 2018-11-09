@@ -1,6 +1,9 @@
 ﻿using Delight.Component.Controls;
 using Delight.Component.ItemProperties;
+using Delight.Component.Primitives.Controllers;
 using Delight.Core.Common;
+using Delight.Core.MovingLight;
+using Delight.Core.MovingLight.Effects;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Template;
@@ -33,8 +36,6 @@ namespace Delight
     public partial class MainWindow : Window
     {
         MainWindowViewModel mwViewModel;
-        TemplateShopViewModel svViewModel;
-
         PlayWindow pw;
 
         bool dragStart;
@@ -44,14 +45,6 @@ namespace Delight
         {
             InitializeComponent();
             InitializeMenuFiles();
-
-            svViewModel = new TemplateShopViewModel();
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog().Value)
-            {
-                svViewModel.LoadTemplates(ofd.FileName);
-            }
 
             lbMediaItem.PreviewMouseLeftButtonDown += lbMediaItem_PreviewMouseLeftButtonDown;
             lbMediaItem.PreviewMouseLeftButtonUp += lbMediaItem_PreviewMouseLeftButtonUp;
@@ -73,45 +66,10 @@ namespace Delight
             tl.ItemSelected += Tl_ItemSelected;
 
             propGrid.SelectedObject = new VideoItemProperty();
-            try
-            {
-                TemplateManager.SaveSourcesFromList(new ExternalSources(new BaseSource[]
-                {
-                    new YoutubeSource("Name1", null),
-                    new YoutubeSource("Name2", null),
-                }), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\test.xml");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-
-            /* <ComboBoxItem Content="화질 높음 (추천)" />
-                            <ComboBoxItem Content="화질 보통" />
-                            <ComboBoxItem Content="화질 낮음" />*/
-            YoutubeSource ys = new YoutubeSource()
-            {
-                Options = new List<BaseOption>(new YoutubeOption[] 
-                {
-                    new YoutubeOption()
-                    {
-                        Name = "화질 높음 (추천)"
-                    },
-                    new YoutubeOption()
-                    {
-                        Name = "화질 보통"
-                    }
-                }),
-                Title = "타이ㅣㅣㅣㅣㅣㅣㅣ틀",
-            };
-
-            templateShop.DataContext = ys;
         }
 
         private void Tl_ItemSelected(object sender, EventArgs e)
         {
-            
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -122,10 +80,33 @@ namespace Delight
 
             tl.FrameRate = FrameRate._60PFS;
 
-            tl.AddTrack(SourceType.Video);
-            tl.AddTrack(SourceType.Video);
-            tl.AddTrack(SourceType.Video);
-            tl.AddTrack(SourceType.Light);
+            tl.AddTrack(SourceType.Video, 1);
+            tl.AddTrack(SourceType.Video, 2);
+            tl.AddTrack(SourceType.Video, 3);
+            tl.AddTrack(SourceType.Light, 1);
+            tl.AddTrack(SourceType.Light, 2);
+            tl.AddTrack(SourceType.Light, 3);
+            tl.AddTrack(SourceType.Light, 4);
+            tl.AddTrack(SourceType.Image, 1);
+
+            // DEBUG: 디버깅 코드
+            LightBoard board = new LightBoard();
+
+            board.Identifier = "좌우로 움직이기";
+
+
+
+            board.AddState(new LightState(0, 28, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
+            board.AddDelayState(new DelayState(2500, 0, 85, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
+            board.AddWait(200);
+            board.AddDelayState(new DelayState(2500, 0, 28, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
+            board.AddWait(200);
+
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "LightBoard.xml");
+            EffectSerializer.SaveSourcesFromList(board, path);
+            
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(
+                new LightComponent(EffectSerializer.GetStatesFromFile(path)));
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -156,19 +137,18 @@ namespace Delight
 
         private void InitializeMenuFiles()
         {
-            mwViewModel = new MainWindowViewModel();
+            mwViewModel = GlobalViewModel.MainWindowViewModel;
 
             this.DataContext = mwViewModel;
 
             //topMenu.ItemsSource = mwViewModel.Menus;
             //lbMediaItem.ItemsSource = mwViewModel.MediaItemsView;
 
-            CommandBindings.Add(
-                new CommandBinding(mwViewModel.OpenFileCommand, mwViewModel.OpenFileExecuted));
-            CommandBindings.Add(
-                new CommandBinding(mwViewModel.TemplateShopCommand, mwViewModel.TemplateShopExecuted));
-            CommandBindings.Add(
-                new CommandBinding(mwViewModel.EditTimeLineCommand, mwViewModel.EditTimeLineExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.OpenFileCommand, mwViewModel.OpenFileExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.TemplateShopCommand, mwViewModel.TemplateShopExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.EditTimeLineCommand, mwViewModel.EditTimeLineExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.GetExternalSourceCommand, mwViewModel.GetExternalSourceExecuted));
+
         }
 
         private void lbMediaItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -224,6 +204,11 @@ namespace Delight
             }
 
             return null;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DMXController.Reset();
         }
 
         //override 

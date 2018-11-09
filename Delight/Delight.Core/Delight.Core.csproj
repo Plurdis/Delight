@@ -30,19 +30,43 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.9.9.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.9.9.1\lib\net45\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.36.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.36.1\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.36.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.36.1\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.36.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.36.1\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.36.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.36.1\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.36.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.36.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.YouTube.v3, Version=1.36.1.1226, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.YouTube.v3.1.36.1.1226\lib\net45\Google.Apis.YouTube.v3.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="YoutubeExtractor, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YoutubeExtractor.0.10.11\lib\net35\YoutubeExtractor.dll</HintPath>
+    <Reference Include="YoutubeExplode, Version=4.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YoutubeExplode.4.5.3\lib\net45\YoutubeExplode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +79,7 @@
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="Extensions\ObjectEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
+    <Compile Include="Extensions\StringEx.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
     <Compile Include="MovingLight\Effects\EffectSerializer.cs" />
     <Compile Include="MovingLight\Effects\LightBoard.cs" />
@@ -74,18 +99,20 @@
     <Compile Include="Stage\Components\StageComponent.cs" />
     <Compile Include="Stage\OutputDevice.cs" />
     <Compile Include="Stage\SourceType.cs" />
-    <Compile Include="Template\Items\BaseSource.cs" />
-    <Compile Include="Template\Items\YoutubeSource.cs" />
-    <Compile Include="Template\ExternalSources.cs" />
-    <Compile Include="Template\Options\BaseOption.cs" />
-    <Compile Include="Template\Options\YoutubeOption.cs" />
+    <Compile Include="Stage\Items\BaseSource.cs" />
+    <Compile Include="Stage\Items\YoutubeSource.cs" />
+    <Compile Include="Stage\ExternalSources.cs" />
+    <Compile Include="Stage\Options\BaseOption.cs" />
+    <Compile Include="Stage\Options\YoutubeOption.cs" />
     <Compile Include="Template\TemplateManager.cs" />
+    <Compile Include="Template\TempVideoConverter.cs" />
     <Compile Include="Template\YoutubeDownloader.cs" />
     <Compile Include="Timers\FrameTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Sources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

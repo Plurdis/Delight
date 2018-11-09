@@ -3,6 +3,7 @@ using Delight.Core.Extensions;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
+using Delight.Core.Template.Items;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +32,7 @@ namespace Delight.ViewModel
 
         #endregion
 
-        private int _viewingIndex = 0;
+        private int _viewingIndex = 2;
         public int ViewingIndex
         {
             get => _viewingIndex;
@@ -62,6 +63,7 @@ namespace Delight.ViewModel
             OpenFileCommand = new RoutedCommand("OpenFileCommand", typeof(MainWindowViewModel));
             TemplateShopCommand = new RoutedCommand("TemplateShopCommand", typeof(MainWindowViewModel));
             EditTimeLineCommand = new RoutedCommand("EditTimeLineCommand", typeof(MainWindowViewModel));
+            GetExternalSourceCommand = new RoutedCommand("GetExternalSourceCommand", typeof(MainWindowViewModel));
 
             InitalizeMenu();
             InitalizeGestures();
@@ -88,6 +90,7 @@ namespace Delight.ViewModel
             FileMenu = GetMenuItem("파일(_F)");
 
             FileMenu.Items.Add(GetMenuItem("열기(_O)", "Ctrl+O", OpenFileCommand));
+            FileMenu.Items.Add(GetMenuItem("외부에서 영상 소스 가져오기(_E)", "Ctrl+Shift+E", GetExternalSourceCommand));
             FileMenu.Items.Add(GetMenuItem("새 프로젝트(_P)", "Ctrl+Shift+N"));
             FileMenu.Items.Add(new Separator());
             FileMenu.Items.Add(GetMenuItem("저장(_S)", "Ctrl+S"));
@@ -109,6 +112,7 @@ namespace Delight.ViewModel
             RegisterCommand(OpenFileCommand, new KeyGesture(Key.O, ModifierKeys.Control));
             RegisterCommand(TemplateShopCommand, new KeyGesture(Key.T, ModifierKeys.Control));
             RegisterCommand(EditTimeLineCommand, new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift));
+            RegisterCommand(GetExternalSourceCommand, new KeyGesture(Key.E, ModifierKeys.Control | ModifierKeys.Shift));
         }
 
         #endregion
@@ -142,6 +146,13 @@ namespace Delight.ViewModel
         public void EditTimeLineExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             ViewingIndex = 0;
+        }
+
+        public RoutedCommand GetExternalSourceCommand { get; }
+
+        public void GetExternalSourceExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ViewingIndex = 2;
         }
 
         public RoutedCommand OpenFileCommand { get; }

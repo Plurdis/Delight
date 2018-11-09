@@ -1,87 +1,125 @@
-﻿using Delight.Core.Template.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using YoutubeExtractor;
+﻿using Delight.Core.Extensions;
+using Delight.Core.Sources;
+using Google.Apis.Services;
+using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
+using YoutubeExplode;
+using YoutubeRequest = Google.Apis.YouTube.v3.VideosResource.ListRequest;
 
 namespace Delight.Core.Template
 {
-    public class YoutubeDownloader
+    public static class YoutubeDownloader
     {
-        public YoutubeDownloader()
+        public static string ApiKey = "AIzaSyBe_BEbcHZEVrXs-_ciKV3OoRoovktNrf0";
+
+        static YoutubeDownloader()
         {
-            string link = "https://www.youtube.com/watch?v=DCcL4VZyups&ab_channel=%EC%9C%A0%EC%A4%80%ED%98%B8";
+            //string link = "https://www.youtube.com/watch?v=DCcL4VZyups&ab_channel=%EC%9C%A0%EC%A4%80%ED%98%B8";
 
-            IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
+            //IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
 
-            foreach (VideoInfo vi in videoInfos)
-            {
+            //foreach (VideoInfo vi in videoInfos)
+            //{
                 
-                Console.WriteLine(vi.Resolution + "-" + vi.VideoExtension);
-            }
+            //    Console.WriteLine(vi.Resolution + "-" + vi.VideoExtension);
+            //}
 
-            VideoInfo video = videoInfos.First();
+            //VideoInfo video = videoInfos.First();
 
-            video.
+            //video.
 
-            if (video.RequiresDecryption)
-            {
-                DownloadUrlResolver.DecryptDownloadUrl(video);
-            }
+            //if (video.RequiresDecryption)
+            //{
+            //    DownloadUrlResolver.DecryptDownloadUrl(video);
+            //}
 
 
-            var videoDownloader = new VideoDownloader(video, Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\test.mp4");
+            //var videoDownloader = new VideoDownloader(video, Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\test.mp4");
 
-            //videoDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(args.ProgressPercentage);
+            ////videoDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(args.ProgressPercentage);
 
-            videoDownloader.Execute();
+            //videoDownloader.Execute();
         }
 
-        private const string YoutubeLinkRegex = "(?:.+?)?(?:\\/v\\/|watch\\/|\\?v=|\\&v=|youtu\\.be\\/|\\/v=|^youtu\\.be\\/)([a-zA-Z0-9_-]{11})+";
-        private static Regex regexExtractId = new Regex(YoutubeLinkRegex, RegexOptions.Compiled);
-        private static string[] validAuthorities = { "youtube.com", "www.youtube.com", "youtu.be", "www.youtu.be" };
-
-        public string ExtractVideoIdFromUri(Uri uri)
+        private static (string, string) GetYoutubeInfo(string id)
         {
-            try
+            YoutubeRequest request = BuildRequest(id);
+            VideoListResponse response = request.Execute();
+
+            if (response.Items.Count == 0)
             {
-                string authority = new UriBuilder(uri).Uri.Authority.ToLower();
-
-                //check if the url is a youtube url
-                if (validAuthorities.Contains(authority))
-                {
-                    //and extract the id
-                    var regRes = regexExtractId.Match(uri.ToString());
-                    if (regRes.Success)
-                    {
-                        return regRes.Groups[1].Value;
-                    }
-                }
+                return (string.Empty, string.Empty);
             }
-            catch { }
 
+            VideoSnippet snippet = response.Items[0].Snippet;
+
+            return (snippet.Title, GetThumbnailUrl(snippet.Thumbnails));
+        }
+
+        public static string GetThumbnailUrl(ThumbnailDetails thumbnailDetails)
+        {
+            if (thumbnailDetails.Standard != null)
+                return thumbnailDetails.Standard.Url;
+            else if (thumbnailDetails.Medium != null)
+                return thumbnailDetails.Medium.Url;
+            else if (thumbnailDetails.High != null)
+                return thumbnailDetails.High.Url;
 
             return null;
         }
 
-        public YoutubeSource GetYoutubeSource(string link)
+        public static YoutubeRequest BuildRequest(string query)
         {
-            Uri uri = new Uri(link);
+            YouTubeService youtube = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = ApiKey
+            });
 
-            IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
+            YoutubeRequest listRequest = youtube.Videos.List("snippet");
+            listRequest.Id = query;
 
-            var info = videoInfos.First();
+            return listRequest;
+        }
 
-            var youtubeSource = new YoutubeSource();
+        /// <summary>
+        /// 공식 API를 사용한 Youtube Source 가져오기
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        public static YoutubeSource GetYoutubeSource_Offical(string link)
+        {
+            string id = link.ParseVideoId();
 
-            var id = ExtractVideoIdFromUri(uri);
+            (string, string) infos = GetYoutubeInfo(id);
 
-            youtubeSource.ThumbnailUri = $@"{"https"}://img.youtube.com/vi/{id}/0.jpg";
-            youtubeSource.Title = info.Title;
-            youtubeSource.DownloadUrl = 
+            string title = infos.Item1;
+            string thumbnailUrl = infos.Item2;
+
+            var youtubeSource = new YoutubeSource
+            {
+                ThumbnailUri = thumbnailUrl,
+                Title = title,
+                Id = id,
+            };
+
+            return youtubeSource;
+        }
+
+        public static YoutubeSource GetYoutubeSource(string link)
+        {
+            string id = link.ParseVideoId();
+
+            var client = new YoutubeClient();
+
+            YoutubeExplode.Models.Video video = client.GetVideoAsync(id).Result;
+
+            var youtubeSource = new YoutubeSource
+            {
+                ThumbnailUri = video.Thumbnails.MediumResUrl,
+                Title = video.Title,
+                Id = id
+            };
+            return youtubeSource;
         }
     }
 }
