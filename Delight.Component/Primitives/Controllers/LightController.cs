@@ -2,8 +2,11 @@
 using Delight.Component.Extensions;
 using Delight.Component.Primitives.TimingReaders;
 using Delight.Core.MovingLight;
+using Delight.Core.MovingLight.Effects;
 using Delight.Core.Stage.Components;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Delight.Component.Primitives.Controllers
@@ -12,32 +15,19 @@ namespace Delight.Component.Primitives.Controllers
     {
         public LightController(Track track, TimingReader reader) : base(track, reader, false)
         {
+            _startPort = ((Track.TrackNumber - 1) * 12) + 1;
         }
-
-        LightMovement _effect;
-
+        
         public override void ItemStarted(TrackItem sender, TimingEventArgs e)
         {
-            string movingPreset = (sender.GetTag<LightComponent>().MovingPreset);
-
-            //switch (movingPreset.ToLower())
-            //{
-            //    case "movetox":
-            //        _effect = new LightXEffect();
-            //        break;
-            //    case "movetoy":
-            //        _effect = new LightYEffect();
-            //        break;
-            //    default:
-            //        break;
-            //}
-            
-            _effect.Start();
+            _states = sender.GetTag<LightComponent>().States;
+            thr = new Thread(BeginAction);
+            thr.Start();
         }
 
         public override void ItemEnded(TrackItem sender, TimingEventArgs e)
         {
-            _effect.Stop();
+            Stop();
         }
 
         public override void ItemPlaying(TrackItem sender, TimingEventArgs e)
@@ -51,86 +41,65 @@ namespace Delight.Component.Primitives.Controllers
         public override void TimeLineStopped()
         {
         }
-    }
 
-    public abstract class LightMovement
-    {
-        public int SleepTime { get; set; } = 500;
+        int _startPort;
+        Thread thr;
 
-        internal bool _run = false;
+        IEnumerable<BaseState> _states;
 
-        public abstract void StartEffect();
-
-        public void Start()
+        public void BeginAction()
         {
-            _run = true;
-            StartEffect();
+            DMXController lightController = new DMXController(_startPort);
+            var lastStates = new byte[16];
+            while (true)
+            {
+                foreach (BaseState state in _states)
+                {
+                    if (state is DelayState ds)
+                    {
+                        var max = ds.DelayTiming / 12;
+
+                        for (int i = 1; i <= max; i++)
+                        {
+                            PortNumber n = PortNumber.XAxis;
+                            foreach (byte value in ds.Values)
+                            {
+                                int lastState = lastStates[(int)n - 1];
+                                int j = value - lastState;
+
+                                int finalValue = (int)((j / (double)max) * i);
+
+                                lightController.Send(n++, (byte)(lastState + finalValue));
+                                //Thread.Sleep(1);
+                                //Console.Write($"{_startPort - 1 + (int)n} : {(byte)(lastState + finalValue)} |");
+                            }
+                            //Console.WriteLine();
+                        }
+
+                        lastStates = ds.Values;
+                    }
+                    else if (state is LightState ls)
+                    {
+                        PortNumber n = PortNumber.XAxis;
+                        foreach (byte b in ls.States)
+                        {
+                            lightController.Send(n++, b);
+                        }
+
+                        lastStates = ls.States;
+                    }
+                    else if (state is WaitState ws)
+                    {
+                        Thread.Sleep(ws.MilliSeconds);
+                    }
+                }
+            }
         }
 
         public void Stop()
         {
-            _run = false;
+            thr?.Abort();
         }
     }
-
-    public class LightYEffect : LightMovement
-    {
-        public override void StartEffect()
-        {
-            Thread thr = new Thread(() =>
-            {
-                bool _zero = false;
-
-                while (true)
-                {
-                    if (!_run)
-                        break;
-                    if (_zero)
-                    {
-                        Console.WriteLine("Y Effect - To 70");
-                        MovingLightControl.Send(2, 70);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Y Effect - To 180");
-                        MovingLightControl.Send(2, 180);
-                    }
-                    Thread.Sleep(SleepTime);
-                    _zero = !_zero;
-                }
-            });
-
-            thr.Start();
-        }
-    }
-    public class LightXEffect : LightMovement
-    {
-        public override void StartEffect()
-        {
-            Thread thr = new Thread(() =>
-            {
-                bool _zero = false;
-
-                while (true)
-                {
-                    if (!_run)
-                        break;
-                    if (_zero)
-                    {
-                        Console.WriteLine("X Effect - To 1");
-                        MovingLightControl.Send(1, 1);
-                    }
-                    else
-                    {
-                        Console.WriteLine("X Effect - To 180");
-                        MovingLightControl.Send(1, 180);
-                    }
-                    Thread.Sleep(SleepTime);
-                    _zero = !_zero;
-                }
-            });
-
-            thr.Start();
-        }
-    }
+    
 }

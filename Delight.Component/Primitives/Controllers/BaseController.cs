@@ -56,7 +56,7 @@ namespace Delight.Component.Primitives.Controllers
         internal FrameRate CurrentFrameRate => Reader.CurrentFrameRate;
         internal TimingReader Reader { get; }
 
-        Track Track { get; }
+        internal Track Track { get; }
 
         private void Reader_TimeLineStopped(object sender, EventArgs e)
         {

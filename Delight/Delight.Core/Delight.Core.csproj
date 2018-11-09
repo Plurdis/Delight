@@ -56,7 +56,15 @@
     <Compile Include="Extensions\ObjectEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
-    <Compile Include="MovingLight\LightController.cs" />
+    <Compile Include="MovingLight\Effects\EffectSerializer.cs" />
+    <Compile Include="MovingLight\Effects\LightBoard.cs" />
+    <Compile Include="MovingLight\Effects\PlayTiming.cs" />
+    <Compile Include="MovingLight\Effects\States\BaseState.cs" />
+    <Compile Include="MovingLight\Effects\States\DelayState.cs" />
+    <Compile Include="MovingLight\Effects\States\LightState.cs" />
+    <Compile Include="MovingLight\Effects\States\WaitState.cs" />
+    <Compile Include="MovingLight\DMXController.cs" />
+    <Compile Include="MovingLight\PortNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stage\Components\LightComponent.cs" />
     <Compile Include="Stage\Components\Media\BaseMedia.cs" />
