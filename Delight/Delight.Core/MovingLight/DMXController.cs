@@ -39,13 +39,9 @@ namespace Delight.Core.MovingLight
         public DMXController(int startPort)
         {
             if (startPort < 1)
-            {
                 throw new IndexOutOfRangeException("범위 값을 벗어났습니다. startPort의 값은 1보다 작을 수 없습니다.");
-            }
             else if (startPort > 512)
-            {
                 throw new IndexOutOfRangeException("범위 값을 벗어났습니다. startPort의 값은 512보다 클 수 없습니다.");
-            }
 
             _startPort = startPort;
         }
@@ -54,15 +50,11 @@ namespace Delight.Core.MovingLight
 
         public int StartPort
         {
-            get
-            {
-                return _startPort;
-            }
+            get => _startPort;
             set
             {
                 if (value < 1)
                     value = 1;
-
                 if (value > 512)
                     value = 512;
 
@@ -70,29 +62,43 @@ namespace Delight.Core.MovingLight
             }
         }
 
+        byte[] savedValue = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+        byte[] lastValue = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
         /// <summary>
         /// 해당 포트 번호에 해당하는 포트의 값을 전송합니다.
         /// </summary>
-        /// <param name="portNumber">포트 번호입니다. 12번까지 사용가능합니다.</param>
+        /// <param name="portNumber">포트 번호입니다. 16번까지 사용가능합니다.</param>
         /// <param name="value"></param>
-        public bool Send(PortNumber portNumber, byte value)
+        public bool SetValue(PortNumber portNumber, byte value)
         {
-            if ((int)portNumber < 0 || (int)portNumber > 12)
+            if ((int)portNumber < 0 || (int)portNumber > 16)
             {
                 return false;
             }
             try
             {
                 // TODO: 512를 시작점으로 잡았을때 offset 값을 설정해줘야 함
-
-                DMXLib.Send(_startPort - 1 + (int)portNumber, value);
-                Thread.Sleep(1);
-                //Console.WriteLine($"{portNumber}에 {value}값 전달");
+                savedValue[(int)portNumber] = value;
                 return true;
             }
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public void Send()
+        {
+            for (int i = 0; i <= 15; i++)
+            {
+                if (lastValue[i] != savedValue[i])
+                {
+                    DMXLib.Send(_startPort - 1 + i, savedValue[i]);
+
+                    lastValue[i] = savedValue[i];
+                }
+                
+                Thread.Sleep(1);
             }
         }
     }

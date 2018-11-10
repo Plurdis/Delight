@@ -76,6 +76,7 @@
     <Compile Include="Common\DragSide.cs" />
     <Compile Include="Common\ActionCommand.cs" />
     <Compile Include="Common\FrameRate.cs" />
+    <Compile Include="Common\PropertyManager.cs" />
     <Compile Include="Extensions\FrameRateEx.cs" />
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="Extensions\ObjectEx.cs" />
@@ -90,6 +91,19 @@
     <Compile Include="MovingLight\Effects\States\LightState.cs" />
     <Compile Include="MovingLight\Effects\States\WaitState.cs" />
     <Compile Include="MovingLight\DMXController.cs" />
+    <Compile Include="MovingLight\Effects__\BoardSerializer.cs" />
+    <Compile Include="MovingLight\Effects__\DynamicProperty.cs" />
+    <Compile Include="MovingLight\Effects__\SetterBoard.cs" />
+    <Compile Include="MovingLight\Effects__\SetterGroup.cs" />
+    <Compile Include="MovingLight\Effects__\SetterProperty.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\Base\BaseSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Values\Base\BaseValue.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ContinueSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ValueSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ValuesSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\WaitSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Values\PropertyValue.cs" />
+    <Compile Include="MovingLight\Effects__\Values\StaticValue.cs" />
     <Compile Include="MovingLight\PortNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stage\Components\LightComponent.cs" />
@@ -105,6 +119,7 @@
     <Compile Include="Sources\ExternalSources.cs" />
     <Compile Include="Sources\Options\BaseOption.cs" />
     <Compile Include="Sources\Options\YoutubeOption.cs" />
+    <Compile Include="Template\DelightTemplate.cs" />
     <Compile Include="Template\TemplateManager.cs" />
     <Compile Include="Template\FileCacheDictionary.cs" />
     <Compile Include="Template\YoutubeDownloader.cs" />

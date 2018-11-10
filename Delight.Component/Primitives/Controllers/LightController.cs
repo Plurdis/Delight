@@ -69,7 +69,7 @@ namespace Delight.Component.Primitives.Controllers
 
                                 int finalValue = (int)((j / (double)max) * i);
 
-                                lightController.Send(n++, (byte)(lastState + finalValue));
+                                lightController.SetValue(n++, (byte)(lastState + finalValue));
                                 //Thread.Sleep(1);
                                 //Console.Write($"{_startPort - 1 + (int)n} : {(byte)(lastState + finalValue)} |");
                             }
@@ -83,7 +83,7 @@ namespace Delight.Component.Primitives.Controllers
                         PortNumber n = PortNumber.XAxis;
                         foreach (byte b in ls.States)
                         {
-                            lightController.Send(n++, b);
+                            lightController.SetValue(n++, b);
                         }
 
                         lastStates = ls.States;

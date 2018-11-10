@@ -1,5 +1,6 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Extensions;
+using Delight.Component.ItemProperties;
 using Delight.Core.Common;
 using Delight.Core.Extensions;
 using Delight.Core.Stage;
@@ -234,6 +235,16 @@ namespace Delight.Component.Controls
                     Visibility = Visibility.Hidden,
                     Tag = comp,
                 };
+
+                switch (comp.SourceType)
+                {
+                    case SourceType.Video:
+                        trackItem.Property = new VideoItemProperty();
+                        break;
+                    case SourceType.Light:
+                        trackItem.Property = new LightItemProperty();
+                        break;
+                }
 
                 trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
                 trackItem.RightSide_MouseLeftButtonDown += TrackItem_RightSide_MouseLeftButtonDown;

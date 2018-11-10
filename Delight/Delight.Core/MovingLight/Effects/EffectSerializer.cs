@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Delight.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace Delight.Core.MovingLight.Effects
             }
         }
 
+        
         public static void SaveSourcesFromList(LightBoard lightBoard, string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(LightBoard));
@@ -37,10 +39,39 @@ namespace Delight.Core.MovingLight.Effects
                 {
                     serializer.Serialize(writer, lightBoard);
                 }
+
+                using (StringWriter writer = new StringWriterWithEncoding())
+                {
+                    serializer.Serialize(writer, lightBoard);
+
+                    string str = writer.ToString();
+
+                    string hash = Crc32.GetHashFromString(str);
+                    string hash2 = Crc32.GetHashFromFile(filePath);
+
+                    Console.WriteLine($"hash : {hash} | hash2 : {hash2} | Is Same? : {hash == hash2}");
+                }
             }
             catch (Exception)
             {
                 Console.WriteLine("Error");
+            }
+        }
+
+        public sealed class StringWriterWithEncoding : StringWriter
+        {
+            private readonly Encoding encoding;
+
+            public StringWriterWithEncoding() : this(Encoding.UTF8) { }
+
+            public StringWriterWithEncoding(Encoding encoding)
+            {
+                this.encoding = encoding;
+            }
+
+            public override Encoding Encoding
+            {
+                get { return encoding; }
             }
         }
     }

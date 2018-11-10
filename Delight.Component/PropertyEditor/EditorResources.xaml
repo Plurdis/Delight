@@ -27,7 +27,7 @@
         <Grid>
             <xctk:ColorPicker
                 ColorMode="ColorCanvas"
-                SelectedColor="{Binding Path=.}"
+                SelectedColor="{Binding ., Mode=TwoWay}"
                 UsingAlphaChannel="False" />
         </Grid>
     </DataTemplate>

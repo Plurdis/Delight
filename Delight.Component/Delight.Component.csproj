@@ -95,7 +95,7 @@
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\UriConverter.cs" />
     <Compile Include="Effects\ChromaKeyEffect.cs" />
-    <Compile Include="ItemProperties\TrackItemProperty.cs" />
+    <Compile Include="ItemProperties\BaseTrackItemProperty.cs" />
     <Compile Include="Converters\StringConverter.cs" />
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Converters\MinusConverter.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="EventArgs\TimingEventArgs.cs" />
     <Compile Include="Extensions\FrameworkElementEx.cs" />
     <Compile Include="Extensions\ThicknessEx.cs" />
+    <Compile Include="ItemProperties\LightItemProperty.cs" />
     <Compile Include="ItemProperties\VideoItemProperty.cs" />
     <Compile Include="Layers\BaseLayer.cs" />
     <Compile Include="Layers\ILayer.cs" />

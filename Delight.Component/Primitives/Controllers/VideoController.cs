@@ -142,6 +142,16 @@ namespace Delight.Component.Primitives.Controllers
                 //Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
                 //Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
 
+                //itm.Property.PropertyChanged += (sen, e) =>
+                //{
+                //    string propName = e.PropertyName;
+
+                //    void Connect()
+                //    {
+
+                //    }
+                //};
+
                 //itm.ItemProperty.PropertyChanged += (sen, e) =>
                 //{
                 //    switch (e.ChangedProperty.ToLower())

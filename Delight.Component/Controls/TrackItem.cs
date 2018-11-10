@@ -1,4 +1,5 @@
-﻿using Delight.Core.Stage;
+﻿using Delight.Component.ItemProperties;
+using Delight.Core.Stage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -143,6 +144,8 @@ namespace Delight.Component.Controls
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
         }
+
+        public object Property { get; set; }
 
         //public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 

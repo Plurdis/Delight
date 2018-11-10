@@ -55,9 +55,5 @@ namespace Delight.Core.MovingLight.Effects
                 return TimeSpan.FromMilliseconds(milliseconds);
             }
         }
-
-        Thread thr;
-
-        int _startPort;
     }
 }
