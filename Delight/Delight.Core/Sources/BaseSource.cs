@@ -1,9 +1,5 @@
-﻿using Delight.Core.Template.Options;
-using System;
+﻿using Delight.Core.Sources.Options;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Delight.Core.Sources
 {
@@ -19,8 +15,15 @@ namespace Delight.Core.Sources
 
         public string Title { get; set; }
 
+        /// <summary>
+        /// 구분할 수 있는 고유한 ID를 나타냅니다.
+        /// </summary>
+        public string Id { get; set; }
+
         public abstract void Download(int SelectedIndex);
 
         public abstract List<BaseOption> Options { get; }
+
+        public bool Checked { get; set; }
     }
 }

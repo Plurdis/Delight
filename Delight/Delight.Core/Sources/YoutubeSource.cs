@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Delight.Core.Template.Options;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Delight.Core.Common;
-using System.Net;
-using System.IO;
-using System.ComponentModel;
-using YoutubeExplode.Models.MediaStreams;
-using YoutubeExplode;
+﻿using Delight.Core.Sources.Options;
 using Delight.Core.Template;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Net;
+using YoutubeExplode;
+using YoutubeExplode.Models.MediaStreams;
 
 namespace Delight.Core.Sources
 {

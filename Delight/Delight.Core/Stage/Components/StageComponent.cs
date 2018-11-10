@@ -15,6 +15,11 @@ namespace Delight.Core.Stage.Components
         }
 
         /// <summary>
+        /// 해당 컴포넌트의 고유한 식별자입니다.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 해당 컴포넌트의 소스 타입을 나타냅니다.
         /// </summary>
         public SourceType SourceType { get; } = SourceType.Unknown;
@@ -38,5 +43,9 @@ namespace Delight.Core.Stage.Components
         /// 해당 길이가 동적인 길이인지에 대해서 나타냅니다.
         /// </summary>
         public bool IsDynamicLength { get; } = false;
+
+        public abstract string TypeText { get; }
+
+        public bool Checked { get; set; }
     }
 }

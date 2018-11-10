@@ -11,5 +11,7 @@ namespace Delight.Core.Stage.Components.Media
         public ImageMedia() : base(SourceType.Image, true)
         {
         }
+
+        public override string TypeText => "이미지";
     }
 }

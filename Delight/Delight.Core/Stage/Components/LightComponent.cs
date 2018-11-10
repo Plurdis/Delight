@@ -22,5 +22,7 @@ namespace Delight.Core.Stage.Components
         }
 
         public List<BaseState> States { get; set; }
+
+        public override string TypeText => "조명 효과";
     }
 }

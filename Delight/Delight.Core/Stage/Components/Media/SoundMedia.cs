@@ -11,5 +11,7 @@ namespace Delight.Core.Stage.Components.Media
         public SoundMedia() : base(SourceType.Sound, false)
         {
         }
+
+        public override string TypeText => "사운드";
     }
 }
