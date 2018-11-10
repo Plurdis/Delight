@@ -1,7 +1,5 @@
-﻿using Delight.Core.Template;
-using Delight.Core.Template.Items;
-using Microsoft.Win32;
-using System.Collections.Generic;
+﻿using Delight.Core.Sources;
+using Delight.Core.Template;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;

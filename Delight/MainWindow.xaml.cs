@@ -1,32 +1,22 @@
-﻿using Delight.Component.Controls;
-using Delight.Component.ItemProperties;
-using Delight.Component.Primitives.Controllers;
-using Delight.Core.Common;
+﻿using Delight.Core.Common;
 using Delight.Core.MovingLight;
 using Delight.Core.MovingLight.Effects;
+using Delight.Core.MovingLight.Effects__;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
-using Delight.Core.Template;
-using Delight.Core.Template.Items;
-using Delight.Core.Template.Options;
 using Delight.ViewModel;
 using Delight.Windows;
-using Microsoft.Win32;
+using Microsoft.CSharp.RuntimeBinder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Dynamic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Delight
 {
@@ -64,12 +54,91 @@ namespace Delight
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
 
             tl.ItemSelected += Tl_ItemSelected;
+            tl.ItemDeselected += Tl_ItemDeselected;
+            //propGrid.SelectedObject = new VideoItemProperty();
 
-            propGrid.SelectedObject = new VideoItemProperty();
+            SetterBoard sb = new SetterBoard();
+
+
+            sb.AddSetterProperties(PortNumber.Brightness, "깜빡임 정도");
+            sb.AddSetterProperties(PortNumber.Color, "색깔");
+            sb.AddSetterGroup();
+            sb.AddSetterGroup();
+
+            sb[0].AddStaticState(1, 220);
+            sb[0].AddWait(1000);
+            sb[0].AddPropertyState(1, "Color");
+
+            sb[1].AddStaticState(2, 40);
+            sb[1].AddStaticState(5, 100);
+            sb[1].AddStaticState(4, 200);
+            sb[1].AddContinueLine(1000);
+            sb[1].AddStaticState(4, 253);
+
+            string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
+
+            BoardSerializer.Save(sb, path);
+
+            var board = BoardSerializer.Load(path);
+            Console.WriteLine("Done");
+
+            LightBoard lb = new LightBoard();
+
+
+            LightBoard lightBoard = new LightBoard();
+
+            lightBoard.AddState(new LightState(45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard.AddDelayState(new DelayState(1000, 45, 162, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard.AddWait(200);
+            lightBoard.AddDelayState(new DelayState(1000, 45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard.AddWait(200);
+
+            lightBoard.Identifier = "손 흔들기";
+
+            var lightComponent2 = new LightComponent(lightBoard);
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent2);
+
+            var lightEffect = EffectSerializer.GetStatesFromFile(@"C:\Users\uutak\바탕 화면\LightBoard.xml");
+
+            var lightComponent = new LightComponent(lightEffect);
+
+            LightBoard lightBoard2 = new LightBoard();
+
+            lightBoard2.AddState(new LightState(173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard2.AddWait(100);
+            lightBoard2.AddDelayState(new DelayState(200, 188, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard2.AddWait(100);
+            lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard2.AddWait(100);
+            lightBoard2.AddDelayState(new DelayState(200, 158, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            lightBoard2.AddWait(100);
+            lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+
+            lightBoard2.Identifier = "Swing!";
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(lightBoard2));
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent);
+            //Console.WriteLine("CRC-32(File) is {0}", Crc32.GetHashFromFile(@"C:\Users\uutak\바탕 화면\LightBoard.xml"));
+
+            //dynamic _employee = new DynamicProperty();
+            //_employee.asdf = "John";
+            //_employee.LastName = "Doe";
+            //_employee.Test = "This is a test";
+
+            //MessageBox.Show(PropertyManager.GetProperty(_employee, "Test"));
+            //propGrid.SelectedObject = _employee;
+        }
+
+        private void Tl_ItemDeselected(object sender, EventArgs e)
+        {
+            propGrid.SelectedObject = null;
         }
 
         private void Tl_ItemSelected(object sender, EventArgs e)
         {
+            propGrid.SelectedObject = tl.SelectedItem.Property;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -88,25 +157,6 @@ namespace Delight
             tl.AddTrack(SourceType.Light, 3);
             tl.AddTrack(SourceType.Light, 4);
             tl.AddTrack(SourceType.Image, 1);
-
-            // DEBUG: 디버깅 코드
-            LightBoard board = new LightBoard();
-
-            board.Identifier = "좌우로 움직이기";
-
-
-
-            board.AddState(new LightState(0, 28, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
-            board.AddDelayState(new DelayState(2500, 0, 85, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
-            board.AddWait(200);
-            board.AddDelayState(new DelayState(2500, 0, 28, 254, 0, 33, 0, 0, 0, 0, 0, 0, 0));
-            board.AddWait(200);
-
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "LightBoard.xml");
-            EffectSerializer.SaveSourcesFromList(board, path);
-            
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(
-                new LightComponent(EffectSerializer.GetStatesFromFile(path)));
         }
 
         private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)

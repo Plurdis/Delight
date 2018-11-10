@@ -12,10 +12,13 @@ namespace Delight.ViewModel
         {
             ExternalSourceViewModel = new ExternalSourceViewModel();
             MainWindowViewModel = new MainWindowViewModel();
+            TemplateShopViewModel = new TemplateShopViewModel();
         }
 
         public static ExternalSourceViewModel ExternalSourceViewModel { get; }
 
-        public static MainWindowViewModel MainWindowViewModel { get;  }
+        public static MainWindowViewModel MainWindowViewModel { get; }
+
+        public static TemplateShopViewModel TemplateShopViewModel { get; }
     }
 }

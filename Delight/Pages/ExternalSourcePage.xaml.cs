@@ -1,7 +1,7 @@
 ﻿using Delight.Component.Common;
+using Delight.Core.Sources;
 using Delight.Core.Stage.Components.Media;
 using Delight.Core.Template;
-using Delight.Core.Template.Items;
 using Delight.ViewModel;
 using System;
 using System.Windows;
@@ -53,6 +53,9 @@ namespace Delight.Pages
                     Time = MediaTools.GetMediaDuration(path),
                     Path = path,
                     Thumbnail = new Uri(source.ThumbnailUri),
+                    FromYoutube = true,
+                    DownloadLink = source.Id,
+                    Id = source.Id,
                 });
             }
         }

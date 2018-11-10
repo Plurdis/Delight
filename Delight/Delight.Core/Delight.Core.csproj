@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Attributes\IsVisualTrackAttribute.cs" />
     <Compile Include="Attributes\OutputDeviceAttribute.cs" />
+    <Compile Include="Common\Crc32.cs" />
     <Compile Include="Common\DragSide.cs" />
     <Compile Include="Common\ActionCommand.cs" />
     <Compile Include="Common\FrameRate.cs" />

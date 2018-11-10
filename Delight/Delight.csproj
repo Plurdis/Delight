@@ -67,6 +67,7 @@
     <Compile Include="ViewModel\GlobalViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ExternalSourceViewModel.cs" />
+    <Compile Include="ViewModel\TemplateShopViewModel.cs" />
     <Compile Include="Windows\HelloWindow.xaml.cs">
       <DependentUpon>HelloWindow.xaml</DependentUpon>
     </Compile>
@@ -155,6 +156,9 @@
     <Resource Include="Resources\view_block_sel.png" />
     <Resource Include="Resources\view_list.png" />
     <Resource Include="Resources\view_list_sel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\defaultSoundImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

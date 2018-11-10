@@ -1,21 +1,16 @@
 ﻿using Delight.Component.Common;
-using Delight.Core.Extensions;
+using Delight.Core.Common;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
-using Delight.Core.Template.Items;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Delight.ViewModel
@@ -178,6 +173,7 @@ namespace Delight.ViewModel
                             Path = location,
                             Time = TimeSpan.FromSeconds(20),
                             Thumbnail = new Uri(location),
+                            Id = Crc32.GetHashFromFile(location),
                         };
                         break;
                     case SourceType.Sound:
@@ -188,6 +184,7 @@ namespace Delight.ViewModel
                             Path = location,
                             Time = MediaTools.GetMediaDuration(location),
                             Thumbnail = uri,
+                            Id = Crc32.GetHashFromFile(location),
                         };
                         break;
                     case SourceType.Video:
@@ -197,6 +194,7 @@ namespace Delight.ViewModel
                             Path = location,
                             Time = MediaTools.GetMediaDuration(location),
                             Thumbnail = ((BitmapImage)MediaTools.GetMediaThumbnail(location)).UriSource,
+                            Id = Crc32.GetHashFromFile(location),
                         };
                         break;
                     default:
