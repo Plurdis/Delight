@@ -51,15 +51,39 @@ namespace Delight.Component.ItemProperties
             set { _opacity = value; PropChanged("Opacity"); }
         }
 
-        Color _color = Colors.Black;
+        ColorData _color = new ColorData(Colors.Black);
 
         [Editor(typeof(ColorEditor), typeof(PropertyValueEditor))]
-        public Color Color
+        public ColorData Color
         {
             get => _color;
             set {
                 _color = value;
                 PropChanged("Color");
+            }
+        }
+
+        byte _xAxis = 120;
+        [Editor(typeof(AxisEditor), typeof(PropertyValueEditor))]
+        public byte XAxis
+        {
+            get => _xAxis;
+            set
+            {
+                _xAxis = value;
+                PropChanged("XAxis");
+            }
+        }
+
+        byte _lightColor = 10;
+        [Editor(typeof(LightColorEditor), typeof(PropertyValueEditor))]
+        public byte LightColor
+        {
+            get => _lightColor;
+            set
+            {
+                _lightColor = value;
+                PropChanged("LightColor");
             }
         }
 

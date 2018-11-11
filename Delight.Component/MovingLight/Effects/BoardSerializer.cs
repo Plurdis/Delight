@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Delight.Core.MovingLight.Effects__
+namespace Delight.Component.MovingLight.Effects
 {
     public class BoardSerializer
     {

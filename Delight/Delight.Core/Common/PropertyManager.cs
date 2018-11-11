@@ -36,24 +36,23 @@ namespace Delight.Core.Common
             }
         }
 
-        public static void SetProperty(object o, string propertyName, string value)
+        public static void SetProperty(object o, string propertyName, object value)
         {
             dynamic callSite = null;
 
             if (callSite == null)
             {
-                callSite = CallSite<Func<CallSite, object, string, object>>.Create(
+                callSite = CallSite<Func<CallSite, object, object, object>>.Create(
                     Microsoft.CSharp.RuntimeBinder.Binder.SetMember(CSharpBinderFlags.None, propertyName,
-                    typeof(DynamicProperty),
+                    o.GetType(),
                     new CSharpArgumentInfo[]
                     {
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                        CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.Constant | CSharpArgumentInfoFlags.UseCompileTimeType, null)
+                        CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.Constant | CSharpArgumentInfoFlags.UseCompileTimeType, null),
                     }));
             }
 
             callSite.Target(callSite, o, value);
-
         }
     }
 }

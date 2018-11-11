@@ -1,4 +1,4 @@
-﻿using Delight.Core.MovingLight.Effects;
+﻿using Delight.Component.MovingLight.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +13,17 @@ namespace Delight.Core.Stage.Components
         {
         }
 
-        public LightComponent(LightBoard lightBoard) : this()
+        public LightComponent(SetterBoard setterBoard) : this()
         {
-            States = lightBoard.Storys;
-            Identifier = lightBoard.Identifier;
-            Time = lightBoard.Length;
+            SetterBoard = setterBoard;
+            Identifier = setterBoard.Identifier;
+            Time = TimeSpan.FromSeconds(20);
             Thumbnail = new Uri("pack://application:,,,/Delight;component/Resources/defaultLightImage.png");
         }
 
-        public List<BaseState> States { get; set; }
+
+
+        public SetterBoard SetterBoard { get; set; }
 
         public override string TypeText => "조명 효과";
     }

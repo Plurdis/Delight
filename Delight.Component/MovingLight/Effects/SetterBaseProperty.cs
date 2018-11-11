@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.MovingLight.Effects
+namespace Delight
 {
-    public abstract class BaseState
+    public class SetterBaseProperty
     {
-        public PlayTiming PlayTiming { get; set; }
+        
     }
 }

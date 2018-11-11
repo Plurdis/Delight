@@ -1,7 +1,7 @@
-﻿using Delight.Core.Common;
+﻿using Delight.Component.MovingLight.Effects;
+using Delight.Component.MovingLight.Effects.Values;
+using Delight.Core.Common;
 using Delight.Core.MovingLight;
-using Delight.Core.MovingLight.Effects;
-using Delight.Core.MovingLight.Effects__;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.ViewModel;
@@ -11,7 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,8 +33,80 @@ namespace Delight
         bool dragStart;
         ListBox dragSource;
 
+        public class SomeAttribute : Attribute
+        {
+            public SomeAttribute(string value)
+            {
+                this.Value = value;
+            }
+
+            public string Value { get; set; }
+        }
+
+        public class SomeClass
+        {
+            //public string Value = "Test";
+        }
+
+        public void CanAddAttribute()
+        {
+            var type = typeof(SetterBaseProperty);
+
+            var aName = new AssemblyName("Custom");
+            AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
+            ModuleBuilder mb = ab.DefineDynamicModule(aName.Name);
+            TypeBuilder tb = mb.DefineType(type.Name + "Proxy", TypeAttributes.Public, type);
+
+            FieldBuilder fb = tb.DefineField("_value", typeof(string), FieldAttributes.Private);
+            PropertyBuilder pb = tb.DefineProperty("Value", PropertyAttributes.HasDefault, typeof(string), null);
+
+            //build setter
+            MethodBuilder setter = tb.DefineMethod("set_Value", MethodAttributes.Public | MethodAttributes.Virtual, null, new Type[] { typeof(string) });
+            ILGenerator setterILG = setter.GetILGenerator();
+            setterILG.Emit(OpCodes.Ldarg_0);
+            setterILG.Emit(OpCodes.Ldarg_1);
+            setterILG.Emit(OpCodes.Stfld, fb);
+            setterILG.Emit(OpCodes.Ret);
+            pb.SetSetMethod(setter);
+
+            //build getter
+            MethodBuilder getter = tb.DefineMethod("get_Value", MethodAttributes.Public | MethodAttributes.Virtual,typeof(string), Type.EmptyTypes);
+            ILGenerator getterILG = getter.GetILGenerator();
+            getterILG.Emit(OpCodes.Ldarg_0);
+            getterILG.Emit(OpCodes.Ldfld, fb);
+            getterILG.Emit(OpCodes.Ret);
+            pb.SetGetMethod(getter);
+
+            Type[] attrCtorParams = new Type[] { typeof(string) };
+            ConstructorInfo attrCtorInfo = typeof(SomeAttribute).GetConstructor(attrCtorParams);
+            CustomAttributeBuilder attrBuilder = new CustomAttributeBuilder(attrCtorInfo, new object[] { "Some Value" });
+            pb.SetCustomAttribute(attrBuilder);
+            
+
+
+
+            var newType = tb.CreateType();
+            var instance = (SetterBaseProperty)Activator.CreateInstance(newType);
+
+            //Assert.AreEqual("Test", instance.Value);
+            var propInfo = instance.GetType()
+                .GetRuntimeProperty("Value");
+
+            var attr = (SomeAttribute)propInfo.GetCustomAttributes(typeof(SomeAttribute), false)
+                .SingleOrDefault();
+
+
+            if (attr != null)
+            {
+                MessageBox.Show((attr.Value == "Value").ToString());
+            }
+        }
+
         public MainWindow()
         {
+            //CanAddAttribute();
+
+
             InitializeComponent();
             InitializeMenuFiles();
 
@@ -58,22 +132,41 @@ namespace Delight
             //propGrid.SelectedObject = new VideoItemProperty();
 
             SetterBoard sb = new SetterBoard();
+            sb.Identifier = "손 흔들기";
 
-
-            sb.AddSetterProperties(PortNumber.Brightness, "깜빡임 정도");
-            sb.AddSetterProperties(PortNumber.Color, "색깔");
+            sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
+            sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
             sb.AddSetterGroup();
             sb.AddSetterGroup();
 
-            sb[0].AddStaticState(1, 220);
-            sb[0].AddWait(1000);
-            sb[0].AddPropertyState(1, "Color");
+            sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
+                (PortNumber.YAxis, new StaticValue(100)),
+                (PortNumber.Brightness, new StaticValue(254)),
+                (PortNumber.Blink, new PropertyValue("Blinking")),
+                (PortNumber.Color, new PropertyValue("Color")));
 
-            sb[1].AddStaticState(2, 40);
-            sb[1].AddStaticState(5, 100);
-            sb[1].AddStaticState(4, 200);
-            sb[1].AddContinueLine(1000);
-            sb[1].AddStaticState(4, 253);
+            sb[0].AddContinueLine(1000);
+            sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
+
+            sb[0].AddWait(200);
+
+            sb[0].AddContinueLine(1000);
+            sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
+
+            sb[0].AddWait(200);
+
+            sb[1].AddContinueLine(500);
+            sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
+               
+            sb[1].AddWait(200);
+               
+            sb[1].AddContinueLine(500);
+            sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
+               
+            sb[1].AddWait(200);
+
+            //(PortNumber.Blink, new PropertyValue("Blinking")
+
 
             string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
 
@@ -82,44 +175,46 @@ namespace Delight
             var board = BoardSerializer.Load(path);
             Console.WriteLine("Done");
 
-            LightBoard lb = new LightBoard();
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
+
+            //LightBoard lb = new LightBoard();
 
 
-            LightBoard lightBoard = new LightBoard();
+            //LightBoard lightBoard = new LightBoard();
 
-            lightBoard.AddState(new LightState(45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard.AddDelayState(new DelayState(1000, 45, 162, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard.AddWait(200);
-            lightBoard.AddDelayState(new DelayState(1000, 45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard.AddWait(200);
+            //lightBoard.AddState(new LightState(45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard.AddDelayState(new DelayState(1000, 45, 162, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard.AddWait(200);
+            //lightBoard.AddDelayState(new DelayState(1000, 45, 100, 254, 0, 42, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard.AddWait(200);
 
-            lightBoard.Identifier = "손 흔들기";
+            //lightBoard.Identifier = "손 흔들기";
 
-            var lightComponent2 = new LightComponent(lightBoard);
+            //var lightComponent2 = new LightComponent(lightBoard);
 
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent2);
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent2);
 
-            var lightEffect = EffectSerializer.GetStatesFromFile(@"C:\Users\uutak\바탕 화면\LightBoard.xml");
+            //var lightEffect = EffectSerializer.GetStatesFromFile(@"C:\Users\uutak\바탕 화면\LightBoard.xml");
 
-            var lightComponent = new LightComponent(lightEffect);
+            //var lightComponent = new LightComponent(lightEffect);
 
-            LightBoard lightBoard2 = new LightBoard();
+            //LightBoard lightBoard2 = new LightBoard();
 
-            lightBoard2.AddState(new LightState(173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard2.AddWait(100);
-            lightBoard2.AddDelayState(new DelayState(200, 188, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard2.AddWait(100);
-            lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard2.AddWait(100);
-            lightBoard2.AddDelayState(new DelayState(200, 158, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
-            lightBoard2.AddWait(100);
-            lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard2.AddState(new LightState(173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard2.AddWait(100);
+            //lightBoard2.AddDelayState(new DelayState(200, 188, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard2.AddWait(100);
+            //lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard2.AddWait(100);
+            //lightBoard2.AddDelayState(new DelayState(200, 158, 80, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
+            //lightBoard2.AddWait(100);
+            //lightBoard2.AddDelayState(new DelayState(200, 173, 40, 254, 193, 33, 0, 0, 0, 0, 0, 0, 0));
 
-            lightBoard2.Identifier = "Swing!";
+            //lightBoard2.Identifier = "Swing!";
 
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(lightBoard2));
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(lightBoard2));
 
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent);
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(lightComponent);
             //Console.WriteLine("CRC-32(File) is {0}", Crc32.GetHashFromFile(@"C:\Users\uutak\바탕 화면\LightBoard.xml"));
 
             //dynamic _employee = new DynamicProperty();

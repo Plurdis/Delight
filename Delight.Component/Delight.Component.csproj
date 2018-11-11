@@ -88,10 +88,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Common\ColorData.cs" />
+    <Compile Include="Common\LightColor.cs" />
     <Compile Include="Common\MarkupSupport.cs" />
     <Compile Include="Common\MediaTools.cs" />
     <Compile Include="Common\Percentage.cs" />
     <Compile Include="Controls\PropertyGrid.cs" />
+    <Compile Include="Controls\SubmitTextBox.cs" />
+    <Compile Include="Converters\ByteToIndexConverter.cs" />
+    <Compile Include="Converters\ByteToPercentageConverter.cs" />
+    <Compile Include="Converters\ByteToPercentageStringConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\UriConverter.cs" />
     <Compile Include="Effects\ChromaKeyEffect.cs" />
@@ -109,6 +115,20 @@
     <Compile Include="Layers\ILayer.cs" />
     <Compile Include="Layers\ImageLayer.cs" />
     <Compile Include="Layers\VideoLayer.cs" />
+    <Compile Include="MovingLight\Effects__\BoardSerializer.cs" />
+    <Compile Include="MovingLight\Effects__\SetterBaseProperty.cs" />
+    <Compile Include="MovingLight\Effects__\SetterBoard.cs" />
+    <Compile Include="MovingLight\Effects__\SetterGroup.cs" />
+    <Compile Include="MovingLight\Effects__\SetterProperty.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\Base\BaseSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ContinueSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ValueSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\ValuesSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Setters\WaitSetter.cs" />
+    <Compile Include="MovingLight\Effects__\Values\Base\BaseValue.cs" />
+    <Compile Include="MovingLight\Effects__\Values\PropertyValue.cs" />
+    <Compile Include="MovingLight\Effects__\Values\StaticValue.cs" />
+    <Compile Include="MovingLight\LightComponent.cs" />
     <Compile Include="Primitives\Controllers\BaseController.cs" />
     <Compile Include="Controls\CircleBar.cs" />
     <Compile Include="Controls\PiePiece.cs" />
@@ -128,7 +148,9 @@
     <Compile Include="Primitives\MediaElementPro.cs" />
     <Compile Include="Primitives\TimingReaders\DelayTimingReader.cs" />
     <Compile Include="Primitives\TimingReaders\TimingReader.cs" />
+    <Compile Include="PropertyEditor\AxisEditor.cs" />
     <Compile Include="PropertyEditor\ColorEditor.cs" />
+    <Compile Include="PropertyEditor\LightColorEditor.cs" />
     <Compile Include="PropertyEditor\PercentageEditor.cs" />
     <Page Include="PropertyEditor\EditorResources.xaml">
       <SubType>Designer</SubType>

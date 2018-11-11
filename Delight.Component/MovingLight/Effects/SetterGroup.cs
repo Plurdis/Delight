@@ -1,7 +1,8 @@
-﻿using Delight.Core.MovingLight.Effects__.Setters;
-using Delight.Core.MovingLight.Effects__.Setters.Base;
-using Delight.Core.MovingLight.Effects__.Values;
-using Delight.Core.MovingLight.Effects__.Values.Base;
+﻿using Delight.Component.MovingLight.Effects.Setters;
+using Delight.Component.MovingLight.Effects.Setters.Base;
+using Delight.Component.MovingLight.Effects.Values;
+using Delight.Component.MovingLight.Effects.Values.Base;
+using Delight.Core.MovingLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Delight.Core.MovingLight.Effects__
+namespace Delight.Component.MovingLight.Effects
 {
     public class SetterGroup
     {
@@ -25,7 +26,7 @@ namespace Delight.Core.MovingLight.Effects__
             Setters = new List<BaseSetter>();
         }
 
-        public void AddStaticState(int port, byte value)
+        public void AddStaticState(PortNumber port, byte value)
         {
             Setters.Add(new ValueSetter()
             {
@@ -34,7 +35,7 @@ namespace Delight.Core.MovingLight.Effects__
             });
         }
 
-        public void AddPropertyState(int port, string propName)
+        public void AddPropertyState(PortNumber port, string propName)
         {
             Setters.Add(new ValueSetter()
             {
@@ -43,7 +44,7 @@ namespace Delight.Core.MovingLight.Effects__
             });
         }
 
-        public void AddStates(params (int, BaseValue)[] values)
+        public void AddStates(params (PortNumber, BaseValue)[] values)
         {
             Setters.Add(new ValuesSetter()
             {

@@ -78,7 +78,7 @@ namespace Delight.Core.MovingLight
             try
             {
                 // TODO: 512를 시작점으로 잡았을때 offset 값을 설정해줘야 함
-                savedValue[(int)portNumber] = value;
+                savedValue[(int)portNumber - 1] = value;
                 return true;
             }
             catch (Exception)
@@ -93,13 +93,15 @@ namespace Delight.Core.MovingLight
             {
                 if (lastValue[i] != savedValue[i])
                 {
-                    DMXLib.Send(_startPort - 1 + i, savedValue[i]);
+                    DMXLib.Send(_startPort + i, savedValue[i]);
 
                     lastValue[i] = savedValue[i];
                 }
                 
                 Thread.Sleep(1);
             }
+
+            //Console.WriteLine("Send Call! - value : " + string.Join(", ", savedValue));
         }
     }
 }

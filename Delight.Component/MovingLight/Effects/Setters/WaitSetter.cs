@@ -1,11 +1,11 @@
-﻿using Delight.Core.MovingLight.Effects__.Setters.Base;
+﻿using Delight.Component.MovingLight.Effects.Setters.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.MovingLight.Effects__.Setters
+namespace Delight.Component.MovingLight.Effects.Setters
 {
     public class WaitSetter : BaseSetter
     {

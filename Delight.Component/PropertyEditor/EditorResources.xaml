@@ -1,10 +1,80 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cm="clr-namespace:Delight.Component.Common"
     xmlns:cvt="clr-namespace:Delight.Component.Converters"
     xmlns:local="clr-namespace:Delight.Component.PropertyEditor"
     xmlns:wkct="Xceed.Wpf.ToolKit"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+
+    <DataTemplate x:Key="AxisTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="2,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding Value, Converter={cvt:ByteToPercentageStringConverter}}" />
+            <Slider
+                Grid.Column="1"
+                Maximum="1"
+                Minimum="0"
+                Value="{Binding Value, Converter={cvt:ByteToPercentageConverter}, Mode=TwoWay}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="LightColorTemplate">
+        <Grid>
+            <ComboBox SelectedIndex="{Binding Value, Converter={cvt:ByteToIndexConverter}}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid Margin="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6" />
+                                    <ColumnDefinition Width="6" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle
+                                    Grid.Column="0"
+                                    Height="12"
+                                    Fill="{Binding FirstColor}" />
+                                <Rectangle
+                                    Grid.Column="1"
+                                    Height="12"
+                                    Fill="{Binding SecondColor}" />
+                            </Grid>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5,0"
+                                Text="{Binding ColorName}" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <cm:LightColor
+                    ColorName="Red"
+                    FirstColor="Red"
+                    SecondColor="Red" />
+                <cm:LightColor
+                    ColorName="Blue"
+                    FirstColor="Blue"
+                    SecondColor="Blue" />
+                <cm:LightColor
+                    ColorName="Blue &amp; Red"
+                    FirstColor="Blue"
+                    SecondColor="Red" />
+                <!--<cm:LightColor FirstColor="" SecondColor="" />
+                <cm:LightColor FirstColor="" SecondColor="" />
+                <cm:LightColor FirstColor="" SecondColor="" />-->
+            </ComboBox>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="PercentageTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -23,12 +93,24 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="ColorTemplate" DataType="{x:Type Color}">
+    <DataTemplate x:Key="ColorTemplate" DataType="{x:Type cm:ColorData}">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--<TextBlock
+                Margin="2,0,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding .}" />-->
+
             <xctk:ColorPicker
+                Grid.Column="1"
                 ColorMode="ColorCanvas"
-                SelectedColor="{Binding ., Mode=TwoWay}"
+                SelectedColor="{Binding Value.Color, Mode=TwoWay}"
                 UsingAlphaChannel="False" />
         </Grid>
     </DataTemplate>
+
 </ResourceDictionary>

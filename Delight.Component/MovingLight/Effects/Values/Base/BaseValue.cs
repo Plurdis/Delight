@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.MovingLight.Effects__.Setters.Base
+namespace Delight.Component.MovingLight.Effects.Values.Base
 {
-    public class BaseSetter
+    public class BaseValue
     {
     }
 }

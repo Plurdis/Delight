@@ -242,7 +242,8 @@ namespace Delight.Component.Controls
                         trackItem.Property = new VideoItemProperty();
                         break;
                     case SourceType.Light:
-                        trackItem.Property = new LightItemProperty();
+                        var lComp = comp as LightComponent;
+                        trackItem.Property = lComp.SetterBoard.GetSetterBaseProperty();
                         break;
                 }
 

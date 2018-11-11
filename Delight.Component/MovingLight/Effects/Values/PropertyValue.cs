@@ -1,11 +1,6 @@
-﻿using Delight.Core.MovingLight.Effects__.Values.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Delight.Component.MovingLight.Effects.Values.Base;
 
-namespace Delight.Core.MovingLight.Effects__.Values
+namespace Delight.Component.MovingLight.Effects.Values
 {
     public class PropertyValue : BaseValue
     {

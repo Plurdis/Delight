@@ -1,11 +1,11 @@
-﻿using Delight.Core.MovingLight.Effects__.Values.Base;
+﻿using Delight.Component.MovingLight.Effects.Values.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Delight.Core.MovingLight.Effects__.Values
+namespace Delight.Component.MovingLight.Effects.Values
 {
     public class StaticValue : BaseValue
     {
