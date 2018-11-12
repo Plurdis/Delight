@@ -26,6 +26,11 @@ namespace Delight.Component.Controls
             set { SetValue(SelectedObjectsProperty, value); }
         }
 
+        static PropertyGrid()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGrid), new FrameworkPropertyMetadata(typeof(PropertyGrid)));
+        }
+
         public PropertyGrid() : base()
         {
             AddGroupProperty("Category");
@@ -107,8 +112,8 @@ namespace Delight.Component.Controls
 
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
-
-            this.GroupStyle.Add(new GroupStyle()
+            
+            GroupStyle.Add(new GroupStyle()
             {
                 ContainerStyle = FindResource("DelightGroupItemStyle") as Style
             });

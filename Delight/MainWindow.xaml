@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <Window.Resources>
 
-        <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}">
+        <!--<Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="Template">
@@ -49,7 +49,9 @@
             </Setter>
         </Style>
 
+        -->
         <!--  TopLevelHeader  -->
+        <!--
         <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
             <Border x:Name="Border">
                 <Grid>
@@ -115,7 +117,9 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
+        -->
         <!--  TopLevelItem  -->
+        <!--
         <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
             <Border x:Name="Border">
                 <Grid>
@@ -151,7 +155,9 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
+        -->
         <!--  SubmenuItem  -->
+        <!--
         <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
             <Border
                 x:Name="Border"
@@ -358,7 +364,9 @@
 
         <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
 
+        -->
         <!--  MenuItem Style  -->
+        <!--
         <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Style.Triggers>
@@ -387,7 +395,7 @@
                     <GradientStop Offset="1" Color="#000000FF" />
                 </GradientStopCollection>
             </LinearGradientBrush.GradientStops>
-        </LinearGradientBrush>
+        </LinearGradientBrush>-->
 
     </Window.Resources>
     <Grid>
@@ -664,7 +672,11 @@
                         </Style>
                     </TabControl.ItemContainerStyle>
                     <TabItem>
-                        <Grid Background="{StaticResource Delight.BackgroundColor}">
+                        <Grid>
+                            <Border
+                                Height="100"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource Delight.BackgroundColor}" />
                             <ct:TimeLine x:Name="tl" />
                         </Grid>
                     </TabItem>
@@ -702,7 +714,10 @@
                         Text="00:00:00;0" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <ct:PropertyGrid x:Name="propGrid" Background="#FF2F2C33" />
+                    <ct:PropertyGrid
+                        x:Name="propGrid"
+                        VerticalAlignment="Stretch"
+                        Background="#FF2F2C33" />
                 </Grid>
                 <Grid Grid.Row="2" />
             </Grid>

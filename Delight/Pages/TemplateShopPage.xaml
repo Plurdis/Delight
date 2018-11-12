@@ -14,6 +14,10 @@
     d:DesignWidth="1000"
     mc:Ignorable="d">
     <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -22,8 +26,11 @@
         <Grid>
             <ListBox
                 x:Name="tcSelectedIndex"
+                Margin="10"
                 Background="{x:Null}"
                 BorderBrush="{x:Null}"
+                FontFamily="NanumSquare"
+                Foreground="#FFAAAAAA"
                 SelectedIndex="0">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -32,15 +39,17 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="FontSize" Value="16" />
-                        <Setter Property="Margin" Value="20,5" />
+                        <Setter Property="FontSize" Value="18" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                    <Grid>
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Foreground" Value="#FF3A373E" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -48,16 +57,26 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <ListBoxItem Content="템플릿 업로드" />
-                <ListBoxItem Content="찾아보기" />
-                <ListBoxItem Content="인기 템플릿" />
-                <ListBoxItem Content="설치된 템플릿" />
+                <ListBoxItem
+                    Margin="30,5"
+                    Content="제작하기"
+                    Tag="0" />
+                <Rectangle Width="5" Fill="#FF3A373E" />
+                <ListBoxItem
+                    Margin="30,5"
+                    Content="찾아보기"
+                    Tag="1" />
+                <Rectangle Width="5" Fill="#FF3A373E" />
+                <ListBoxItem
+                    Margin="30,5"
+                    Content="설치된 템플릿"
+                    Tag="2" />
             </ListBox>
         </Grid>
 
         <Grid Grid.Row="1">
 
-            <TabControl BorderBrush="{x:Null}" SelectedIndex="{Binding Path=SelectedIndex, ElementName=tcSelectedIndex}">
+            <TabControl BorderBrush="{x:Null}" SelectedIndex="{Binding Path=Tag, ElementName=tcSelectedIndex, Converter={cvt:StringToIntConverter}}">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -67,12 +86,14 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="5" />
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Margin="10">
                             <!--<Grid Background="Gray">-->
-                            <TextBlock Text="현재 프로젝트의 아이템" />
+                            <TextBlock
+                                Margin="10,0"
+                                FontFamily="NanumSquare"
+                                FontSize="13"
+                                Text="프로젝트에 포함된 리소스 파일" />
                             <!--</Grid>-->
                             <Rectangle
                                 Height="2"
@@ -163,25 +184,6 @@
                             </ListBox>
                         </StackPanel>
 
-                        <GridSplitter
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            Background="#FFD1D1D1" />
-
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <StackPanel Margin="10">
-                                <TextBlock x:Name="tbTemplate" TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
-                            <Button
-                                Grid.Row="1"
-                                Margin="5"
-                                Padding="5"
-                                Content="패킹 시작" />
-                        </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem>
@@ -237,5 +239,21 @@
             </TabControl>
         </Grid>
 
+        <Grid Grid.RowSpan="2" Grid.Column="1">
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Margin="10">
+                    <TextBlock x:Name="tbTemplate" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+                <Button
+                    Grid.Row="1"
+                    Margin="5"
+                    Padding="5"
+                    Content="패킹 시작" />
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

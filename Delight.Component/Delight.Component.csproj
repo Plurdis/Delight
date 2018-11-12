@@ -60,9 +60,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ControlThemes.xaml">
+    <Page Include="Controls\PropertyGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Paths.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SetterStyles.xaml">
       <SubType>Designer</SubType>
@@ -93,6 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Common\ColorData.cs" />
+    <Compile Include="Common\ItemPosition.cs" />
     <Compile Include="Common\LightColor.cs" />
     <Compile Include="Common\MarkupSupport.cs" />
     <Compile Include="Common\MediaTools.cs" />
@@ -107,10 +116,12 @@
     <Compile Include="Controls\PropertyGrid\PropertyGridItemView.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\BoolSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\PercentageSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\ISetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\MultiPropertyConverter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterManager.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\ValueBoxSetter.cs" />
     <Compile Include="Controls\PropertyGrid\StarGridViewColumn.cs" />
     <Compile Include="Controls\SubmitTextBox.cs" />
     <Compile Include="Converters\BaseMultiValueConverter.cs" />
@@ -121,13 +132,16 @@
     <Compile Include="Converters\ByteToPercentageStringConverter.cs" />
     <Compile Include="Converters\DisplayNameConverter.cs" />
     <Compile Include="Converters\ComponentsToTextConverter.cs" />
+    <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\NullObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
+    <Compile Include="Converters\StringToIntConverter.cs" />
     <Compile Include="Converters\UriConverter.cs" />
     <Compile Include="Effects\ChromaKeyEffect.cs" />
     <Compile Include="Extensions\BindingHelper.cs" />
     <Compile Include="Extensions\DependencyHelper.cs" />
     <Compile Include="Extensions\DependencyObjectEx.cs" />
+    <Compile Include="Extensions\DoubleExtension.cs" />
     <Compile Include="Extensions\VisualTreeHelperEx.cs" />
     <Compile Include="ItemProperties\BaseTrackItemProperty.cs" />
     <Compile Include="Converters\StringConverter.cs" />

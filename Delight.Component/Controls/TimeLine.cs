@@ -7,6 +7,7 @@ using Delight.Core.Attributes;
 using Delight.Core.Common;
 using Delight.Core.Extensions;
 using Delight.Core.Stage;
+using Delight.Core.Stage.Components;
 using Delight.Core.Timers;
 using System;
 using System.Collections.Generic;
@@ -107,15 +108,32 @@ namespace Delight.Component.Controls
             otherTracks.Children.Clear();
         }
 
-        //public string ExportData()
-        //{
+        public List<ItemPosition> ExportData()
+        {
+            var items = new List<ItemPosition>();
 
-        //}
+            foreach (TrackItem item in AllItems)
+            {
+                var itemPosition = new ItemPosition()
+                {
+                    BackwardOffset = item.BackwardOffset,
+                    ForwardOffset = item.ForwardOffset,
+                    Offset = item.Offset,
+                    ItemId = item.GetTag<StageComponent>().Id,
+                    SourceType = item.SourceType,
+                    TrackNumber = ((((FrameworkElement)item.Parent).TemplatedParent) as Track).TrackNumber
+                };
 
-        //public string ImportData()
-        //{
+                items.Add(itemPosition);
+            }
 
-        //}
+            return items;
+        }
+
+        public string ImportData()
+        {
+            return null;
+        }
 
         public override void OnApplyTemplate()
         {
@@ -660,6 +678,8 @@ namespace Delight.Component.Controls
 
         public void Play()
         {
+            ExportData();
+
             //await Task.Factory.StartNew(() => {  });
             Task.Run(() =>
             {

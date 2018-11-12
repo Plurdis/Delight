@@ -1,21 +1,12 @@
 ﻿using Delight.Component.Common;
-using Delight.Component.MovingLight.Effects;
-using Delight.Component.MovingLight.Effects.Values;
 using Delight.Core.Common;
 using Delight.Core.MovingLight;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.ViewModel;
 using Delight.Windows;
-using Microsoft.CSharp.RuntimeBinder;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Dynamic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -36,7 +27,6 @@ namespace Delight
 
         public MainWindow()
         {
-
             InitializeComponent();
             InitializeMenuFiles();
 

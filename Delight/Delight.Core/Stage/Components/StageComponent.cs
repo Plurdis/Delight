@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Delight.Core.Stage.Components
 {
-    public abstract class StageComponent :  INotifyPropertyChanged
+    public abstract class StageComponent : INotifyPropertyChanged
     {
         public StageComponent(SourceType sourceType, bool isDynamicLength = false)
         {

@@ -19,6 +19,9 @@ namespace Delight.Component.Controls
 
             foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
+                if (type.Name.Contains("PercentageSetter"))
+                {
+                }
                 if (type.HasAttribute<SetterAttribute>())
                 {
                     var attr = type.GetAttribute<SetterAttribute>();

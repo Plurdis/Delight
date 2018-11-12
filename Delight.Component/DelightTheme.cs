@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Delight.Component
@@ -12,22 +8,34 @@ namespace Delight.Component
     {
         public DelightTheme()
         {
-            AddDictionary("pack://application:,,,/Delight.Component;component/Controls/ControlThemes.xaml");
-            AddDictionary("pack://application:,,,/Delight.Component;component/Layers/LayerTheme.xaml");
-            AddDictionary("pack://application:,,,/Delight.Component;component/Primitives/MediaElementPro.xaml");
-            AddDictionary("pack://application:,,,/Delight.Component;component/PropertyEditor/EditorResources.xaml");
-            AddDictionary("pack://application:,,,/Delight.Component;component/SetterStyles.xaml");
+            AddDictionary("Resources/Colors.xaml");
+            AddDictionary("Resources/Paths.xaml");
+
+            AddDictionary("Controls/CircleBar.xaml");
+            AddDictionary("Controls/TrackItem.xaml");
+            AddDictionary("Controls/TimeLineScrollBar.xaml");
+            AddDictionary("Controls/TimeLine.xaml");
+            AddDictionary("Controls/Track.xaml");
+            AddDictionary("Controls/PropertyGrid.xaml");
+
+            AddDictionary("Layers/LayerTheme.xaml");
+
+            AddDictionary("Primitives/MediaElementPro.xaml");
+
+            AddDictionary("PropertyEditor/EditorResources.xaml");
+
+            AddDictionary("SetterStyles.xaml");
         }
 
-        public ResourceDictionary GetDictionary(string uriString)
+        ResourceDictionary GetDictionary(string uriString)
         {
             return new ResourceDictionary()
             {
-                Source = new Uri(uriString)
+                Source = new Uri($"pack://application:,,,/Delight.Component;component/{uriString}")
             };
         }
 
-        public void AddDictionary(string uriString)
+        void AddDictionary(string uriString)
         {
             MergedDictionaries.Add(GetDictionary(uriString));
         }
