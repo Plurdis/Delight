@@ -137,21 +137,28 @@ namespace Delight.Component.Controls
             foreach(ItemPosition item in items)
             {
                 StageComponent component = dictionary[item.ItemId];
-
-                AddItem(component, item.SourceType, item.TrackNumber);
+                AddItem(component, item);
             }
+
+            Tracks.ForEach(i => i.RelocationTrackItems());
         }
 
-        private void AddItem(StageComponent component, SourceType sourceType, int TrackNumber)
+        private void AddItem(StageComponent component, ItemPosition itemPosition)
         {
-            var track = Tracks.Where(i => i.SourceType == sourceType && i.TrackNumber == TrackNumber).FirstOrDefault();
+            var track = Tracks.Where(i => i.SourceType == itemPosition.SourceType && i.TrackNumber == itemPosition.TrackNumber).FirstOrDefault();
 
             if (track == null)
             {
-                track = AddTrack(sourceType, TrackNumber);
+                track = AddTrack(itemPosition.SourceType, itemPosition.TrackNumber);
             }
 
-            track.AddItem(track.BuildItem(component));
+            TrackItem item = track.BuildItem(component);
+
+            item.Offset = itemPosition.Offset;
+            item.ForwardOffset = itemPosition.ForwardOffset;
+            item.BackwardOffset = itemPosition.BackwardOffset;
+
+            track.AddItem(item);
         }
 
         public override void OnApplyTemplate()
@@ -707,8 +714,6 @@ namespace Delight.Component.Controls
 
         public void Play()
         {
-            ExportData();
-
             //await Task.Factory.StartNew(() => {  });
             Task.Run(() =>
             {

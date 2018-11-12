@@ -57,6 +57,7 @@
     <Reference Include="System" />
     <Reference Include="System.Activities.Presentation" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -78,7 +79,9 @@
     <Compile Include="Common\Crc32.cs" />
     <Compile Include="Common\DragSide.cs" />
     <Compile Include="Common\ActionCommand.cs" />
+    <Compile Include="Common\EncodingStringBuilder.cs" />
     <Compile Include="Common\FrameRate.cs" />
+    <Compile Include="Common\ItemPosition.cs" />
     <Compile Include="Common\PropertyManager.cs" />
     <Compile Include="Extensions\FrameRateEx.cs" />
     <Compile Include="Extensions\IEnumerableEx.cs" />
@@ -87,11 +90,26 @@
     <Compile Include="Extensions\ReflectionEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
     <Compile Include="Extensions\StringEx.cs" />
+    <Compile Include="MovingLight\BoardSerializer.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
     <Compile Include="MovingLight\DMXController.cs" />
+    <Compile Include="MovingLight\Effects\SetterBaseProperty.cs" />
+    <Compile Include="MovingLight\Effects\SetterBoard.cs" />
+    <Compile Include="MovingLight\Effects\SetterGroup.cs" />
+    <Compile Include="MovingLight\Effects\SetterProperty.cs" />
+    <Compile Include="MovingLight\Effects\Setters\Base\BaseSetter.cs" />
+    <Compile Include="MovingLight\Effects\Setters\ContinueSetter.cs" />
+    <Compile Include="MovingLight\Effects\Setters\ValueSetter.cs" />
+    <Compile Include="MovingLight\Effects\Setters\ValuesSetter.cs" />
+    <Compile Include="MovingLight\Effects\Setters\WaitSetter.cs" />
+    <Compile Include="MovingLight\Effects\Values\Base\BaseValue.cs" />
+    <Compile Include="MovingLight\Effects\Values\PropertyValue.cs" />
+    <Compile Include="MovingLight\Effects\Values\StaticValue.cs" />
+    <Compile Include="MovingLight\LightComponent.cs" />
     <Compile Include="MovingLight\PortNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\ExternalVideoSource.cs" />
+    <Compile Include="Sources\LightSource.cs" />
     <Compile Include="Sources\Options\GenericOption.cs" />
     <Compile Include="Stage\Components\Media\BaseMedia.cs" />
     <Compile Include="Stage\Components\Media\ImageMedia.cs" />

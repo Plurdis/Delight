@@ -97,7 +97,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Common\ColorData.cs" />
-    <Compile Include="Common\ItemPosition.cs" />
     <Compile Include="Common\LightColor.cs" />
     <Compile Include="Common\MarkupSupport.cs" />
     <Compile Include="Common\MediaTools.cs" />
@@ -158,20 +157,6 @@
     <Compile Include="Layers\ILayer.cs" />
     <Compile Include="Layers\ImageLayer.cs" />
     <Compile Include="Layers\VideoLayer.cs" />
-    <Compile Include="MovingLight\Effects\BoardSerializer.cs" />
-    <Compile Include="MovingLight\Effects\SetterBaseProperty.cs" />
-    <Compile Include="MovingLight\Effects\SetterBoard.cs" />
-    <Compile Include="MovingLight\Effects\SetterGroup.cs" />
-    <Compile Include="MovingLight\Effects\SetterProperty.cs" />
-    <Compile Include="MovingLight\Effects\Setters\Base\BaseSetter.cs" />
-    <Compile Include="MovingLight\Effects\Setters\ContinueSetter.cs" />
-    <Compile Include="MovingLight\Effects\Setters\ValueSetter.cs" />
-    <Compile Include="MovingLight\Effects\Setters\ValuesSetter.cs" />
-    <Compile Include="MovingLight\Effects\Setters\WaitSetter.cs" />
-    <Compile Include="MovingLight\Effects\Values\Base\BaseValue.cs" />
-    <Compile Include="MovingLight\Effects\Values\PropertyValue.cs" />
-    <Compile Include="MovingLight\Effects\Values\StaticValue.cs" />
-    <Compile Include="MovingLight\LightComponent.cs" />
     <Compile Include="Primitives\Controllers\BaseController.cs" />
     <Compile Include="Controls\CircleBar.cs" />
     <Compile Include="Controls\PiePiece.cs" />
@@ -250,6 +235,9 @@
     <PackageReference Include="WPFMediaKit">
       <Version>2.2.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MovingLight\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

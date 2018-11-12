@@ -1,4 +1,5 @@
 ﻿using Delight.Component.Common;
+using Delight.Component.Controls;
 using Delight.Core.Common;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
@@ -17,6 +18,9 @@ namespace Delight.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        public TimeLine TimeLine { get; set; }
+
+
         #region [  Menus  ]
 
         public List<MenuItem> Menus { get; set; }
@@ -27,7 +31,7 @@ namespace Delight.ViewModel
 
         #endregion
 
-        private int _viewingIndex = 0;
+        private int _viewingIndex = 1;
         public int ViewingIndex
         {
             get => _viewingIndex;

@@ -69,9 +69,9 @@ namespace Delight
 
             sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
             //sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
-            sb.AddSetterGroup();
-            sb.AddSetterGroup();
 
+            sb.AddSetterGroup();
+            sb.AddSetterGroup();
             sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
                 (PortNumber.YAxis, new StaticValue(100)),
                 (PortNumber.Brightness, new StaticValue(254)),
@@ -133,6 +133,8 @@ namespace Delight
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
 
 
+            
+
 
             //LightBoard lb = new LightBoard();
 
@@ -193,6 +195,7 @@ namespace Delight
         private void ExportFromItem_Click(object sender, RoutedEventArgs e)
         {
             SavedItems = tl.ExportData();
+
         }
 
         private void Tl_ItemDeselected(object sender, EventArgs e)
@@ -202,13 +205,10 @@ namespace Delight
 
         private void Tl_ItemSelected(object sender, EventArgs e)
         {
-            if (tl.SelectedItem.Property == null)
+            if (tl.SelectedItem.Property != null)
             {
-                MessageBox.Show("Property is Null!");
-                return;
+                propGrid.SelectedObjects = new object[] { tl.SelectedItem.Property };
             }
-
-            propGrid.SelectedObjects = new object[] { tl.SelectedItem.Property };
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -262,6 +262,8 @@ namespace Delight
         private void InitializeMenuFiles()
         {
             mwViewModel = GlobalViewModel.MainWindowViewModel;
+
+            mwViewModel.TimeLine = tl;
 
             this.DataContext = mwViewModel;
 

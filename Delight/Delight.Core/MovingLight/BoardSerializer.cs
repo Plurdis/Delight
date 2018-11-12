@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Delight.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,6 +40,24 @@ namespace Delight.Component.MovingLight.Effects
             }
         }
 
+        internal static string SerializeToString(SetterBoard group)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                using (EncodingStringWriter writer = new EncodingStringWriter(sb))
+                {
+                    serializer.Serialize(writer, group);
+                }
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public static SetterBoard Load(string filePath)
         {

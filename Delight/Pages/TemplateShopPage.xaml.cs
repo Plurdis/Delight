@@ -20,8 +20,21 @@ namespace Delight.Pages
         {
             InitializeComponent();
             InitializeViewModel();
+            btnStartPacking.Click += BtnStartPacking_Click;
             //btnDownload.Click += BtnDownload_Click;
             //cb.SelectionChanged += Cb_SelectionChanged;
+        }
+
+        private void BtnStartPacking_Click(object sender, RoutedEventArgs e)
+        {
+            DelightTemplate template = new DelightTemplate();
+
+            template.ConvertToMedia();
+
+            template.DeployingPositions = GlobalViewModel.MainWindowViewModel.TimeLine.ExportData();
+            template.Sources = GlobalViewModel.MainWindowViewModel.MediaItems.Where(i => i.Checked).ToList();
+
+            template.Pack("");
         }
 
         public void InitializeViewModel()

@@ -279,6 +279,11 @@ namespace Delight.Component.Controls
         public void AddItem(TrackItem item)
         {
             itemGrid.Children.Add(item);
+
+            //item.SetLeftMargin(item.Offset * _realSize);
+            //item.SetRightMargin(itemGrid.ActualWidth - (item.FrameWidth * _realSize) + item.Margin.Left);
+            item.Visibility = Visibility.Visible;
+            item.IsHitTestVisible = true;
         }
 
         #endregion

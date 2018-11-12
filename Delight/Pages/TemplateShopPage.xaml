@@ -253,6 +253,7 @@
                     <TextBlock x:Name="tbTemplate" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
                 <Button
+                    x:Name="btnStartPacking"
                     Grid.Row="1"
                     Margin="5"
                     Padding="5"
