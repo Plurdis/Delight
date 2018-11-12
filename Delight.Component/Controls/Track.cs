@@ -111,7 +111,7 @@ namespace Delight.Component.Controls
         {
             set
             {
-                SourceTypeText = value.GetEnumAttribute<DescriptionAttribute>()?.Description;
+                SourceTypeText = value.GetAttribute<DescriptionAttribute>()?.Description;
                 _sourceType = value;
             }
             get => _sourceType;

@@ -1,20 +1,17 @@
 ﻿using Delight.Component.Controls;
 using Delight.Component.Extensions;
-using Delight.Component.Primitives.TimingReaders;
-using Delight.Core.MovingLight;
 using Delight.Component.MovingLight.Effects;
 using Delight.Component.MovingLight.Effects.Setters;
-using Delight.Component.MovingLight.Effects.Setters.Base;
+using Delight.Component.MovingLight.Effects.Values;
+using Delight.Component.MovingLight.Effects.Values.Base;
+using Delight.Component.Primitives.TimingReaders;
+using Delight.Core.Extensions;
+using Delight.Core.MovingLight;
 using Delight.Core.Stage.Components;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Delight.Core.Extensions;
-using Delight.Component.MovingLight.Effects.Values.Base;
-using Delight.Component.MovingLight.Effects.Values;
 using System.Reflection;
+using System.Threading;
 
 namespace Delight.Component.Primitives.Controllers
 {
@@ -98,7 +95,7 @@ namespace Delight.Component.Primitives.Controllers
                     {
                         for (int i = 0; i < setterGroup.Setters.Count; i++)
                         {
-                            BaseSetter setter = setterGroup.Setters[i];
+                            MovingLight.Effects.Setters.BaseSetter setter = setterGroup.Setters[i];
                             if (setter is ValueSetter valueSetter)
                             {
                                 byte value = GetValue(valueSetter.Value);
@@ -121,7 +118,7 @@ namespace Delight.Component.Primitives.Controllers
                             {
                                 var max = continueSetter.ContinueMilliseconds / 16;
 
-                                BaseSetter nextSetter = setterGroup.Setters[i + 1];
+                                MovingLight.Effects.Setters.BaseSetter nextSetter = setterGroup.Setters[i + 1];
                                 i++;
 
                                 var copiedValue = new List<byte>(lastValue);

@@ -17,7 +17,7 @@ namespace Delight.Core.Extensions
         /// <returns></returns>
         public static int ToInt32(this FrameRate frameRate)
         {
-            return (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            return (int)frameRate.GetAttribute<DefaultValueAttribute>().Value;
         }
     }
 }

@@ -157,6 +157,11 @@ namespace Delight.ViewModel
             if (!MediaTools.GetMediaFiles(out string[] locations))
                 return;
 
+            AddFilesFromPath(locations);
+        }
+
+        public void AddFilesFromPath(string[] locations)
+        {
             foreach (string location in locations)
             {
                 StageComponent component = null;

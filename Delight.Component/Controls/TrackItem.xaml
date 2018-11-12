@@ -55,8 +55,7 @@
                             Grid.ColumnSpan="3"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            IsHitTestVisible="False">
-                        </Border>
+                            IsHitTestVisible="False" />
 
                     </Grid>
                     <ControlTemplate.Triggers>

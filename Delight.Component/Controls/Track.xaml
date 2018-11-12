@@ -7,7 +7,7 @@
         <Setter Property="Background" Value="#FF3A373E" />
         <Setter Property="MinHeight" Value="50" />
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="FontFamily" Value="NanumGothic"/>
+        <Setter Property="FontFamily" Value="NanumGothic" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
@@ -40,9 +40,9 @@
 
                             <Grid Grid.Column="1">
                                 <Grid.Background>
-                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                        <GradientStop Color="#FF026BC7" Offset="0"/>
-                                        <GradientStop Color="#FF4292CF" Offset="1"/>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                        <GradientStop Offset="0" Color="#FF026BC7" />
+                                        <GradientStop Offset="1" Color="#FF4292CF" />
                                     </LinearGradientBrush>
                                 </Grid.Background>
                                 <TextBlock
@@ -54,9 +54,9 @@
                             </Grid>
                             <Grid Grid.Column="2">
                                 <Grid.Background>
-                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                        <GradientStop Color="#FFDB8920" Offset="0"/>
-                                        <GradientStop Color="#FFF3B542" Offset="1"/>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                        <GradientStop Offset="0" Color="#FFDB8920" />
+                                        <GradientStop Offset="1" Color="#FFF3B542" />
                                     </LinearGradientBrush>
                                 </Grid.Background>
                                 <TextBlock

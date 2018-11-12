@@ -13,7 +13,7 @@ namespace Delight.Component.Extensions
     {
         public static bool IsVisualSource(this SourceType sourceType)
         {
-            return sourceType.GetEnumAttribute<IsVisualTrackAttribute>().IsVisualTrack;
+            return sourceType.GetAttribute<IsVisualTrackAttribute>().IsVisualTrack;
         }
     }
 }

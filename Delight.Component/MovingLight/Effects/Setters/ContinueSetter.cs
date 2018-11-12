@@ -1,11 +1,4 @@
-﻿using Delight.Component.MovingLight.Effects.Setters.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Delight.Component.MovingLight.Effects.Setters
+﻿namespace Delight.Component.MovingLight.Effects.Setters
 {
     /// <summary>
     /// 이전 효과 모음와 다음 효과 모음을 잇습니다.

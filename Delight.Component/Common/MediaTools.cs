@@ -115,7 +115,7 @@ namespace Delight.Component.Common
 
         public static string GetTimeText(int value, FrameRate frameRate)
         {
-            int frameRateInt = (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            int frameRateInt = (int)frameRate.GetAttribute<DefaultValueAttribute>().Value;
             int frame = value % frameRateInt;
             int second = value / frameRateInt;
             int minute = second / 60;
@@ -129,13 +129,13 @@ namespace Delight.Component.Common
 
         public static int TimeSpanToFrame(TimeSpan span, FrameRate frame)
         {
-            int fr = (int)frame.GetEnumAttribute<DefaultValueAttribute>().Value;
+            int fr = (int)frame.GetAttribute<DefaultValueAttribute>().Value;
             return ((int)Math.Truncate((span.TotalMilliseconds / 1000)) * fr) + (int)(fr * ((span.TotalMilliseconds % 1000) / 1000));
         }
 
         public static TimeSpan FrameToTimeSpan(int frame, FrameRate frameRate)
         {
-            int fr = (int)frameRate.GetEnumAttribute<DefaultValueAttribute>().Value;
+            int fr = (int)frameRate.GetAttribute<DefaultValueAttribute>().Value;
             return TimeSpan.FromSeconds((int)Math.Truncate((double)frame / fr)) + TimeSpan.FromMilliseconds((1000 / fr) * (frame % fr));
         }
 

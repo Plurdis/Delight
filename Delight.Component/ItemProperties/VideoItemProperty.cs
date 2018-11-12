@@ -1,4 +1,5 @@
 ﻿using Delight.Component.Common;
+using Delight.Component.Controls;
 using Delight.Component.PropertyEditor;
 using System;
 using System.Activities.Presentation.PropertyEditing;
@@ -15,10 +16,6 @@ namespace Delight.Component.ItemProperties
     {
 
         Percentage _left = new Percentage(0, 0, 1);
-
-        [Category("공통")]
-        [DisplayName("왼쪽 위치")]
-        [Description("현재 재생 중인 아이템의 왼쪽 위치를 지정합니다.")]
         [Editor(typeof(PercentageEditor), typeof(PropertyValueEditor))]
         public Percentage Left
         {
@@ -53,9 +50,7 @@ namespace Delight.Component.ItemProperties
 
         bool _chromaKeyUse = false;
 
-        [Category("크로마키")]
-        [DisplayName("사용")]
-        [Description("크로마키 효과 사용 여부를 설정합니다.")]
+        [DesignElement(Category = "크로마키", DisplayName = "사용")]
         public bool ChromaKeyUse
         {
             get => _chromaKeyUse;

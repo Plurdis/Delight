@@ -128,8 +128,7 @@
                             Grid.ColumnSpan="2"
                             Maximum="100"
                             Orientation="Horizontal"
-                            Visibility="Hidden">
-                        </ScrollBar>
+                            Visibility="Hidden" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

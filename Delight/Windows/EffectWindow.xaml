@@ -19,9 +19,7 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListBox Margin="10">
-
-            </ListBox>
+            <ListBox Margin="10" />
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -40,12 +38,8 @@
         </Grid>
         <Grid Grid.Column="1" Margin="10">
             <TabControl>
-                <TabItem Header="지연">
-
-                </TabItem>
-                <TabItem Header="조명 조정">
-
-                </TabItem>
+                <TabItem Header="지연" />
+                <TabItem Header="조명 조정" />
             </TabControl>
         </Grid>
     </Grid>

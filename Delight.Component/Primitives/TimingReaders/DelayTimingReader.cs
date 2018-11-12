@@ -75,7 +75,7 @@ namespace Delight.Component.Primitives.TimingReaders
         }
 
 
-        int waitFrame => ((int)TimeLine.FrameRate.GetEnumAttribute<DefaultValueAttribute>().Value) * 5;
+        int waitFrame => ((int)TimeLine.FrameRate.GetAttribute<DefaultValueAttribute>().Value) * 5;
 
         private void TimeLine_FrameChanged(object sender, EventArgs e)
         {

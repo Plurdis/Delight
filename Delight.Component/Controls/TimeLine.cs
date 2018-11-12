@@ -566,7 +566,7 @@ namespace Delight.Component.Controls
             track.ItemRemoving += Track_ItemRemoving;
             track.ItemRemoved += Track_ItemRemoved;
 
-            if (SourceType.GetEnumAttribute<OutputDeviceAttribute>()?.OutputDevice == OutputDevice.Display)
+            if (SourceType.GetAttribute<OutputDeviceAttribute>()?.OutputDevice == OutputDevice.Display)
             {
                 visualTracks.Children.Add(track);
 

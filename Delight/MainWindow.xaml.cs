@@ -34,79 +34,8 @@ namespace Delight
         bool dragStart;
         ListBox dragSource;
 
-        public class SomeAttribute : Attribute
-        {
-            public SomeAttribute(string value)
-            {
-                this.Value = value;
-            }
-
-            public string Value { get; set; }
-        }
-
-        public class SomeClass
-        {
-            //public string Value = "Test";
-        }
-
-        public void CanAddAttribute()
-        {
-            var type = typeof(SetterBaseProperty);
-
-            var aName = new AssemblyName("Custom");
-            AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
-            ModuleBuilder mb = ab.DefineDynamicModule(aName.Name);
-            TypeBuilder tb = mb.DefineType(type.Name + "Proxy", TypeAttributes.Public, type);
-
-            FieldBuilder fb = tb.DefineField("_value", typeof(string), FieldAttributes.Private);
-            PropertyBuilder pb = tb.DefineProperty("Value", PropertyAttributes.HasDefault, typeof(string), null);
-
-            //build setter
-            MethodBuilder setter = tb.DefineMethod("set_Value", MethodAttributes.Public | MethodAttributes.Virtual, null, new Type[] { typeof(string) });
-            ILGenerator setterILG = setter.GetILGenerator();
-            setterILG.Emit(OpCodes.Ldarg_0);
-            setterILG.Emit(OpCodes.Ldarg_1);
-            setterILG.Emit(OpCodes.Stfld, fb);
-            setterILG.Emit(OpCodes.Ret);
-            pb.SetSetMethod(setter);
-
-            //build getter
-            MethodBuilder getter = tb.DefineMethod("get_Value", MethodAttributes.Public | MethodAttributes.Virtual,typeof(string), Type.EmptyTypes);
-            ILGenerator getterILG = getter.GetILGenerator();
-            getterILG.Emit(OpCodes.Ldarg_0);
-            getterILG.Emit(OpCodes.Ldfld, fb);
-            getterILG.Emit(OpCodes.Ret);
-            pb.SetGetMethod(getter);
-
-            Type[] attrCtorParams = new Type[] { typeof(string) };
-            ConstructorInfo attrCtorInfo = typeof(SomeAttribute).GetConstructor(attrCtorParams);
-            CustomAttributeBuilder attrBuilder = new CustomAttributeBuilder(attrCtorInfo, new object[] { "Some Value" });
-            pb.SetCustomAttribute(attrBuilder);
-            
-
-
-
-            var newType = tb.CreateType();
-            var instance = (SetterBaseProperty)Activator.CreateInstance(newType);
-
-            //Assert.AreEqual("Test", instance.Value);
-            var propInfo = instance.GetType()
-                .GetRuntimeProperty("Value");
-
-            var attr = (SomeAttribute)propInfo.GetCustomAttributes(typeof(SomeAttribute), false)
-                .SingleOrDefault();
-
-
-            if (attr != null)
-            {
-                MessageBox.Show((attr.Value == "Value").ToString());
-            }
-        }
-
         public MainWindow()
         {
-            //CanAddAttribute();
-
 
             InitializeComponent();
             InitializeMenuFiles();
@@ -134,6 +63,9 @@ namespace Delight
             {
                 tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
             };
+
+            GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
+
             //propGrid.SelectedObject = new VideoItemProperty();
             
             //SetterBoard sb = new SetterBoard();
@@ -254,12 +186,12 @@ namespace Delight
 
         private void Tl_ItemDeselected(object sender, EventArgs e)
         {
-            propGrid.SelectedObject = null;
+            propGrid.SelectedObjects = null;
         }
 
         private void Tl_ItemSelected(object sender, EventArgs e)
         {
-            propGrid.SelectedObject = tl.SelectedItem.Property;
+            propGrid.SelectedObjects = new object[] { tl.SelectedItem.Property };
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

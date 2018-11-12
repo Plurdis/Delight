@@ -16,6 +16,7 @@ namespace Delight.Component
             AddDictionary("pack://application:,,,/Delight.Component;component/Layers/LayerTheme.xaml");
             AddDictionary("pack://application:,,,/Delight.Component;component/Primitives/MediaElementPro.xaml");
             AddDictionary("pack://application:,,,/Delight.Component;component/PropertyEditor/EditorResources.xaml");
+            AddDictionary("pack://application:,,,/Delight.Component;component/SetterStyles.xaml");
         }
 
         public ResourceDictionary GetDictionary(string uriString)
