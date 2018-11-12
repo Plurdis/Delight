@@ -201,6 +201,47 @@ namespace Delight.Component.Controls
             }
         }
 
+        public TrackItem BuildItem(StageComponent component)
+        {
+            var frame = MediaTools.TimeSpanToFrame(component.Time, FrameRate);
+            var media = component as BaseMedia;
+
+            var trackItem = new TrackItem()
+            {
+                FrameWidth = frame,//frame,
+                MaxFrame = frame,
+                IsHitTestVisible = false,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Text = component.Identifier,
+                Thumbnail = new BitmapImage(component.Thumbnail),
+                SourceType = component.SourceType,
+                OriginalPath = media == null ? string.Empty : media.Path,
+                MaxSizeFixed = !component.IsDynamicLength,
+                Visibility = Visibility.Hidden,
+                Tag = component,
+            };
+
+            switch (component.SourceType)
+            {
+                case SourceType.Video:
+                    trackItem.Property = new VideoItemProperty();
+                    break;
+                case SourceType.Light:
+                    var lComp = component as LightComponent;
+                    trackItem.Property = lComp.SetterBoard.GetSetterBaseProperty();
+                    break;
+            }
+
+            trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
+            trackItem.RightSide_MouseLeftButtonDown += TrackItem_RightSide_MouseLeftButtonDown;
+            trackItem.MovingSide_MouseLeftButtonDown += TrackItem_MovingSide_MouseLeftButtonDown;
+            trackItem.MouseMove += TrackItem_MouseMove;
+            trackItem.MouseLeftButtonUp += TrackItem_MouseLeftButtonUp;
+            trackItem.MouseRightButtonClick += TrackItem_MouseRightButtonClick;
+
+            return trackItem;
+        }
+
         private void ItemCanvas_DragEnter(object sender, DragEventArgs e)
         {
             var comp = e.Data.GetData(e.Data.GetFormats()[0]) as StageComponent;
@@ -217,42 +258,7 @@ namespace Delight.Component.Controls
 
             if (trackItem == null)
             {
-                var frame = MediaTools.TimeSpanToFrame(comp.Time, FrameRate);
-                var media = comp as BaseMedia;
-
-
-                trackItem = new TrackItem()
-                {
-                    FrameWidth = frame,//frame,
-                    MaxFrame = frame,
-                    IsHitTestVisible = false,
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    Text = comp.Identifier,
-                    Thumbnail = new BitmapImage(comp.Thumbnail),
-                    SourceType = comp.SourceType,
-                    OriginalPath = media == null ? string.Empty : media.Path,
-                    MaxSizeFixed = !comp.IsDynamicLength,
-                    Visibility = Visibility.Hidden,
-                    Tag = comp,
-                };
-
-                switch (comp.SourceType)
-                {
-                    case SourceType.Video:
-                        trackItem.Property = new VideoItemProperty();
-                        break;
-                    case SourceType.Light:
-                        var lComp = comp as LightComponent;
-                        trackItem.Property = lComp.SetterBoard.GetSetterBaseProperty();
-                        break;
-                }
-
-                trackItem.LeftSide_MouseLeftButtonDown += TrackItem_LeftSide_MouseLeftButtonDown;
-                trackItem.RightSide_MouseLeftButtonDown += TrackItem_RightSide_MouseLeftButtonDown;
-                trackItem.MovingSide_MouseLeftButtonDown += TrackItem_MovingSide_MouseLeftButtonDown;
-                trackItem.MouseMove += TrackItem_MouseMove;
-                trackItem.MouseLeftButtonUp += TrackItem_MouseLeftButtonUp;
-                trackItem.MouseRightButtonClick += TrackItem_MouseRightButtonClick;
+                trackItem = BuildItem(comp);
             }
             if (!itemGrid.Children.Contains(trackItem))
             {
@@ -268,6 +274,11 @@ namespace Delight.Component.Controls
 
                 trackItem.SetLeftMargin(x_item);
             }
+        }
+
+        public void AddItem(TrackItem item)
+        {
+            itemGrid.Children.Add(item);
         }
 
         #endregion

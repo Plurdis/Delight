@@ -130,9 +130,28 @@ namespace Delight.Component.Controls
             return items;
         }
 
-        public string ImportData()
+        public void ImportData(List<ItemPosition> items, IEnumerable<StageComponent> MediaItems)
         {
-            return null;
+            Dictionary<string, StageComponent> dictionary = MediaItems.ToDictionary(i => i.Id, i => i);
+
+            foreach(ItemPosition item in items)
+            {
+                StageComponent component = dictionary[item.ItemId];
+
+                AddItem(component, item.SourceType, item.TrackNumber);
+            }
+        }
+
+        private void AddItem(StageComponent component, SourceType sourceType, int TrackNumber)
+        {
+            var track = Tracks.Where(i => i.SourceType == sourceType && i.TrackNumber == TrackNumber).FirstOrDefault();
+
+            if (track == null)
+            {
+                track = AddTrack(sourceType, TrackNumber);
+            }
+
+            track.AddItem(track.BuildItem(component));
         }
 
         public override void OnApplyTemplate()
@@ -261,6 +280,14 @@ namespace Delight.Component.Controls
 
                 //ResetItemOffset();
             }
+        }
+
+        public static DependencyProperty HeaderFontFamilyProperty = DependencyProperty.Register(nameof(HeaderFontFamily), typeof(FontFamily), typeof(TimeLine));
+
+        public FontFamily HeaderFontFamily
+        {
+            get => GetValue(HeaderFontFamilyProperty) as FontFamily;
+            set => SetValue(HeaderFontFamilyProperty, value);
         }
 
         public double MaxValue { get; set; }
@@ -569,7 +596,7 @@ namespace Delight.Component.Controls
         /// </summary>
         /// <param name="SourceType">추가할 트랙의 형식입니다.</param>
         /// <param name="number">숫자입니다.</param>
-        public void AddTrack(SourceType SourceType, int number = -1)
+        public Track AddTrack(SourceType SourceType, int number = -1)
         {
             Track track = new Track(this, SourceType);
 
@@ -618,6 +645,8 @@ namespace Delight.Component.Controls
             }
 
             TrackAdded?.Invoke(this, new TrackEventArgs(track, SourceType));
+
+            return track;
         }
 
         public void RemoveTrack(int index, bool isVisualTrack)

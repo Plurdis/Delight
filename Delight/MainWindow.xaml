@@ -409,7 +409,7 @@
             x:Name="topMenu"
             Padding="2"
             Background="#FFE0B247"
-            FontFamily="NanumGothic">
+            FontFamily="{StaticResource NormalFont}">
             <MenuItem Foreground="#FF665A44" Header="파일">
                 <MenuItem Header="테스트 아이템1" InputGestureText="Ctrl+Shift+T" />
                 <MenuItem Header="asdf" />
@@ -441,17 +441,14 @@
                             <RowDefinition Height="55" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid Background="{StaticResource Delight.BackgroundColor}">
+                        <Grid Background="#FFE0B247">
                             <WrapPanel>
                                 <TextBlock
                                     Margin="10"
-                                    FontFamily="NanumSquare"
-                                    Foreground="#FF34323A">
-                                    <Run
-                                        FontSize="33"
-                                        FontWeight="Bold"
-                                        Text="아이템" /><LineBreak />
-
+                                    FontFamily="{StaticResource SuperBoldFont}"
+                                    FontSize="33"
+                                    Foreground="#FF34323A"
+                                    Text="아이템">
                                     <!--<LineBreak />-->
                                     <!--<Run Foreground="White" Text="원하는 요소들을 끌어다가 타임라인에 배치하세요" />-->
                                 </TextBlock>
@@ -460,7 +457,7 @@
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="47" />
+                                <ColumnDefinition Width="67" />
                                 <ColumnDefinition Width="2" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
@@ -477,7 +474,7 @@
                                 <WrapPanel HorizontalAlignment="Left">
                                     <WrapPanel.Resources>
                                         <Style TargetType="{x:Type RadioButton}">
-                                            <Setter Property="Width" Value="25" />
+                                            <Setter Property="Width" Value="34" />
                                             <Setter Property="Height" Value="25" />
                                             <Setter Property="Template">
                                                 <Setter.Value>
@@ -520,7 +517,7 @@
                                     <Grid.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Margin" Value="5,0" />
-                                            <Setter Property="FontFamily" Value="NanumSquare" />
+                                            <Setter Property="FontFamily" Value="StaticResource BoldFont}" />
                                             <Setter Property="Foreground" Value="#FF505050" />
                                             <Setter Property="FontWeight" Value="Bold" />
                                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -536,15 +533,18 @@
                             <ListBox
                                 x:Name="ItemHeader"
                                 Grid.Row="1"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
                                 Background="{x:Null}"
                                 BorderBrush="{x:Null}"
-                                FontFamily="NanumSquare"
+                                FontFamily="{StaticResource NormalFont}"
                                 SelectedIndex="0">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                                         <Setter Property="Foreground" Value="#FFDFDFDF" />
+                                        <Setter Property="FontSize" Value="13" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ListBoxItem">
@@ -556,9 +556,9 @@
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsSelected" Value="True">
-                                                            <Setter Property="FontSize" Value="14" />
-                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                            <Setter Property="FontSize" Value="16" />
                                                             <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="FontFamily" Value="{StaticResource BoldFont}" />
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -648,7 +648,12 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1" />
+                <Grid Grid.Row="1">
+                    <StackPanel>
+                        <Button x:Name="exportFromItem" Content="타임라인으로 부터 아이템 추출" />
+                        <Button x:Name="importFromItem" Content="아이템 넣기" />
+                    </StackPanel>
+                </Grid>
             </Grid>
 
             <Grid Grid.Column="1" Background="#FFC3C2C4" />
@@ -664,7 +669,6 @@
                     Padding="-1,-3,-1,-1"
                     Background="{x:Null}"
                     BorderBrush="{x:Null}"
-                    FontFamily="NanumSquare"
                     SelectedIndex="{Binding ViewingIndex}">
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
@@ -676,8 +680,11 @@
                             <Border
                                 Height="100"
                                 VerticalAlignment="Top"
-                                Background="{StaticResource Delight.BackgroundColor}" />
-                            <ct:TimeLine x:Name="tl" />
+                                Background="#FFE0B247" />
+                            <ct:TimeLine
+                                x:Name="tl"
+                                FontFamily="{StaticResource NormalFont}"
+                                HeaderFontFamily="{StaticResource BoldFont}" />
                         </Grid>
                     </TabItem>
                     <TabItem>
@@ -701,25 +708,23 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="55" />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid Background="{StaticResource Delight.BackgroundColor}">
+                <Grid Background="#FFE0B247">
                     <TextBlock
                         x:Name="tbTime"
                         Margin="10"
                         VerticalAlignment="Center"
+                        FontFamily="{StaticResource BoldFont}"
                         FontSize="30"
-                        FontWeight="Bold"
-                        Foreground="Black"
+                        Foreground="#FF34323A"
                         Text="00:00:00;0" />
                 </Grid>
                 <Grid Grid.Row="1">
                     <ct:PropertyGrid
                         x:Name="propGrid"
-                        VerticalAlignment="Stretch"
-                        Background="#FF2F2C33" />
+                        Background="#FF3A373E"
+                        FontFamily="{StaticResource NormalFont}" />
                 </Grid>
-                <Grid Grid.Row="2" />
             </Grid>
         </Grid>
 
@@ -730,7 +735,7 @@
             <TextBlock
                 Margin="3"
                 VerticalAlignment="Center"
-                FontFamily="NanumSquare"
+                FontFamily="{StaticResource NormalFont}"
                 Foreground="#FF3A373E"
                 Text="작업을 위한 모든 준비가 완료되었습니다." />
         </Grid>

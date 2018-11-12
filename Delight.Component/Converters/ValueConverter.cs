@@ -19,7 +19,14 @@ namespace Delight.Component.Converters
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Convert((TFrom)value, targetType, parameter, culture);
+            try
+            {
+                return Convert((TFrom)value, targetType, parameter, culture);
+            }
+            catch (Exception)
+            {
+                return default(TTo);
+            }
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

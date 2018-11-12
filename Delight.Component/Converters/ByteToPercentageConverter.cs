@@ -11,12 +11,28 @@ namespace Delight.Component.Converters
     {
         public override double Convert(byte value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((double)value / byte.MaxValue);
+            try
+            {
+                return ((double)value / byte.MaxValue);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+            
         }
 
         public override byte ConvertBack(double value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (byte)(value * byte.MaxValue);
+            try
+            {
+                return (byte)(value * byte.MaxValue);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+            
         }
     }
 }

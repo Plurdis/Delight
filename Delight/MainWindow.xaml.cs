@@ -1,4 +1,6 @@
 ﻿using Delight.Component.Common;
+using Delight.Component.MovingLight.Effects;
+using Delight.Component.MovingLight.Effects.Values;
 using Delight.Core.Common;
 using Delight.Core.MovingLight;
 using Delight.Core.Stage;
@@ -6,6 +8,7 @@ using Delight.Core.Stage.Components;
 using Delight.ViewModel;
 using Delight.Windows;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,43 +59,49 @@ namespace Delight
 
             GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
 
+            exportFromItem.Click += ExportFromItem_Click;
+            importFromItem.Click += ImportFromItem_Click;
+
             //propGrid.SelectedObject = new VideoItemProperty();
-            
-            //SetterBoard sb = new SetterBoard();
-            //sb.Identifier = "손 흔들기";
 
-            //sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
+            SetterBoard sb = new SetterBoard();
+            sb.Identifier = "손 흔들기";
+
+            sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
             //sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
-            //sb.AddSetterGroup();
-            //sb.AddSetterGroup();
+            sb.AddSetterGroup();
+            sb.AddSetterGroup();
 
-            //sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
-            //    (PortNumber.YAxis, new StaticValue(100)),
-            //    (PortNumber.Brightness, new StaticValue(254)),
-            //    (PortNumber.Blink, new PropertyValue("Blinking")),
-            //    (PortNumber.Color, new PropertyValue("Color")));
+            sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
+                (PortNumber.YAxis, new StaticValue(100)),
+                (PortNumber.Brightness, new StaticValue(254)),
+                (PortNumber.Blink, new PropertyValue("Blinking")),
+                (PortNumber.Color, new PropertyValue("Color")));
 
-            //sb[0].AddContinueLine(1000);
-            //sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
+            sb[0].AddContinueLine(1000);
+            sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
 
-            //sb[0].AddWait(200);
+            sb[0].AddWait(200);
 
-            //sb[0].AddContinueLine(1000);
-            //sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
+            sb[0].AddContinueLine(1000);
+            sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
 
-            //sb[0].AddWait(200);
+            sb[0].AddWait(200);
 
-            //sb[1].AddContinueLine(500);
-            //sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
-               
-            //sb[1].AddWait(200);
-               
-            //sb[1].AddContinueLine(500);
-            //sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
-               
-            //sb[1].AddWait(200);
+            sb[1].AddContinueLine(500);
+            sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
 
-            ////(PortNumber.Blink, new PropertyValue("Blinking")
+            sb[1].AddWait(200);
+
+            sb[1].AddContinueLine(500);
+            sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
+
+            sb[1].AddWait(200);
+
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb));
+
+            //(PortNumber.Blink, new PropertyValue("Blinking")
 
 
             //string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
@@ -174,6 +183,18 @@ namespace Delight
             //propGrid.SelectedObject = _employee;
         }
 
+        private void ImportFromItem_Click(object sender, RoutedEventArgs e)
+        {
+            tl.ImportData(SavedItems, GlobalViewModel.MainWindowViewModel.MediaItems);
+        }
+
+        List<ItemPosition> SavedItems { get; set; }
+
+        private void ExportFromItem_Click(object sender, RoutedEventArgs e)
+        {
+            SavedItems = tl.ExportData();
+        }
+
         private void Tl_ItemDeselected(object sender, EventArgs e)
         {
             propGrid.SelectedObjects = null;
@@ -181,6 +202,12 @@ namespace Delight
 
         private void Tl_ItemSelected(object sender, EventArgs e)
         {
+            if (tl.SelectedItem.Property == null)
+            {
+                MessageBox.Show("Property is Null!");
+                return;
+            }
+
             propGrid.SelectedObjects = new object[] { tl.SelectedItem.Property };
         }
 

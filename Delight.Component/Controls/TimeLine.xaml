@@ -29,7 +29,6 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" />
 
-
                         <!--
                             <Rectangle
                             Grid.Row="1"
@@ -63,8 +62,8 @@
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
+                                            FontFamily="{TemplateBinding HeaderFontFamily}"
                                             FontSize="14"
-                                            FontWeight="Bold"
                                             Foreground="Black"
                                             Text="시각적 트랙" />
                                     </Grid>
@@ -81,8 +80,8 @@
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
+                                            FontFamily="{TemplateBinding HeaderFontFamily}"
                                             FontSize="14"
-                                            FontWeight="Bold"
                                             Foreground="Black"
                                             Text="비시각적 트랙" />
                                     </Grid>

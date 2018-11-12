@@ -50,10 +50,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.Toolkit, Version=2.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Resources\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\CircleBar.xaml">
@@ -115,8 +111,11 @@
     <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGridItemView.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\BytePercentageSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\BoolSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\BrushSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\PercentageSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\SpeedSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\ISetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\MultiPropertyConverter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
@@ -135,6 +134,7 @@
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\NullObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
+    <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringToIntConverter.cs" />
     <Compile Include="Converters\UriConverter.cs" />
     <Compile Include="Effects\ChromaKeyEffect.cs" />
@@ -234,6 +234,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>3.4.0</Version>
+    </PackageReference>
     <PackageReference Include="MediaToolkit">
       <Version>1.1.0.1</Version>
     </PackageReference>

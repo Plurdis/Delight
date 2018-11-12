@@ -49,6 +49,7 @@
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="FontSize" Value="23" />
                                             <Setter Property="Foreground" Value="#FF3A373E" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
@@ -59,16 +60,19 @@
                 </ListBox.ItemContainerStyle>
                 <ListBoxItem
                     Margin="30,5"
+                    VerticalAlignment="Center"
                     Content="제작하기"
                     Tag="0" />
-                <Rectangle Width="5" Fill="#FF3A373E" />
+                <Rectangle Width="4" Fill="#FF3A373E" />
                 <ListBoxItem
                     Margin="30,5"
+                    VerticalAlignment="Center"
                     Content="찾아보기"
                     Tag="1" />
-                <Rectangle Width="5" Fill="#FF3A373E" />
+                <Rectangle Width="4" Fill="#FF3A373E" />
                 <ListBoxItem
                     Margin="30,5"
+                    VerticalAlignment="Center"
                     Content="설치된 템플릿"
                     Tag="2" />
             </ListBox>

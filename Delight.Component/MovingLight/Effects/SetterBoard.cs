@@ -1,7 +1,9 @@
-﻿using Delight.Component.MovingLight.Effects.Setters;
+﻿using Delight.Component.Controls;
+using Delight.Component.MovingLight.Effects.Setters;
 using Delight.Component.MovingLight.Effects.Values.Base;
 using Delight.Component.PropertyEditor;
 using Delight.Core.Common;
+using Delight.Core.Extensions;
 using Delight.Core.MovingLight;
 using System;
 using System.Activities.Presentation.PropertyEditing;
@@ -106,21 +108,27 @@ namespace Delight.Component.MovingLight.Effects
                 CustomAttributeBuilder attrBuilder = new CustomAttributeBuilder(attrCtorInfo, new object[] { prop.DisplayName });
                 pb.SetCustomAttribute(attrBuilder);
 
-                Type[] parameter = new Type[] { typeof(Type), typeof(Type) };
-                ConstructorInfo constInfo = typeof(EditorAttribute).GetConstructor(parameter);
+                Type[] parameter = new Type[] { };
+                ConstructorInfo constInfo = typeof(DesignElementAttribute).GetConstructor(parameter);
 
-                Type editorType = null;
+                string editorKey = string.Empty;
 
                 if (prop.PortNumber == PortNumber.Blink ||
                     prop.PortNumber == PortNumber.XAxis ||
                     prop.PortNumber == PortNumber.YAxis ||
                     prop.PortNumber == PortNumber.Brightness)
-                    editorType = typeof(AxisEditor);
+                    editorKey = "BytePercentage";
                 else if (prop.PortNumber == PortNumber.Color)
-                    editorType = typeof(LightColorEditor);
+                    editorKey = "LightColor";
 
-                CustomAttributeBuilder attrBuilder2 = new CustomAttributeBuilder(constInfo, 
-                    new object[] { editorType, typeof(PropertyValueEditor) });
+                PropertyInfo nameProp = typeof(DesignElementAttribute).GetRuntimeProperty("DisplayName");
+                PropertyInfo keyProp = typeof(DesignElementAttribute).GetRuntimeProperty("Key");
+                PropertyInfo categoryProp = typeof(DesignElementAttribute).GetRuntimeProperty("Category");
+
+                CustomAttributeBuilder attrBuilder2 = 
+                    new CustomAttributeBuilder(constInfo, new object[] { }, 
+                        new PropertyInfo[] { nameProp, keyProp, categoryProp }, 
+                        new object[] { prop.DisplayName, editorKey, "효과 속성" } );
                 pb.SetCustomAttribute(attrBuilder2);
             }
 

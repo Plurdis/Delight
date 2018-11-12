@@ -19,7 +19,7 @@
     <Color x:Key="Color.Menu.Seperator">#D7D7D7</Color>
 
     <!--  Flat  -->
-    <Color x:Key="Color.Flat.Accent">#00fffb</Color>
+    <Color x:Key="Color.Flat.Accent">#EEC25F</Color>
     <Color x:Key="Color.Flat.Accent.Dark">#1D8D93</Color>
     <Color x:Key="Color.Flat.Accent.Light">#29A8AE</Color>
     <Color x:Key="Color.Flat.Accent.DeepDark">#00B3B0</Color>
@@ -45,13 +45,13 @@
     <Color x:Key="Color.ToolBox.Foreground">#ffffff</Color>
     <Color x:Key="Color.ToolBox.Item.Hover">#555555</Color>
     <Color x:Key="Color.ToolBox.Item.Down">#6a6a6a</Color>
-    <Color x:Key="Color.ToolBox.Group.Background">#4C4C4C</Color>
+    <Color x:Key="Color.ToolBox.Group.Background">#3A373E</Color>
 
     <!--  PropertyGrid  -->
     <Color x:Key="Color.PropertyGrid.Background">#535353</Color>
     <Color x:Key="Color.PropertyGrid.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Header.Foreground">#aaaaaa</Color>
-    <Color x:Key="Color.PropertyGrid.Setter.Background">#4C4C4C</Color>
+    <Color x:Key="Color.PropertyGrid.Setter.Background">#3A373E</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Hover">#424242</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Border">#636363</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Background">#444444</Color>
@@ -59,7 +59,7 @@
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Background">#616161</Color>
 
     <!--  Expander  -->
-    <Color x:Key="Color.Expander.Header.Background">#606060</Color>
+    <Color x:Key="Color.Expander.Header.Background">#2F2C33</Color>
     <Color x:Key="Color.Expander.Header.Arrow.Background">#C7C7C7</Color>
     <Color x:Key="Color.Expander.Seperator.Background">#6F6F6F</Color>
 
@@ -69,7 +69,7 @@
 
     <!--  SearchBar  -->
     <Color x:Key="Color.SearchBar.Foreground">#FFFFFF</Color>
-    <Color x:Key="Color.SearchBar.Background">#606060</Color>
+    <Color x:Key="Color.SearchBar.Background">#2F2C33</Color>
     <Color x:Key="Color.SearchBar.Border.Top">#6F6F6F</Color>
     <Color x:Key="Color.SearchBar.Border.Bottom">#494949</Color>
     <Color x:Key="Color.SearchBar.Icon.Background">#FFFFFF</Color>

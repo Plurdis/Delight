@@ -18,7 +18,10 @@ namespace Delight.Component.Converters
 
         public override string ConvertBack(int value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value <= -1)
+                return "-1";
+
+            return value.ToString();
         }
     }
 }

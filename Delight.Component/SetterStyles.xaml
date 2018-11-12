@@ -64,4 +64,88 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type c:BytePercentageSetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:BytePercentageSetter}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <local:SubmitTextBox
+                            x:Name="PART_valueBox"
+                            Width="45"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ValueBoxStyle}">
+                            <TextBox.Text>
+                                <Binding
+                                    Converter="{cvt:ByteToPercentageStringConverter}"
+                                    ElementName="PART_slider"
+                                    Path="Value"
+                                    UpdateSourceTrigger="PropertyChanged">
+                                    <!--<Binding.ValidationRules>
+                                        <rule:PercentageRule />
+                                    </Binding.ValidationRules>-->
+                                </Binding>
+                            </TextBox.Text>
+                        </local:SubmitTextBox>
+                        <Slider
+                            x:Name="PART_slider"
+                            Grid.Column="1"
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="Black"
+                            Maximum="1"
+                            Minimum="0"
+                            Style="{DynamicResource FlatSliderStyle}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type c:SpeedSetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:SpeedSetter}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <local:SubmitTextBox
+                            x:Name="PART_valueBox"
+                            Width="45"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource ValueBoxStyle}">
+                            <TextBox.Text>
+                                <Binding
+                                    Converter="{cvt:PercentageConverter}"
+                                    ElementName="PART_slider"
+                                    Path="Value"
+                                    UpdateSourceTrigger="PropertyChanged">
+                                    <!--<Binding.ValidationRules>
+                                        <rule:PercentageRule />
+                                    </Binding.ValidationRules>-->
+                                </Binding>
+                            </TextBox.Text>
+                        </local:SubmitTextBox>
+                        <Slider
+                            x:Name="PART_slider"
+                            Grid.Column="1"
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="Black"
+                            Maximum="10"
+                            Minimum="0.5"
+                            Style="{DynamicResource FlatSliderStyle}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

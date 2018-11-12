@@ -11,6 +11,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <component:DelightTheme />
                 <ResourceDictionary>
+                    <FontFamily x:Key="SuperBoldFont">Resources/Fonts/#KoreanGD18R</FontFamily>
+                    <FontFamily x:Key="BoldFont">Resources/Fonts/#KoreanGD17R</FontFamily>
+                    <FontFamily x:Key="NormalFont">Resources/Fonts/#KoreanGD13R</FontFamily>
                     <SolidColorBrush x:Key="Delight.BackgroundColor">#FFEEC25F</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

@@ -11,7 +11,15 @@ namespace Delight.Component.Converters
     {
         public override string Convert(byte value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Round((decimal)((double)value / 255 * 100), 1) + "%";
+            try
+            {
+                return Math.Round((decimal)((double)value / 255 * 100), 1) + "%";
+            }
+            catch (Exception)
+            {
+                return "0%";
+            }
+            
         }
 
         public override byte ConvertBack(string value, Type targetType, object parameter, CultureInfo culture)

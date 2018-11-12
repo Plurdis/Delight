@@ -51,13 +51,10 @@ namespace Delight.Component.ItemProperties
             set { _chromaKeyUse = value; PropChanged("ChromaKeyUse"); }
         }
 
-        ColorData _chromaKeyColor = new ColorData(Colors.Green);
+        Brush _chromaKeyColor = Brushes.Green;
 
-        [Category("크로마키")]
-        [DisplayName("색상")]
-        [Description("크로마키 할 색상을 설정합니다.")]
-        [Editor(typeof(ColorEditor), typeof(PropertyValueEditor))]
-        public ColorData ChromaKeyColor
+        [DesignElement(Category ="크로마키", DisplayName ="색상")]
+        public Brush ChromaKeyColor
         {
             get => _chromaKeyColor;
             set { _chromaKeyColor = value; PropChanged("ChromaKeyColor"); }
@@ -65,11 +62,8 @@ namespace Delight.Component.ItemProperties
         
         Percentage _chromaKeyUsage = new Percentage(0.4, 0, 1);
 
-        [Category("크로마키")]
-        [DisplayName("사용도")]
-        [Description("크로마키 사용도를 설정합니다.")]
-        [Editor(typeof(PercentageEditor), typeof(PropertyValueEditor))]
-        public Percentage ChromaKeyUsage
+        [DesignElement(Category = "크로마키", DisplayName = "사용도", Key = "Percentage")]
+        public double ChromaKeyUsage
         {
             get => _chromaKeyUsage;
             set { _chromaKeyUsage = value; PropChanged("ChromaKeyUsage"); }
