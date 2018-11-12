@@ -136,70 +136,70 @@ namespace Delight
             };
             //propGrid.SelectedObject = new VideoItemProperty();
             
-            SetterBoard sb = new SetterBoard();
-            sb.Identifier = "손 흔들기";
+            //SetterBoard sb = new SetterBoard();
+            //sb.Identifier = "손 흔들기";
 
-            sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
-            sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
-            sb.AddSetterGroup();
-            sb.AddSetterGroup();
+            //sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
+            //sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
+            //sb.AddSetterGroup();
+            //sb.AddSetterGroup();
 
-            sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
-                (PortNumber.YAxis, new StaticValue(100)),
-                (PortNumber.Brightness, new StaticValue(254)),
-                (PortNumber.Blink, new PropertyValue("Blinking")),
-                (PortNumber.Color, new PropertyValue("Color")));
+            //sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
+            //    (PortNumber.YAxis, new StaticValue(100)),
+            //    (PortNumber.Brightness, new StaticValue(254)),
+            //    (PortNumber.Blink, new PropertyValue("Blinking")),
+            //    (PortNumber.Color, new PropertyValue("Color")));
 
-            sb[0].AddContinueLine(1000);
-            sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
+            //sb[0].AddContinueLine(1000);
+            //sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
 
-            sb[0].AddWait(200);
+            //sb[0].AddWait(200);
 
-            sb[0].AddContinueLine(1000);
-            sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
+            //sb[0].AddContinueLine(1000);
+            //sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
 
-            sb[0].AddWait(200);
+            //sb[0].AddWait(200);
 
-            sb[1].AddContinueLine(500);
-            sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
+            //sb[1].AddContinueLine(500);
+            //sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
                
-            sb[1].AddWait(200);
+            //sb[1].AddWait(200);
                
-            sb[1].AddContinueLine(500);
-            sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
+            //sb[1].AddContinueLine(500);
+            //sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
                
-            sb[1].AddWait(200);
+            //sb[1].AddWait(200);
 
-            //(PortNumber.Blink, new PropertyValue("Blinking")
-
-
-            string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
-
-            BoardSerializer.Save(sb, path);
-
-            var board = BoardSerializer.Load(path);
-            Console.WriteLine("Done");
-
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
+            ////(PortNumber.Blink, new PropertyValue("Blinking")
 
 
-            SetterBoard sb2 = new SetterBoard();
+            //string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
 
-            sb2.Identifier = "좌우로 흔들기";
-            sb2.AddSetterGroup();
+            //BoardSerializer.Save(sb, path);
 
-            sb2[0].AddWait(1000);
+            //var board = BoardSerializer.Load(path);
+            //Console.WriteLine("Done");
 
-            SetterBoard sb3 = new SetterBoard();
-
-            sb3.Identifier = "위아래로 움직이기";
-            sb3.AddSetterGroup();
-
-            sb3[0].AddWait(1000);
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
 
 
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
+            //SetterBoard sb2 = new SetterBoard();
+
+            //sb2.Identifier = "좌우로 흔들기";
+            //sb2.AddSetterGroup();
+
+            //sb2[0].AddWait(1000);
+
+            //SetterBoard sb3 = new SetterBoard();
+
+            //sb3.Identifier = "위아래로 움직이기";
+            //sb3.AddSetterGroup();
+
+            //sb3[0].AddWait(1000);
+
+
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
+            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
 
 
 
@@ -316,7 +316,8 @@ namespace Delight
 
             this.DataContext = mwViewModel;
 
-            //topMenu.ItemsSource = mwViewModel.Menus;
+            topMenu.Items.Clear();
+            topMenu.ItemsSource = mwViewModel.Menus;
             //lbMediaItem.ItemsSource = mwViewModel.MediaItemsView;
 
             CommandBindings.Add(new CommandBinding(mwViewModel.OpenFileCommand, mwViewModel.OpenFileExecuted));

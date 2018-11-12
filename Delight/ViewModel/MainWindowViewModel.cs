@@ -27,7 +27,7 @@ namespace Delight.ViewModel
 
         #endregion
 
-        private int _viewingIndex = 2;
+        private int _viewingIndex = 0;
         public int ViewingIndex
         {
             get => _viewingIndex;

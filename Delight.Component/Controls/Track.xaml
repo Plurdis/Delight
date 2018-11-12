@@ -7,6 +7,7 @@
         <Setter Property="Background" Value="#FF3A373E" />
         <Setter Property="MinHeight" Value="50" />
         <Setter Property="AllowDrop" Value="True" />
+        <Setter Property="FontFamily" Value="NanumGothic"/>
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
@@ -37,7 +38,13 @@
                                 </TextBlock>
                             </Grid>
 
-                            <Grid Grid.Column="1" Background="#FF185A8C">
+                            <Grid Grid.Column="1">
+                                <Grid.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#FF026BC7" Offset="0"/>
+                                        <GradientStop Color="#FF4292CF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Grid.Background>
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
@@ -45,7 +52,13 @@
                                     Foreground="White"
                                     Text="M" />
                             </Grid>
-                            <Grid Grid.Column="2" Background="#FFDE9000">
+                            <Grid Grid.Column="2">
+                                <Grid.Background>
+                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                        <GradientStop Color="#FFDB8920" Offset="0"/>
+                                        <GradientStop Color="#FFF3B542" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Grid.Background>
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"

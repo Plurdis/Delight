@@ -14,7 +14,7 @@
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
                 Margin="10"
                 Background="{x:Null}"
                 BorderBrush="{x:Null}"
-                SelectedIndex="0">
+                SelectedIndex="0" Foreground="#FFAAAAAA" FontFamily="NanumSquare">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel />
@@ -41,15 +41,12 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                     <Grid>
-                                        <ContentPresenter Margin="20,5" Content="{TemplateBinding Content}" />
-                                        <Rectangle
-                                            Width="4"
-                                            HorizontalAlignment="Right"
-                                            Fill="Black" />
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="Foreground" Value="#FF3A373E"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -57,9 +54,11 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <ListBoxItem Content="찾아보기" />
-                <ListBoxItem Content="인기 소스" />
-                <ListBoxItem Content="설치된 소스" />
+                <ListBoxItem Tag="0" Content="찾아보기" Margin="30,5" />
+                <Rectangle Width="5" Fill="#FF3A373E"/>
+                <ListBoxItem Tag="1" Content="인기 소스" Margin="30,5"  />
+                <Rectangle Width="5" Fill="#FF3A373E"/>
+                <ListBoxItem Tag="2" Content="설치된 소스" Margin="30,5" />
             </ListBox>
             <ListBox
                 x:Name="templates"
@@ -147,12 +146,13 @@
                 <TextBlock
                     FontSize="25"
                     Foreground="White"
+                    FontFamily="NanumSquare" 
                     Text="{Binding Path=SelectedItem.Title, ElementName=templates}"
                     TextTrimming="CharacterEllipsis" />
                 <TextBlock
                     Margin="0,10,0,0"
                     Foreground="White"
-                    Text="동영상 소스" />
+                    Text="동영상 소스" FontFamily="NanumSquare" />
                 <Grid Margin="0,20,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -160,11 +160,13 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
+                        FontFamily="NanumSquare" 
                         VerticalAlignment="Center"
                         Foreground="White"
                         Text="옵션 : " />
                     <ComboBox
                         x:Name="cb"
+                        FontFamily="NanumSquare" 
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Background="#FF524D57"
@@ -180,6 +182,7 @@
                     </ComboBox>
                     <Button
                         x:Name="btnDownload"
+                        FontFamily="NanumSquare" 
                         Grid.Column="2"
                         Margin="4"
                         Padding="10,4"

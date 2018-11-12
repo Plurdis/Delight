@@ -32,7 +32,7 @@ namespace Delight.Core.Common
             var crc32 = new Crc32();
             var hash = string.Empty;
 
-            using (FileStream fs = File.Open(@"C:\Users\uutak\바탕 화면\LightBoard.xml", FileMode.Open))
+            using (FileStream fs = File.Open(path, FileMode.Open))
                 foreach (byte b in crc32.ComputeHash(fs))
                     hash += b.ToString("x2").ToLower();
 
