@@ -57,7 +57,7 @@ namespace Delight
                 tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
             };
 
-            GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
+            //GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
 
             exportFromItem.Click += ExportFromItem_Click;
             importFromItem.Click += ImportFromItem_Click;
@@ -75,8 +75,8 @@ namespace Delight
             sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
                 (PortNumber.YAxis, new StaticValue(100)),
                 (PortNumber.Brightness, new StaticValue(254)),
-                (PortNumber.Blink, new PropertyValue("Blinking")),
-                (PortNumber.Color, new PropertyValue("Color")));
+                (PortNumber.Blink, new PropertyValue("Blinking")));
+            //(PortNumber.Color, new PropertyValue("Color"))
 
             sb[0].AddContinueLine(1000);
             sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
@@ -114,23 +114,23 @@ namespace Delight
             //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
 
 
-            //SetterBoard sb2 = new SetterBoard();
+            SetterBoard sb2 = new SetterBoard();
 
-            //sb2.Identifier = "좌우로 흔들기";
-            //sb2.AddSetterGroup();
+            sb2.Identifier = "좌우로 흔들기";
+            sb2.AddSetterGroup();
 
-            //sb2[0].AddWait(1000);
+            sb2[0].AddWait(1000);
 
-            //SetterBoard sb3 = new SetterBoard();
+            SetterBoard sb3 = new SetterBoard();
 
-            //sb3.Identifier = "위아래로 움직이기";
-            //sb3.AddSetterGroup();
+            sb3.Identifier = "위아래로 움직이기";
+            sb3.AddSetterGroup();
 
-            //sb3[0].AddWait(1000);
+            sb3[0].AddWait(1000);
 
 
-            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
-            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
 
 
 

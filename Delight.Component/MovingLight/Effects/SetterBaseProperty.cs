@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Delight.Component.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
@@ -10,6 +11,7 @@ namespace Delight
 {
     public class SetterBaseProperty
     {
-        
+        [DesignElement(DisplayName = "재생 속도 비율", Key = "Speed", Category = "공통")]
+        public double Speed { get; set; } = 1;
     }
 }

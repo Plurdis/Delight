@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:Delight.Component.Controls"
     xmlns:cvt="clr-namespace:Delight.Component.Converters"
-    xmlns:local="clr-namespace:Delight.Component.Controls">
+    xmlns:local="clr-namespace:Delight.Component.Controls"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Delight.Component;component/Controls/PropertyGrid.xaml" />
@@ -141,11 +142,434 @@
                             VerticalAlignment="Center"
                             Background="Black"
                             Maximum="10"
-                            Minimum="0.5"
+                            Minimum="0.2"
                             Style="{DynamicResource FlatSliderStyle}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="ValueBoxSetterStyle" TargetType="{x:Type c:ValueBoxSetter}">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ValueBoxSetter}">
+                    <local:SubmitTextBox
+                        x:Name="PART_valueBox"
+                        Background="{TemplateBinding Background}"
+                        Foreground="{TemplateBinding Foreground}"
+                        Style="{StaticResource ValueBoxStyle}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type c:BrushSetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:BrushSetter}">
+                    <Expander Style="{StaticResource SetterExpanderStyle}">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border
+                                    Width="16"
+                                    Height="16"
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="#FFC9CACA"
+                                    BorderThickness="1">
+                                    <Border.Background>
+                                        <DrawingBrush
+                                            TileMode="Tile"
+                                            Viewport="0,0,10,10"
+                                            ViewportUnits="Absolute">
+                                            <DrawingBrush.Drawing>
+                                                <DrawingGroup>
+                                                    <GeometryDrawing Brush="White">
+                                                        <GeometryDrawing.Geometry>
+                                                            <RectangleGeometry Rect="0,0,100,100" />
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Brush="LightGray">
+                                                        <GeometryDrawing.Geometry>
+                                                            <GeometryGroup>
+                                                                <RectangleGeometry Rect="0,0,50,50" />
+                                                                <RectangleGeometry Rect="50,50,50,50" />
+                                                            </GeometryGroup>
+                                                        </GeometryDrawing.Geometry>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Border.Background>
+                                    <Rectangle x:Name="SelectedColor">
+                                        <Rectangle.Fill>
+                                            <Binding Path="SelectedColor" Source="{x:Reference PART_colorCanvas}">
+                                                <Binding.Converter>
+                                                    <xctk:ColorToSolidColorBrushConverter />
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Border>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="6,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="{Binding Path=HexadecimalString, Source={x:Reference PART_colorCanvas}}" />
+                            </Grid>
+                        </Expander.Header>
+                        <xctk:ColorCanvas
+                            x:Name="PART_colorCanvas"
+                            FontSize="12"
+                            Foreground="{StaticResource Brush.PropertyGrid.Foreground}"
+                            SelectedColor="Red">
+                            <xctk:ColorCanvas.Style>
+                                <Style TargetType="{x:Type xctk:ColorCanvas}">
+                                    <Setter Property="Focusable" Value="False" />
+                                    <Setter Property="Background" Value="{x:Null}" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type xctk:ColorCanvas}">
+                                                <Border
+                                                    x:Name="root"
+                                                    Padding="3"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition MinWidth="110" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <FrameworkElement x:Name="fakeElement" HorizontalAlignment="Stretch" />
+                                                            <Border
+                                                                BorderBrush="DarkGray"
+                                                                BorderThickness="1"
+                                                                ClipToBounds="True">
+                                                                <Border.Background>
+                                                                    <DrawingBrush
+                                                                        TileMode="Tile"
+                                                                        Viewport="0,0,10,10"
+                                                                        ViewportUnits="Absolute">
+                                                                        <DrawingBrush.Drawing>
+                                                                            <DrawingGroup>
+                                                                                <GeometryDrawing Brush="White">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry Rect="0,0,100,100" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                                <GeometryDrawing Brush="LightGray">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <GeometryGroup>
+                                                                                            <RectangleGeometry Rect="0,0,50,50" />
+                                                                                            <RectangleGeometry Rect="50,50,50,50" />
+                                                                                        </GeometryGroup>
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                            </DrawingGroup>
+                                                                        </DrawingBrush.Drawing>
+                                                                    </DrawingBrush>
+                                                                </Border.Background>
+                                                                <Canvas
+                                                                    x:Name="PART_ColorShadingCanvas"
+                                                                    Width="{Binding ActualWidth, ElementName=fakeElement}"
+                                                                    Height="100"
+                                                                    VerticalAlignment="Top">
+                                                                    <Rectangle
+                                                                        x:Name="ColorShadingRectangle"
+                                                                        Width="{Binding ActualWidth, ElementName=PART_ColorShadingCanvas}"
+                                                                        Height="{Binding Height, ElementName=PART_ColorShadingCanvas}">
+                                                                        <Rectangle.Fill>
+                                                                            <Binding ElementName="PART_SpectrumSlider" Path="SelectedColor">
+                                                                                <Binding.Converter>
+                                                                                    <xctk:ColorToSolidColorBrushConverter />
+                                                                                </Binding.Converter>
+                                                                            </Binding>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Rectangle
+                                                                        x:Name="WhiteGradient"
+                                                                        Width="{Binding ActualWidth, ElementName=PART_ColorShadingCanvas}"
+                                                                        Height="{Binding Height, ElementName=PART_ColorShadingCanvas}">
+                                                                        <Rectangle.Fill>
+                                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                                <GradientStop Offset="0" Color="White" />
+                                                                                <GradientStop Offset="1" Color="Transparent" />
+                                                                            </LinearGradientBrush>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Rectangle
+                                                                        x:Name="BlackGradient"
+                                                                        Width="{Binding ActualWidth, ElementName=PART_ColorShadingCanvas}"
+                                                                        Height="{Binding Height, ElementName=PART_ColorShadingCanvas}">
+                                                                        <Rectangle.Fill>
+                                                                            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                                                                <GradientStop Offset="0" Color="Black" />
+                                                                                <GradientStop Offset="1" Color="#00000000" />
+                                                                            </LinearGradientBrush>
+                                                                        </Rectangle.Fill>
+                                                                    </Rectangle>
+                                                                    <Canvas
+                                                                        x:Name="PART_ColorShadeSelector"
+                                                                        Width="10"
+                                                                        Height="10"
+                                                                        IsHitTestVisible="False">
+                                                                        <Ellipse
+                                                                            Width="10"
+                                                                            Height="10"
+                                                                            IsHitTestVisible="False"
+                                                                            Stroke="White"
+                                                                            StrokeThickness="3" />
+                                                                        <Ellipse
+                                                                            Width="10"
+                                                                            Height="10"
+                                                                            IsHitTestVisible="False"
+                                                                            Stroke="Black"
+                                                                            StrokeThickness="1" />
+                                                                    </Canvas>
+                                                                </Canvas>
+                                                            </Border>
+                                                            <Border Grid.Row="1" Margin="0,5,0,0">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="22" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Border
+                                                                        x:Name="SelectedColorBorder"
+                                                                        Height="22"
+                                                                        BorderBrush="#FFC9CACA"
+                                                                        BorderThickness="1">
+                                                                        <Border.Background>
+                                                                            <DrawingBrush
+                                                                                TileMode="Tile"
+                                                                                Viewport="0,0,10,10"
+                                                                                ViewportUnits="Absolute">
+                                                                                <DrawingBrush.Drawing>
+                                                                                    <DrawingGroup>
+                                                                                        <GeometryDrawing Brush="White">
+                                                                                            <GeometryDrawing.Geometry>
+                                                                                                <RectangleGeometry Rect="0,0,100,100" />
+                                                                                            </GeometryDrawing.Geometry>
+                                                                                        </GeometryDrawing>
+                                                                                        <GeometryDrawing Brush="LightGray">
+                                                                                            <GeometryDrawing.Geometry>
+                                                                                                <GeometryGroup>
+                                                                                                    <RectangleGeometry Rect="0,0,50,50" />
+                                                                                                    <RectangleGeometry Rect="50,50,50,50" />
+                                                                                                </GeometryGroup>
+                                                                                            </GeometryDrawing.Geometry>
+                                                                                        </GeometryDrawing>
+                                                                                    </DrawingGroup>
+                                                                                </DrawingBrush.Drawing>
+                                                                            </DrawingBrush>
+                                                                        </Border.Background>
+                                                                        <Rectangle x:Name="SelectedColor">
+                                                                            <Rectangle.Fill>
+                                                                                <Binding Path="SelectedColor" RelativeSource="{RelativeSource TemplatedParent}">
+                                                                                    <Binding.Converter>
+                                                                                        <xctk:ColorToSolidColorBrushConverter />
+                                                                                    </Binding.Converter>
+                                                                                </Binding>
+                                                                            </Rectangle.Fill>
+                                                                        </Rectangle>
+                                                                    </Border>
+                                                                    <local:SubmitTextBox
+                                                                        x:Name="PART_HexadecimalTextBox"
+                                                                        Grid.Column="1"
+                                                                        Margin="2,0"
+                                                                        VerticalAlignment="Center"
+                                                                        Style="{StaticResource ValueBoxStyle}" />
+                                                                </Grid>
+                                                            </Border>
+                                                            <Border
+                                                                Grid.RowSpan="2"
+                                                                Grid.Column="1"
+                                                                Margin="4,-8,0,0"
+                                                                ClipToBounds="False">
+                                                                <xctk:ColorSpectrumSlider x:Name="PART_SpectrumSlider" VerticalAlignment="Stretch" />
+                                                            </Border>
+                                                        </Grid>
+                                                        <Border
+                                                            x:Name="RGBBorder"
+                                                            Grid.Row="1"
+                                                            MinWidth="90"
+                                                            Margin="0,10,0,0"
+                                                            BorderThickness="1"
+                                                            ClipToBounds="True">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="R" />
+                                                                <Slider
+                                                                    x:Name="PART_RSlider"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    Margin="8,6"
+                                                                    VerticalAlignment="Center"
+                                                                    LargeChange="10"
+                                                                    Maximum="255"
+                                                                    SmallChange="1"
+                                                                    Style="{DynamicResource FlatSliderStyle}"
+                                                                    TickFrequency="1"
+                                                                    Value="{Binding R, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                <local:SubmitTextBox
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource ValueBoxStyle}"
+                                                                    Text="{Binding Value, ElementName=PART_RSlider}" />
+                                                                <TextBlock
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="G" />
+                                                                <Slider
+                                                                    x:Name="PART_GSlider"
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Margin="8,6"
+                                                                    VerticalAlignment="Center"
+                                                                    LargeChange="10"
+                                                                    Maximum="255"
+                                                                    SmallChange="1"
+                                                                    Style="{DynamicResource FlatSliderStyle}"
+                                                                    TickFrequency="1"
+                                                                    Value="{Binding G, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                <local:SubmitTextBox
+                                                                    Grid.Row="1"
+                                                                    Grid.Column="2"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource ValueBoxStyle}"
+                                                                    Text="{Binding Value, ElementName=PART_GSlider}" />
+                                                                <TextBlock
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="B" />
+                                                                <Slider
+                                                                    x:Name="PART_BSlider"
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Margin="8,6"
+                                                                    VerticalAlignment="Center"
+                                                                    LargeChange="10"
+                                                                    Maximum="255"
+                                                                    SmallChange="1"
+                                                                    Style="{DynamicResource FlatSliderStyle}"
+                                                                    TickFrequency="1"
+                                                                    Value="{Binding B, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                <local:SubmitTextBox
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="3"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource ValueBoxStyle}"
+                                                                    Text="{Binding Value, ElementName=PART_BSlider}" />
+                                                                <TextBlock
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="A">
+                                                                    <TextBlock.Visibility>
+                                                                        <Binding Path="UsingAlphaChannel" RelativeSource="{RelativeSource TemplatedParent}">
+                                                                            <Binding.Converter>
+                                                                                <BooleanToVisibilityConverter />
+                                                                            </Binding.Converter>
+                                                                        </Binding>
+                                                                    </TextBlock.Visibility>
+                                                                </TextBlock>
+                                                                <Slider
+                                                                    x:Name="PART_OpacitySlider"
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Margin="8,6"
+                                                                    VerticalAlignment="Center"
+                                                                    LargeChange="10"
+                                                                    Maximum="255"
+                                                                    SmallChange="1"
+                                                                    Style="{DynamicResource FlatSliderStyle}"
+                                                                    Value="{Binding A, RelativeSource={RelativeSource TemplatedParent}}">
+                                                                    <Slider.Visibility>
+                                                                        <Binding Path="UsingAlphaChannel" RelativeSource="{RelativeSource TemplatedParent}">
+                                                                            <Binding.Converter>
+                                                                                <BooleanToVisibilityConverter />
+                                                                            </Binding.Converter>
+                                                                        </Binding>
+                                                                    </Slider.Visibility>
+                                                                </Slider>
+                                                                <local:SubmitTextBox
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="3"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource ValueBoxStyle}"
+                                                                    Text="{Binding Value, ElementName=PART_OpacitySlider}">
+                                                                    <TextBox.Visibility>
+                                                                        <Binding Path="UsingAlphaChannel" RelativeSource="{RelativeSource TemplatedParent}">
+                                                                            <Binding.Converter>
+                                                                                <BooleanToVisibilityConverter />
+                                                                            </Binding.Converter>
+                                                                        </Binding>
+                                                                    </TextBox.Visibility>
+                                                                </local:SubmitTextBox>
+                                                            </Grid>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                    <Trigger Property="SelectedColor" Value="{x:Null}">
+                                                        <Setter TargetName="PART_ColorShadeSelector" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="SelectedColorBorder" Property="Background" Value="Transparent" />
+                                                        <Setter TargetName="RGBBorder" Property="IsEnabled" Value="False" />
+                                                        <Setter TargetName="RGBBorder" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="FontSize" Value="10" />
+                                </Style>
+                            </xctk:ColorCanvas.Style>
+                        </xctk:ColorCanvas>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -15,16 +15,35 @@ namespace Delight.Core.MovingLight
             {
                 for (int i = 1; i <= 512; i++)
                 {
-                    DMXLib.Send(i, 1);
+
+                    DMXSend(i, 1);
                     Thread.Sleep(1);
                 }
             });
         }
 
+        private static void DMXSend(int channel, byte value)
+        {
+            try
+            {
+                //DMXLib.Send(channel, value);
+            }
+            catch (Exception)
+            {
+            }
+            
+        }
+
         // Constructor
         static DMXController()
         {
-            DMXLib.Open();
+            try
+            {
+                //DMXLib.Open();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public static void Init()
@@ -93,7 +112,7 @@ namespace Delight.Core.MovingLight
             {
                 if (lastValue[i] != savedValue[i])
                 {
-                    DMXLib.Send(_startPort + i, savedValue[i]);
+                    DMXSend(_startPort + i, savedValue[i]);
 
                     lastValue[i] = savedValue[i];
                 }

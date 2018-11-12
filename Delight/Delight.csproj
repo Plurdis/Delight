@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\DelightIcon.ico</ApplicationIcon>
+    <ApplicationIcon>DelightIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -177,7 +177,7 @@
     <Resource Include="Resources\defaultSoundImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\DelightIcon.ico" />
+    <Resource Include="DelightIcon.ico" />
     <Content Include="Resources\Xceed.Wpf.Toolkit.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

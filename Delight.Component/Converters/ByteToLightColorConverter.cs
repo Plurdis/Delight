@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Delight.Component.Converters
 {
-    class ByteToIndexConverter : ValueConverter<byte, int>
+    class ByteToLightColorConverter : ValueConverter<byte, int>
     {
         public override int Convert(byte value, Type targetType, object parameter, CultureInfo culture)
         {

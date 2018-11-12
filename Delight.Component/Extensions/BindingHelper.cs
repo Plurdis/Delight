@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Data;
+using Delight.Component.Controls;
 
 namespace Delight.Component.Extensions
 {
@@ -27,6 +29,11 @@ namespace Delight.Component.Extensions
             BindingOperations.SetBinding(target, targetProperty, result);
 
             return result;
+        }
+
+        internal static void SetBinding(LightColorSetter lightColorSetter, DependencyProperty valueProperty1, object slider, object valueProperty2)
+        {
+            throw new NotImplementedException();
         }
 
         public static Binding SetBinding(

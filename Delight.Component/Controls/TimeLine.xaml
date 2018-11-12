@@ -58,13 +58,13 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid>
-                                        <Rectangle Height="25" Fill="White" />
+                                        <Rectangle Height="25" Fill="#FF2F2C33" />
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
                                             FontFamily="{TemplateBinding HeaderFontFamily}"
                                             FontSize="14"
-                                            Foreground="Black"
+                                            Foreground="#FFE1E1E1"
                                             Text="시각적 트랙" />
                                     </Grid>
                                     <StackPanel x:Name="visualTracks" Grid.Row="1" />
@@ -76,13 +76,13 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid>
-                                        <Rectangle Height="25" Fill="White" />
+                                        <Rectangle Height="25" Fill="#FF2F2C33" />
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
                                             FontFamily="{TemplateBinding HeaderFontFamily}"
                                             FontSize="14"
-                                            Foreground="Black"
+                                            Foreground="#FFE1E1E1"
                                             Text="비시각적 트랙" />
                                     </Grid>
 

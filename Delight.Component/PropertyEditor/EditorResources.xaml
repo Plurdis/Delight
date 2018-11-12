@@ -27,7 +27,7 @@
 
     <DataTemplate x:Key="LightColorTemplate">
         <Grid>
-            <ComboBox SelectedIndex="{Binding Value, Converter={cvt:ByteToIndexConverter}}">
+            <ComboBox SelectedIndex="{Binding Value, Converter={cvt:ByteToLightColorConverter}}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

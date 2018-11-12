@@ -117,6 +117,7 @@
     <Compile Include="Controls\PropertyGrid\Setters\Components\PercentageSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\SpeedSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\ISetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\LightColorSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\MultiPropertyConverter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterManager.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="Converters\BaseMultiValueConverter.cs" />
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\ByteToIndexConverter.cs" />
+    <Compile Include="Converters\ByteToLightColorConverter.cs" />
     <Compile Include="Converters\ByteToPercentageConverter.cs" />
     <Compile Include="Converters\ByteToPercentageStringConverter.cs" />
     <Compile Include="Converters\DisplayNameConverter.cs" />

@@ -11,7 +11,7 @@ namespace Delight.Component.Converters
     {
         public override string Convert(double value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value + "초";
+            return Math.Round(value, 2) + "배";
         }
 
         public override double ConvertBack(string value, Type targetType, object parameter, CultureInfo culture)
