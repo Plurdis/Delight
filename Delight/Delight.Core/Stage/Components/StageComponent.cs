@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Delight.Core.Stage.Components
 {
-    public abstract class StageComponent
+    public abstract class StageComponent :  INotifyPropertyChanged
     {
         public StageComponent(SourceType sourceType, bool isDynamicLength = false)
         {
             SourceType = sourceType;
             IsDynamicLength = isDynamicLength;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 해당 컴포넌트의 고유한 식별자입니다.
@@ -46,6 +49,17 @@ namespace Delight.Core.Stage.Components
 
         public abstract string TypeText { get; }
 
-        public bool Checked { get; set; }
+
+        private bool _checked;
+        public bool Checked
+        {
+            get => _checked;
+            set
+            {
+                _checked = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Checked"));
+            }
+        }
+
     }
 }

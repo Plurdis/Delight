@@ -1,4 +1,5 @@
 ﻿using Delight.Component.Common;
+using Delight.Component.Converters;
 using Delight.Core.Sources;
 using Delight.Core.Stage.Components.Media;
 using Delight.Core.Template;
@@ -28,6 +29,11 @@ namespace Delight.Pages
             this.DataContext = GlobalViewModel.ExternalSourceViewModel;
             templates.ItemsSource = GlobalViewModel.ExternalSourceViewModel.Sources;
             projectItems.ItemsSource = GlobalViewModel.MainWindowViewModel.MediaItems;
+        }
+
+        private void CheckBox_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            tbTemplate.Text = new ComponentsToTextConverter().Convert(GlobalViewModel.MainWindowViewModel.MediaItems, null, null, null);
         }
     }
 }

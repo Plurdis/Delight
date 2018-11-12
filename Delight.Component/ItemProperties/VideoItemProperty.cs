@@ -51,41 +51,42 @@ namespace Delight.Component.ItemProperties
             set { _opacity = value; PropChanged("Opacity"); }
         }
 
-        ColorData _color = new ColorData(Colors.Black);
+        bool _chromaKeyUse = false;
 
+        [Category("크로마키")]
+        [DisplayName("사용")]
+        [Description("크로마키 효과 사용 여부를 설정합니다.")]
+        public bool ChromaKeyUse
+        {
+            get => _chromaKeyUse;
+            set { _chromaKeyUse = value; PropChanged("ChromaKeyUse"); }
+        }
+
+        ColorData _chromaKeyColor = new ColorData(Colors.Green);
+
+        [Category("크로마키")]
+        [DisplayName("색상")]
+        [Description("크로마키 할 색상을 설정합니다.")]
         [Editor(typeof(ColorEditor), typeof(PropertyValueEditor))]
-        public ColorData Color
+        public ColorData ChromaKeyColor
         {
-            get => _color;
-            set {
-                _color = value;
-                PropChanged("Color");
-            }
+            get => _chromaKeyColor;
+            set { _chromaKeyColor = value; PropChanged("ChromaKeyColor"); }
+        }
+        
+        Percentage _chromaKeyUsage = new Percentage(0.4, 0, 1);
+
+        [Category("크로마키")]
+        [DisplayName("사용도")]
+        [Description("크로마키 사용도를 설정합니다.")]
+        [Editor(typeof(PercentageEditor), typeof(PropertyValueEditor))]
+        public Percentage ChromaKeyUsage
+        {
+            get => _chromaKeyUsage;
+            set { _chromaKeyUsage = value; PropChanged("ChromaKeyUsage"); }
         }
 
-        byte _xAxis = 120;
-        [Editor(typeof(AxisEditor), typeof(PropertyValueEditor))]
-        public byte XAxis
-        {
-            get => _xAxis;
-            set
-            {
-                _xAxis = value;
-                PropChanged("XAxis");
-            }
-        }
 
-        byte _lightColor = 10;
-        [Editor(typeof(LightColorEditor), typeof(PropertyValueEditor))]
-        public byte LightColor
-        {
-            get => _lightColor;
-            set
-            {
-                _lightColor = value;
-                PropChanged("LightColor");
-            }
-        }
 
         private void Test()
         {

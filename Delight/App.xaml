@@ -11,10 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <component:DelightTheme />
                 <ResourceDictionary>
-                    <LinearGradientBrush x:Key="Delight.BackgroundColor" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#FFD7928D" />
-                        <GradientStop Offset="1" Color="#FFCD66A2" />
-                    </LinearGradientBrush>
+                    <SolidColorBrush x:Key="Delight.BackgroundColor">#FFEEC25F</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

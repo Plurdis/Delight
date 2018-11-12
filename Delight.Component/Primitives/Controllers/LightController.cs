@@ -75,15 +75,18 @@ namespace Delight.Component.Primitives.Controllers
 
             byte[] firstValue = new byte[16];
 
-            foreach (ValueSetter inVSetter in _setterBoard.InitalizeValue)
+            if (_setterBoard.InitalizeValue != null)
             {
-                byte value = GetValue(inVSetter.Value);
+                foreach (ValueSetter inVSetter in _setterBoard.InitalizeValue)
+                {
+                    byte value = GetValue(inVSetter.Value);
 
-                lightController.SetValue(inVSetter.Port, value);
-                firstValue[(int)inVSetter.Port - 1] = value;
-                lightController.Send();
+                    lightController.SetValue(inVSetter.Port, value);
+                    firstValue[(int)inVSetter.Port - 1] = value;
+                    lightController.Send();
+                }
             }
-
+            
             foreach (SetterGroup setterGroup in _setterBoard.SetterGroups)
             {
                 Thread thr = new Thread(() =>

@@ -9,8 +9,10 @@ namespace Delight.Core.Template
 {
     public class DelightTemplate
     {
+        public string Name { get; set; }
+
         public List<BaseSource> Sources { get; set; }
 
-
+        
     }
 }

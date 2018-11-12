@@ -13,8 +13,7 @@
                 <ControlTemplate TargetType="{x:Type local:TimeLine}">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="32" />
-                            <RowDefinition Height="1" />
+                            <RowDefinition Height="55" />
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
@@ -24,29 +23,30 @@
                         </Grid.ColumnDefinitions>
                         <Border
                             x:Name="bgBorder"
-                            Grid.RowSpan="4"
+                            Grid.RowSpan="3"
                             Grid.ColumnSpan="2"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" />
 
 
-                        <Rectangle
+                        <!--
+                            <Rectangle
                             Grid.Row="1"
                             Grid.ColumnSpan="2"
                             Height="1"
                             VerticalAlignment="Top"
                             Fill="Black"
                             IsHitTestVisible="False" />
+                        -->
 
-
-                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="184" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="#FFDBDBDB" />
-                            <Border Grid.Column="1" Background="#FFCFCFCF" />
+                            <Border Grid.Column="0" Background="#FF2F2C33" />
+                            <Border Grid.Column="1" Background="#FF3A373E" />
                             <Grid Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -59,12 +59,14 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid>
-                                        <Rectangle Height="30" Fill="#FFE7E7E7" />
+                                        <Rectangle Height="25" Fill="White" />
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
+                                            FontSize="14"
+                                            FontWeight="Bold"
                                             Foreground="Black"
-                                            Text="시각 트랙" />
+                                            Text="시각적 트랙" />
                                     </Grid>
                                     <StackPanel x:Name="visualTracks" Grid.Row="1" />
                                 </Grid>
@@ -75,10 +77,12 @@
                                     </Grid.RowDefinitions>
 
                                     <Grid>
-                                        <Rectangle Height="30" Fill="#FFE7E7E7" />
+                                        <Rectangle Height="25" Fill="White" />
                                         <TextBlock
                                             Margin="10,0"
                                             VerticalAlignment="Center"
+                                            FontSize="14"
+                                            FontWeight="Bold"
                                             Foreground="Black"
                                             Text="비시각적 트랙" />
                                     </Grid>
@@ -91,7 +95,7 @@
 
 
                         <Grid
-                            Grid.RowSpan="3"
+                            Grid.RowSpan="2"
                             Grid.Column="1"
                             ClipToBounds="True">
                             <Grid.RowDefinitions>
@@ -120,7 +124,7 @@
 
                         <ScrollBar
                             x:Name="scrollBar"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.ColumnSpan="2"
                             Maximum="100"
                             Orientation="Horizontal"

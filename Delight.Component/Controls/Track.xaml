@@ -4,10 +4,10 @@
     xmlns:cvt="clr-namespace:Delight.Component.Converters"
     xmlns:local="clr-namespace:Delight.Component.Controls">
     <Style x:Key="TrackStyle" TargetType="{x:Type local:Track}">
-        <Setter Property="Background" Value="#FFCFCFCF" />
+        <Setter Property="Background" Value="#FF3A373E" />
         <Setter Property="MinHeight" Value="50" />
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Track}">
@@ -16,7 +16,7 @@
                             <ColumnDefinition Width="184" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Grid Background="#FFDBDBDB">
+                        <Grid Background="#FF2F2C33">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="33" />

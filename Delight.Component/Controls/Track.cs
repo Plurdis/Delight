@@ -276,10 +276,12 @@ namespace Delight.Component.Controls
 
         private void TrackItem_MouseRightButtonClick(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu cm = FindResource("TrackItemContextMenu") as ContextMenu;
+            RemoveItem(sender as TrackItem);
 
-            cm.PlacementTarget = ((UIElement)sender);
-            cm.IsOpen = true;
+            //ContextMenu cm = FindResource("TrackItemContextMenu") as ContextMenu;
+
+            //cm.PlacementTarget = ((UIElement)sender);
+            //cm.IsOpen = true;
         }
 
         private void TrackItem_MouseMove(object sender, MouseEventArgs e)

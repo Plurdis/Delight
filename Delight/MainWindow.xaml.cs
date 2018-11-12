@@ -1,4 +1,5 @@
-﻿using Delight.Component.MovingLight.Effects;
+﻿using Delight.Component.Common;
+using Delight.Component.MovingLight.Effects;
 using Delight.Component.MovingLight.Effects.Values;
 using Delight.Core.Common;
 using Delight.Core.MovingLight;
@@ -129,8 +130,12 @@ namespace Delight
 
             tl.ItemSelected += Tl_ItemSelected;
             tl.ItemDeselected += Tl_ItemDeselected;
+            tl.FrameChanged += (s, e) =>
+            {
+                tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
+            };
             //propGrid.SelectedObject = new VideoItemProperty();
-
+            
             SetterBoard sb = new SetterBoard();
             sb.Identifier = "손 흔들기";
 
@@ -176,6 +181,27 @@ namespace Delight
             Console.WriteLine("Done");
 
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
+
+
+            SetterBoard sb2 = new SetterBoard();
+
+            sb2.Identifier = "좌우로 흔들기";
+            sb2.AddSetterGroup();
+
+            sb2[0].AddWait(1000);
+
+            SetterBoard sb3 = new SetterBoard();
+
+            sb3.Identifier = "위아래로 움직이기";
+            sb3.AddSetterGroup();
+
+            sb3[0].AddWait(1000);
+
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
+
+
 
             //LightBoard lb = new LightBoard();
 
@@ -239,7 +265,11 @@ namespace Delight
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             pw = new PlayWindow();
+
             pw.Show();
+            pw.Left = 1920;
+            
+
             pw.ConnectTimeLine(tl);
 
             tl.FrameRate = FrameRate._60PFS;

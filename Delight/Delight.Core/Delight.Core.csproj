@@ -87,6 +87,8 @@
     <Compile Include="MovingLight\DMXController.cs" />
     <Compile Include="MovingLight\PortNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\ExternalVideoSource.cs" />
+    <Compile Include="Sources\Options\GenericOption.cs" />
     <Compile Include="Stage\Components\Media\BaseMedia.cs" />
     <Compile Include="Stage\Components\Media\ImageMedia.cs" />
     <Compile Include="Stage\Components\Media\SoundMedia.cs" />

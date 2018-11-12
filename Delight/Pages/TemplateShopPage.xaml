@@ -131,7 +131,7 @@
                                     <DataTemplate DataType="{x:Type components:StageComponent}">
                                         <Grid>
                                             <!--<Border BorderBrush="Black" BorderThickness="1" />-->
-                                            <CheckBox IsChecked="{Binding Checked}">
+                                            <CheckBox IsChecked="{Binding Checked, NotifyOnSourceUpdated=True}" SourceUpdated="CheckBox_SourceUpdated">
                                                 <Grid Margin="10">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
@@ -169,7 +169,18 @@
                             Background="#FFD1D1D1" />
 
                         <Grid Grid.Column="2">
-                            <StackPanel Margin="10" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Margin="10">
+                                <TextBlock x:Name="tbTemplate" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <Button
+                                Grid.Row="1"
+                                Margin="5"
+                                Padding="5"
+                                Content="패킹 시작" />
                         </Grid>
                     </Grid>
                 </TabItem>
