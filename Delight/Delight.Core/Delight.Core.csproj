@@ -117,6 +117,7 @@
     <Compile Include="Common\ItemPosition.cs" />
     <Compile Include="Common\MediaTools.cs" />
     <Compile Include="Common\PropertyManager.cs" />
+    <Compile Include="Extensions\ColorEx.cs" />
     <Compile Include="Extensions\FrameRateEx.cs" />
     <Compile Include="Extensions\IEnumerableEx.cs" />
     <Compile Include="Extensions\KoreanStringExtension.cs" />

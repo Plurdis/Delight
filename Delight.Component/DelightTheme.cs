@@ -22,8 +22,6 @@ namespace Delight.Component
 
             AddDictionary("Primitives/MediaElementPro.xaml");
 
-            AddDictionary("PropertyEditor/EditorResources.xaml");
-
             AddDictionary("SetterStyles.xaml");
         }
 

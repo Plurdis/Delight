@@ -145,7 +145,24 @@ namespace Delight.Component.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
-        public object Property { get; set; }
+        private object _property;
+        public object Property
+        {
+            get => _property;
+            set
+            {
+                if (_property != null)
+                    ((INotifyPropertyChanged)_property).PropertyChanged -= PropertyChanged;
+
+                if (value is INotifyPropertyChanged changedValue)
+                    changedValue.PropertyChanged += (s,e)=>
+                    {
+                        PropertyChanged?.Invoke(s, e);
+                    };
+
+                _property = value;
+            }
+        }
 
         //public static DependencyProperty ColorThemeProperty = DependencyProperty.Register(nameof(ColorTheme), typeof(ColorTheme), typeof(TrackItem));
 

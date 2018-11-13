@@ -31,11 +31,6 @@ namespace Delight.Component.Extensions
             return result;
         }
 
-        internal static void SetBinding(LightColorSetter lightColorSetter, DependencyProperty valueProperty1, object slider, object valueProperty2)
-        {
-            throw new NotImplementedException();
-        }
-
         public static Binding SetBinding(
             DependencyObject source, DependencyProperty sourceProperty,
             DependencyObject target, DependencyProperty targetProperty,

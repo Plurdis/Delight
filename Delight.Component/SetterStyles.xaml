@@ -24,6 +24,29 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type c:LightColorSetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:LightColorSetter}">
+                    <ComboBox
+                        x:Name="PART_valueComboBox"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        SelectedIndex="0">
+                        <ComboBoxItem Content="1" />
+                        <ComboBoxItem Content="2" />
+                        <ComboBoxItem Content="3" />
+                        <ComboBoxItem Content="4" />
+                        <ComboBoxItem Content="5" />
+                        <ComboBoxItem Content="6" />
+                        <ComboBoxItem Content="7" />
+                    </ComboBox>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type c:PercentageSetter}">
         <Setter Property="Template">
             <Setter.Value>

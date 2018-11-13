@@ -39,7 +39,7 @@ namespace Delight.Component.Controls
             ValueProperty.AddValueChanged(this, ValueChanged);
         }
 
-        ByteToLightColorConverter converter;
+        ByteToLightColorConverter converter = new ByteToLightColorConverter();
 
         private void ValueChanged(object sender, EventArgs e)
         {

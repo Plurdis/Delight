@@ -1,19 +1,19 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Controls;
-using Delight.Component.PropertyEditor;
-using System;
-using System.Activities.Presentation.PropertyEditing;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Delight.Component.ItemProperties
 {
     public class VideoItemProperty : BaseTrackItemProperty
     {
+
+        double _volume = 1;
+        [DesignElement(Category = "공통", DisplayName = "볼륨", Key = "Percentage")]
+        public double Volume
+        {
+            get => _volume;
+            set { _volume = value; PropChanged("Volume"); }
+        }
 
         double _left = 0;
         [DesignElement(Category = "공통", DisplayName = "왼쪽 위치", Key = "Percentage")]

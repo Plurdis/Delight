@@ -173,14 +173,6 @@
     <Compile Include="Primitives\MediaElementPro.cs" />
     <Compile Include="Primitives\TimingReaders\DelayTimingReader.cs" />
     <Compile Include="Primitives\TimingReaders\TimingReader.cs" />
-    <Compile Include="PropertyEditor\AxisEditor.cs" />
-    <Compile Include="PropertyEditor\ColorEditor.cs" />
-    <Compile Include="PropertyEditor\LightColorEditor.cs" />
-    <Compile Include="PropertyEditor\PercentageEditor.cs" />
-    <Page Include="PropertyEditor\EditorResources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

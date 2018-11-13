@@ -216,7 +216,7 @@ namespace Delight
             pw = new PlayWindow();
 
             pw.Show();
-            pw.Left = 1920;
+            pw.Left = 1800;
             
 
             pw.ConnectTimeLine(tl);

@@ -1,8 +1,11 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Controls;
+using Delight.Component.Effects;
 using Delight.Component.Extensions;
 using Delight.Component.Layers;
 using Delight.Component.Primitives.TimingReaders;
+using Delight.Core.Common;
+using Delight.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +13,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using WPFMediaKit.DirectShow.MediaPlayers;
 
 namespace Delight.Component.Primitives.Controllers
 {
     public class VideoController : BaseController
     {
-        public VideoController(Track track, DelayTimingReader reader) : base(track, reader, true)
-        {
-        }
 
         MediaElementPro player1, player2;
         MediaElementLoader loader1, loader2;
@@ -89,7 +91,6 @@ namespace Delight.Component.Primitives.Controllers
         {
             if (lastLoadItem == trackItem)
             {
-                //Console.WriteLine("lastLoadItem and TrackItem is Same!");
                 ((DelayTimingReader)Reader).DoneTask();
                 return;
             }
@@ -97,12 +98,16 @@ namespace Delight.Component.Primitives.Controllers
             MediaElementPro player = p1Playing ? player2 : player1;
             MediaElementLoader loader = p1Playing ? loader2 : loader1;
             lastLoadItem = trackItem;
-            //Console.WriteLine("Load Start");
 
             await loader.LoadVideo(trackItem);
-            //Console.WriteLine("Load Complete");
             ((DelayTimingReader)Reader).DoneTask();
         }
+
+        public VideoController(Track track, DelayTimingReader reader) : base(track, reader, true)
+        {
+        }
+
+        Effect _chromaKeyEffect;
 
         public async void PlayPlayer(TrackItem trackItem)
         {
@@ -138,7 +143,90 @@ namespace Delight.Component.Primitives.Controllers
                 //s.Opacity = itm.ItemProperty.Opacity;
 
                 s.Width = rootCanvas.ActualWidth;// * itm.ItemProperty.Size;
-                s.Height = rootCanvas.ActualHeight;// * itm.ItemProperty.Size;
+                s.Height = rootCanvas.ActualHeight;
+
+                itm.PropertyChanged += (sen, e) =>
+                {
+                    object value = PropertyManager.GetProperty(itm.Property, e.PropertyName);
+
+                    switch (e.PropertyName.ToLower())
+                    {
+                        case "left":
+                            Canvas.SetLeft(rootLayer, 
+                                (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * (double)value)) / 2);
+                            break;
+                        case "top":
+                            Canvas.SetTop(rootLayer, 
+                                (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * (double)value)) / 2);
+                            break;
+                        case "opacity":
+                            s.Opacity = (double)value;
+                            break;
+                        case "volume":
+                            s.Volume = (double)value;
+                            break;
+                        case "chromakeyuse":
+                        case "chromakeyusage":
+                        case "chromakeycolor":
+                            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
+                            
+                            Brush newColor = (Brush)PropertyManager.GetProperty(itm.Property, "ChromaKeyColor");
+                            SolidColorBrush newBrush = (SolidColorBrush)newColor;
+                            newBrush.Color.ToHSL(out double _h, out double _s, out double _l);
+                            _chromaKeyEffect = new ChromaKeyEffect()
+                            {
+                                HueMin = (float)_h,
+                                HueMax = (float)_h,
+                                SaturationMax = (float)_s,
+                                SaturationMin = (float)_s,
+                                LuminanceMax = (float)_l,
+                                LuminanceMin = (float)_l,
+                                Smooth = (float)((double)PropertyManager.GetProperty(itm.Property, "ChromaKeyUsage")),
+                            };
+
+                            if ((bool)PropertyManager.GetProperty(itm.Property, "ChromaKeyUse"))
+                            {
+                                vLayer.Effect = _chromaKeyEffect;
+                            }
+                            else
+                            {
+                                vLayer.Effect = _chromaKeyEffect;
+                            }
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //        case "chromakeyusage":
+                    //        case "chromakeycolor":
+                    //        case "chromakeyenabled":
+                    //            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
+
+                    //            if (itm.ItemProperty.ChromaKeyEnabled)
+                    //            {
+                    //                itm.ItemProperty.ChromaKeyColor.ToHSL(out double _h, out double _s, out double _l);
+
+                    //                vLayer.Effect = new ChromaKeyEffect()
+                    //                {
+                    //                    HueMin = (float)_h,
+                    //                    HueMax = (float)_h,
+                    //                    SaturationMax = (float)_s,
+                    //                    SaturationMin = (float)_s,
+                    //                    LuminanceMax = (float)_l,
+                    //                    LuminanceMin = (float)_l,
+                    //                    Smooth = (float)itm.ItemProperty.ChromaKeyUsage,
+                    //                };
+                    //            }
+                    //            else
+                    //            {
+                    //                vLayer.Effect = null;
+                    //            }
+                    //            break;
+                    //    }
+
+                };
+                // * itm.ItemProperty.Size;
                 //Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
                 //Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
 
@@ -152,54 +240,7 @@ namespace Delight.Component.Primitives.Controllers
                 //    }
                 //};
 
-                //itm.ItemProperty.PropertyChanged += (sen, e) =>
-                //{
-                //    switch (e.ChangedProperty.ToLower())
-                //    {
-                //        case "opacity":
-                //            s.Opacity = itm.ItemProperty.Opacity;
-                //            break;
-
-                //        case "positionx":
-                //        case "positiony":
-                //        case "size":
-                //            s.Width = rootCanvas.ActualWidth * itm.ItemProperty.Size;
-                //            s.Height = rootCanvas.ActualHeight * itm.ItemProperty.Size;
-
-                //            Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
-                //            Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
-                //            break;
-
-                //        case "volume":
-                //            s.Volume = itm.ItemProperty.Volume;
-                //            break;
-                //        case "chromakeyusage":
-                //        case "chromakeycolor":
-                //        case "chromakeyenabled":
-                //            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
-
-                //            if (itm.ItemProperty.ChromaKeyEnabled)
-                //            {
-                //                itm.ItemProperty.ChromaKeyColor.ToHSL(out double _h, out double _s, out double _l);
-
-                //                vLayer.Effect = new ChromaKeyEffect()
-                //                {
-                //                    HueMin = (float)_h,
-                //                    HueMax = (float)_h,
-                //                    SaturationMax = (float)_s,
-                //                    SaturationMin = (float)_s,
-                //                    LuminanceMax = (float)_l,
-                //                    LuminanceMin = (float)_l,
-                //                    Smooth = (float)itm.ItemProperty.ChromaKeyUsage,
-                //                };
-                //            }
-                //            else
-                //            {
-                //                vLayer.Effect = null;
-                //            }
-                //            break;
-                //    }
-                //};
+                
 
                 if (s == player1)
                     player2.Visibility = Visibility.Hidden;

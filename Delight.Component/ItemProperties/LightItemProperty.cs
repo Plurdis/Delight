@@ -20,5 +20,9 @@ namespace Delight.Component.ItemProperties
             get => _speed;
             set { _speed = value; PropChanged("Speed"); }
         }
+
+        byte _lightColor;
+
+        
     }
 }
