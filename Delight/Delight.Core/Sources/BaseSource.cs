@@ -22,6 +22,12 @@ namespace Delight.Core.Sources
 
         public abstract void Download(int SelectedIndex);
 
+        /// <summary>
+        /// 템플릿 형태로 데이터를 구조화 시킵니다.
+        /// </summary>
+        /// <param name="templateName"></param>
+        public abstract TemplateData GetTemplateData();
+
         public abstract List<BaseOption> Options { get; }
 
         public bool Checked { get; set; }

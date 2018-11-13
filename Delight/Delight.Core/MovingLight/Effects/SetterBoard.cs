@@ -1,7 +1,6 @@
 ﻿using Delight.Component.Controls;
 using Delight.Component.MovingLight.Effects.Setters;
 using Delight.Component.MovingLight.Effects.Values.Base;
-using Delight.Component.PropertyEditor;
 using Delight.Core.Common;
 using Delight.Core.Extensions;
 using Delight.Core.MovingLight;

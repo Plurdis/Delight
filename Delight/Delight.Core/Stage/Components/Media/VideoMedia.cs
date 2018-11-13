@@ -25,6 +25,6 @@ namespace Delight.Core.Stage.Components.Media
 
         public bool FromYoutube { get; set; }
 
-        public string DownloadLink { get; set; }
+        public string DownloadID { get; set; }
     }
 }

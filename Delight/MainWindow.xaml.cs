@@ -272,6 +272,7 @@ namespace Delight
             //lbMediaItem.ItemsSource = mwViewModel.MediaItemsView;
 
             CommandBindings.Add(new CommandBinding(mwViewModel.OpenFileCommand, mwViewModel.OpenFileExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.OpenTemplateCommand, mwViewModel.OpenTemplateExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.TemplateShopCommand, mwViewModel.TemplateShopExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.EditTimeLineCommand, mwViewModel.EditTimeLineExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.GetExternalSourceCommand, mwViewModel.GetExternalSourceExecuted));

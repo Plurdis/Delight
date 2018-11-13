@@ -23,8 +23,6 @@ namespace Delight.Core.Stage.Components
             Id = Crc32.GetHashFromString(BoardSerializer.SerializeToString(setterBoard));
         }
 
-
-
         public SetterBoard SetterBoard { get; set; }
 
         public override string TypeText => "조명 효과";

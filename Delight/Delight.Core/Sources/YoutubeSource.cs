@@ -30,12 +30,11 @@ namespace Delight.Core.Sources
             }
         }
 
-        public string Id { get; set; }
-
-        public YoutubeSource(string title, string thumbnailUri, string link) : this()
+        public YoutubeSource(string title, string thumbnailUri, string id) : this()
         {
             Title = title;
             ThumbnailUri = thumbnailUri;
+            Id = id;
         }
 
         public YoutubeSource() : base("유튜브 영상")
@@ -81,6 +80,17 @@ namespace Delight.Core.Sources
 
                 Console.WriteLine(path);
             }
+        }
+
+        public override TemplateData GetTemplateData()
+        {
+            return new TemplateData()
+            {
+                FileName = Title,
+                Id = Id,
+                Stream = null,
+                StreamUse = false,
+            };
         }
     }
 }

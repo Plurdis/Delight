@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Delight.Component.MovingLight.Effects;
 using Delight.Core.Sources.Options;
 
 namespace Delight.Core.Sources
@@ -16,11 +18,32 @@ namespace Delight.Core.Sources
 
         public override List<BaseOption> Options => new List<BaseOption>() { new GenericOption() { Name = "다운로드", Tag = "download" } };
 
-        public string SourceName { get; set; }
+        public string MovingData { get; set; }
 
         public override void Download(int SelectedIndex)
         {
             throw new Exception("해당 효과는 아직 템플릿에서만 접근 할 수 있습니다. Comming Soon!");
+        }
+
+        public override TemplateData GetTemplateData()
+        {
+            return new TemplateData()
+            {
+                FileName = Title,
+                Id = Id,
+                Stream = GenerateStreamFromString(MovingData),
+                StreamUse = true,
+            };
+        }
+
+        public static Stream GenerateStreamFromString(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
     }
 }

@@ -4,6 +4,7 @@ using Delight.Core.Stage;
 using MediaToolkit;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
+using Microsoft.Win32;
 using NReco.VideoInfo;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
-using wf = System.Windows.Forms;
 
 namespace Delight.Component.Common
 {
@@ -251,10 +250,10 @@ namespace Delight.Component.Common
 
         public static bool GetProjectFile(out string fileLocation)
         {
-            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.Filter = "Delight 프로젝트 파일 (*.delight)|*.delight;";
 
-            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            if (ofd.ShowDialog().Value)
             {
                 fileLocation = ofd.FileName;
                 return true;
@@ -268,10 +267,10 @@ namespace Delight.Component.Common
 
         public static bool GetPackageFile(out string fileLocation)
         {
-            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.Filter = "Delight 패키지 파일 (*.dpack)|*.dpack;";
 
-            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            if (ofd.ShowDialog().Value)
             {
                 fileLocation = ofd.FileName;
                 return true;
@@ -285,9 +284,9 @@ namespace Delight.Component.Common
 
         public static bool GetFile(string filter, out string fileLocation)
         {
-            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            var ofd = new OpenFileDialog();
             ofd.Filter = filter;
-            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            if (ofd.ShowDialog().Value)
             {
                 fileLocation = ofd.FileName;
                 return true;
@@ -301,7 +300,7 @@ namespace Delight.Component.Common
 
         public static bool GetMediaFiles(out string[] fileLocations)
         {
-            wf.OpenFileDialog ofd = new wf.OpenFileDialog();
+            var ofd = new OpenFileDialog();
             var sb = new StringBuilder();
 
             sb.Append("지원하는 모든 미디어 파일 (*.wav,*.wma,*.mp3,");
@@ -341,10 +340,9 @@ namespace Delight.Component.Common
 
             sb.Append("이미지 파일 (*.gif,*.jpg,*.jpe*,*.png,*.bmp...)|");
             sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;");
-
             ofd.Filter = sb.ToString();
             ofd.Multiselect = true;
-            if (ofd.ShowDialog() == wf.DialogResult.OK)
+            if (ofd.ShowDialog().Value)
             {
                 fileLocations = ofd.FileNames;
                 return true;

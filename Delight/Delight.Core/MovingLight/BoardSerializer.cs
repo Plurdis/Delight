@@ -59,6 +59,22 @@ namespace Delight.Component.MovingLight.Effects
             }
         }
 
+        public static SetterBoard LoadFromString(string data)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            try
+            {
+                using (StringReader reader = new StringReader(data))
+                {
+                    return serializer.Deserialize(reader) as SetterBoard;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static SetterBoard Load(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));

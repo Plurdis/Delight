@@ -54,7 +54,7 @@ namespace Delight.Pages
                     Path = path,
                     Thumbnail = new Uri(source.ThumbnailUri),
                     FromYoutube = true,
-                    DownloadLink = source.Id,
+                    DownloadID = source.Id,
                     Id = source.Id,
                 });
             }

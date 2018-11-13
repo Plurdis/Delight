@@ -4,6 +4,7 @@ using Delight.Core.Sources;
 using Delight.Core.Stage.Components.Media;
 using Delight.Core.Template;
 using Delight.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Linq;
 using System.Windows;
@@ -29,12 +30,18 @@ namespace Delight.Pages
         {
             DelightTemplate template = new DelightTemplate();
 
-            template.ConvertToMedia();
-
             template.DeployingPositions = GlobalViewModel.MainWindowViewModel.TimeLine.ExportData();
-            template.Sources = GlobalViewModel.MainWindowViewModel.MediaItems.Where(i => i.Checked).ToList();
+            template.Sources = GlobalViewModel.MainWindowViewModel.MediaItems.Where(i => i.Checked).Select(i =>
+            {
+                return DelightTemplate.ConvertToSource(i);
+            }).ToList();
 
-            template.Pack("");
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            if (sfd.ShowDialog().Value)
+            {
+                template.Pack(sfd.FileName);
+            }
         }
 
         public void InitializeViewModel()

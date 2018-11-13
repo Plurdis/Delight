@@ -4,11 +4,14 @@ using Delight.Core.Common;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
+using Delight.Core.Template;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -60,6 +63,7 @@ namespace Delight.ViewModel
         public MainWindowViewModel()
         {
             OpenFileCommand = new RoutedCommand("OpenFileCommand", typeof(MainWindowViewModel));
+            OpenTemplateCommand = new RoutedCommand("OpenTemplateCommand", typeof(MainWindowViewModel));
             TemplateShopCommand = new RoutedCommand("TemplateShopCommand", typeof(MainWindowViewModel));
             EditTimeLineCommand = new RoutedCommand("EditTimeLineCommand", typeof(MainWindowViewModel));
             GetExternalSourceCommand = new RoutedCommand("GetExternalSourceCommand", typeof(MainWindowViewModel));
@@ -89,6 +93,7 @@ namespace Delight.ViewModel
             FileMenu = GetMenuItem("파일(_F)");
 
             FileMenu.Items.Add(GetMenuItem("열기(_O)", "Ctrl+O", OpenFileCommand));
+            FileMenu.Items.Add(GetMenuItem("템플릿 열기(_O)", "Ctrl+Shift+O", OpenTemplateCommand));
             FileMenu.Items.Add(GetMenuItem("외부에서 영상 소스 가져오기(_E)", "Ctrl+Shift+E", GetExternalSourceCommand));
             FileMenu.Items.Add(GetMenuItem("새 프로젝트(_P)", "Ctrl+Shift+N"));
             FileMenu.Items.Add(new Separator());
@@ -109,6 +114,7 @@ namespace Delight.ViewModel
         private void InitalizeGestures()
         {
             RegisterCommand(OpenFileCommand, new KeyGesture(Key.O, ModifierKeys.Control));
+            RegisterCommand(OpenTemplateCommand, new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift));
             RegisterCommand(TemplateShopCommand, new KeyGesture(Key.T, ModifierKeys.Control));
             RegisterCommand(EditTimeLineCommand, new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift));
             RegisterCommand(GetExternalSourceCommand, new KeyGesture(Key.E, ModifierKeys.Control | ModifierKeys.Shift));
@@ -162,6 +168,27 @@ namespace Delight.ViewModel
                 return;
 
             AddFilesFromPath(locations);
+        }
+
+        public RoutedCommand OpenTemplateCommand { get; }
+
+        public void OpenTemplateExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Delight 템플릿 패키지 파일(*.dlpack) | *.dlpack;";
+
+            if (ofd.ShowDialog().Value)
+            {
+                var template = DelightTemplate.FromFile(ofd.FileName);
+
+                foreach (var itm in template.Sources)
+                {
+                    if (MediaItems.Where(i => i.Id == itm.Id).Count() == 0)
+                    {
+                        MediaItems.Add(DelightTemplate.ConvertToComponent(itm));
+                    }
+                }
+            }
         }
 
         public void AddFilesFromPath(string[] locations)

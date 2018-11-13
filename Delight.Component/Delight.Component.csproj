@@ -99,12 +99,9 @@
     <Compile Include="Common\ColorData.cs" />
     <Compile Include="Common\LightColor.cs" />
     <Compile Include="Common\MarkupSupport.cs" />
-    <Compile Include="Common\MediaTools.cs" />
     <Compile Include="Common\Percentage.cs" />
     <Compile Include="Controls\FilterListView.cs" />
     <Compile Include="Controls\Hint.cs" />
-    <Compile Include="Controls\PropertyGrid\Designer\DesignElementAttribute.cs" />
-    <Compile Include="Controls\PropertyGrid\Designer\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Controls\PropertyGrid\Designer\DesignerManager.cs" />
     <Compile Include="Controls\PropertyGrid\Models\PropertyGridItemModel.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
