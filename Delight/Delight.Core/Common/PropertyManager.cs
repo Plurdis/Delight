@@ -36,7 +36,7 @@ namespace Delight.Core.Common
             }
         }
 
-        public static void SetProperty(object o, string propertyName, object value)
+        public static void SetProperty<T>(object o, string propertyName, dynamic value)
         {
             dynamic callSite = null;
 
@@ -52,7 +52,7 @@ namespace Delight.Core.Common
                     }));
             }
 
-            callSite.Target(callSite, o, value);
+            callSite.Target(callSite, o, (T)value);
         }
     }
 }

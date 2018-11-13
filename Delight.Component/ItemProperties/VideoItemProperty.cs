@@ -23,6 +23,14 @@ namespace Delight.Component.ItemProperties
             set { _left = value; PropChanged("Left"); }
         }
 
+        bool _isMute = false;
+        [DesignElement(Category ="공통", DisplayName = "음소거")]
+        public bool IsMute
+        {
+            get => _isMute;
+            set { _isMute = value; PropChanged("IsMute"); }
+        }
+
         double _top = 0;
 
         [DesignElement(Category = "공통", DisplayName = "위쪽 위치", Key = "Percentage")]

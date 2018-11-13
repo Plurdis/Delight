@@ -2,6 +2,7 @@
 using Delight.Component.Controls;
 using Delight.Component.Effects;
 using Delight.Component.Extensions;
+using Delight.Component.ItemProperties;
 using Delight.Component.Layers;
 using Delight.Component.Primitives.TimingReaders;
 using Delight.Core.Common;
@@ -164,6 +165,10 @@ namespace Delight.Component.Primitives.Controllers
                             break;
                         case "volume":
                             s.Volume = (double)value;
+                            if (s.Volume != 0)
+                            {
+                                ((VideoItemProperty)itm.Property).IsMute = false;
+                            }
                             break;
                         case "chromakeyuse":
                         case "chromakeyusage":
@@ -193,6 +198,18 @@ namespace Delight.Component.Primitives.Controllers
                                 vLayer.Effect = _chromaKeyEffect;
                             }
 
+                            break;
+                        case "ismute":
+                            bool isMute = (bool)value;
+
+                            if (isMute)
+                            {
+                                s.Volume = 0;
+                            }
+                            else
+                            {
+                                s.Volume = (double)PropertyManager.GetProperty(itm.Property, "Volume");
+                            }
                             break;
                         default:
                             break;

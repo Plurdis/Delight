@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:Delight.Component.Controls"
+    xmlns:cm="clr-namespace:Delight.Component.Common"
     xmlns:cvt="clr-namespace:Delight.Component.Converters"
     xmlns:local="clr-namespace:Delight.Component.Controls"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
@@ -33,13 +34,75 @@
                         Background="Transparent"
                         BorderThickness="0"
                         SelectedIndex="0">
-                        <ComboBoxItem Content="1" />
-                        <ComboBoxItem Content="2" />
-                        <ComboBoxItem Content="3" />
-                        <ComboBoxItem Content="4" />
-                        <ComboBoxItem Content="5" />
-                        <ComboBoxItem Content="6" />
-                        <ComboBoxItem Content="7" />
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Margin="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="6" />
+                                            <ColumnDefinition Width="6" />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Height="12"
+                                            Fill="{Binding FirstColor}" />
+                                        <Rectangle
+                                            Grid.Column="1"
+                                            Height="12"
+                                            Fill="{Binding SecondColor}" />
+                                    </Grid>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="5,0"
+                                        Text="{Binding ColorName}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <cm:LightColor ColorName="흰색" FirstColor="White" />
+                        <cm:LightColor ColorName="빨간색" FirstColor="Red" />
+                        <cm:LightColor ColorName="초록색" FirstColor="Green" />
+                        <cm:LightColor ColorName="하늘색" FirstColor="SkyBlue" />
+                        <cm:LightColor ColorName="노란색" FirstColor="Yellow" />
+                        <cm:LightColor ColorName="자주색" FirstColor="Purple" />
+                        <cm:LightColor ColorName="연두색" FirstColor="LightGreen" />
+                        <cm:LightColor ColorName="청록색" FirstColor="Cyan" />
+                        <cm:LightColor
+                            ColorName="흰색 &amp; 청록색"
+                            FirstColor="White"
+                            SecondColor="Cyan" />
+                        <cm:LightColor
+                            ColorName="청록색 &amp; 초록색"
+                            FirstColor="Cyan"
+                            SecondColor="Green" />
+                        <cm:LightColor
+                            ColorName="초록색 &amp; 자주색"
+                            FirstColor="Green"
+                            SecondColor="Purple" />
+                        <cm:LightColor
+                            ColorName="자주색 &amp; 노란색"
+                            FirstColor="Purple"
+                            SecondColor="Yellow" />
+                        <cm:LightColor
+                            ColorName="노란색 &amp; 파란색"
+                            FirstColor="Yellow"
+                            SecondColor="Blue" />
+                        <cm:LightColor
+                            ColorName="파란색 &amp; 초록색"
+                            FirstColor="Blue"
+                            SecondColor="Green" />
+                        <cm:LightColor
+                            ColorName="초록색 &amp; 빨간색"
+                            FirstColor="Green"
+                            SecondColor="Red" />
+                        <cm:LightColor
+                            ColorName="빨간색 &amp; 흰색"
+                            FirstColor="Red"
+                            SecondColor="White" />
                     </ComboBox>
 
                 </ControlTemplate>

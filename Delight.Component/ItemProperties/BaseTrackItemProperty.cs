@@ -12,17 +12,6 @@ namespace Delight.Component.ItemProperties
     /// </summary>
     public abstract class BaseTrackItemProperty : INotifyPropertyChanged
     {
-        bool _isEnabled = true;
-
-        [Category("공통")]
-        [DisplayName("사용")]
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            set { _isEnabled = value; PropChanged("IsEnabled"); }
-        }
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void PropChanged(string propName)

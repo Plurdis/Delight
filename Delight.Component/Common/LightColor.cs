@@ -18,7 +18,6 @@ namespace Delight.Component.Common
         {
             ColorName = colorName;
             FirstColor = color;
-            SecondColor = color;
         }
 
         public LightColor(string colorName, SolidColorBrush firstColor, SolidColorBrush secondColor)
@@ -28,9 +27,9 @@ namespace Delight.Component.Common
             SecondColor = secondColor;
         }
 
-        public SolidColorBrush FirstColor { get; set; }
+        public SolidColorBrush FirstColor { get; set; } = Brushes.Transparent;
         
-        public SolidColorBrush SecondColor { get; set; }
+        public SolidColorBrush SecondColor { get; set; } = Brushes.Transparent;
 
         public string ColorName { get; set; }
     }
