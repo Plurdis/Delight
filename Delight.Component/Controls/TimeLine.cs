@@ -116,6 +116,7 @@ namespace Delight.Component.Controls
             {
                 var itemPosition = new ItemPosition()
                 {
+                    FrameWidth = item.FrameWidth,
                     BackwardOffset = item.BackwardOffset,
                     ForwardOffset = item.ForwardOffset,
                     Offset = item.Offset,
@@ -155,6 +156,7 @@ namespace Delight.Component.Controls
             TrackItem item = track.BuildItem(component);
 
             item.Offset = itemPosition.Offset;
+            item.FrameWidth = itemPosition.FrameWidth;
             item.ForwardOffset = itemPosition.ForwardOffset;
             item.BackwardOffset = itemPosition.BackwardOffset;
 

@@ -63,7 +63,7 @@ namespace Delight
             importFromItem.Click += ImportFromItem_Click;
 
             //propGrid.SelectedObject = new VideoItemProperty();
-
+            
             SetterBoard sb = new SetterBoard();
             sb.Identifier = "손 흔들기";
 

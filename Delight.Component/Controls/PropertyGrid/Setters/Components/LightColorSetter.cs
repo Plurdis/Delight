@@ -22,9 +22,6 @@ namespace Delight.Component.Controls
         {
         }
 
-        // TODO: 완성
-        // TODO: 아이템들을 직접 추가할 것
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

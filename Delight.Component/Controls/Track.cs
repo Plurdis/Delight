@@ -31,6 +31,8 @@ namespace Delight.Component.Controls
             this.Style = FindResource("TrackStyle") as Style;
 
             //helper = new MagnetHelper(this, 10);
+
+            this.ApplyTemplate();
         }
 
         public Track(TimeLine parent, SourceType sourceType) : this()

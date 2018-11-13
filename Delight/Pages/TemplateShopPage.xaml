@@ -15,8 +15,8 @@
     mc:Ignorable="d">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -80,7 +80,10 @@
 
         <Grid Grid.Row="1">
 
-            <TabControl BorderBrush="{x:Null}" SelectedIndex="{Binding Path=Tag, ElementName=tcSelectedIndex, Converter={cvt:StringToIntConverter}}">
+            <TabControl
+                BorderBrush="{x:Null}"
+                FontFamily="{StaticResource NormalFont}"
+                SelectedIndex="{Binding Path=Tag, ElementName=tcSelectedIndex, Converter={cvt:StringToIntConverter}}">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -106,12 +109,11 @@
                             <ListBox x:Name="projectItems" BorderBrush="{x:Null}">
                                 <ListBox.Resources>
                                     <Style TargetType="CheckBox">
-                                        <Setter Property="Cursor" Value="Hand" />
                                         <Setter Property="Content" Value="" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                                                    <Grid>
+                                                    <Grid Background="Transparent">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto" />
                                                             <ColumnDefinition />
@@ -248,16 +250,103 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Margin="10">
-                    <TextBlock x:Name="tbTemplate" TextTrimming="CharacterEllipsis" />
+                <StackPanel Margin="10,100,10,10">
+                    <TextBlock
+                        x:Name="tbTemplate"
+                        FontFamily="{StaticResource NormalFont}"
+                        TextTrimming="CharacterEllipsis" />
                 </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <CheckBox
+                        x:Name="cbPacking"
+                        Margin="4,10"
+                        Content="타임라인의 아이템도 포함하기"
+                        FontFamily="{StaticResource NormalFont}">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="Content" Value="" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type CheckBox}">
+                                            <Grid Background="Transparent">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse
+                                                        x:Name="checkedEllipse"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Margin="10,0"
+                                                        Fill="White"
+                                                        Stroke="Black" />
+                                                    <Path
+                                                        x:Name="checkedPath"
+                                                        Grid.Row="1"
+                                                        Width="17.98"
+                                                        Height="14.11"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Data="M-467.63813,83.022512 L-449.2877,101.26504 -412.83214,64.50113 -396.16459,79.500284 -449.49918,132.83244 -483.63274,100.56448 z"
+                                                        Fill="#FFF4F4F5"
+                                                        Stretch="Fill"
+                                                        Stroke="Black"
+                                                        Visibility="Hidden" />
+                                                </Grid>
+
+                                                <ContentPresenter x:Name="content" Grid.Column="1" />
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="checkedEllipse" Property="Fill" Value="Black" />
+                                                    <Setter TargetName="checkedPath" Property="Visibility" Value="Visible" />
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="False" />
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                </Grid>
+
                 <Button
                     x:Name="btnStartPacking"
-                    Grid.Row="1"
-                    Margin="5"
-                    Padding="5"
-                    Content="패킹 시작" />
+                    Grid.Row="2"
+                    Height="60"
+                    Background="#FF2A272D"
+                    BorderBrush="White"
+                    Content="패킹 시작"
+                    FontFamily="{StaticResource BoldFont}"
+                    FontSize="30"
+                    Foreground="White">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid x:Name="PART_Background" Background="{TemplateBinding Background}">
+                                <ContentPresenter
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding Content}" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="PART_Background" Property="Background" Value="#FFB6B6B6" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="PART_Background" Property="Background" Value="#FF616161" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+
             </Grid>
         </Grid>
     </Grid>

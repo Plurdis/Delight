@@ -22,7 +22,7 @@
     <Color x:Key="Color.Flat.Accent">#EEC25F</Color>
     <Color x:Key="Color.Flat.Accent.Dark">#1D8D93</Color>
     <Color x:Key="Color.Flat.Accent.Light">#29A8AE</Color>
-    <Color x:Key="Color.Flat.Accent.DeepDark">#00B3B0</Color>
+    <Color x:Key="Color.Flat.Accent.DeepDark">#E0B247</Color>
     <Color x:Key="Color.Flat.Background">#454545</Color>
     <Color x:Key="Color.Flat.Input.Background">#3F3F3F</Color>
 
@@ -37,7 +37,7 @@
     <Color x:Key="Color.Menu.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.Menu.Hover">#515151</Color>
     <Color x:Key="Color.Menu.Item.Foreground">#535353</Color>
-    <Color x:Key="Color.Menu.Item.Selected.Background">#00B3B0</Color>
+    <Color x:Key="Color.Menu.Item.Selected.Background">#E0B247</Color>
     <Color x:Key="Color.Menu.Item.Selected.Foreground">#FFFFFF</Color>
 
     <!--  ToolBox  -->
@@ -55,7 +55,7 @@
     <Color x:Key="Color.PropertyGrid.Setter.Hover">#424242</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Border">#636363</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Background">#444444</Color>
-    <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Border">#00B3B0</Color>
+    <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Border">#E0B247</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Background">#616161</Color>
 
     <!--  Expander  -->

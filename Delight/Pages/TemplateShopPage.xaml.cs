@@ -28,16 +28,28 @@ namespace Delight.Pages
 
         private void BtnStartPacking_Click(object sender, RoutedEventArgs e)
         {
+            var checkedItem = GlobalViewModel.MainWindowViewModel.MediaItems.Where(i => i.Checked);
+
+            if (checkedItem.Count() == 0)
+            {
+                MessageBox.Show("패킹할 아이템이 없습니다");
+                return;
+            }
+
             DelightTemplate template = new DelightTemplate();
 
-            template.DeployingPositions = GlobalViewModel.MainWindowViewModel.TimeLine.ExportData();
-            template.Sources = GlobalViewModel.MainWindowViewModel.MediaItems.Where(i => i.Checked).Select(i =>
+            if (cbPacking.IsChecked.Value)
+            {
+                template.DeployingPositions = GlobalViewModel.MainWindowViewModel.TimeLine.ExportData();
+            }
+            template.Sources = checkedItem.Select(i =>
             {
                 return DelightTemplate.ConvertToSource(i);
             }).ToList();
 
             SaveFileDialog sfd = new SaveFileDialog();
-
+            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            sfd.Filter = "Delight 템플릿 패키지 파일 (*.dlpack)|*.dlpack";
             if (sfd.ShowDialog().Value)
             {
                 template.Pack(sfd.FileName);

@@ -10,6 +10,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 
@@ -28,7 +29,20 @@ namespace Delight.Core.Template
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DelightTemplate));
             
-            using (FileStream zipToOpen = new FileStream(@"C:\Users\장유탁\Desktop\DelightPackage.dpack", FileMode.CreateNew))
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("패키징 하려는 아이템의 경로가 이미 사용중입니다.");
+                    return;
+                }
+            }
+
+            using (FileStream zipToOpen = new FileStream(filePath, FileMode.CreateNew))
             {
                 using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
                 {
@@ -53,15 +67,20 @@ namespace Delight.Core.Template
                         sw.Flush();
                     }
 
-
-                    entry = archive.CreateEntry("DeployingPosition");
-                    using (StreamWriter sw = new StreamWriter(entry.Open()))
+                    if (DeployingPositions != null)
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemPosition>));
-                        serializer.Serialize(sw, DeployingPositions);
+                        entry = archive.CreateEntry("DeployingPosition");
+                        using (StreamWriter sw = new StreamWriter(entry.Open()))
+                        {
+                            XmlSerializer serializer = new XmlSerializer(typeof(List<ItemPosition>));
+                            serializer.Serialize(sw, DeployingPositions);
+                        }
                     }
+                    
                 }
             }
+
+            MessageBox.Show("아이템 패킹이 완료되었습니다.");
         }
 
         public static string DelightAppPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight");
