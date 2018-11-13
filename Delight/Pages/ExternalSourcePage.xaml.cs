@@ -37,27 +37,48 @@ namespace Delight.Pages
             templates.ItemsSource = GlobalViewModel.ExternalSourceViewModel.Sources;
         }
 
+        public BaseSource DownloadingSource;
+
         private void BtnDownload_Click(object sender, RoutedEventArgs e)
         {
             if (templates.SelectedItem is YoutubeSource source)
             {
-                source.Download(cb.SelectedIndex);
-
-                var item = FileCacheDictionary.GetPathFromId(source.Id);
-
-                string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight", item.Value.Item1);
-
-                GlobalViewModel.MainWindowViewModel.MediaItems.Add(new VideoMedia()
+                DownloadingSource = source;
+                if (source.Download(cb.SelectedIndex))
                 {
-                    Identifier = item.Key,
-                    Time = MediaTools.GetMediaDuration(path),
-                    Path = path,
-                    Thumbnail = new Uri(source.ThumbnailUri),
-                    FromYoutube = true,
-                    DownloadID = source.Id,
-                    Id = source.Id,
-                });
+                    source.DownloadProgressChanged += Source_DownloadProgressChanged;
+                    source.DownloadFileCompleted += Source_DownloadFileCompleted;
+                }
+                else
+                {
+                    Source_DownloadFileCompleted(null, null);
+                }
+                
+                
             }
+        }
+
+        private void Source_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            var item = FileCacheDictionary.GetPathFromId(DownloadingSource.Id);
+
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight", item.Value.Item1);
+
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new VideoMedia()
+            {
+                Identifier = item.Key,
+                Time = MediaTools.GetMediaDuration(path),
+                Path = path,
+                Thumbnail = new Uri(DownloadingSource.ThumbnailUri),
+                FromYoutube = true,
+                DownloadID = DownloadingSource.Id,
+                Id = DownloadingSource.Id,
+            });
+        }
+
+        private void Source_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
+        {
+            GlobalViewModel.MainWindowViewModel.BottomText = $"유튜브 영상을 다운로드 중입니다. ({e.ProgressPercentage}%)";
         }
     }
 }

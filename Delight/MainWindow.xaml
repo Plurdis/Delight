@@ -656,8 +656,8 @@
                 </Grid>
                 <Grid Grid.Row="1">
                     <StackPanel>
-                        <Button x:Name="exportFromItem" Content="타임라인으로 부터 아이템 추출" />
-                        <Button x:Name="importFromItem" Content="아이템 넣기" />
+                        <Button Visibility="Hidden" x:Name="exportFromItem" Content="타임라인으로 부터 아이템 추출" />
+                        <Button Visibility="Hidden" x:Name="importFromItem" Content="아이템 넣기" />
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -743,7 +743,7 @@
                 VerticalAlignment="Center"
                 FontFamily="{StaticResource NormalFont}"
                 Foreground="#FF3A373E"
-                Text="작업을 위한 모든 준비가 완료되었습니다." />
+                Text="{Binding BottomText}" />
         </Grid>
     </Grid>
 </Window>

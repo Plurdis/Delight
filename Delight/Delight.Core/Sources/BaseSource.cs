@@ -20,7 +20,7 @@ namespace Delight.Core.Sources
         /// </summary>
         public string Id { get; set; }
 
-        public abstract void Download(int SelectedIndex);
+        public abstract bool Download(int SelectedIndex);
 
         /// <summary>
         /// 템플릿 형태로 데이터를 구조화 시킵니다.

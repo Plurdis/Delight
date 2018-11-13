@@ -83,18 +83,28 @@ namespace Delight.Core.Template
             MessageBox.Show("아이템 패킹이 완료되었습니다.");
         }
 
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         public static string DelightAppPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight");
 
-        public static string TempDelightTemplate => Path.Combine(DelightAppPath, "Template Extracted");
+        public static string TempDelightTemplate => Path.Combine(DelightAppPath, $"Template Extracted_{RandomString(5)}");
 
         public static DelightTemplate FromFile(string path)
         {
             var template = new DelightTemplate();
             var baseSources = new List<BaseSource>();
 
-            ZipFile.ExtractToDirectory(path, TempDelightTemplate);
+            string tempPath = TempDelightTemplate;
 
-            FileInfo[] files = new DirectoryInfo(TempDelightTemplate).GetFiles();
+            ZipFile.ExtractToDirectory(path, tempPath);
+
+            FileInfo[] files = new DirectoryInfo(tempPath).GetFiles();
 
             foreach (FileInfo itm in files)
             {

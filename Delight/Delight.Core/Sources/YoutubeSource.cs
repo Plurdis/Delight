@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using YoutubeExplode;
 using YoutubeExplode.Models.MediaStreams;
 
@@ -41,7 +43,7 @@ namespace Delight.Core.Sources
         {
         }
 
-        public override void Download(int SelectedIndex)
+        public override bool Download(int SelectedIndex)
         {
             if (SelectedIndex == -1)
                 SelectedIndex = 0;
@@ -49,9 +51,13 @@ namespace Delight.Core.Sources
             if (FileCacheDictionary.ContainsId(Id))
             {
                 Console.WriteLine("Already Exists!");
+                return false;
             }
             else
             {
+                WebClient client = new WebClient();
+                client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                client.DownloadFileCompleted += Client_DownloadFileCompleted;
 
                 YoutubeClient youtubeClient = new YoutubeClient();
                 MediaStreamInfoSet streamInfoSet = youtubeClient.GetVideoMediaStreamInfosAsync(Id).Result;
@@ -62,11 +68,6 @@ namespace Delight.Core.Sources
 
                 Console.WriteLine($"Audio:{streamInfo.AudioEncoding.ToString()} Quality : {streamInfo.VideoQualityLabel} Download URL : {streamInfo.Url}");
 
-                WebClient client = new WebClient();
-
-                client.DownloadProgressChanged += DownloadProgressChanged;
-                client.DownloadFileCompleted += DownloadFileCompleted;
-
                 string basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Delight\\";
 
                 if (!Directory.Exists(basePath))
@@ -75,11 +76,22 @@ namespace Delight.Core.Sources
 
                 string path = basePath + Path.GetRandomFileName() + ".mp4";
 
-                client.DownloadFile(streamInfo.Url, path);
+                client.DownloadFileAsync(new Uri(streamInfo.Url), path);
                 FileCacheDictionary.AddPair(Title, path, Id);
 
                 Console.WriteLine(path);
+                return true;
             }
+        }
+
+        private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            DownloadFileCompleted?.Invoke(sender, e);
+        }
+
+        private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            DownloadProgressChanged?.Invoke(sender, e);
         }
 
         public override TemplateData GetTemplateData()

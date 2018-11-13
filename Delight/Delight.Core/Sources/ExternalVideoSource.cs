@@ -24,7 +24,7 @@ namespace Delight.Core.Sources
 
         public string FullPath { get; set; }
 
-        public override void Download(int SelectedIndex)
+        public override bool Download(int SelectedIndex)
         {
             throw new Exception("해당 영상은 템플릿에서만 접근 할 수 있습니다.");
         }

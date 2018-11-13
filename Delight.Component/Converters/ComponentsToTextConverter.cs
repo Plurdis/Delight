@@ -14,11 +14,7 @@ namespace Delight.Component.Converters
     {
         public override string Convert(ObservableCollection<StageComponent> value, Type targetType, object parameter, CultureInfo culture)
         {
-            
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("템플릿으로 묶을 아이템");
-            sb.AppendLine();
-
             if (value == null)
             {
                 sb.AppendLine("아이템이 선택되지 않았습니다.");
@@ -27,10 +23,10 @@ namespace Delight.Component.Converters
 
             
 
-            IEnumerable<string> checkedItem = value.Where(i => i.Checked).Select(i => $"- {i.Identifier} ({i.TypeText})");
+            IEnumerable<string> checkedItem = value.Where(i => i.Checked).Select(i => $"● {i.Identifier} ({i.TypeText})");
             if (checkedItem.Count() != 0)
             {
-                sb.AppendLine(string.Join(Environment.NewLine, checkedItem));
+                sb.AppendLine(string.Join(Environment.NewLine + Environment.NewLine, checkedItem));
             }
             else
             {

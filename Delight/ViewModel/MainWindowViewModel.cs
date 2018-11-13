@@ -23,6 +23,16 @@ namespace Delight.ViewModel
     {
         public TimeLine TimeLine { get; set; }
 
+        private string _bottomText = "작업을 위한 모든 준비를 마쳤습니다.";
+        public string BottomText
+        {
+            get => _bottomText;
+            set
+            {
+                _bottomText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BottomText"));
+            }
+        }
 
         #region [  Menus  ]
 
@@ -34,7 +44,7 @@ namespace Delight.ViewModel
 
         #endregion
 
-        private int _viewingIndex = 1;
+        private int _viewingIndex = 0;
         public int ViewingIndex
         {
             get => _viewingIndex;
@@ -188,6 +198,8 @@ namespace Delight.ViewModel
                         MediaItems.Add(DelightTemplate.ConvertToComponent(itm));
                     }
                 }
+
+                TimeLine.ImportData(template.DeployingPositions, MediaItems);
             }
         }
 

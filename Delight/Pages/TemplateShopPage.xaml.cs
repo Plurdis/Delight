@@ -1,11 +1,13 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Converters;
+using Delight.Component.Extensions;
 using Delight.Core.Sources;
 using Delight.Core.Stage.Components.Media;
 using Delight.Core.Template;
 using Delight.ViewModel;
 using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,8 +24,16 @@ namespace Delight.Pages
             InitializeComponent();
             InitializeViewModel();
             btnStartPacking.Click += BtnStartPacking_Click;
+
+            tcSelectedIndex.SelectionChanged += TcSelectedIndex_SelectionChanged;
             //btnDownload.Click += BtnDownload_Click;
             //cb.SelectionChanged += Cb_SelectionChanged;
+        }
+
+        private void TcSelectedIndex_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tcMenu.SelectedIndex = (new StringToIntConverter()).Convert(((ListBoxItem)tcSelectedIndex.SelectedItem).GetTag<string>(), typeof(string), null, null);
+            tcContent.SelectedIndex = (new StringToIntConverter()).Convert(((ListBoxItem)tcSelectedIndex.SelectedItem).GetTag<string>(), typeof(string), null, null);
         }
 
         private void BtnStartPacking_Click(object sender, RoutedEventArgs e)
@@ -56,10 +66,18 @@ namespace Delight.Pages
             }
         }
 
+        ObservableCollection<BaseSource> list;
+
         public void InitializeViewModel()
         {
-            this.DataContext = GlobalViewModel.ExternalSourceViewModel;
-            templates.ItemsSource = GlobalViewModel.ExternalSourceViewModel.Sources;
+
+            list = new ObservableCollection<BaseSource>();
+            this.DataContext = GlobalViewModel.TemplateShopViewModel;
+
+            
+
+
+            templates.ItemsSource = list;
             projectItems.ItemsSource = GlobalViewModel.MainWindowViewModel.MediaItems;
         }
 

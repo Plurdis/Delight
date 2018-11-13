@@ -216,13 +216,14 @@ namespace Delight
             pw = new PlayWindow();
 
             pw.Show();
-            pw.Left = 1800;
+            //pw.Left = 1800;
             
 
             pw.ConnectTimeLine(tl);
 
             tl.FrameRate = FrameRate._60PFS;
 
+            tl.AddTrack(SourceType.Sound, 1);
             tl.AddTrack(SourceType.Video, 1);
             tl.AddTrack(SourceType.Video, 2);
             tl.AddTrack(SourceType.Video, 3);
