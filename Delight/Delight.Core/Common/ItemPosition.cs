@@ -1,4 +1,6 @@
-﻿using Delight.Core.Stage;
+﻿using Delight.Component.ItemProperties;
+using Delight.Core.Stage;
+using System.Xml.Serialization;
 
 namespace Delight.Component.Common
 {
@@ -17,5 +19,10 @@ namespace Delight.Component.Common
         public SourceType SourceType { get; set; }
 
         public int TrackNumber { get; set; }
+        
+        [XmlElement(typeof(LightItemProperty))]
+        [XmlElement(typeof(VideoItemProperty))]
+        [XmlElement(typeof(SetterBaseProperty))]
+        public object Property { get; set; }
     }
 }

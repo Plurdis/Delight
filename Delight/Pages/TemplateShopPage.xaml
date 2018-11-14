@@ -206,6 +206,7 @@
                 <TabItem>
                     <ListBox
                         x:Name="templates"
+                        Grid.Row="1"
                         Margin="5"
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
@@ -213,18 +214,48 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type coreS:BaseSource}">
                                 <Grid
-                                    Width="220"
-                                    Height="180"
+                                    Width="180"
+                                    Height="200"
                                     Margin="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Image Margin="10" Source="{Binding ThumbnailUri, Converter={cvt:UriConverter}}" />
+                                    <Grid>
+                                        <Grid>
+                                            <Image
+                                                x:Name="img"
+                                                Width="150"
+                                                Height="150"
+                                                Margin="10"
+                                                Source="{Binding ThumbnailUri, Converter={cvt:UriConverter}}"
+                                                Stretch="UniformToFill" />
+                                            <Grid Width="150" Height="150">
+                                                <Border
+                                                    Padding="4"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Background="#E0000000">
+                                                    <Grid>
+                                                        <TextBlock
+                                                            FontFamily="{StaticResource NormalFont}"
+                                                            Foreground="White"
+                                                            Text="템플릿 파일" />
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+
+                                        </Grid>
+                                    </Grid>
+
                                     <TextBlock
                                         Grid.Row="1"
-                                        FontSize="15"
-                                        Text="{Binding Title}" />
+                                        Width="130"
+                                        Margin="5,0"
+                                        FontFamily="{StaticResource NormalFont}"
+                                        FontSize="18"
+                                        Text="{Binding Title}"
+                                        TextTrimming="CharacterEllipsis" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

@@ -11,7 +11,7 @@
     <Color x:Key="Color.TabItem.Normal">#D8D8D8</Color>
     <Color x:Key="Color.TabItem.Hover">#BDBDBD</Color>
     <Color x:Key="Color.TabItem.Selected">#898989</Color>
-    <Color x:Key="Color.TabItem.Foreground">#535353</Color>
+    <Color x:Key="Color.TabItem.Foreground">#3A373E</Color>
 
     <Color x:Key="Color.Seperator1">#4A4A4A</Color>
     <Color x:Key="Color.Seperator2">#828282</Color>
@@ -36,19 +36,19 @@
     <Color x:Key="Color.Menu.Border">#E7E7E7</Color>
     <Color x:Key="Color.Menu.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.Menu.Hover">#515151</Color>
-    <Color x:Key="Color.Menu.Item.Foreground">#535353</Color>
+    <Color x:Key="Color.Menu.Item.Foreground">#3A373E</Color>
     <Color x:Key="Color.Menu.Item.Selected.Background">#E0B247</Color>
     <Color x:Key="Color.Menu.Item.Selected.Foreground">#FFFFFF</Color>
 
     <!--  ToolBox  -->
-    <Color x:Key="Color.ToolBox.Background">#535353</Color>
+    <Color x:Key="Color.ToolBox.Background">#3A373E</Color>
     <Color x:Key="Color.ToolBox.Foreground">#ffffff</Color>
     <Color x:Key="Color.ToolBox.Item.Hover">#555555</Color>
     <Color x:Key="Color.ToolBox.Item.Down">#6a6a6a</Color>
     <Color x:Key="Color.ToolBox.Group.Background">#3A373E</Color>
 
     <!--  PropertyGrid  -->
-    <Color x:Key="Color.PropertyGrid.Background">#535353</Color>
+    <Color x:Key="Color.PropertyGrid.Background">#3A373E</Color>
     <Color x:Key="Color.PropertyGrid.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Header.Foreground">#aaaaaa</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Background">#3A373E</Color>
@@ -77,7 +77,7 @@
     <!--  TabControl  -->
     <Color x:Key="Color.TabControl.Background">#4B4B4B</Color>
     <Color x:Key="Color.TabControl.Tab.Selected.Background">#676767</Color>
-    <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#53FFFD</Color>
+    <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#FFE0B247</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Background">#535353</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Foreground">#BCBCBC</Color>
 

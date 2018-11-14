@@ -580,7 +580,9 @@ namespace Delight.Component.Controls
 
         public void RemoveItem(TrackItem item)
         {
+            ItemRemoving?.Invoke(this, new ItemEventArgs(item));
             itemGrid.Children.Remove(item);
+            ItemRemoved?.Invoke(this, new EventArgs());
         }
     }
 }

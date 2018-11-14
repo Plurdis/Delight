@@ -1,6 +1,7 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Controls;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace Delight.Component.ItemProperties
 {
@@ -60,14 +61,21 @@ namespace Delight.Component.ItemProperties
         }
 
         Brush _chromaKeyColor = Brushes.Green;
-
+        
         [DesignElement(Category ="크로마키", DisplayName ="색상")]
+        [XmlIgnore]
         public Brush ChromaKeyColor
         {
             get => _chromaKeyColor;
             set { _chromaKeyColor = value; PropChanged("ChromaKeyColor"); }
         }
         
+        public string ChromaKeyColorString
+        {
+            get => _chromaKeyColor.ToString();
+            set { _chromaKeyColor = new BrushConverter().ConvertFromString(value) as Brush; PropChanged("ChromaKeyColor"); }
+        }
+
         Percentage _chromaKeyUsage = new Percentage(0.4, 0, 1);
 
         [DesignElement(Category = "크로마키", DisplayName = "사용도", Key = "Percentage")]
@@ -76,9 +84,7 @@ namespace Delight.Component.ItemProperties
             get => _chromaKeyUsage;
             set { _chromaKeyUsage = value; PropChanged("ChromaKeyUsage"); }
         }
-
-
-
+        
         private void Test()
         {
         }

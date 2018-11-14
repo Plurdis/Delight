@@ -8,6 +8,7 @@ using Delight.ViewModel;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,9 +75,11 @@ namespace Delight.Pages
             list = new ObservableCollection<BaseSource>();
             this.DataContext = GlobalViewModel.TemplateShopViewModel;
 
+            foreach (FileInfo fi in new DirectoryInfo(@"C:\Users\uutak\바탕 화면\테스트 템플릿 모음").GetFiles())
+            {
+                list.Add(new YoutubeSource(Path.GetFileNameWithoutExtension(fi.Name), fi.FullName, "a"));
+            }
             
-
-
             templates.ItemsSource = list;
             projectItems.ItemsSource = GlobalViewModel.MainWindowViewModel.MediaItems;
         }

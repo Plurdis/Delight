@@ -116,6 +116,7 @@
     <Compile Include="Common\FrameRate.cs" />
     <Compile Include="Common\ItemPosition.cs" />
     <Compile Include="Common\MediaTools.cs" />
+    <Compile Include="Common\Percentage.cs" />
     <Compile Include="Common\PropertyManager.cs" />
     <Compile Include="Extensions\ColorEx.cs" />
     <Compile Include="Extensions\FrameRateEx.cs" />
@@ -125,6 +126,9 @@
     <Compile Include="Extensions\ReflectionEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
     <Compile Include="Extensions\StringEx.cs" />
+    <Compile Include="ItemProperties\BaseTrackItemProperty.cs" />
+    <Compile Include="ItemProperties\LightItemProperty.cs" />
+    <Compile Include="ItemProperties\VideoItemProperty.cs" />
     <Compile Include="MovingLight\BoardSerializer.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
     <Compile Include="MovingLight\DMXController.cs" />

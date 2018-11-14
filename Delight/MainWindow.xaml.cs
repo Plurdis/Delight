@@ -52,6 +52,7 @@ namespace Delight
 
             tl.ItemSelected += Tl_ItemSelected;
             tl.ItemDeselected += Tl_ItemDeselected;
+            tl.ItemRemoved += Tl_ItemRemoved;
             tl.FrameChanged += (s, e) =>
             {
                 tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
@@ -183,6 +184,11 @@ namespace Delight
 
             //MessageBox.Show(PropertyManager.GetProperty(_employee, "Test"));
             //propGrid.SelectedObject = _employee;
+        }
+
+        private void Tl_ItemRemoved(object sender, EventArgs e)
+        {
+            propGrid.SelectedObjects = null;
         }
 
         private void ImportFromItem_Click(object sender, RoutedEventArgs e)

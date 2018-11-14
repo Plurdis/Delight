@@ -122,11 +122,14 @@ namespace Delight.Component.Controls
                     Offset = item.Offset,
                     ItemId = item.GetTag<StageComponent>().Id,
                     SourceType = item.SourceType,
-                    TrackNumber = ((((FrameworkElement)item.Parent).TemplatedParent) as Track).TrackNumber
+                    TrackNumber = ((((FrameworkElement)item.Parent).TemplatedParent) as Track).TrackNumber,
+                    Property = item.Property,
                 };
 
                 items.Add(itemPosition);
             }
+
+            Track_ItemsMaxWidthChanged(null, null);
 
             return items;
         }
@@ -159,7 +162,7 @@ namespace Delight.Component.Controls
             item.FrameWidth = itemPosition.FrameWidth;
             item.ForwardOffset = itemPosition.ForwardOffset;
             item.BackwardOffset = itemPosition.BackwardOffset;
-
+            item.Property = itemPosition.Property;
             track.AddItem(item);
         }
 
