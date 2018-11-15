@@ -3,6 +3,7 @@ using Delight.Component.MovingLight.Effects;
 using Delight.Core.Sources;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,8 +28,6 @@ namespace Delight.Core.Template
 
         public void Pack(string filePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(DelightTemplate));
-            
             if (File.Exists(filePath))
             {
                 try
@@ -72,7 +71,7 @@ namespace Delight.Core.Template
                         entry = archive.CreateEntry("DeployingPosition");
                         using (StreamWriter sw = new StreamWriter(entry.Open()))
                         {
-                            XmlSerializer serializer = new XmlSerializer(typeof(List<ItemPosition>));
+                            JsonSerializer serializer = new JsonSerializer();
                             serializer.Serialize(sw, DeployingPositions);
                         }
                     }
@@ -112,8 +111,8 @@ namespace Delight.Core.Template
                 {
                     StreamReader sr = new StreamReader(File.Open(itm.FullName, FileMode.Open));
                     string data = sr.ReadToEnd();
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<ItemPosition>));
-                    var positions = (List<ItemPosition>)serializer.Deserialize(new StringReader(data));
+                    JsonSerializer serializer = new JsonSerializer();
+                    var positions = (List<ItemPosition>)serializer.Deserialize(new StringReader(data), typeof(List<ItemPosition>));
 
                     template.DeployingPositions = positions;
                 }

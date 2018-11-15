@@ -53,8 +53,6 @@ namespace Delight.Pages
                 {
                     Source_DownloadFileCompleted(null, null);
                 }
-                
-                
             }
         }
 

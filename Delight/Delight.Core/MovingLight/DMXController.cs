@@ -26,7 +26,7 @@ namespace Delight.Core.MovingLight
         {
             try
             {
-                //DMXLib.Send(channel, value);
+                DMXLib.Send(channel, value);
             }
             catch (Exception)
             {
@@ -39,7 +39,7 @@ namespace Delight.Core.MovingLight
         {
             try
             {
-                //DMXLib.Open();
+                DMXLib.Open();
             }
             catch (Exception)
             {
@@ -116,7 +116,6 @@ namespace Delight.Core.MovingLight
 
                     lastValue[i] = savedValue[i];
                 }
-                
                 Thread.Sleep(1);
             }
 

@@ -70,11 +70,11 @@ namespace Delight.Component.MovingLight.Effects
         //    return property;
         //}
 
-        public SetterBaseProperty GetSetterBaseProperty()
+        public BaseLightSetterProperty GetSetterBaseProperty()
         {
-            var type = typeof(SetterBaseProperty);
+            var type = typeof(BaseLightSetterProperty);
 
-            SetterBaseProperty property = new SetterBaseProperty();
+            BaseLightSetterProperty property = new BaseLightSetterProperty();
 
             var aName = new AssemblyName("DynamicProperties");
             var ab = AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
@@ -132,7 +132,7 @@ namespace Delight.Component.MovingLight.Effects
             }
 
             var newType = tb.CreateType();
-            var instance = (SetterBaseProperty)Activator.CreateInstance(newType);
+            var instance = (BaseLightSetterProperty)Activator.CreateInstance(newType);
 
             return instance;
         }

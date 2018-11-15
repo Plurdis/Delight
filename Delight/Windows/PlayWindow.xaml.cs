@@ -185,5 +185,15 @@ namespace Delight.Windows
 
             //_timeLine.FrameChanged += 
         }
+
+        internal void ConnectPreview(Rectangle preview)
+        {
+            preview.Height = this.Height / (this.Width / preview.ActualWidth);
+            preview.SizeChanged += (s, ev) =>
+            {
+                preview.Height = this.Height / (this.Width / preview.ActualWidth);
+            };
+            preview.Fill = new VisualBrush(rootElement);
+        }
     }
 }

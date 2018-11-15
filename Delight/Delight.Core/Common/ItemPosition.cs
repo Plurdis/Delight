@@ -22,7 +22,7 @@ namespace Delight.Component.Common
         
         [XmlElement(typeof(LightItemProperty))]
         [XmlElement(typeof(VideoItemProperty))]
-        [XmlElement(typeof(SetterBaseProperty))]
+        [XmlElement(typeof(BaseLightSetterProperty))]
         public object Property { get; set; }
     }
 }

@@ -59,11 +59,6 @@ namespace Delight
             };
 
             //GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
-
-            exportFromItem.Click += ExportFromItem_Click;
-            importFromItem.Click += ImportFromItem_Click;
-
-            //propGrid.SelectedObject = new VideoItemProperty();
             
             SetterBoard sb = new SetterBoard();
             sb.Identifier = "손 흔들기";
@@ -76,7 +71,8 @@ namespace Delight
             sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
                 (PortNumber.YAxis, new StaticValue(100)),
                 (PortNumber.Brightness, new StaticValue(254)),
-                (PortNumber.Blink, new PropertyValue("Blinking")));
+                (PortNumber.Blink, new PropertyValue("Blinking")),
+                (PortNumber.Color, new StaticValue(220)));
             //(PortNumber.Color, new PropertyValue("Color"))
 
             sb[0].AddContinueLine(1000);
@@ -115,27 +111,76 @@ namespace Delight
             //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
 
 
+            ////SetterBoard sb2 = new SetterBoard();
+
+            ////sb2.Identifier = "좌우로 흔들기";
+            ////sb2.AddSetterGroup();
+
+            ////sb2[0].AddWait(1000);
+
+            ////SetterBoard sb3 = new SetterBoard();
+
+            ////sb3.Identifier = "위아래로 움직이기";
+            ////sb3.AddSetterGroup();
+
+            ////sb3[0].AddWait(1000);
+
+
             SetterBoard sb2 = new SetterBoard();
-
-            sb2.Identifier = "좌우로 흔들기";
+            
+            sb2.Identifier = "테스트 효과 2";
             sb2.AddSetterGroup();
+            //sb2.AddSetterGroup();
 
-            sb2[0].AddWait(1000);
+            sb2.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+                (PortNumber.YAxis, new StaticValue(78)),
+                (PortNumber.Brightness, new StaticValue(89)),
+                (PortNumber.Blink, new StaticValue(200)),
+                (PortNumber.Color, new StaticValue(220)));
+
+            //sb2.InitalizeWaitValue
+
+            sb2[0].AddContinueLine(400);
+            sb2[0].AddStates((PortNumber.YAxis, new StaticValue(34)),
+                             (PortNumber.XAxis, new StaticValue(60)));
+
+            sb2[0].AddContinueLine(400);
+
+            sb2[0].AddStates((PortNumber.YAxis, new StaticValue(120)),
+                             (PortNumber.XAxis, new StaticValue(120)));
 
             SetterBoard sb3 = new SetterBoard();
 
-            sb3.Identifier = "위아래로 움직이기";
+            sb3.Identifier = "테스트 효과 3";
             sb3.AddSetterGroup();
+            sb3.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+                (PortNumber.YAxis, new StaticValue(78)),
+                (PortNumber.Brightness, new StaticValue(89)),
+                (PortNumber.Blink, new StaticValue(200)),
+                (PortNumber.Color, new StaticValue(200)));
 
-            sb3[0].AddWait(1000);
+            sb3[0].AddContinueLine(300);
+            sb3[0].AddStates((PortNumber.YAxis, new StaticValue(34)));
 
+            sb3[0].AddContinueLine(300);
+              
+            sb3[0].AddStates((PortNumber.YAxis, new StaticValue(120)));
+
+
+            //sb2[1].AddContinueLine(2000);
+
+            //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(95)));
+
+            //sb2[1].AddContinueLine(2000);
+
+            //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(85)));
+
+
+            //(PortNumber.Blink, new PropertyValue("Blinking")
 
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
-
-
             
-
 
             //LightBoard lb = new LightBoard();
 
@@ -191,18 +236,7 @@ namespace Delight
             propGrid.SelectedObjects = null;
         }
 
-        private void ImportFromItem_Click(object sender, RoutedEventArgs e)
-        {
-            tl.ImportData(SavedItems, GlobalViewModel.MainWindowViewModel.MediaItems);
-        }
-
         List<ItemPosition> SavedItems { get; set; }
-
-        private void ExportFromItem_Click(object sender, RoutedEventArgs e)
-        {
-            SavedItems = tl.ExportData();
-
-        }
 
         private void Tl_ItemDeselected(object sender, EventArgs e)
         {
@@ -220,12 +254,9 @@ namespace Delight
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             pw = new PlayWindow();
-
             pw.Show();
-            //pw.Left = 1800;
-            
-
             pw.ConnectTimeLine(tl);
+            pw.ConnectPreview(preview);
 
             tl.FrameRate = FrameRate._60PFS;
 

@@ -168,7 +168,6 @@
     <Compile Include="Primitives\FindTypes.cs" />
     <Compile Include="Primitives\MediaElementLoader.cs" />
     <Compile Include="Primitives\PlayerState.cs" />
-    <Compile Include="Primitives\Properties\BaseProperty.cs" />
     <Compile Include="Primitives\MediaElementPro.cs" />
     <Compile Include="Primitives\TimingReaders\DelayTimingReader.cs" />
     <Compile Include="Primitives\TimingReaders\TimingReader.cs" />
@@ -213,6 +212,9 @@
     </PackageReference>
     <PackageReference Include="MediaToolkit">
       <Version>1.1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="NReco.VideoInfo">
       <Version>1.1.1</Version>

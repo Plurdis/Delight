@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -198,8 +199,14 @@ namespace Delight.ViewModel
                         MediaItems.Add(DelightTemplate.ConvertToComponent(itm));
                     }
                 }
+                if (template.DeployingPositions != null)
+                {
+                    if (MessageBox.Show($"해당 템플릿에는 타임라인 미리 배치된 데이터가 있습니다.{Environment.NewLine}데이터를 불러와 타임라인에 배치하시겠습니까?") == MessageBoxResult.Yes)
+                    {
 
-                TimeLine.ImportData(template.DeployingPositions, MediaItems);
+                    }
+                    TimeLine.ImportData(template.DeployingPositions, MediaItems);
+                }
             }
         }
 

@@ -25,7 +25,7 @@ namespace Delight.Component.Primitives.Controllers
         public override void ItemStarted(TrackItem sender, TimingEventArgs e)
         {
             _setterBoard = sender.GetTag<LightComponent>().SetterBoard;
-            BeginAction(sender.Property as SetterBaseProperty);
+            BeginAction(sender.Property as BaseLightSetterProperty);
         }
 
         public override void ItemEnded(TrackItem sender, TimingEventArgs e)
@@ -50,7 +50,7 @@ namespace Delight.Component.Primitives.Controllers
 
         SetterBoard _setterBoard;
 
-        public void BeginAction(SetterBaseProperty property)
+        public void BeginAction(BaseLightSetterProperty property)
         {
             byte GetValue(BaseValue value)
             {

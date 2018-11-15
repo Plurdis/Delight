@@ -31,8 +31,9 @@ namespace Delight.Component.Controls
             if (this.IsStable)
                 valueComboBox.SelectedItem = 0;
 
-            valueComboBox.SelectionChanged += ValueComboBox_SelectionChanged;
 
+            ValueChanged(null, null);
+            valueComboBox.SelectionChanged += ValueComboBox_SelectionChanged;
             ValueProperty.AddValueChanged(this, ValueChanged);
         }
 
@@ -42,8 +43,8 @@ namespace Delight.Component.Controls
         {
             int convertedValue = converter.Convert((byte)Value, typeof(int), null, null);
 
-            if (valueComboBox.SelectedIndex != convertedValue)
-                valueComboBox.SelectedItem = convertedValue;
+            if ((int)valueComboBox.SelectedIndex != convertedValue)
+                valueComboBox.SelectedIndex = convertedValue;
         }
 
         private void ValueComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

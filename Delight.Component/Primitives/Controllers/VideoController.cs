@@ -10,6 +10,7 @@ using Delight.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -140,9 +141,7 @@ namespace Delight.Component.Primitives.Controllers
                 TrackItem itm = s.GetTag<TrackItem>();
                 s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + CurrentFrame - itm.Offset, CurrentFrameRate);
                 s.Visibility = Visibility.Visible;
-                //s.Volume = itm.ItemProperty.Volume;
-                //s.Opacity = itm.ItemProperty.Opacity;
-
+                
                 s.Width = rootCanvas.ActualWidth;// * itm.ItemProperty.Size;
                 s.Height = rootCanvas.ActualHeight;
 
@@ -164,8 +163,14 @@ namespace Delight.Component.Primitives.Controllers
                             s.Opacity = (double)value;
                             break;
                         case "volume":
-                            s.Volume = (double)value;
-                            if (s.Volume != 0)
+                            var volume = (((double)value) * 0.5);
+
+                            if (volume == 0)
+                                s.Volume = 0;
+                            else
+                                s.Volume = volume + 0.5;
+
+                            if ((bool)PropertyManager.GetProperty(itm.Property, "IsMute") && s.Volume != 0)
                             {
                                 ((VideoItemProperty)itm.Property).IsMute = false;
                             }
@@ -190,59 +195,31 @@ namespace Delight.Component.Primitives.Controllers
                             };
 
                             if ((bool)PropertyManager.GetProperty(itm.Property, "ChromaKeyUse"))
-                            {
                                 vLayer.Effect = _chromaKeyEffect;
-                            }
                             else
-                            {
-                                vLayer.Effect = _chromaKeyEffect;
-                            }
+                                vLayer.Effect = null;
 
                             break;
                         case "ismute":
                             bool isMute = (bool)value;
 
                             if (isMute)
-                            {
                                 s.Volume = 0;
-                            }
                             else
-                            {
                                 s.Volume = (double)PropertyManager.GetProperty(itm.Property, "Volume");
-                            }
                             break;
                         default:
                             break;
                     }
-
-                    //        case "chromakeyusage":
-                    //        case "chromakeycolor":
-                    //        case "chromakeyenabled":
-                    //            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
-
-                    //            if (itm.ItemProperty.ChromaKeyEnabled)
-                    //            {
-                    //                itm.ItemProperty.ChromaKeyColor.ToHSL(out double _h, out double _s, out double _l);
-
-                    //                vLayer.Effect = new ChromaKeyEffect()
-                    //                {
-                    //                    HueMin = (float)_h,
-                    //                    HueMax = (float)_h,
-                    //                    SaturationMax = (float)_s,
-                    //                    SaturationMin = (float)_s,
-                    //                    LuminanceMax = (float)_l,
-                    //                    LuminanceMin = (float)_l,
-                    //                    Smooth = (float)itm.ItemProperty.ChromaKeyUsage,
-                    //                };
-                    //            }
-                    //            else
-                    //            {
-                    //                vLayer.Effect = null;
-                    //            }
-                    //            break;
-                    //    }
-
                 };
+
+
+                foreach (PropertyInfo allProperties in itm.Property.GetType().GetRuntimeProperties())
+                {
+                    itm.OnPropertyChanged(allProperties.Name);
+                    Console.WriteLine(allProperties.Name);
+                }
+
                 // * itm.ItemProperty.Size;
                 //Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
                 //Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);

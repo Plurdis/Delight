@@ -1,9 +1,11 @@
 ﻿using Delight.Component.ItemProperties;
 using Delight.Core.Stage;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,7 +41,13 @@ namespace Delight.Component.Controls
 
         public event MouseButtonEventHandler MouseRightButtonClick;
         public event MouseButtonEventHandler MouseLeftButtonClick;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         Rectangle leftSide, movingSide, rightSide;
 
@@ -160,7 +168,25 @@ namespace Delight.Component.Controls
                         PropertyChanged?.Invoke(s, e);
                     };
 
-                _property = value;
+                if (_property is BaseLightSetterProperty baseSetterProperty)
+                {
+                    Type t = _property.GetType();
+
+                    JObject obj = value as JObject;
+
+                    foreach (JProperty jProp in obj.Properties())
+                    {
+                        PropertyInfo pi = t.GetProperty(jProp.Name);
+                        var jValue = Convert.ChangeType(jProp.Value.ToObject<object>(), pi.PropertyType);
+                        pi.SetValue(_property, jValue);
+                    }
+
+                    //t.GetRuntimeProperty("").SetValue()
+                }
+                else
+                {
+                    _property = value;
+                }
             }
         }
 

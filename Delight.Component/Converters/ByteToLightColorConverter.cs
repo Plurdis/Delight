@@ -12,7 +12,7 @@ namespace Delight.Component.Converters
         public override int Convert(byte value, Type targetType, object parameter, CultureInfo culture)
         {
             int i = 0;
-            for (byte b = 0; b <= 120; b += 10)
+            for (byte b = 0; b <= 150; b += 10)
             {
                 if (Include(value, b, (byte)(b + 9)))
                 {
