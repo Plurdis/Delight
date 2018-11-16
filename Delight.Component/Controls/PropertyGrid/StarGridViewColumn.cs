@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace Delight.Component.Controls
 {
-    class StarGridViewColumn : GridViewColumn
+    public class StarGridViewColumn : GridViewColumn
     {
         public static readonly DependencyProperty StarWidthProperty =
             DependencyHelper.Register();

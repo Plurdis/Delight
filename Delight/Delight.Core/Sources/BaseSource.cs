@@ -9,7 +9,7 @@ namespace Delight.Core.Sources
         {
             TypeText = typeText;
         }
-        public string TypeText { get; }
+        public string TypeText { get; set; }
 
         public string ThumbnailUri { get; set; }
 

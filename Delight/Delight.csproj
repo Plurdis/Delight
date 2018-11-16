@@ -64,9 +64,10 @@
     <Compile Include="Pages\ExternalSourcePage.xaml.cs">
       <DependentUpon>ExternalSourcePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TemplateShopPage.xaml.cs">
-      <DependentUpon>TemplateShopPage.xaml</DependentUpon>
+    <Compile Include="Pages\TemplateManagePage.xaml.cs">
+      <DependentUpon>TemplateManagePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Test.cs" />
     <Compile Include="ViewModel\GlobalViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ExternalSourceViewModel.cs" />
@@ -96,7 +97,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TemplateShopPage.xaml">
+    <Page Include="Pages\TemplateManagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DelightIcon.ico" />
+    <Resource Include="Resources\AddEvent.png" />
+    <Resource Include="Resources\RemoveEvent.png" />
     <Content Include="Resources\Xceed.Wpf.Toolkit.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -35,7 +35,6 @@ namespace Delight.Component.MovingLight.Effects
             SetterGroups.Add(new SetterGroup());
         }
 
-
         public List<ValueSetter> InitalizeValue { get; set; }
 
         public void SetInitalizeValue(params (PortNumber, BaseValue)[] values)
@@ -48,28 +47,11 @@ namespace Delight.Component.MovingLight.Effects
                 }));
         }
 
-
         public void AddSetterProperties(PortNumber portNumber, string propName, string displayName)
         {
             SetterProperties.Add(new SetterProperty(portNumber, propName, displayName));
         }
-
-        //public DynamicProperty GetDynamicProperty()
-        //{
-        //    DynamicProperty property = new DynamicProperty();
-
-        //    Dictionary<string, PortNumber> valueDict = new Dictionary<string, PortNumber>();
-        //    ((dynamic)property).ValueDictionary = valueDict;
-
-        //    foreach (var prop in SetterProperties)
-        //    {
-        //        valueDict.Add(prop.PropertyName, prop.PortNumber);
-        //        PropertyManager.SetProperty(property,prop.PropertyName, 0);
-        //    }
-
-        //    return property;
-        //}
-
+        
         public BaseLightSetterProperty GetSetterBaseProperty()
         {
             var type = typeof(BaseLightSetterProperty);

@@ -9,6 +9,7 @@ using Delight.ViewModel;
 using Delight.Windows;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,8 +59,13 @@ namespace Delight
                 tbTime.Text = MediaTools.GetTimeText(tl.Position, tl.FrameRate);
             };
 
+            lvEvents.Items.Clear();
+
+            btnAdd.Click += BtnAdd_Click;
+            btnRemove.Click += BtnRemove_Click;
+
             //GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
-            
+             
             SetterBoard sb = new SetterBoard();
             sb.Identifier = "손 흔들기";
 
@@ -111,28 +117,28 @@ namespace Delight
             //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
 
 
-            ////SetterBoard sb2 = new SetterBoard();
-
-            ////sb2.Identifier = "좌우로 흔들기";
-            ////sb2.AddSetterGroup();
-
-            ////sb2[0].AddWait(1000);
-
-            ////SetterBoard sb3 = new SetterBoard();
-
-            ////sb3.Identifier = "위아래로 움직이기";
-            ////sb3.AddSetterGroup();
-
-            ////sb3[0].AddWait(1000);
-
-
             SetterBoard sb2 = new SetterBoard();
-            
-            sb2.Identifier = "테스트 효과 2";
+
+            sb2.Identifier = "좌우로 흔들기";
             sb2.AddSetterGroup();
+
+            sb2[0].AddWait(1000);
+
+            SetterBoard sb3 = new SetterBoard();
+
+            sb3.Identifier = "위아래로 움직이기";
+            sb3.AddSetterGroup();
+
+            sb3[0].AddWait(1000);
+
+
+            SetterBoard sb4 = new SetterBoard();
+            
+            sb4.Identifier = "깜빡이며 사선 움직임";
+            sb4.AddSetterGroup();
             //sb2.AddSetterGroup();
 
-            sb2.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+            sb4.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
                 (PortNumber.YAxis, new StaticValue(78)),
                 (PortNumber.Brightness, new StaticValue(89)),
                 (PortNumber.Blink, new StaticValue(200)),
@@ -140,31 +146,31 @@ namespace Delight
 
             //sb2.InitalizeWaitValue
 
-            sb2[0].AddContinueLine(400);
-            sb2[0].AddStates((PortNumber.YAxis, new StaticValue(34)),
+            sb4[0].AddContinueLine(400);
+            sb4[0].AddStates((PortNumber.YAxis, new StaticValue(34)),
                              (PortNumber.XAxis, new StaticValue(60)));
 
-            sb2[0].AddContinueLine(400);
+            sb4[0].AddContinueLine(400);
 
-            sb2[0].AddStates((PortNumber.YAxis, new StaticValue(120)),
+            sb4[0].AddStates((PortNumber.YAxis, new StaticValue(120)),
                              (PortNumber.XAxis, new StaticValue(120)));
 
-            SetterBoard sb3 = new SetterBoard();
+            SetterBoard sb5 = new SetterBoard();
 
-            sb3.Identifier = "테스트 효과 3";
-            sb3.AddSetterGroup();
-            sb3.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+            sb5.Identifier = "깜빡이며 흔들기";
+            sb5.AddSetterGroup();
+            sb5.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
                 (PortNumber.YAxis, new StaticValue(78)),
                 (PortNumber.Brightness, new StaticValue(89)),
                 (PortNumber.Blink, new StaticValue(200)),
                 (PortNumber.Color, new StaticValue(200)));
 
-            sb3[0].AddContinueLine(300);
-            sb3[0].AddStates((PortNumber.YAxis, new StaticValue(34)));
-
-            sb3[0].AddContinueLine(300);
+            sb5[0].AddContinueLine(300);
+            sb5[0].AddStates((PortNumber.YAxis, new StaticValue(34)));
               
-            sb3[0].AddStates((PortNumber.YAxis, new StaticValue(120)));
+            sb5[0].AddContinueLine(300);
+              
+            sb5[0].AddStates((PortNumber.YAxis, new StaticValue(120)));
 
 
             //sb2[1].AddContinueLine(2000);
@@ -178,9 +184,35 @@ namespace Delight
 
             //(PortNumber.Blink, new PropertyValue("Blinking")
 
+            SetterBoard sb6 = new SetterBoard();
+
+            sb6.Identifier = "원 그리기";
+            sb6.AddSetterGroup();
+
+            sb6[0].AddWait(1000);
+
+            SetterBoard sb7 = new SetterBoard();
+
+            sb7.Identifier = "8자 그리기";
+            sb7.AddSetterGroup();
+
+            sb7[0].AddWait(1000);
+
+            SetterBoard sb8 = new SetterBoard();
+
+            sb8.Identifier = "색 바뀌며 돌기";
+            sb8.AddSetterGroup();
+
+            sb8[0].AddWait(1000);
+
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
-            
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb4));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb5));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb6));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb7));
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb8));
+
 
             //LightBoard lb = new LightBoard();
 
@@ -231,9 +263,27 @@ namespace Delight
             //propGrid.SelectedObject = _employee;
         }
 
+        private void BtnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        int i = 1;
+        int j = 10;
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvEvents.ItemsSource is ObservableCollection<Tuple<TimeSpan, object>> coll)
+            {
+                coll.Add((TimeSpan.FromSeconds(j), (object)$"효과 {i++}번째").ToTuple());
+
+                j += 20;
+            }
+        }
+
         private void Tl_ItemRemoved(object sender, EventArgs e)
         {
             propGrid.SelectedObjects = null;
+            lvEvents.ItemsSource = null;
         }
 
         List<ItemPosition> SavedItems { get; set; }
@@ -241,6 +291,7 @@ namespace Delight
         private void Tl_ItemDeselected(object sender, EventArgs e)
         {
             propGrid.SelectedObjects = null;
+            lvEvents.ItemsSource = null;
         }
 
         private void Tl_ItemSelected(object sender, EventArgs e)
@@ -248,6 +299,9 @@ namespace Delight
             if (tl.SelectedItem.Property != null)
             {
                 propGrid.SelectedObjects = new object[] { tl.SelectedItem.Property };
+                lvEvents.ItemsSource = tl.SelectedItem.KeyEvents;
+
+                //tl.SelectedItem.KeyEvents[0].
             }
         }
 
@@ -311,7 +365,7 @@ namespace Delight
 
             CommandBindings.Add(new CommandBinding(mwViewModel.OpenFileCommand, mwViewModel.OpenFileExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.OpenTemplateCommand, mwViewModel.OpenTemplateExecuted));
-            CommandBindings.Add(new CommandBinding(mwViewModel.TemplateShopCommand, mwViewModel.TemplateShopExecuted));
+            CommandBindings.Add(new CommandBinding(mwViewModel.TemplateManageCommand, mwViewModel.TemplateManageExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.EditTimeLineCommand, mwViewModel.EditTimeLineExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.GetExternalSourceCommand, mwViewModel.GetExternalSourceExecuted));
 

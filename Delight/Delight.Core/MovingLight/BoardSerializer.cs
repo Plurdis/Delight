@@ -1,4 +1,5 @@
 ﻿using Delight.Core.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,38 +12,26 @@ namespace Delight.Component.MovingLight.Effects
 {
     public class BoardSerializer
     {
+        // 저장을 Xml에서 Json으로 변경
         public static void Save(SetterBoard group, string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
                     serializer.Serialize(writer, group);
                 }
-
-                //using (StringWriter writer = new StringWriterWithEncoding())
-                //{
-                //    serializer.Serialize(writer, lightBoard);
-
-                //    string str = writer.ToString();
-
-                //    string hash = Crc32.GetHashFromString(str);
-                //    string hash2 = Crc32.GetHashFromFile(filePath);
-
-                //    Console.WriteLine($"hash : {hash} | hash2 : {hash2} | Is Same? : {hash == hash2}");
-                //}
             }
             catch (Exception ex)
             {
                 throw ex;
-                Console.WriteLine("Error");
             }
         }
 
-        internal static string SerializeToString(SetterBoard group)
+        public static string SerializeToString(SetterBoard group)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 StringBuilder sb = new StringBuilder();
@@ -61,34 +50,57 @@ namespace Delight.Component.MovingLight.Effects
 
         public static SetterBoard LoadFromString(string data)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StringReader reader = new StringReader(data))
                 {
-                    return serializer.Deserialize(reader) as SetterBoard;
+                    return serializer.Deserialize(reader, typeof(SetterBoard)) as SetterBoard;
                 }
             }
             catch (Exception)
             {
-                return null;
+                XmlSerializer serializer2 = new XmlSerializer(typeof(SetterBoard));
+                try
+                {
+                    using (StringReader reader = new StringReader(data))
+                    {
+                        return serializer2.Deserialize(reader) as SetterBoard;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 
         public static SetterBoard Load(string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(SetterBoard));
+            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
-                    return serializer.Deserialize(reader) as SetterBoard;
+                    return serializer.Deserialize(reader, typeof(SetterBoard)) as SetterBoard;
                 }
             }
             catch (Exception)
             {
-                return null;
+                XmlSerializer serializer2 = new XmlSerializer(typeof(SetterBoard));
+                try
+                {
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        return serializer2.Deserialize(reader) as SetterBoard;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
+            
         }
     }
 }

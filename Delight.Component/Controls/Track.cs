@@ -3,6 +3,7 @@ using Delight.Component.Extensions;
 using Delight.Component.ItemProperties;
 using Delight.Core.Common;
 using Delight.Core.Extensions;
+using Delight.Core.ItemProperties;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
@@ -227,6 +228,7 @@ namespace Delight.Component.Controls
             {
                 case SourceType.Video:
                     trackItem.Property = new VideoItemProperty();
+                    trackItem.DynamicProperty = new VideoItemDynamicProperty();
                     break;
                 case SourceType.Light:
                     var lComp = component as LightComponent;

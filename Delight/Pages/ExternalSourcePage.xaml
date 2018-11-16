@@ -8,237 +8,358 @@
     xmlns:local="clr-namespace:Delight.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:opt="clr-namespace:Delight.Core.Sources.Options;assembly=Delight.Core"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="600"
+    d:DesignWidth="1000"
     mc:Ignorable="d">
-
-    <Grid Background="White">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.2*" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="350" />
-        </Grid.ColumnDefinitions>
-
-        <Grid Background="#FFEBEBEB">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <ListBox
-                x:Name="tcSelectedIndex"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Background="#FFE0B247">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnBack">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="Transparent">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+                <Path
+                    Width="26.004"
+                    Height="35"
+                    Margin="14.333,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Data="M-118.74598,21.918567 L-109.4782,22.106057 -119.2908,35.416999 -110.1032,48.792005 -119.1253,48.875 -129.25,35.5 z"
+                    Fill="#FF34323A"
+                    Stretch="Fill" />
+            </Button>
+            <TextBlock
+                Grid.Column="1"
                 Margin="10"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                FontFamily="NanumSquare"
-                Foreground="#FFAAAAAA"
-                SelectedIndex="0">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="FontSize" Value="18" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <Grid>
-                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                FontFamily="{StaticResource SuperBoldFont}"
+                FontSize="33"
+                Foreground="#FF34323A"
+                Text="외부 소스 불러오기">
+                <!--<LineBreak />-->
+                <!--<Run Foreground="White" Text="원하는 요소들을 끌어다가 타임라인에 배치하세요" />-->
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.2*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="350" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Background="#FFEBEBEB">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ListBox
+                    x:Name="tcSelectedIndex"
+                    Margin="10"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    FontFamily="NanumSquare"
+                    Foreground="#FFAAAAAA"
+                    SelectedIndex="0">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="FontSize" Value="18" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid>
+                                            <ContentPresenter Content="{TemplateBinding Content}" />
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                                <Setter Property="FontSize" Value="23" />
+                                                <Setter Property="Foreground" Value="#FF3A373E" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBoxItem
+                        Margin="30,5"
+                        VerticalAlignment="Center"
+                        Content="찾아보기"
+                        Tag="0" />
+                    <Rectangle Width="4" Fill="#FF3A373E" />
+                    <ListBoxItem
+                        Margin="30,5"
+                        VerticalAlignment="Center"
+                        Content="직접 추가하기"
+                        Tag="1" />
+                    <Rectangle Width="4" Fill="#FF3A373E" />
+                    <ListBoxItem
+                        Margin="30,5"
+                        VerticalAlignment="Center"
+                        Content="설치된 소스"
+                        Tag="2" />
+                </ListBox>
+                <TabControl
+                    x:Name="tcContent"
+                    Grid.Row="1"
+                    Padding="-1,-3,-1,-1"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    SelectedIndex="{Binding Path=Tag, ElementName=tcSelectedIndex.SelectedItem, Converter={cvt:StringToIntConverter}}">
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                    <TabItem>
+                        <ListBox
+                            x:Name="templates"
+                            Grid.Row="1"
+                            Margin="5"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type coreS:BaseSource}">
+                                    <Grid
+                                        Width="180"
+                                        Height="200"
+                                        Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid>
+                                                <Image
+                                                    x:Name="img"
+                                                    Width="150"
+                                                    Height="150"
+                                                    Margin="10"
+                                                    Source="{Binding ThumbnailUri, Converter={cvt:UriConverter}}"
+                                                    Stretch="UniformToFill" />
+                                                <Grid Width="150" Height="150">
+                                                    <Border
+                                                        Padding="4"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Background="#E0000000">
+                                                        <Grid>
+                                                            <TextBlock
+                                                                FontFamily="{StaticResource NormalFont}"
+                                                                Foreground="White"
+                                                                Text="{Binding TypeText}" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                            </Grid>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Width="130"
+                                            Margin="5,0"
+                                            FontFamily="{StaticResource NormalFont}"
+                                            FontSize="18"
+                                            Text="{Binding Title}"
+                                            TextTrimming="CharacterEllipsis" />
                                     </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                            <Setter Property="FontSize" Value="23" />
-                                            <Setter Property="Foreground" Value="#FF3A373E" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBoxItem
-                    Margin="30,5"
-                    VerticalAlignment="Center"
-                    Content="찾아보기"
-                    Tag="0" />
-                <Rectangle Width="4" Fill="#FF3A373E" />
-                <ListBoxItem
-                    Margin="30,5"
-                    VerticalAlignment="Center"
-                    Content="인기 소스"
-                    Tag="1" />
-                <Rectangle Width="4" Fill="#FF3A373E" />
-                <ListBoxItem
-                    Margin="30,5"
-                    VerticalAlignment="Center"
-                    Content="설치된 소스"
-                    Tag="2" />
-            </ListBox>
-            <ListBox
-                x:Name="templates"
-                Grid.Row="1"
-                Margin="5"
-                Background="{x:Null}"
-                BorderBrush="{x:Null}"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type coreS:BaseSource}">
-                        <Grid
-                            Width="180"
-                            Height="200"
-                            Margin="10">
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Grid x:Name="bg">
+                                                    <ContentPresenter />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="bg" Property="Background" Value="Gray" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem>
+                        <Grid Margin="10" VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid>
-                                    <Image
-                                        x:Name="img"
-                                        Width="150"
-                                        Height="150"
-                                        Margin="10"
-                                        Source="{Binding ThumbnailUri, Converter={cvt:UriConverter}}"
-                                        Stretch="UniformToFill" />
-                                    <Grid Width="150" Height="150">
-                                        <Border
-                                            Padding="4"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Background="#E0000000">
-                                            <Grid>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource NormalFont}"
-                                                    Foreground="White"
-                                                    Text="{Binding TypeText}" />
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-
-                                </Grid>
-                            </Grid>
-
                             <TextBlock
+                                Margin="10"
+                                FontFamily="{StaticResource BoldFont}"
+                                FontSize="16"
+                                Text="직접 링크로 추가하기" />
+                            <TextBox
+                                x:Name="tbSearchLink"
                                 Grid.Row="1"
-                                Width="130"
-                                Margin="5,0"
+                                Background="#FFBFBFBF"
                                 FontFamily="{StaticResource NormalFont}"
-                                FontSize="18"
-                                Text="{Binding Title}"
-                                TextTrimming="CharacterEllipsis" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <Grid x:Name="bg">
-                                        <ContentPresenter />
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="bg" Property="Background" Value="Gray" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-        </Grid>
-        <GridSplitter
-            Grid.Column="1"
-            HorizontalAlignment="Stretch"
-            Background="#FFD1D1D1" />
-
-        <Grid Grid.Column="2" Background="#FF3A373E">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Margin="25">
-                <TextBlock
-                    FontFamily="{StaticResource NormalFont}"
-                    FontSize="25"
-                    Foreground="White"
-                    Text="{Binding Path=SelectedItem.Title, ElementName=templates}"
-                    TextTrimming="CharacterEllipsis" />
-                <TextBlock
-                    Margin="0,10,0,0"
-                    FontFamily="{StaticResource NormalFont}"
-                    Foreground="White"
-                    Text="동영상 소스" />
-                <Grid Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource NormalFont}"
-                        Foreground="White"
-                        Text="옵션 : " />
-                    <ComboBox
-                        x:Name="cb"
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Background="#FF524D57"
-                        BorderBrush="Black"
-                        FontFamily="{StaticResource NormalFont}"
-                        Foreground="Black"
-                        ItemsSource="{Binding Path=SelectedItem.Options, ElementName=templates}"
-                        SelectedIndex="0">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type opt:BaseOption}">
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-            </StackPanel>
-            <Grid Grid.Row="1">
-                <Button
-                    x:Name="btnDownload"
-                    Grid.Row="3"
-                    Height="60"
-                    Background="#FF2A272D"
-                    BorderBrush="White"
-                    Content="다운로드"
-                    FontFamily="{StaticResource BoldFont}"
-                    FontSize="30"
-                    Foreground="White">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid x:Name="PART_Background" Background="{TemplateBinding Background}">
-                                <ContentPresenter
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="{TemplateBinding Content}" />
+                                Foreground="Black"
+                                Style="{StaticResource ValueBoxStyle}" />
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="10" FontFamily="{StaticResource NormalFont}">
+                                    -<Run FontWeight="Bold" Text="유튜브" />
+                                    로부터 가져온 소스의 경우 저작권에 보호받는 컨텐츠가 포함될 수 있습니다.<LineBreak /><Run FontSize="6" /><LineBreak />
+                                    -저작권에 위배되는 소스를 사용해 발생하는 피해에 대해서는 책임지지 않습니다.</TextBlock>
+                                <Button
+                                    x:Name="btnCheck"
+                                    Grid.Column="1"
+                                    Height="40"
+                                    Padding="20,10"
+                                    Background="#FF2A272D"
+                                    BorderBrush="White"
+                                    Content="링크 탐색"
+                                    FontFamily="{StaticResource BoldFont}"
+                                    FontSize="20"
+                                    Foreground="White">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Grid x:Name="PART_Background" Background="{TemplateBinding Background}">
+                                                <ContentPresenter
+                                                    Margin="{TemplateBinding Padding}"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Content="{TemplateBinding Content}" />
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="PART_Background" Property="Background" Value="#FFB6B6B6" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="PART_Background" Property="Background" Value="#FF616161" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
                             </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="PART_Background" Property="Background" Value="#FFB6B6B6" />
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="PART_Background" Property="Background" Value="#FF616161" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
+            <GridSplitter
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Background="#FFD1D1D1" />
+
+            <Grid Grid.Column="2" Background="#FF3A373E">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Margin="25">
+                    <TextBlock
+                        FontFamily="{StaticResource NormalFont}"
+                        FontSize="25"
+                        Foreground="White"
+                        Text="{Binding Path=SelectedItem.Title, ElementName=templates}"
+                        TextTrimming="CharacterEllipsis" />
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        FontFamily="{StaticResource NormalFont}"
+                        Foreground="White">
+                        <Run Text="{Binding Path=SelectedItem.TypeText, ElementName=templates}" />
+                        소스</TextBlock>
+                    <Grid Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource NormalFont}"
+                            Foreground="White"
+                            Text="옵션 : " />
+                        <ComboBox
+                            x:Name="cb"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Background="#FF524D57"
+                            BorderBrush="Black"
+                            FontFamily="{StaticResource NormalFont}"
+                            Foreground="Black"
+                            ItemsSource="{Binding Path=SelectedItem.Options, ElementName=templates}"
+                            SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type opt:BaseOption}">
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Button
+                        x:Name="btnDownload"
+                        Grid.Row="3"
+                        Height="60"
+                        Background="#FF2A272D"
+                        BorderBrush="White"
+                        Content="다운로드"
+                        FontFamily="{StaticResource BoldFont}"
+                        FontSize="30"
+                        Foreground="White">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid x:Name="PART_Background" Background="{TemplateBinding Background}">
+                                    <ContentPresenter
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Content}" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="PART_Background" Property="Background" Value="#FFB6B6B6" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="PART_Background" Property="Background" Value="#FF616161" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
+
 </UserControl>

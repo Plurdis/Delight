@@ -16,19 +16,25 @@ using System.Windows.Controls;
 namespace Delight.Pages
 {
     /// <summary>
-    /// TemplateShopPage.xaml에 대한 상호 작용 논리
+    /// TemplateManagePage.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class TemplateShopPage : UserControl
+    public partial class TemplateManagePage : UserControl
     {
-        public TemplateShopPage()
+        public TemplateManagePage()
         {
             InitializeComponent();
             InitializeViewModel();
             btnStartPacking.Click += BtnStartPacking_Click;
 
             tcSelectedIndex.SelectionChanged += TcSelectedIndex_SelectionChanged;
+            btnBack.Click += BtnBack_Click;
             //btnDownload.Click += BtnDownload_Click;
             //cb.SelectionChanged += Cb_SelectionChanged;
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalViewModel.MainWindowViewModel.ViewingIndex = 0;
         }
 
         private void TcSelectedIndex_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -75,7 +75,7 @@ namespace Delight.ViewModel
         {
             OpenFileCommand = new RoutedCommand("OpenFileCommand", typeof(MainWindowViewModel));
             OpenTemplateCommand = new RoutedCommand("OpenTemplateCommand", typeof(MainWindowViewModel));
-            TemplateShopCommand = new RoutedCommand("TemplateShopCommand", typeof(MainWindowViewModel));
+            TemplateManageCommand = new RoutedCommand("TemplateManageCommand", typeof(MainWindowViewModel));
             EditTimeLineCommand = new RoutedCommand("EditTimeLineCommand", typeof(MainWindowViewModel));
             GetExternalSourceCommand = new RoutedCommand("GetExternalSourceCommand", typeof(MainWindowViewModel));
 
@@ -113,7 +113,7 @@ namespace Delight.ViewModel
 
             ToolsMenu = GetMenuItem("도구(_T)");
 
-            ToolsMenu.Items.Add(GetMenuItem("템플릿 샵(_T)", "Ctrl+T", TemplateShopCommand));
+            ToolsMenu.Items.Add(GetMenuItem("템플릿 관리(_T)", "Ctrl+T", TemplateManageCommand));
             ToolsMenu.Items.Add(new Separator());
             ToolsMenu.Items.Add(GetMenuItem("수동 조명 관리(_M)"));
             ToolsMenu.Items.Add(GetMenuItem("옵션(_O)"));
@@ -126,7 +126,7 @@ namespace Delight.ViewModel
         {
             RegisterCommand(OpenFileCommand, new KeyGesture(Key.O, ModifierKeys.Control));
             RegisterCommand(OpenTemplateCommand, new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Shift));
-            RegisterCommand(TemplateShopCommand, new KeyGesture(Key.T, ModifierKeys.Control));
+            RegisterCommand(TemplateManageCommand, new KeyGesture(Key.T, ModifierKeys.Control));
             RegisterCommand(EditTimeLineCommand, new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift));
             RegisterCommand(GetExternalSourceCommand, new KeyGesture(Key.E, ModifierKeys.Control | ModifierKeys.Shift));
         }
@@ -201,11 +201,10 @@ namespace Delight.ViewModel
                 }
                 if (template.DeployingPositions != null)
                 {
-                    if (MessageBox.Show($"해당 템플릿에는 타임라인 미리 배치된 데이터가 있습니다.{Environment.NewLine}데이터를 불러와 타임라인에 배치하시겠습니까?") == MessageBoxResult.Yes)
+                    if (MessageBox.Show($"해당 템플릿에는 타임라인 미리 배치된 데이터가 있습니다.{Environment.NewLine}데이터를 불러와 타임라인에 배치하시겠습니까?", "배치 확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-
+                        TimeLine.ImportData(template.DeployingPositions, MediaItems);
                     }
-                    TimeLine.ImportData(template.DeployingPositions, MediaItems);
                 }
             }
         }
@@ -265,9 +264,9 @@ namespace Delight.ViewModel
 
         #region [  도구 메뉴  ]
 
-        public RoutedCommand TemplateShopCommand { get; }
+        public RoutedCommand TemplateManageCommand { get; }
 
-        public void TemplateShopExecuted(object sender, ExecutedRoutedEventArgs e)
+        public void TemplateManageExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             ViewingIndex = 1;
         }

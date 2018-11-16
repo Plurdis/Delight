@@ -6,11 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Delight.Component.Layers
 {
     [TemplatePart(Name = "player1", Type = typeof(MediaElementPro))]
     [TemplatePart(Name = "player2", Type = typeof(MediaElementPro))]
+    [TemplatePart(Name = "gridFirstEffect", Type = typeof(Grid))]
+    [TemplatePart(Name = "gridSecondEffect", Type = typeof(Grid))]
+    [TemplatePart(Name = "gridFistEffect", Type = typeof(Grid))]
+    [TemplatePart(Name = "gridFistEffect", Type = typeof(Grid))]
+    [TemplatePart(Name = "gridFistEffect", Type = typeof(Grid))]
+    [TemplatePart(Name = "gridFistEffect", Type = typeof(Grid))]
     public class VideoLayer : BaseLayer
     {
         public VideoLayer(Track track) : base(track)

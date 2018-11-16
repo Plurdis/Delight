@@ -5,6 +5,7 @@
     xmlns:ct="clr-namespace:Delight.Component.Controls;assembly=Delight.Component"
     xmlns:cvt="clr-namespace:Delight.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:delight="clr-namespace:Delight"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:Delight.Pages"
     xmlns:stageComponent="clr-namespace:Delight.Core.Stage.Components;assembly=Delight.Core"
@@ -655,7 +656,8 @@
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1" Background="Black">
-                    <Rectangle x:Name="preview" />
+                    <Rectangle x:Name="preview">
+                    </Rectangle>
                 </Grid>
             </Grid>
 
@@ -691,7 +693,7 @@
                         </Grid>
                     </TabItem>
                     <TabItem>
-                        <pages:TemplateShopPage x:Name="templateShop" />
+                        <pages:TemplateManagePage x:Name="templateShop" />
                     </TabItem>
                     <TabItem>
                         <pages:ExternalSourcePage x:Name="externalSource" />
@@ -723,45 +725,47 @@
                         Text="00:00:00;0" />
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TabControl
-                        Grid.Row="1"
-                        Padding="-1,-1,-1,-1"
-                        BorderBrush="{x:Null}">
-                        <TabItem
-                            Background="#FF3A373E"
-                            BorderBrush="{x:Null}"
-                            Header="속성"
-                            Style="{StaticResource SimpleTabItemStyle}">
-                            <ct:PropertyGrid
-                                x:Name="propGrid"
-                                Background="#FF3A373E"
-                                BorderBrush="{x:Null}"
-                                FontFamily="{StaticResource NormalFont}"
-                                FontSize="12" />
-                        </TabItem>
-                        <TabItem
-                            Background="#FF3A373E"
-                            BorderBrush="{x:Null}"
-                            Header="이벤트"
-                            Style="{StaticResource SimpleTabItemStyle}">
-                            <Grid Grid.Row="1">
-                                <Grid Background="#FF3A373E">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <WrapPanel HorizontalAlignment="Right">
+                    <Grid>
+                        <Grid Background="#FF3A373E">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="1" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <ct:PropertyGrid
+                                    x:Name="propGrid"
+                                    Background="#FF3A373E"
+                                    BorderBrush="{x:Null}"
+                                    FontFamily="{StaticResource NormalFont}"
+                                    FontSize="12" />
+                            </Grid>
+                            <Grid Grid.Row="1" Background="#FFC3C2C4" />
+                            <GridSplitter
+                                Grid.Row="1"
+                                Margin="-2"
+                                VerticalAlignment="Stretch"
+                                Background="#00F0F0F0" />
+                            <Grid Grid.Row="2" Background="#FF2F2C33">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Background="#FF2F2C33">
+                                    <TextBlock
+                                        Margin="10,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource NormalFont}"
+                                        Foreground="White"
+                                        Text="속성 이벤트" />
+                                    <WrapPanel HorizontalAlignment="Right" Background="#FF3A373E">
                                         <WrapPanel.Resources>
-                                            <Style TargetType="{x:Type RadioButton}">
+                                            <Style TargetType="{x:Type Button}">
                                                 <Setter Property="Width" Value="34" />
                                                 <Setter Property="Height" Value="25" />
                                                 <Setter Property="Template">
                                                     <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                                                        <ControlTemplate TargetType="{x:Type Button}">
                                                             <Grid>
                                                                 <Border
                                                                     x:Name="selectBorder"
@@ -773,110 +777,107 @@
                                                                     VerticalAlignment="Center"
                                                                     Content="{TemplateBinding Content}" />
                                                             </Grid>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsChecked" Value="True">
-                                                                    <Setter TargetName="selectBorder" Property="BorderThickness" Value="1" />
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
                                             </Style>
                                         </WrapPanel.Resources>
-                                        <RadioButton>
-                                            <Image Margin="5" Source="Resources/view_block.png" />
-                                        </RadioButton>
-                                        <RadioButton>
-                                            <Image Margin="5" Source="Resources/view_list_sel.png" />
-                                        </RadioButton>
+                                        <Button x:Name="btnAdd">
+                                            <Image Margin="5" Source="Resources/RemoveEvent.png" />
+                                        </Button>
+
+                                        <Button x:Name="btnRemove">
+                                            <Image Margin="5" Source="Resources/AddEvent.png" />
+                                        </Button>
                                     </WrapPanel>
-                                    <!--<Grid Grid.Row="1">
-                                        <ListView>
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="{x:Type ListViewItem}">
-                                                    <Setter Property="BorderBrush" Value="{StaticResource Brush.Expander.Seperator}" />
-                                                    <Setter Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Background}" />
-                                                    <Setter Property="Focusable" Value="False" />
-                                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                    <Setter Property="Padding" Value="0" />
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                                                <Border
-                                                                    x:Name="border"
-                                                                    Background="{TemplateBinding Background}"
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="0,1,0,0"
-                                                                    SnapsToDevicePixels="True">
-                                                                    <Grid
-                                                                        Margin="4"
-                                                                        HorizontalAlignment="Stretch"
-                                                                        VerticalAlignment="Stretch">
-                                                                        <GridViewRowPresenter
-                                                                            Grid.RowSpan="2"
-                                                                            Columns="{TemplateBinding GridView.ColumnCollection}"
-                                                                            Content="{TemplateBinding Content}"
-                                                                            Focusable="False" />
-                                                                    </Grid>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
-                                                                        <Setter TargetName="border" Property="BorderThickness" Value="0" />
-                                                                    </DataTrigger>
-                                                                    <Trigger Property="IsMouseOver" Value="true">
-                                                                        <Setter TargetName="border" Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Hover}" />
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.View>
-                                                <GridView x:Name="gridView">
-                                                    <GridView.ColumnHeaderContainerStyle>
-                                                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </Style>
-                                                    </GridView.ColumnHeaderContainerStyle>
-
-                                                    <c:StarGridViewColumn StarWidth="1">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock
-                                                                    HorizontalAlignment="Stretch"
-                                                                    VerticalAlignment="Top"
-                                                                    FontSize="12"
-                                                                    Foreground="{StaticResource Brush.PropertyGrid.Setter.Header.Foreground}"
-                                                                    Text="{Binding Title}"
-                                                                    TextTrimming="CharacterEllipsis"
-                                                                    ToolTip="{Binding Title}" />
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </c:StarGridViewColumn>
-                                                    <c:StarGridViewColumn StarWidth="1.7">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <ContentPresenter
-                                                                    Margin="0,0,16,0"
-                                                                    HorizontalAlignment="Stretch"
-                                                                    VerticalAlignment="Stretch"
-                                                                    Content="{Binding Setter}"
-                                                                    Focusable="False" />
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </c:StarGridViewColumn>
-                                                </GridView>
-                                            </ListView.View>
-                                            <ListViewItem Content="asdf" />
-                                        </ListView>
-                                    </Grid>-->
                                 </Grid>
-
+                                <ListView
+                                    x:Name="lvEvents"
+                                    Grid.Row="1"
+                                    Background="#FF3A373E"
+                                    BorderBrush="{x:Null}"
+                                    Foreground="White">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="BorderBrush" Value="{StaticResource Brush.Expander.Seperator}" />
+                                            <Setter Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Background}" />
+                                            <Setter Property="Focusable" Value="False" />
+                                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                        <Border
+                                                            x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="0,1,0,0"
+                                                            SnapsToDevicePixels="True">
+                                                            <Grid
+                                                                Margin="4"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Stretch">
+                                                                <GridViewRowPresenter
+                                                                    Grid.RowSpan="2"
+                                                                    Columns="{TemplateBinding GridView.ColumnCollection}"
+                                                                    Content="{TemplateBinding Content}"
+                                                                    Focusable="False" />
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                                                <Setter TargetName="border" Property="BorderThickness" Value="0" />
+                                                            </DataTrigger>
+                                                            <Trigger Property="IsMouseOver" Value="true">
+                                                                <Setter TargetName="border" Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Hover}" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView x:Name="gridView">
+                                            <GridView.ColumnHeaderContainerStyle>
+                                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </Style>
+                                            </GridView.ColumnHeaderContainerStyle>
+                                            <ct:StarGridViewColumn StarWidth="1">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Top"
+                                                            FontSize="12"
+                                                            Foreground="{StaticResource Brush.PropertyGrid.Setter.Header.Foreground}"
+                                                            Text="{Binding Item1}"
+                                                            TextTrimming="CharacterEllipsis"
+                                                            ToolTip="{Binding Item1}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </ct:StarGridViewColumn>
+                                            <ct:StarGridViewColumn StarWidth="1.7">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ContentPresenter
+                                                            Margin="0,0,16,0"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            Content="{Binding Item2}"
+                                                            Focusable="False" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </ct:StarGridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </Grid>
-                        </TabItem>
-                    </TabControl>
+
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

@@ -1,5 +1,6 @@
 ﻿using Delight.Core.Sources;
 using Delight.Core.Template;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -21,6 +22,8 @@ namespace Delight.ViewModel
 
             Sources = new ObservableCollection<BaseSource>();
 
+            Sources.Add(new UnitySource("대나무 숲", @"C:\Users\uutak\Downloads\대나무 숲.png"));
+            //Sources.Add(new UnitySource("테스트", @"C:\Users\uutak\바탕 화면\SoMa\초반 인트로.jpg"));
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=0pXYp72dwl0&list=PLMTfiLScYpP4a8MSHoyMcRmNdSwV7ghK9&ab_channel=MatthiasM.de"));
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=a0yaOFwKKJ8&list=PLMTfiLScYpP4a8MSHoyMcRmNdSwV7ghK9&index=4&ab_channel=floopyFX"));
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=Yq_fVXatChk&index=20&list=PLMTfiLScYpP4a8MSHoyMcRmNdSwV7ghK9&ab_channel=AlexRideout"));
@@ -39,15 +42,18 @@ namespace Delight.ViewModel
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=id8fQzm38mE&list=PLj6XzcqwRpN4CVMKhTUQi1jh36H3uSMnM&index=40"));
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=THSy-UHrUq4&list=PLj6XzcqwRpN4CVMKhTUQi1jh36H3uSMnM&index=45&ab_channel=AAVFX"));
             Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=Eco_Jh0mN0M&list=PLj6XzcqwRpN4CVMKhTUQi1jh36H3uSMnM&index=46&ab_channel=AAVFX"));
+            Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=EjyzNY5qD3s&list=PLeRGwsngMKZzz1RhCT3HqA4HWjI8WvvWw&ab_channel=bestofgreenscreen"));
+            Sources.Add(YoutubeDownloader.GetYoutubeSource_Offical("https://www.youtube.com/watch?v=UyLKvhM8HlE&index=2&list=PLeRGwsngMKZzz1RhCT3HqA4HWjI8WvvWw&ab_channel=BrunoVitaPintucci"));
+
             //AddFromYoutubeSource(ys);
         }
 
         public void LoadTemplates(string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(ExternalSources));
+            JsonSerializer serializer = new JsonSerializer();
             
             var reader = new StreamReader(filePath);
-            var sources = serializer.Deserialize(reader) as ExternalSources;
+            var sources = serializer.Deserialize(reader, typeof(ExternalSources)) as ExternalSources;
 
             sources.Sources.ForEach(i => Sources.Add(i));
         }

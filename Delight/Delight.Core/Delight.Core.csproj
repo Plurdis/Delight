@@ -126,8 +126,9 @@
     <Compile Include="Extensions\ReflectionEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
     <Compile Include="Extensions\StringEx.cs" />
+    <Compile Include="ItemProperties\BaseItemDynamicProperty.cs" />
     <Compile Include="ItemProperties\BaseTrackItemProperty.cs" />
-    <Compile Include="ItemProperties\LightItemProperty.cs" />
+    <Compile Include="ItemProperties\VideoItemDynamicProperty.cs" />
     <Compile Include="ItemProperties\VideoItemProperty.cs" />
     <Compile Include="MovingLight\BoardSerializer.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Sources\LightSource.cs" />
     <Compile Include="Sources\Options\GenericOption.cs" />
     <Compile Include="Sources\TemplateData.cs" />
+    <Compile Include="Sources\UnitySource.cs" />
     <Compile Include="Stage\Components\Media\BaseMedia.cs" />
     <Compile Include="Stage\Components\Media\ImageMedia.cs" />
     <Compile Include="Stage\Components\Media\SoundMedia.cs" />

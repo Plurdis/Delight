@@ -3,6 +3,7 @@ using Delight.Core.Stage;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -28,6 +29,8 @@ namespace Delight.Component.Controls
         public TrackItem()
         {
             this.Style = FindResource("TrackItemStyle") as Style;
+
+            KeyEvents = new ObservableCollection<Tuple<TimeSpan, object>>();
         }
 
         public TrackItem(SourceType sourceType) : this()
@@ -153,6 +156,20 @@ namespace Delight.Component.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
+        private object _dynamicProperty;
+
+        public object DynamicProperty
+        {
+            get => _dynamicProperty;
+            set
+            {
+                _dynamicProperty = value;
+            }
+        }
+
+
+        public ObservableCollection<Tuple<TimeSpan, object>> KeyEvents { get; set; }
+
         private object _property;
         public object Property
         {
@@ -168,7 +185,11 @@ namespace Delight.Component.Controls
                         PropertyChanged?.Invoke(s, e);
                     };
 
-                if (_property is BaseLightSetterProperty baseSetterProperty)
+                if (_property == null)
+                {
+                    _property = value;
+                }
+                else //if (_property is BaseLightSetterProperty baseSetterProperty)
                 {
                     Type t = _property.GetType();
 
@@ -177,15 +198,17 @@ namespace Delight.Component.Controls
                     foreach (JProperty jProp in obj.Properties())
                     {
                         PropertyInfo pi = t.GetProperty(jProp.Name);
-                        var jValue = Convert.ChangeType(jProp.Value.ToObject<object>(), pi.PropertyType);
-                        pi.SetValue(_property, jValue);
-                    }
 
-                    //t.GetRuntimeProperty("").SetValue()
-                }
-                else
-                {
-                    _property = value;
+                        if (pi.PropertyType == typeof(Brush))
+                        {
+                            pi.SetValue(_property, (new BrushConverter()).ConvertFromString(jProp.Value.ToString()));
+                        }
+                        else
+                        {
+                            var jValue = Convert.ChangeType(jProp.Value.ToObject<object>(), pi.PropertyType);
+                            pi.SetValue(_property, jValue);
+                        }
+                    }
                 }
             }
         }

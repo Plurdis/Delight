@@ -1,11 +1,7 @@
-﻿using System;
+﻿using Delight.Core.Sources.Options;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Delight.Component.MovingLight.Effects;
-using Delight.Core.Sources.Options;
 
 namespace Delight.Core.Sources
 {

@@ -1,13 +1,17 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace Delight.Component.ItemProperties
+namespace Delight.Core.ItemProperties
 {
-    public class VideoItemProperty : BaseTrackItemProperty
+    public class VideoItemDynamicProperty : BaseItemDynamicProperty
     {
-
         double _volume = 1;
         [DesignElement(Category = "공통", DisplayName = "볼륨", Key = "Percentage")]
         public double Volume
@@ -25,7 +29,7 @@ namespace Delight.Component.ItemProperties
         }
 
         bool _isMute = false;
-        [DesignElement(Category ="공통", DisplayName = "음소거")]
+        [DesignElement(Category = "공통", DisplayName = "음소거")]
         public bool IsMute
         {
             get => _isMute;
@@ -61,15 +65,15 @@ namespace Delight.Component.ItemProperties
         }
 
         Brush _chromaKeyColor = Brushes.Green;
-        
-        [DesignElement(Category ="크로마키", DisplayName ="색상")]
+
+        [DesignElement(Category = "크로마키", DisplayName = "색상")]
         [XmlIgnore]
         public Brush ChromaKeyColor
         {
             get => _chromaKeyColor;
             set { _chromaKeyColor = value; PropChanged("ChromaKeyColor"); }
         }
-        
+
         public string ChromaKeyColorString
         {
             get => _chromaKeyColor.ToString();

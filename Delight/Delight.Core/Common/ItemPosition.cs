@@ -20,7 +20,6 @@ namespace Delight.Component.Common
 
         public int TrackNumber { get; set; }
         
-        [XmlElement(typeof(LightItemProperty))]
         [XmlElement(typeof(VideoItemProperty))]
         [XmlElement(typeof(BaseLightSetterProperty))]
         public object Property { get; set; }
