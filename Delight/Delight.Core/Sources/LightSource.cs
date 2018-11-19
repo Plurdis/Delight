@@ -25,7 +25,7 @@ namespace Delight.Core.Sources
         {
             return new TemplateData()
             {
-                FileName = Title,
+                FileName = Title,// + ".dlmv",
                 Id = Id,
                 Stream = GenerateStreamFromString(MovingData),
                 StreamUse = true,

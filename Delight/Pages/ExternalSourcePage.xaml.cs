@@ -97,7 +97,7 @@ namespace Delight.Pages
         {
             var item = FileCacheDictionary.GetPathFromId(DownloadingSource.Id);
 
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight", item.Value.Item1);
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight" ,"External Sources Cache" , item.Value.Item1);
 
             GlobalViewModel.MainWindowViewModel.MediaItems.Add(new VideoMedia()
             {

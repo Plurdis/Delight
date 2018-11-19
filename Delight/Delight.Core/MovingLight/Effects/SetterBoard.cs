@@ -40,16 +40,12 @@ namespace Delight.Component.MovingLight.Effects
         public void SetInitalizeValue(params (PortNumber, BaseValue)[] values)
         {
             InitalizeValue = new List<ValueSetter>(
-                values.Select(i => new ValueSetter()
-                {
-                    Port = i.Item1,
-                    Value = i.Item2,
-                }));
+                values.Select(i => new ValueSetter(i.Item1, i.Item2)));
         }
 
-        public void AddSetterProperties(PortNumber portNumber, string propName, string displayName)
+        public void AddSetterProperties(PortNumber portNumber, string propName, string displayName, byte initializeValue, bool isStatic = false)
         {
-            SetterProperties.Add(new SetterProperty(portNumber, propName, displayName));
+            SetterProperties.Add(new SetterProperty(portNumber, propName, displayName, initializeValue, isStatic));
         }
         
         public BaseLightSetterProperty GetSetterBaseProperty()
@@ -115,6 +111,16 @@ namespace Delight.Component.MovingLight.Effects
 
             var newType = tb.CreateType();
             var instance = (BaseLightSetterProperty)Activator.CreateInstance(newType);
+
+            foreach(SetterProperty i in SetterProperties)
+            {
+                if (i.InitializeValue != null)
+                {
+                    PropertyManager.SetProperty<byte>(instance, i.PropertyName, i.InitializeValue.Value);
+                }
+            }
+
+            
 
             return instance;
         }

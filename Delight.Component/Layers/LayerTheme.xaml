@@ -6,21 +6,21 @@
     <Style x:Key="VideoLayerStyle" TargetType="{x:Type local:VideoLayer}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type local:VideoLayer}">
                     <Grid x:Name="gridFirstEffect">
-                        <Grid x:Name="gridSecondEffect">
+                        <ct:MediaElementPro x:Name="player1" />
+                        <ct:MediaElementPro x:Name="player2" />
+                        <!--<Grid x:Name="gridSecondEffect">
                             <Grid x:Name="gridThirdEffect">
                                 <Grid x:Name="gridFourthEffect">
                                     <Grid x:Name="gridFifthEffect">
                                         <Grid x:Name="gridSixthEffect">
-                                            <ct:MediaElementPro x:Name="player1" />
-                                            <ct:MediaElementPro x:Name="player2" />
+
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-
+                        </Grid>-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

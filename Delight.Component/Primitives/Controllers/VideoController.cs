@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 using WPFMediaKit.DirectShow.MediaPlayers;
 
 namespace Delight.Component.Primitives.Controllers
@@ -129,113 +130,112 @@ namespace Delight.Component.Primitives.Controllers
 
             Console.WriteLine($"Play{player.Source.ToString()} At {player.Name}");
             player.Play();
+
+            Canvas rootCanvas = ((VideoLayer)player.TemplatedParent).Parent as Canvas;
+            VideoLayer rootLayer = (VideoLayer)player.TemplatedParent;
+
             player.PositionChanged += localPositionChanged;
+            
             p1Playing = !p1Playing;
+
+
+            trackItem.PropertyChanged += (sen, e) =>
+            {
+                object value = PropertyManager.GetProperty(trackItem.Property, e.PropertyName);
+
+                switch (e.PropertyName.ToLower())
+                {
+                    case "left":
+                    case "top":
+                    case "scale":
+                        rootLayer.Width = (double.IsNaN(rootCanvas.Width) ? rootCanvas.ActualWidth : rootCanvas.Width) * (double)PropertyManager.GetProperty(trackItem.Property, "Scale");
+                        rootLayer.Height = (double.IsNaN(rootCanvas.Height) ? rootCanvas.ActualWidth : rootCanvas.Height) * (double)PropertyManager.GetProperty(trackItem.Property, "Scale");
+                        player.Width = rootLayer.Width;
+                        player.Height = rootLayer.Height;
+
+                        Canvas.SetLeft(rootLayer,
+                            (rootCanvas.ActualWidth - player.Width + (rootCanvas.ActualWidth * 2 * (double)PropertyManager.GetProperty(trackItem.Property, "Left"))) / 2);
+
+                        Canvas.SetTop(rootLayer,
+                            (rootCanvas.ActualHeight - player.Height + (rootCanvas.ActualHeight * 2 * (double)PropertyManager.GetProperty(trackItem.Property, "Top"))) / 2);
+                        break;
+                    case "opacity":
+                        player.Opacity = (double)value;
+                        break;
+                    case "volume":
+
+                        var volume = (((double)value) * 0.5);
+                        Console.WriteLine(trackItem.Text + " : " + volume);
+                        if (volume == 0)
+                        {
+                            Application.Current.MainWindow.Dispatcher.Invoke(() =>
+                            {
+                                player.Volume = 0;
+                            });
+                        }
+
+                        else
+                            player.Volume = volume + 0.5;
+
+                        if ((bool)PropertyManager.GetProperty(trackItem.Property, "IsMute") && player.Volume != 0)
+                        {
+                            ((VideoItemProperty)trackItem.Property).IsMute = false;
+                        }
+                        break;
+                    case "chromakeyuse":
+                    case "chromakeyusage":
+                    case "chromakeycolor":
+                        VideoLayer vLayer = (VideoLayer)player.TemplatedParent;
+
+                        Brush newColor = (Brush)PropertyManager.GetProperty(trackItem.Property, "ChromaKeyColor");
+                        SolidColorBrush newBrush = (SolidColorBrush)newColor;
+                        newBrush.Color.ToHSL(out double _h, out double _s, out double _l);
+                        _chromaKeyEffect = new ChromaKeyEffect()
+                        {
+                            HueMin = (float)_h,
+                            HueMax = (float)_h,
+                            SaturationMax = (float)_s,
+                            SaturationMin = (float)_s,
+                            LuminanceMax = (float)_l,
+                            LuminanceMin = (float)_l,
+                            Smooth = (float)((double)PropertyManager.GetProperty(trackItem.Property, "ChromaKeyUsage")),
+                        };
+
+                        if ((bool)PropertyManager.GetProperty(trackItem.Property, "ChromaKeyUse"))
+                            vLayer.Effect = _chromaKeyEffect;
+                        else
+                            vLayer.Effect = null;
+
+                        break;
+                    case "ismute":
+                        bool isMute = (bool)value;
+
+                        if (isMute)
+                            player.Volume = 0;
+                        else
+                            player.Volume = (double)PropertyManager.GetProperty(trackItem.Property, "Volume");
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            foreach (PropertyInfo allProperties in trackItem.Property.GetType().GetRuntimeProperties())
+            {
+                trackItem.OnPropertyChanged(allProperties.Name);
+            }
+
             void localPositionChanged(MediaElementPro s, TimeSpan p)
             {
                 s.PositionChanged -= localPositionChanged;
-
-                Canvas rootCanvas = ((VideoLayer)s.TemplatedParent).Parent as Canvas;
-                VideoLayer rootLayer = (VideoLayer)s.TemplatedParent;
-
+                
                 TrackItem itm = s.GetTag<TrackItem>();
                 s.Position = MediaTools.FrameToTimeSpan(itm.ForwardOffset + CurrentFrame - itm.Offset, CurrentFrameRate);
                 s.Visibility = Visibility.Visible;
-                
+
                 s.Width = rootCanvas.ActualWidth;// * itm.ItemProperty.Size;
                 s.Height = rootCanvas.ActualHeight;
-
-                itm.PropertyChanged += (sen, e) =>
-                {
-                    object value = PropertyManager.GetProperty(itm.Property, e.PropertyName);
-
-                    switch (e.PropertyName.ToLower())
-                    {
-                        case "left":
-                            Canvas.SetLeft(rootLayer, 
-                                (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * (double)value)) / 2);
-                            break;
-                        case "top":
-                            Canvas.SetTop(rootLayer, 
-                                (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * (double)value)) / 2);
-                            break;
-                        case "opacity":
-                            s.Opacity = (double)value;
-                            break;
-                        case "volume":
-                            var volume = (((double)value) * 0.5);
-
-                            if (volume == 0)
-                                s.Volume = 0;
-                            else
-                                s.Volume = volume + 0.5;
-
-                            if ((bool)PropertyManager.GetProperty(itm.Property, "IsMute") && s.Volume != 0)
-                            {
-                                ((VideoItemProperty)itm.Property).IsMute = false;
-                            }
-                            break;
-                        case "chromakeyuse":
-                        case "chromakeyusage":
-                        case "chromakeycolor":
-                            VideoLayer vLayer = (VideoLayer)s.TemplatedParent;
-                            
-                            Brush newColor = (Brush)PropertyManager.GetProperty(itm.Property, "ChromaKeyColor");
-                            SolidColorBrush newBrush = (SolidColorBrush)newColor;
-                            newBrush.Color.ToHSL(out double _h, out double _s, out double _l);
-                            _chromaKeyEffect = new ChromaKeyEffect()
-                            {
-                                HueMin = (float)_h,
-                                HueMax = (float)_h,
-                                SaturationMax = (float)_s,
-                                SaturationMin = (float)_s,
-                                LuminanceMax = (float)_l,
-                                LuminanceMin = (float)_l,
-                                Smooth = (float)((double)PropertyManager.GetProperty(itm.Property, "ChromaKeyUsage")),
-                            };
-
-                            if ((bool)PropertyManager.GetProperty(itm.Property, "ChromaKeyUse"))
-                                vLayer.Effect = _chromaKeyEffect;
-                            else
-                                vLayer.Effect = null;
-
-                            break;
-                        case "ismute":
-                            bool isMute = (bool)value;
-
-                            if (isMute)
-                                s.Volume = 0;
-                            else
-                                s.Volume = (double)PropertyManager.GetProperty(itm.Property, "Volume");
-                            break;
-                        default:
-                            break;
-                    }
-                };
-
-
-                foreach (PropertyInfo allProperties in itm.Property.GetType().GetRuntimeProperties())
-                {
-                    itm.OnPropertyChanged(allProperties.Name);
-                    Console.WriteLine(allProperties.Name);
-                }
-
-                // * itm.ItemProperty.Size;
-                //Canvas.SetLeft(rootLayer, (rootCanvas.ActualWidth - s.Width + (rootCanvas.ActualWidth * 2 * itm.ItemProperty.PositionX)) / 2);
-                //Canvas.SetTop(rootLayer, (rootCanvas.ActualHeight - s.Height + (rootCanvas.ActualHeight * 2 * itm.ItemProperty.PositionY)) / 2);
-
-                //itm.Property.PropertyChanged += (sen, e) =>
-                //{
-                //    string propName = e.PropertyName;
-
-                //    void Connect()
-                //    {
-
-                //    }
-                //};
-
                 
-
                 if (s == player1)
                     player2.Visibility = Visibility.Hidden;
                 else

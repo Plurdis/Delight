@@ -68,7 +68,7 @@ namespace Delight.Core.Sources
 
                 Console.WriteLine($"Audio:{streamInfo.AudioEncoding.ToString()} Quality : {streamInfo.VideoQualityLabel} Download URL : {streamInfo.Url}");
 
-                string basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Delight\\";
+                string basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Delight\\External Sources Cache\\";
 
                 if (!Directory.Exists(basePath))
                     Directory.CreateDirectory(basePath);

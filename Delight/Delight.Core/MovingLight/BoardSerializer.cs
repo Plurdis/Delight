@@ -12,15 +12,21 @@ namespace Delight.Component.MovingLight.Effects
 {
     public class BoardSerializer
     {
+        static JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
         // 저장을 Xml에서 Json으로 변경
         public static void Save(SetterBoard group, string filePath)
         {
-            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
-                    serializer.Serialize(writer, group);
+
+
+                    writer.Write(JsonConvert.SerializeObject(group, Formatting.Indented, settings));
                 }
             }
             catch (Exception ex)
@@ -37,7 +43,7 @@ namespace Delight.Component.MovingLight.Effects
                 StringBuilder sb = new StringBuilder();
                 using (EncodingStringWriter writer = new EncodingStringWriter(sb))
                 {
-                    serializer.Serialize(writer, group);
+                    writer.Write(JsonConvert.SerializeObject(group, Formatting.Indented,settings));
                 }
 
                 return sb.ToString();
@@ -50,12 +56,11 @@ namespace Delight.Component.MovingLight.Effects
 
         public static SetterBoard LoadFromString(string data)
         {
-            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StringReader reader = new StringReader(data))
                 {
-                    return serializer.Deserialize(reader, typeof(SetterBoard)) as SetterBoard;
+                    return JsonConvert.DeserializeObject<SetterBoard>(reader.ReadToEnd(), settings);
                 }
             }
             catch (Exception)
@@ -77,12 +82,11 @@ namespace Delight.Component.MovingLight.Effects
 
         public static SetterBoard Load(string filePath)
         {
-            JsonSerializer serializer = new JsonSerializer();
             try
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
-                    return serializer.Deserialize(reader, typeof(SetterBoard)) as SetterBoard;
+                    return JsonConvert.DeserializeObject<SetterBoard>(reader.ReadToEnd(), settings);
                 }
             }
             catch (Exception)

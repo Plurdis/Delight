@@ -11,8 +11,8 @@ namespace Delight.ViewModel
         static GlobalViewModel()
         {
             ExternalSourceViewModel = new ExternalSourceViewModel();
-            MainWindowViewModel = new MainWindowViewModel();
             TemplateShopViewModel = new TemplateShopViewModel();
+            MainWindowViewModel = new MainWindowViewModel();
         }
 
         public static ExternalSourceViewModel ExternalSourceViewModel { get; }

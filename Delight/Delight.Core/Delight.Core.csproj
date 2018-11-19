@@ -126,9 +126,8 @@
     <Compile Include="Extensions\ReflectionEx.cs" />
     <Compile Include="Extensions\SourceTypeEx.cs" />
     <Compile Include="Extensions\StringEx.cs" />
-    <Compile Include="ItemProperties\BaseItemDynamicProperty.cs" />
     <Compile Include="ItemProperties\BaseTrackItemProperty.cs" />
-    <Compile Include="ItemProperties\VideoItemDynamicProperty.cs" />
+    <Compile Include="ItemProperties\VideoEventDictionary.cs" />
     <Compile Include="ItemProperties\VideoItemProperty.cs" />
     <Compile Include="MovingLight\BoardSerializer.cs" />
     <Compile Include="MovingLight\DMXLib.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="MovingLight\Effects\Setters\WaitSetter.cs" />
     <Compile Include="MovingLight\Effects\Values\Base\BaseValue.cs" />
     <Compile Include="MovingLight\Effects\Values\PropertyValue.cs" />
+    <Compile Include="MovingLight\Effects\Values\RelativeValue.cs" />
     <Compile Include="MovingLight\Effects\Values\StaticValue.cs" />
     <Compile Include="MovingLight\LightComponent.cs" />
     <Compile Include="MovingLight\PortNumber.cs" />

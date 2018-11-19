@@ -228,7 +228,6 @@ namespace Delight.Component.Controls
             {
                 case SourceType.Video:
                     trackItem.Property = new VideoItemProperty();
-                    trackItem.DynamicProperty = new VideoItemDynamicProperty();
                     break;
                 case SourceType.Light:
                     var lComp = component as LightComponent;

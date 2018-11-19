@@ -19,5 +19,12 @@ namespace Delight.Component.MovingLight.Effects.Values
             Value = value;
         }
         public byte Value { get; set; }
+
+        public static explicit operator StaticValue(byte b)  // explicit byte to digit conversion operator
+        {
+            StaticValue v = new StaticValue(b);
+
+            return v;
+        }
     }
 }

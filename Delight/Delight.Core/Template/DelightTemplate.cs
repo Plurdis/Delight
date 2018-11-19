@@ -90,9 +90,11 @@ namespace Delight.Core.Template
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public static string DelightTemplatePath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight", "Extracted Template");
+
         public static string DelightAppPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight");
 
-        public static string TempDelightTemplate => Path.Combine(DelightAppPath, $"Template Extracted_{RandomString(5)}");
+        public static string TempDelightTemplate => Path.Combine(DelightTemplatePath, $"Template_{RandomString(5)}");
 
         public static DelightTemplate FromFile(string path)
         {
@@ -136,7 +138,7 @@ namespace Delight.Core.Template
                         {
                             case "외부 영상":
                                 st = File.Open(files.Where(i => i.Name == fileName).FirstOrDefault().FullName, FileMode.Open);
-                                string currentPath = DelightAppPath + @"\" + fileName;
+                                string currentPath = DelightTemplatePath + @"\" + fileName;
 
                                 using (var fileStream = File.Create(currentPath))
                                 {
@@ -158,7 +160,7 @@ namespace Delight.Core.Template
                             case "조명 아이템":
                                 st = File.Open(files.Where(i => i.Name == fileName).FirstOrDefault().FullName, FileMode.Open);
 
-                                string lightCurrentPath = DelightAppPath + @"\" + fileName;
+                                string lightCurrentPath = DelightTemplatePath + @"\" + fileName;
 
                                 using (var fileStream = File.Create(lightCurrentPath))
                                 {
@@ -208,7 +210,7 @@ namespace Delight.Core.Template
 
                 var item = FileCacheDictionary.GetPathFromId(source.Id);
 
-                string path = Path.Combine(DelightAppPath, item.Value.Item1);
+                string path = Path.Combine(DelightAppPath, "External Sources Cache", item.Value.Item1);
 
                 return (new VideoMedia()
                 {

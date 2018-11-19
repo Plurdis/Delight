@@ -34,10 +34,10 @@ namespace Delight.Windows
             {
                 if (!scr.Primary)
                 {
-                    this.Left = scr.Bounds.Left;
-                    this.Top = scr.Bounds.Top;
-                    this.Width = scr.Bounds.Width;
-                    this.Height = scr.Bounds.Height;
+                    this.Left = scr.Bounds.Left;// / 2;
+                    this.Top = scr.Bounds.Top; ;// / 2;
+                    this.Width = scr.Bounds.Width;// / 2;
+                    this.Height = scr.Bounds.Height;// /2;
 
                     rootElement.Width = scr.Bounds.Width;
                     rootElement.Height = scr.Bounds.Height;

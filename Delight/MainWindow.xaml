@@ -783,11 +783,11 @@
                                             </Style>
                                         </WrapPanel.Resources>
                                         <Button x:Name="btnAdd">
-                                            <Image Margin="5" Source="Resources/RemoveEvent.png" />
+                                            <Image Margin="5" Source="Resources/AddEvent.png" />
                                         </Button>
 
                                         <Button x:Name="btnRemove">
-                                            <Image Margin="5" Source="Resources/AddEvent.png" />
+                                            <Image Margin="5" Source="Resources/RemoveEvent.png" />
                                         </Button>
                                     </WrapPanel>
                                 </Grid>

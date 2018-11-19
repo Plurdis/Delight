@@ -1,5 +1,6 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.MovingLight.Effects;
+using Delight.Component.MovingLight.Effects.Setters;
 using Delight.Component.MovingLight.Effects.Values;
 using Delight.Core.Common;
 using Delight.Core.MovingLight;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,6 +35,7 @@ namespace Delight
         {
             InitializeComponent();
             InitializeMenuFiles();
+            InitializeLightItems();
 
             lbMediaItem.PreviewMouseLeftButtonDown += lbMediaItem_PreviewMouseLeftButtonDown;
             lbMediaItem.PreviewMouseLeftButtonUp += lbMediaItem_PreviewMouseLeftButtonUp;
@@ -64,155 +67,158 @@ namespace Delight
             btnAdd.Click += BtnAdd_Click;
             btnRemove.Click += BtnRemove_Click;
 
+            #region [  주석  ]
+
             //GlobalViewModel.MainWindowViewModel.AddFilesFromPath(new string[] { @"C:\Users\장유탁\AppData\Roaming\delight\ot50ya4f.yyc.mp4" });
-             
-            SetterBoard sb = new SetterBoard();
-            sb.Identifier = "손 흔들기";
+            /*
 
-            sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
-            //sb.AddSetterProperties(PortNumber.Color, "Color", "색깔");
+           SetterBoard sb = new SetterBoard();
+           sb.Identifier = "손 흔들기";
 
-            sb.AddSetterGroup();
-            sb.AddSetterGroup();
-            sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
-                (PortNumber.YAxis, new StaticValue(100)),
-                (PortNumber.Brightness, new StaticValue(254)),
-                (PortNumber.Blink, new PropertyValue("Blinking")),
-                (PortNumber.Color, new StaticValue(220)));
-            //(PortNumber.Color, new PropertyValue("Color"))
+           sb.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도");
 
-            sb[0].AddContinueLine(1000);
-            sb[0].AddStates((PortNumber.YAxis, new StaticValue(162)));
+           sb.AddSetterGroup();
+           sb.AddSetterGroup();
+           sb.SetInitalizeValue((PortNumber.XAxis, new StaticValue(45)),
+               (PortNumber.YAxis, new StaticValue(100)),
+               (PortNumber.Brightness, new StaticValue(254)),
+               (PortNumber.Blink, new PropertyValue("Blinking")),
+               (PortNumber.Color, new StaticValue(220)));
+           //(PortNumber.Color, new PropertyValue("Color"))
 
-            sb[0].AddWait(200);
+           sb[0].AddContinueLine(1000);
+           sb[0].AddStates((PortNumber.YAxis, (StaticValue)162));
 
-            sb[0].AddContinueLine(1000);
-            sb[0].AddStates((PortNumber.YAxis, new StaticValue(100)));
+           sb[0].AddWait(200);
 
-            sb[0].AddWait(200);
+           sb[0].AddContinueLine(1000);
+           sb[0].AddStates((PortNumber.YAxis, (StaticValue)100));
 
-            sb[1].AddContinueLine(500);
-            sb[1].AddStates((PortNumber.XAxis, new StaticValue(50)));
+           sb[0].AddWait(200);
 
-            sb[1].AddWait(200);
+           sb[1].AddContinueLine(500);
+           sb[1].AddStates((PortNumber.XAxis, (StaticValue)50));
 
-            sb[1].AddContinueLine(500);
-            sb[1].AddStates((PortNumber.XAxis, new StaticValue(40)));
+           sb[1].AddWait(200);
 
-            sb[1].AddWait(200);
+           sb[1].AddContinueLine(500);
+           sb[1].AddStates((PortNumber.XAxis, (StaticValue)40));
 
-
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb));
-
-            //(PortNumber.Blink, new PropertyValue("Blinking")
+           sb[1].AddWait(200);
 
 
-            //string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb));
 
-            //BoardSerializer.Save(sb, path);
-
-            //var board = BoardSerializer.Load(path);
-            //Console.WriteLine("Done");
-
-            //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
+           //(PortNumber.Blink, new PropertyValue("Blinking")
 
 
-            SetterBoard sb2 = new SetterBoard();
+           //string path = @"C:\Users\uutak\바탕 화면\GroupTest.xml";
 
-            sb2.Identifier = "좌우로 흔들기";
-            sb2.AddSetterGroup();
+           //BoardSerializer.Save(sb, path);
 
-            sb2[0].AddWait(1000);
+           //var board = BoardSerializer.Load(path);
+           //Console.WriteLine("Done");
 
-            SetterBoard sb3 = new SetterBoard();
-
-            sb3.Identifier = "위아래로 움직이기";
-            sb3.AddSetterGroup();
-
-            sb3[0].AddWait(1000);
+           //GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(board));
 
 
-            SetterBoard sb4 = new SetterBoard();
-            
-            sb4.Identifier = "깜빡이며 사선 움직임";
-            sb4.AddSetterGroup();
-            //sb2.AddSetterGroup();
+           SetterBoard sb2 = new SetterBoard();
 
-            sb4.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
-                (PortNumber.YAxis, new StaticValue(78)),
-                (PortNumber.Brightness, new StaticValue(89)),
-                (PortNumber.Blink, new StaticValue(200)),
-                (PortNumber.Color, new StaticValue(220)));
+           sb2.Identifier = "좌우로 흔들기";
+           sb2.AddSetterGroup();
 
-            //sb2.InitalizeWaitValue
+           sb2[0].AddWait(1000);
 
-            sb4[0].AddContinueLine(400);
-            sb4[0].AddStates((PortNumber.YAxis, new StaticValue(34)),
-                             (PortNumber.XAxis, new StaticValue(60)));
+           SetterBoard sb3 = new SetterBoard();
 
-            sb4[0].AddContinueLine(400);
+           sb3.Identifier = "위아래로 움직이기";
+           sb3.AddSetterGroup();
 
-            sb4[0].AddStates((PortNumber.YAxis, new StaticValue(120)),
-                             (PortNumber.XAxis, new StaticValue(120)));
-
-            SetterBoard sb5 = new SetterBoard();
-
-            sb5.Identifier = "깜빡이며 흔들기";
-            sb5.AddSetterGroup();
-            sb5.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
-                (PortNumber.YAxis, new StaticValue(78)),
-                (PortNumber.Brightness, new StaticValue(89)),
-                (PortNumber.Blink, new StaticValue(200)),
-                (PortNumber.Color, new StaticValue(200)));
-
-            sb5[0].AddContinueLine(300);
-            sb5[0].AddStates((PortNumber.YAxis, new StaticValue(34)));
-              
-            sb5[0].AddContinueLine(300);
-              
-            sb5[0].AddStates((PortNumber.YAxis, new StaticValue(120)));
+           sb3[0].AddWait(1000);
 
 
-            //sb2[1].AddContinueLine(2000);
+           SetterBoard sb4 = new SetterBoard();
 
-            //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(95)));
+           sb4.Identifier = "깜빡이며 사선 움직임";
+           sb4.AddSetterGroup();
+           //sb2.AddSetterGroup();
 
-            //sb2[1].AddContinueLine(2000);
+           sb4.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+               (PortNumber.YAxis, new StaticValue(78)),
+               (PortNumber.Brightness, new StaticValue(89)),
+               (PortNumber.Blink, new StaticValue(200)),
+               (PortNumber.Color, new StaticValue(220)));
 
-            //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(85)));
+           //sb2.InitalizeWaitValue
+
+           sb4[0].AddContinueLine(400);
+           sb4[0].AddStates((PortNumber.YAxis, new StaticValue(34)),
+                            (PortNumber.XAxis, new StaticValue(60)));
+
+           sb4[0].AddContinueLine(400);
+
+           sb4[0].AddStates((PortNumber.YAxis, new StaticValue(120)),
+                            (PortNumber.XAxis, new StaticValue(120)));
+
+           SetterBoard sb5 = new SetterBoard();
+
+           sb5.Identifier = "깜빡이며 흔들기";
+           sb5.AddSetterGroup();
+           sb5.SetInitalizeValue((PortNumber.XAxis, new StaticValue(90)),
+               (PortNumber.YAxis, new StaticValue(78)),
+               (PortNumber.Brightness, new StaticValue(89)),
+               (PortNumber.Blink, new StaticValue(200)),
+               (PortNumber.Color, new StaticValue(200)));
+
+           sb5[0].AddContinueLine(300);
+           sb5[0].AddStates((PortNumber.YAxis, new StaticValue(34)));
+
+           sb5[0].AddContinueLine(300);
+
+           sb5[0].AddStates((PortNumber.YAxis, new StaticValue(120)));
 
 
-            //(PortNumber.Blink, new PropertyValue("Blinking")
+           //sb2[1].AddContinueLine(2000);
 
-            SetterBoard sb6 = new SetterBoard();
+           //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(95)));
 
-            sb6.Identifier = "원 그리기";
-            sb6.AddSetterGroup();
+           //sb2[1].AddContinueLine(2000);
 
-            sb6[0].AddWait(1000);
+           //sb2[1].AddStates((PortNumber.XAxis, new StaticValue(85)));
 
-            SetterBoard sb7 = new SetterBoard();
 
-            sb7.Identifier = "8자 그리기";
-            sb7.AddSetterGroup();
+           //(PortNumber.Blink, new PropertyValue("Blinking")
 
-            sb7[0].AddWait(1000);
+           SetterBoard sb6 = new SetterBoard();
 
-            SetterBoard sb8 = new SetterBoard();
+           sb6.Identifier = "원 그리기";
+           sb6.AddSetterGroup();
 
-            sb8.Identifier = "색 바뀌며 돌기";
-            sb8.AddSetterGroup();
+           sb6[0].AddWait(1000);
 
-            sb8[0].AddWait(1000);
+           SetterBoard sb7 = new SetterBoard();
 
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb4));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb5));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb6));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb7));
-            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb8));
+           sb7.Identifier = "8자 그리기";
+           sb7.AddSetterGroup();
 
+           sb7[0].AddWait(1000);
+
+           SetterBoard sb8 = new SetterBoard();
+
+           sb8.Identifier = "색 바뀌며 돌기";
+           sb8.AddSetterGroup();
+
+           sb8[0].AddWait(1000);
+
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb2));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb3));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb4));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb5));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb6));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb7));
+           GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb8));
+
+             */
 
             //LightBoard lb = new LightBoard();
 
@@ -261,6 +267,226 @@ namespace Delight
 
             //MessageBox.Show(PropertyManager.GetProperty(_employee, "Test"));
             //propGrid.SelectedObject = _employee;
+
+            #endregion
+        }
+
+        public static string DelightAppPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Delight");
+
+        private void InitializeLightItems()
+        {
+            //string lightPath = Path.Combine(DelightAppPath, "Preset Light Movement");
+
+            //foreach (string filePath in Directory.EnumerateFiles(lightPath))
+            //{
+            //    SetterBoard lb = BoardSerializer.Load(filePath);
+
+            //    AddBoard(lb);
+            //}
+
+            #region [  SetterBoard 1  ]
+
+            SetterBoard sb1 = new SetterBoard();
+
+            sb1.Identifier = "사선으로 움직이기 (↖)";
+            sb1.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            sb1.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            sb1.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            sb1.AddSetterProperties(PortNumber.XAxis, "StartXPosition", "시작 X 좌표 위치", 159);
+            sb1.AddSetterProperties(PortNumber.YAxis, "StartYPosition", "시작 Y 좌표 위치", 50);
+
+            sb1.AddSetterGroup();
+
+            sb1.InitalizeValue = new List<ValueSetter>()
+            {
+                new ValueSetter(PortNumber.Color, "Color"),
+                new ValueSetter(PortNumber.Blink, "Blinking"),
+                new ValueSetter(PortNumber.Brightness, "Brightness"),
+                new ValueSetter(PortNumber.XAxis, "StartXPosition"),
+                new ValueSetter(PortNumber.YAxis, "StartYPosition"),
+            };
+
+            sb1[0].AddContinueLine(500);
+            sb1[0].AddStates((PortNumber.XAxis, new RelativeValue("StartXPosition", 20, RelativeValue.RelativeSign.Plus)),
+                (PortNumber.YAxis, new RelativeValue("StartYPosition", 60, RelativeValue.RelativeSign.Plus)));
+
+            sb1[0].AddContinueLine(500);
+
+            sb1[0].AddStates((PortNumber.XAxis, (PropertyValue)"StartXPosition"),
+                (PortNumber.YAxis, (PropertyValue)"StartYPosition"));
+
+            #endregion
+
+            #region [  SetterBoard 2  ]
+
+            SetterBoard sb2 = new SetterBoard();
+
+            sb2.Identifier = "사선으로 움직이기 (↗)";
+            sb2.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            sb2.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            sb2.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            sb2.AddSetterProperties(PortNumber.XAxis, "StartXPosition", "시작 X 좌표 위치", 183);
+            sb2.AddSetterProperties(PortNumber.YAxis, "StartYPosition", "시작 Y 좌표 위치", 50);
+
+            sb2.AddSetterGroup();
+
+            sb2.InitalizeValue = new List<ValueSetter>()
+            {
+                new ValueSetter(PortNumber.Color, "Color"),
+                new ValueSetter(PortNumber.Blink, "Blinking"),
+                new ValueSetter(PortNumber.Brightness, "Brightness"),
+                new ValueSetter(PortNumber.XAxis, "StartXPosition"),
+                new ValueSetter(PortNumber.YAxis, "StartYPosition"),
+            };
+
+            sb2[0].AddContinueLine(500);
+            sb2[0].AddStates((PortNumber.XAxis, new RelativeValue("StartXPosition", 20, RelativeValue.RelativeSign.Minus)),
+                (PortNumber.YAxis, new RelativeValue("StartYPosition", 60, RelativeValue.RelativeSign.Plus)));
+
+            sb2[0].AddContinueLine(500);
+
+            sb2[0].AddStates((PortNumber.XAxis, (PropertyValue)"StartXPosition"),
+                (PortNumber.YAxis, (PropertyValue)"StartYPosition"));
+
+            #endregion
+
+            #region [  SetterBoard 3  ]
+
+            SetterBoard sb3 = new SetterBoard();
+
+            sb3.Identifier = "위 아래로 움직이기";
+            sb3.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            sb3.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            sb3.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            sb3.AddSetterProperties(PortNumber.YAxis, "StartYPosition", "시작 Y 좌표 위치", 50);
+
+            sb3.AddSetterGroup();
+
+            sb3.InitalizeValue = new List<ValueSetter>()
+            {
+                new ValueSetter(PortNumber.Color, "Color"),
+                new ValueSetter(PortNumber.Blink, "Blinking"),
+                new ValueSetter(PortNumber.Brightness, "Brightness"),
+                new ValueSetter(PortNumber.YAxis, "StartYPosition"),
+            };
+
+            sb3[0].AddContinueLine(500);
+            sb3[0].AddStates((PortNumber.YAxis, new RelativeValue("StartYPosition", 60, RelativeValue.RelativeSign.Plus)));
+
+            sb3[0].AddContinueLine(500);
+
+            sb3[0].AddStates((PortNumber.YAxis, (PropertyValue)"StartYPosition"));
+
+            #endregion
+
+            #region [  SetterBoard 4  ]
+
+            SetterBoard sb4 = new SetterBoard();
+
+            sb4.Identifier = "좌우로 움직이기";
+
+            sb4.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            sb4.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            sb4.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            sb4.AddSetterProperties(PortNumber.XAxis, "StartXPosition", "시작 X 좌표 위치", 156);
+            sb4.AddSetterProperties(PortNumber.YAxis, "YPosition", "Y 좌표 위치", 50, true);
+
+            sb4.AddSetterGroup();
+            
+            sb4.InitalizeValue = new List<ValueSetter>()
+            {
+                new ValueSetter(PortNumber.Color, "Color"),
+                new ValueSetter(PortNumber.Blink, "Blinking"),
+                new ValueSetter(PortNumber.Brightness, "Brightness"),
+                new ValueSetter(PortNumber.XAxis, "StartXPosition"),
+                new ValueSetter(PortNumber.YAxis, "YPosition"),
+            };
+
+
+            sb4[0].AddContinueLine(500);
+            sb4[0].AddStates((PortNumber.XAxis, new RelativeValue("StartXPosition", 40, RelativeValue.RelativeSign.Plus)));
+            sb4[0].AddContinueLine(500);
+            sb4[0].AddStates((PortNumber.XAxis, (PropertyValue)"StartXPosition"));
+
+            #endregion
+
+            #region [  SetterBoard 5  ]
+
+            var sb5 = new SetterBoard();
+
+            sb5.Identifier = "큰 세모 그리기";
+
+            sb5.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            sb5.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            sb5.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            sb5.AddSetterProperties(PortNumber.XAxis, "XPosition", "시작 X 좌표 위치", 156, true);
+            sb5.AddSetterProperties(PortNumber.YAxis, "YPosition", "시작 Y 좌표 위치", 30, true);
+
+            sb5.InitalizeValue = new List<ValueSetter>()
+            {
+                new ValueSetter(PortNumber.Color, "Color"),
+                new ValueSetter(PortNumber.Blink, "Blinking"),
+                new ValueSetter(PortNumber.Brightness, "Brightness"),
+                new ValueSetter(PortNumber.XAxis, "XPosition"),
+                new ValueSetter(PortNumber.YAxis, "YPosition"),
+            };
+
+            sb5.AddSetterGroup();
+
+            sb5[0].AddContinueLine(500);
+
+            sb5[0].AddStates((PortNumber.XAxis, new RelativeValue("XPosition", 30, RelativeValue.RelativeSign.Plus)));
+            
+            sb5[0].AddContinueLine(500);
+
+            sb5[0].AddStates((PortNumber.XAxis, new RelativeValue("XPosition", 15, RelativeValue.RelativeSign.Plus)),
+                             (PortNumber.YAxis, new RelativeValue("YPosition", 40, RelativeValue.RelativeSign.Plus)));
+
+            sb5[0].AddContinueLine(500);
+
+            sb5[0].AddStates((PortNumber.XAxis, new RelativeValue("XPosition", 0, RelativeValue.RelativeSign.Plus)),
+                             (PortNumber.YAxis, new RelativeValue("YPosition", 0, RelativeValue.RelativeSign.Plus)));
+
+
+            #endregion
+
+            //#region [  SetterBoard 6  ]
+
+            //var sb6 = new SetterBoard();
+
+            //sb6.Identifier = "지그재그로 움직이기";
+
+            //sb6.AddSetterProperties(PortNumber.Color, "Color", "색깔", 1, true);
+            //sb6.AddSetterProperties(PortNumber.Blink, "Blinking", "깜빡이는 정도", 0, true);
+            //sb6.AddSetterProperties(PortNumber.Brightness, "Brightness", "밝기", 150, true);
+            //sb6.AddSetterProperties(PortNumber.XAxis, "XPosition", "시작 X 좌표 위치", 156, true);
+            //sb6.AddSetterProperties(PortNumber.YAxis, "YPosition", "시작 Y 좌표 위치", 30, true);
+
+            //sb6.InitalizeValue = new List<ValueSetter>()
+            //{
+            //    new ValueSetter(PortNumber.Color, "Color"),
+            //    new ValueSetter(PortNumber.Blink, "Blinking"),
+            //    new ValueSetter(PortNumber.Brightness, "Brightness"),
+            //    new ValueSetter(PortNumber.XAxis, "XPosition"),
+            //    new ValueSetter(PortNumber.YAxis, "YPosition"),
+            //};
+
+            //sb6[0].AddStates((PortNumber.XAxis, new RelativeValue("XPosition", 50, RelativeValue.RelativeSign.Plus)),
+            //    );
+
+                
+            //#endregion
+
+            AddBoard(sb1);
+            AddBoard(sb2);
+            AddBoard(sb3);
+            AddBoard(sb4);
+            AddBoard(sb5);
+        }
+
+        public void AddBoard(SetterBoard sb)
+        {
+            GlobalViewModel.MainWindowViewModel.MediaItems.Add(new LightComponent(sb));
         }
 
         private void BtnRemove_Click(object sender, RoutedEventArgs e)
@@ -368,7 +594,7 @@ namespace Delight
             CommandBindings.Add(new CommandBinding(mwViewModel.TemplateManageCommand, mwViewModel.TemplateManageExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.EditTimeLineCommand, mwViewModel.EditTimeLineExecuted));
             CommandBindings.Add(new CommandBinding(mwViewModel.GetExternalSourceCommand, mwViewModel.GetExternalSourceExecuted));
-
+            CommandBindings.Add(new CommandBinding(mwViewModel.ResetMovingLightCommand, mwViewModel.ResetMovingLightExecuted));
         }
 
         private void lbMediaItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

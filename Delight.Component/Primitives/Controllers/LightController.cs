@@ -10,6 +10,7 @@ using Delight.Core.MovingLight;
 using Delight.Core.Stage.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 
@@ -64,6 +65,29 @@ namespace Delight.Component.Primitives.Controllers
 
                     return b;
                 }
+                else if (value is RelativeValue rv)
+                {
+                    byte b = (byte)property.GetType().GetRuntimeProperty(rv.PropertyName).GetValue(property);
+
+                    if (rv.Sign == RelativeValue.RelativeSign.Minus)
+                    {
+                        int calculatedValue = b - rv.Value;
+
+                        if (calculatedValue >= 0)
+                            return (byte)calculatedValue;
+                        else
+                            return 0;
+                    }
+                    else
+                    {
+                        int calculatedValue = b + rv.Value;
+
+                        if (calculatedValue <= 255)
+                            return (byte)calculatedValue;
+                        else
+                            return 0;
+                    }
+                }
 
                 throw new Exception("StaticValue 또는 PropertyValue가 아닙니다.");
             }
@@ -83,7 +107,24 @@ namespace Delight.Component.Primitives.Controllers
                     lightController.Send();
                 }
             }
-            
+
+            Thread propThread = new Thread(() =>
+            {
+                IEnumerable<SetterProperty> staticProperties = _setterBoard.SetterProperties.Where(k => k.IsStatic);
+                while (true)
+                {
+                    foreach (SetterProperty sp in staticProperties)
+                    {
+                        lightController.SetValue(sp.PortNumber, (byte)property.GetType().GetRuntimeProperty(sp.PropertyName).GetValue(property));
+                    }
+
+                    lightController.Send();
+                    Thread.Sleep(100);
+                }
+            });
+
+            threads.Push(propThread);
+
             foreach (SetterGroup setterGroup in _setterBoard.SetterGroups)
             {
                 Thread thr = new Thread(() =>
@@ -95,6 +136,7 @@ namespace Delight.Component.Primitives.Controllers
                     {
                         for (int i = 0; i < setterGroup.Setters.Count; i++)
                         {
+                            
                             MovingLight.Effects.Setters.BaseSetter setter = setterGroup.Setters[i];
                             if (setter is ValueSetter valueSetter)
                             {
@@ -116,7 +158,7 @@ namespace Delight.Component.Primitives.Controllers
                             }
                             else if (setter is ContinueSetter continueSetter)
                             {
-                                var max = continueSetter.ContinueMilliseconds / 16;
+                                var max = (continueSetter.ContinueMilliseconds / property.Speed) / 16;
 
                                 MovingLight.Effects.Setters.BaseSetter nextSetter = setterGroup.Setters[i + 1];
                                 i++;
@@ -125,6 +167,7 @@ namespace Delight.Component.Primitives.Controllers
 
                                 for (int j = 1; j <= max; j++)
                                 {
+
                                     if (nextSetter is ValueSetter nVSetter)
                                     {
                                         int lastState = lastValue[(int)nVSetter.Port - 1];
@@ -147,7 +190,7 @@ namespace Delight.Component.Primitives.Controllers
 
                                             lightController.SetValue(vSetter.Port, (byte)(lastState + finalValue));
 
-                                            Console.WriteLine((byte)(lastState + finalValue));
+                                            //Console.WriteLine((byte)(lastState + finalValue));
 
                                             copiedValue[(int)vSetter.Port - 1] = (byte)(lastState + finalValue);
                                         }
@@ -159,7 +202,7 @@ namespace Delight.Component.Primitives.Controllers
                             }
                             else if (setter is WaitSetter waitSetter)
                             {
-                                Thread.Sleep(waitSetter.WaitMilliseconds);
+                                Thread.Sleep((int)(waitSetter.WaitMilliseconds / property.Speed));
                             }
                         }
                     }

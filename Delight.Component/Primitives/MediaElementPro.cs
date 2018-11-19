@@ -16,6 +16,11 @@ namespace Delight.Component.Primitives
     [TemplatePart(Name = "mediaElement", Type = typeof(MediaUriElement))]
     public partial class MediaElementPro : Control, INotifyPropertyChanged
     {
+        public override string ToString()
+        {
+            return Source.ToString();
+        }
+
         #region Properties
         #region MediaElement
         /// <summary>
@@ -306,7 +311,7 @@ new PropertyMetadata(default(double), VolumePropertyChanged));
             set
             {
                 SetValue(VolumeProperty, value);
-                //mediaElement.Volume = value; // TODO: 오류 생기면 제일 먼저 확인
+                mediaElement.Volume = value;
             }
         }
         private static void VolumePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

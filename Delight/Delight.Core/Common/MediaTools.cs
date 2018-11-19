@@ -242,6 +242,8 @@ namespace Delight.Component.Common
                 case ".f4v":
                 case ".mxf":
                     return SourceType.Video;
+                case ".dlmv":
+                    return SourceType.Light;
                 default:
                     break;
             }
@@ -316,7 +318,7 @@ namespace Delight.Component.Common
             sb.Append("*.3gp;*.3gpp;*.3g2;*.3gp2;*.mkv;*.rm;*.ram;*.rmvb;*.rpm;*.flv;*.swf;");
             sb.Append("*.mov;*.qt;*.amr;*.nsv;*.dpg;*.m2ts;*.m2t;*.mts;*.dvr-ms;*.k3g;");
             sb.Append("*.skm;*.evo;*.nsr;*.amv;*.divx;*.webm;*.wtv;*.f4v;*.mxf;");
-            sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;|");
+            sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;*.dlmv|");
 
             // ====================================================================================
 
@@ -339,7 +341,13 @@ namespace Delight.Component.Common
             // ====================================================================================
 
             sb.Append("이미지 파일 (*.gif,*.jpg,*.jpe*,*.png,*.bmp...)|");
-            sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;");
+            sb.Append("*.gif;*.jpg;*.jpe*;*.png;*.bmp;*.dib;*.tif;*.wmf;*.ras;*.eps;*.pcx;*.pcd;*.tga;|");
+
+            // ====================================================================================
+
+            sb.Append("Delight 조명 움직임 파일 (*.dlmv)|");
+            sb.Append("*.dlmv;");
+
             ofd.Filter = sb.ToString();
             ofd.Multiselect = true;
             if (ofd.ShowDialog().Value)

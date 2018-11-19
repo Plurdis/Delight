@@ -17,7 +17,7 @@ namespace Delight.Core.Template
 
         private static Dictionary<string, (string,string)> FileDict;
 
-        public static string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Delight\\" + "fileDictionary.xml";
+        public static string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Delight\\External Sources Cache\\" + "fileDictionary.xml";
 
         public static string GetFileNameFromTitle(YoutubeSource source)
         {

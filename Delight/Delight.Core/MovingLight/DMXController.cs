@@ -27,6 +27,7 @@ namespace Delight.Core.MovingLight
             try
             {
                 DMXLib.Send(channel, value);
+                //Console.WriteLine("DMX Send!");
             }
             catch (Exception)
             {
@@ -113,9 +114,9 @@ namespace Delight.Core.MovingLight
                 if (lastValue[i] != savedValue[i])
                 {
                     DMXSend(_startPort + i, savedValue[i]);
-
                     lastValue[i] = savedValue[i];
                 }
+
                 Thread.Sleep(1);
             }
 

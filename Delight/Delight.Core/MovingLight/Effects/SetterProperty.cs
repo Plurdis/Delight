@@ -14,17 +14,23 @@ namespace Delight.Component.MovingLight.Effects
 
         }
 
-        public SetterProperty(PortNumber portNumber, string propertyName, string displayName)
+        public SetterProperty(PortNumber portNumber, string propertyName, string displayName, byte initializeValue, bool isStatic = false)
         {
             PortNumber = portNumber;
             PropertyName = propertyName;
             DisplayName = displayName;
+            InitializeValue = initializeValue;
+            IsStatic = isStatic;
         }
+
+        public byte? InitializeValue { get; set; }
 
         public PortNumber PortNumber { get; set; }
 
         public string PropertyName { get; set; }
 
         public string DisplayName { get; set; }
+
+        public bool IsStatic { get; set; }
     }
 }

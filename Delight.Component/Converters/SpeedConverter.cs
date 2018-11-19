@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Delight.Component.Converters
@@ -16,7 +17,25 @@ namespace Delight.Component.Converters
 
         public override double ConvertBack(string value, Type targetType, object parameter, CultureInfo culture)
         {
-            return 0;
+            string pattern = @"([\d\.]+)";
+
+            string matchValue = Regex.Match(value, pattern).Groups[1].Value;
+
+            if (string.IsNullOrEmpty(matchValue))
+            {
+                return 0;
+            }
+            else
+            {
+                double speedValue = double.Parse(matchValue);
+
+                if (speedValue > 10)
+                {
+                    speedValue = 10;
+                }
+
+                return speedValue;
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Delight.Component.Common;
 using Delight.Component.Controls;
+using Delight.Component.MovingLight.Effects;
 using Delight.Core.Common;
+using Delight.Core.MovingLight;
 using Delight.Core.Stage;
 using Delight.Core.Stage.Components;
 using Delight.Core.Stage.Components.Media;
@@ -43,6 +45,8 @@ namespace Delight.ViewModel
 
         public MenuItem ToolsMenu { get; set; }
 
+        public MenuItem MovingLightMenu { get; set; }
+
         #endregion
 
         private int _viewingIndex = 0;
@@ -78,6 +82,8 @@ namespace Delight.ViewModel
             TemplateManageCommand = new RoutedCommand("TemplateManageCommand", typeof(MainWindowViewModel));
             EditTimeLineCommand = new RoutedCommand("EditTimeLineCommand", typeof(MainWindowViewModel));
             GetExternalSourceCommand = new RoutedCommand("GetExternalSourceCommand", typeof(MainWindowViewModel));
+
+            ResetMovingLightCommand = new RoutedCommand("ResetMovingLightCommand", typeof(MainWindowViewModel));
 
             InitalizeMenu();
             InitalizeGestures();
@@ -118,8 +124,15 @@ namespace Delight.ViewModel
             ToolsMenu.Items.Add(GetMenuItem("수동 조명 관리(_M)"));
             ToolsMenu.Items.Add(GetMenuItem("옵션(_O)"));
 
+            MovingLightMenu = GetMenuItem("조명 (_L)");
+
+            MovingLightMenu.Items.Add(GetMenuItem("조명 값 모두 초기화(_R)", "Ctrl+Shift+R", ResetMovingLightCommand));
+
+            
+
             Menus.Add(FileMenu);
             Menus.Add(ToolsMenu);
+            Menus.Add(MovingLightMenu);
         }
 
         private void InitalizeGestures()
@@ -129,6 +142,7 @@ namespace Delight.ViewModel
             RegisterCommand(TemplateManageCommand, new KeyGesture(Key.T, ModifierKeys.Control));
             RegisterCommand(EditTimeLineCommand, new KeyGesture(Key.T, ModifierKeys.Control | ModifierKeys.Shift));
             RegisterCommand(GetExternalSourceCommand, new KeyGesture(Key.E, ModifierKeys.Control | ModifierKeys.Shift));
+            RegisterCommand(ResetMovingLightCommand, new KeyGesture(Key.R, ModifierKeys.Control | ModifierKeys.Shift));
         }
 
         #endregion
@@ -251,6 +265,17 @@ namespace Delight.ViewModel
                             Id = Crc32.GetHashFromFile(location),
                         };
                         break;
+                    case SourceType.Light:
+                        var lightUri = new Uri("pack://application:,,,/Delight;component/Resources/defaultLightimage.png", UriKind.Absolute);
+                        component = new LightComponent()
+                        {
+                            Id = Crc32.GetHashFromFile(location),
+                            Identifier = Path.GetFileNameWithoutExtension(fi.Name),
+                            SetterBoard = BoardSerializer.Load(location),
+                            Thumbnail = lightUri,
+                            Time = TimeSpan.FromSeconds(20),
+                        };
+                        break;
                     default:
                         break;
                 }
@@ -269,6 +294,17 @@ namespace Delight.ViewModel
         public void TemplateManageExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             ViewingIndex = 1;
+        }
+
+        #endregion
+
+        #region [  조명 메뉴  ]
+
+        public RoutedCommand ResetMovingLightCommand { get; }
+
+        public void ResetMovingLightExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            DMXController.Reset();
         }
 
         #endregion

@@ -145,6 +145,7 @@ namespace Delight.Component.Controls
             }
 
             Tracks.ForEach(i => i.RelocationTrackItems());
+            Track_ItemsMaxWidthChanged(null, null);
         }
 
         private void AddItem(StageComponent component, ItemPosition itemPosition)

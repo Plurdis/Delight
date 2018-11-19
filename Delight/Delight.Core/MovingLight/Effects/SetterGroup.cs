@@ -5,12 +5,12 @@ using Delight.Core.MovingLight;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Delight.Component.MovingLight.Effects
 {
     public class SetterGroup
     {
-        [XmlElement(typeof(BaseSetter))]
         [XmlElement(typeof(ValueSetter))]
         [XmlElement(typeof(WaitSetter))]
         [XmlElement(typeof(ContinueSetter))]

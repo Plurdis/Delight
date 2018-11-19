@@ -24,6 +24,14 @@ namespace Delight.Component.ItemProperties
             set { _left = value; PropChanged("Left"); }
         }
 
+        double _scale = 1;
+        [DesignElement(Category = "공통", DisplayName = "크기", Key = "Percentage")]
+        public double Scale
+        {
+            get => _scale;
+            set { _scale = value; PropChanged("Scale"); }
+        }
+
         bool _isMute = false;
         [DesignElement(Category ="공통", DisplayName = "음소거")]
         public bool IsMute
